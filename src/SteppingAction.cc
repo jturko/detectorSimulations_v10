@@ -112,7 +112,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
 		if(hadr_process != NULL) {
 		  target = hadr_process->GetTargetIsotope();
 		  if(target != NULL) {
-			 //	G4cout<<particleName<<", "<<process->GetProcessName()<<" on "<<target->GetName()<<G4endl;
+			 	//G4cout<<particleName<<", "<<process->GetProcessName()<<" on "<<target->GetName()<<G4endl;
 			 targetZ = target->GetZ();
 		  }
 		}
