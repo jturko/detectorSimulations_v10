@@ -154,6 +154,21 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
 
     size_t found;
 
+    // Counting total scintillation photons
+    const std::vector<const G4Track*> * secondaries = aStep->GetSecondaryInCurrentStep();
+    if( secondaries->size()>0 ) {
+        for( unsigned int i=0; i<secondaries->size(); ++i ) {
+            if( secondaries->at(i)->GetParentID()>0 ) {
+                if( secondaries->at(i)->GetDynamicParticle()->GetParticleDefinition() == G4OpticalPhoton::OpticalPhotonDefinition() ) {
+                    if( secondaries->at(i)->GetCreatorProcess()->GetProcessName() == "Scintillation" ) {
+                        fEventAction->CountOneScintPhoton();
+                    }
+                }
+            }
+        }
+    }
+
+
     // Griffin energy deposits ////////////////////////////////////////////////////////////////////////////////
     found = volname.find("germanium_block1");
     if (edep != 0 && found!=G4String::npos) {
@@ -457,6 +472,15 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
         fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ);
     }
 
+    found = volname.find("testcan_quartz_window_log");
+    if (found!=G4String::npos) {
+        SetDetNumberForGenericDetector(volname);
+        mnemonic.replace(0,3,"XXX");
+        mnemonic.replace(3,2,G4intToG4String(det));
+        mnemonic.replace(5,1,GetCrystalColour(cry));
+        systemID = 8510;
+        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, 1, pos2.x(), pos2.y(), pos2.z(), time2, targetZ);
+    }
 
     //  // gamma angular correlations in world
     //  found = volname.find("World");
