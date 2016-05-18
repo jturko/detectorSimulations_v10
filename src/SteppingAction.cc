@@ -102,6 +102,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
     else if (particleName == "neutron")  particleType = 5;
     else if (particleName == "deuteron") particleType = 6;
     else if (particleName == "C12")      particleType = 7;
+    else if (particleName == "opticalphoton") particleType = 8;
     else particleType = 0;
 
 	 const G4VProcess* process = aStep->GetPostStepPoint()->GetProcessDefinedStep();
@@ -155,13 +156,17 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
     size_t found;
 
     // Counting total scintillation photons
+    found = volname.find("testcan_quartz_window_log");
     const std::vector<const G4Track*> * secondaries = aStep->GetSecondaryInCurrentStep();
     if( secondaries->size()>0 ) {
         for( unsigned int i=0; i<secondaries->size(); ++i ) {
             if( secondaries->at(i)->GetParentID()>0 ) {
                 if( secondaries->at(i)->GetDynamicParticle()->GetParticleDefinition() == G4OpticalPhoton::OpticalPhotonDefinition() ) {
                     if( secondaries->at(i)->GetCreatorProcess()->GetProcessName() == "Scintillation" ) {
-                        fEventAction->CountOneScintPhoton();
+                        fEventAction->CountOneScintPhoton(); G4cout << "volume of scint: " << volname << G4endl;
+                        if( found!=G4String::npos ) {
+                            G4cout << "I think we're in the quartz window now..." << G4endl;
+                        }
                     }
                 }
             }
@@ -480,6 +485,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
         mnemonic.replace(5,1,GetCrystalColour(cry));
         systemID = 8510;
         fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, 1, pos2.x(), pos2.y(), pos2.z(), time2, targetZ);
+        G4cout << "something is happening inside the quartz with a " << particleType << " numbered particle" << G4endl;
     }
 
     //  // gamma angular correlations in world
