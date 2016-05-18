@@ -107,7 +107,7 @@ PhysicsListMessenger::PhysicsListMessenger(PhysicsList* pPhys)
     fConstructOpCmd = new G4UIcmdWithABool("/DetSys/phys/ConstructOpticalPhysics",this);
     fConstructOpCmd->SetGuidance("Choose to build optical physics models");
     fConstructOpCmd->SetDefaultValue(false);
-    fConstructOpCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    fConstructOpCmd->AvailableForStates(G4State_Idle);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
