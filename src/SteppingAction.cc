@@ -397,7 +397,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
         mnemonic.replace(5,1,GetCrystalColour(cry));
         systemID = 7000;
         // edep is ekin in this case. It would be useful if we also had the momentum positiin of the particles...
-        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons);
+        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, ekin, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons);
         // Now kill the track!
         theTrack->SetTrackStatus(fStopAndKill);
     }
