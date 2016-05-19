@@ -88,15 +88,15 @@ void EventAction::EndOfEventAction(const G4Event*)
 
     //G4cout << "numberOfHits = " << numberOfHits << G4endl;
     for (G4int i = 0 ; i < numberOfHits; i++) {
-		fHistoManager->FillHitNtuple(hitTrackerI[0][i], hitTrackerI[1][i], hitTrackerI[2][i], hitTrackerI[3][i],  hitTrackerI[4][i], hitTrackerI[5][i], hitTrackerI[6][i], hitTrackerI[7][i], hitTrackerI[8][i], hitTrackerD[0][i]/keV, hitTrackerD[1][i]/mm, hitTrackerD[2][i]/mm, hitTrackerD[3][i]/mm, hitTrackerD[4][i]/second, hitTrackerI[9][i]);
+		fHistoManager->FillHitNtuple(hitTrackerI[0][i], hitTrackerI[1][i], hitTrackerI[2][i], hitTrackerI[3][i],  hitTrackerI[4][i], hitTrackerI[5][i], hitTrackerI[6][i], hitTrackerI[7][i], hitTrackerI[8][i], hitTrackerD[0][i]/keV, hitTrackerD[1][i]/mm, hitTrackerD[2][i]/mm, hitTrackerD[3][i]/mm, hitTrackerD[4][i]/second, hitTrackerI[9][i], GetTotScintPhotons(), GetQuartzScintPhotons());
     }
     for (G4int i = 0 ; i < numberOfSteps; i++) {
-		fHistoManager->FillStepNtuple(stepTrackerI[0][i], stepTrackerI[1][i], stepTrackerI[2][i], stepTrackerI[3][i],  stepTrackerI[4][i], stepTrackerI[5][i], stepTrackerI[6][i], stepTrackerI[7][i], stepTrackerI[8][i], stepTrackerD[0][i]/keV, stepTrackerD[1][i]/mm, stepTrackerD[2][i]/mm, stepTrackerD[3][i]/mm, stepTrackerD[4][i]/second, stepTrackerI[9][i]);
+		fHistoManager->FillStepNtuple(stepTrackerI[0][i], stepTrackerI[1][i], stepTrackerI[2][i], stepTrackerI[3][i],  stepTrackerI[4][i], stepTrackerI[5][i], stepTrackerI[6][i], stepTrackerI[7][i], stepTrackerI[8][i], stepTrackerD[0][i]/keV, stepTrackerD[1][i]/mm, stepTrackerD[2][i]/mm, stepTrackerD[3][i]/mm, stepTrackerD[4][i]/second, stepTrackerI[9][i], GetTotScintPhotons(), GetQuartzScintPhotons());
     }
 
     ClearVariables();
 
-    G4cout << "totScintPhotons = " << GetTotScintPhotons() << "    quartzScintPhotons = " << GetQuartzScintPhotons() << G4endl;
+    // G4cout << "totScintPhotons = " << GetTotScintPhotons() << "    quartzScintPhotons = " << GetQuartzScintPhotons() << G4endl;
     
 }
 
@@ -343,7 +343,7 @@ void EventAction::FillGridCell()
     }
 }
 
-void EventAction::AddHitTracker(G4String mnemonic, G4int eventNumber, G4int trackID, G4int parentID, G4int stepNumber, G4int particleType, G4int processType, G4int systemID, G4int cryNumber, G4int detNumber, G4double depEnergy, G4double posx, G4double posy, G4double posz, G4double time, G4int targetZ)
+void EventAction::AddHitTracker(G4String mnemonic, G4int eventNumber, G4int trackID, G4int parentID, G4int stepNumber, G4int particleType, G4int processType, G4int systemID, G4int cryNumber, G4int detNumber, G4double depEnergy, G4double posx, G4double posy, G4double posz, G4double time, G4int targetZ, G4int numScintPhotons, G4int numQuartzPhotons)
 {
     G4bool newhit = true;
     for (G4int i = 0 ; i < numberOfHits; i++) {
@@ -368,6 +368,8 @@ void EventAction::AddHitTracker(G4String mnemonic, G4int eventNumber, G4int trac
         hitTrackerI[7][hitIndex] = cryNumber;
         hitTrackerI[8][hitIndex] = detNumber;
         hitTrackerI[9][hitIndex] = targetZ;
+        hitTrackerI[10][hitIndex] = numScintPhotons;
+        hitTrackerI[11][hitIndex] = numQuartzPhotons;
         hitTrackerD[0][hitIndex] = depEnergy;
         hitTrackerD[1][hitIndex] = posx;
         hitTrackerD[2][hitIndex] = posy;
@@ -384,7 +386,7 @@ void EventAction::AddHitTracker(G4String mnemonic, G4int eventNumber, G4int trac
 }
 
 
-void EventAction::AddStepTracker(G4String mnemonic, G4int eventNumber, G4int trackID, G4int parentID, G4int stepNumber, G4int particleType, G4int processType, G4int systemID, G4int cryNumber, G4int detNumber, G4double depEnergy, G4double posx, G4double posy, G4double posz, G4double time, G4int targetZ)
+void EventAction::AddStepTracker(G4String mnemonic, G4int eventNumber, G4int trackID, G4int parentID, G4int stepNumber, G4int particleType, G4int processType, G4int systemID, G4int cryNumber, G4int detNumber, G4double depEnergy, G4double posx, G4double posy, G4double posz, G4double time, G4int targetZ, G4int numScintPhotons, G4int numQuartzPhotons)
 {
     G4bool newstep = true;
     if (newstep) { // new step
@@ -398,6 +400,8 @@ void EventAction::AddStepTracker(G4String mnemonic, G4int eventNumber, G4int tra
         stepTrackerI[7][stepIndex] = cryNumber;
         stepTrackerI[8][stepIndex] = detNumber;
         stepTrackerI[9][stepIndex] = targetZ;
+        stepTrackerI[10][stepIndex] = numScintPhotons;
+        stepTrackerI[11][stepIndex] = numQuartzPhotons;
         stepTrackerD[0][stepIndex] = depEnergy;
         stepTrackerD[1][stepIndex] = posx;
         stepTrackerD[2][stepIndex] = posy;
