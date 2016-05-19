@@ -71,6 +71,7 @@ void EventAction::BeginOfEventAction(const G4Event* evt)
     ClearVariables();
 
     SetTotScintPhotons(0);
+    SetQuartzScintPhotons(0);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -95,7 +96,8 @@ void EventAction::EndOfEventAction(const G4Event*)
 
     ClearVariables();
 
-    G4cout << "totNumScintPhotons = " << GetTotScintPhotons() << G4endl;
+    G4cout << "totScintPhotons = " << GetTotScintPhotons() << "    quartzScintPhotons = " << GetQuartzScintPhotons() << G4endl;
+    
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

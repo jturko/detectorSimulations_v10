@@ -163,7 +163,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
             if( secondaries->at(i)->GetParentID()>0 ) {
                 if( secondaries->at(i)->GetDynamicParticle()->GetParticleDefinition() == G4OpticalPhoton::OpticalPhotonDefinition() ) {
                     if( secondaries->at(i)->GetCreatorProcess()->GetProcessName() == "Scintillation" ) {
-                        fEventAction->CountOneScintPhoton(); G4cout << "volume of scint: " << volname << G4endl;
+                        //fEventAction->CountOneScintPhoton(); //G4cout << "volume of scint: " << volname << G4endl;
                         if( found!=G4String::npos ) {
                             G4cout << "I think we're in the quartz window now..." << G4endl;
                         }
@@ -478,15 +478,16 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
     }
 
     found = volname.find("testcan_quartz_window_log");
-    if (found!=G4String::npos) {
-        SetDetNumberForGenericDetector(volname);
-        mnemonic.replace(0,3,"XXX");
-        mnemonic.replace(3,2,G4intToG4String(det));
-        mnemonic.replace(5,1,GetCrystalColour(cry));
-        systemID = 8510;
-        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, 1, pos2.x(), pos2.y(), pos2.z(), time2, targetZ);
-        G4cout << "something is happening inside the quartz with a " << particleType << " numbered particle" << G4endl;
+    if (found!=G4String::npos && particleType == 8) {
+        fEventAction->CountOneQuartzPhoton();
+        theTrack->SetTrackStatus(fKillTrackAndSecondaries); 
     }
+
+    found = volname.find("testcan_scintillator_log");
+    if (found!=G4String::npos && particleType == 8) {
+        fEventAction->CountOneScintPhoton();
+    }
+
 
     //  // gamma angular correlations in world
     //  found = volname.find("World");

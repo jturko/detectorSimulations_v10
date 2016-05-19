@@ -87,9 +87,13 @@ public:
     void AddHitTracker(G4String mnemonic, G4int eventNumber, G4int trackID, G4int parentID, G4int stepNumber, G4int particleType, G4int processType, G4int systemID, G4int cryNumber, G4int detNumber, G4double depEnergy, G4double posx, G4double posy, G4double posz, G4double time, G4int trackerZ);
     void AddStepTracker(G4String mnemonic, G4int eventNumber, G4int trackID, G4int parentID, G4int stepNumber, G4int particleType, G4int processType, G4int systemID, G4int cryNumber, G4int detNumber, G4double depEnergy, G4double posx, G4double posy, G4double posz, G4double time, G4int trackerZ);
 
-    void CountOneScintPhoton() { totScintPhotons++; }
+    void CountOneScintPhoton() { ++totScintPhotons; }
     G4int GetTotScintPhotons() { return totScintPhotons; }
     void SetTotScintPhotons(G4int num) { totScintPhotons = num; }
+
+    void CountOneQuartzPhoton() { ++quartzScintPhotons; }
+    G4int GetQuartzScintPhotons() { return quartzScintPhotons; }
+    void SetQuartzScintPhotons(G4int num) { quartzScintPhotons = num; }
 
 private:
     RunAction*    fRunAct;
@@ -163,6 +167,7 @@ private:
 
     // Scintillation photons
     G4int totScintPhotons;
+    G4int quartzScintPhotons;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
