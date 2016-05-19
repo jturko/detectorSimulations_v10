@@ -110,14 +110,14 @@ G4int DetectionSystemTestcan::BuildTestcan()
     //-------------------------------------------------------------------------------------------------------------------------
     G4MaterialPropertiesTable * MPT = new G4MaterialPropertiesTable();
     const G4int NUM = 6;
-    G4double photon_energies[NUM] = {3.1*CLHEP::eV,2.88*CLHEP::eV,2.82*CLHEP::eV,2.695*CLHEP::eV,2.58*CLHEP::eV,2.48*CLHEP::eV};
+    G4double photon_energies[NUM] = {3.1*eV,2.88*eV,2.82*eV,2.695*eV,2.58*eV,2.48*eV};
     G4double emission_spectra[NUM] = {0.05,1.,0.7,0.37,0.2,0.1};
     MPT->AddConstProperty("RINDEX",1.498);
-    MPT->AddConstProperty("SCINTILLATIONYIELD",9200./CLHEP::MeV);
+    MPT->AddConstProperty("SCINTILLATIONYIELD",9200./MeV);
 
-    G4double electron_energy[4] = {1.*CLHEP::keV,1.*CLHEP::MeV,10.*CLHEP::MeV,100*CLHEP::MeV};
+    G4double electron_energy[4] = {1.*keV,1.*MeV,10.*MeV,100.*MeV};
     G4double electron[4] = {1.,9200.,92000.,920000.};
-     MPT->AddProperty("ELECTRONSCINTILLATIONYIELD",electron_energy,electron,4);
+    MPT->AddProperty("ELECTRONSCINTILLATIONYIELD",electron_energy,electron,4);
      // MPT->AddProperty("DEUTERONSCINTILLATIONYIELD",1.*CLHEP::MeV,2000./CLHEP::MeV,1);
     /*
     MPT->AddConstProperty("IONSCINTILLATIONYIELD",1000./CLHEP::MeV);
@@ -128,13 +128,13 @@ G4int DetectionSystemTestcan::BuildTestcan()
     MPT->AddConstProperty("ELECTRONSCINTILLATIONYIELD",1000./CLHEP::MeV);
     */
     MPT->AddConstProperty("RESOLUTIONSCALE",25.);
-    MPT->AddConstProperty("ABSLENGTH",3.*CLHEP::m);
+    MPT->AddConstProperty("ABSLENGTH",3.*m);
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
     // values for fast and slow time component taken from :                                              //
     //     http://research.physics.lsa.umich.edu/twinsol/Publications/Ojaruegathesis.pdf                 //
     //                                                                                                   //
     //     Pulse shape analysis of liquid scintillators for neutron studies,  S. Marrone et al.          //
-    MPT->AddConstProperty("FASTTIMECONSTANT",3.5*CLHEP::ns);
+    MPT->AddConstProperty("FASTTIMECONSTANT",3.5*ns);
     MPT->AddProperty("FASTCOMPONENT",photon_energies,emission_spectra,NUM)->SetSpline(true);
     // MPT->AddConstProperty("SLOWTIMECONSTANT",50.7*CLHEP::ns);
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
