@@ -74,6 +74,8 @@
 #include "G4OpAbsorption.hh"
 #include "G4OpRayleigh.hh"
 #include "G4Scintillation.hh"
+#include "G4OpMieHG.hh"
+#include "G4OpBoundaryProcess.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -215,8 +217,8 @@ void PhysicsList::ConstructOp(G4bool constructOp)
 
         G4OpAbsorption* absorptionProcess = new G4OpAbsorption();
         G4OpRayleigh* rayleighScatteringProcess = new G4OpRayleigh();
-        //G4OpMieHG* mieHGScatteringProcess = new G4OpMieHG();
-        //G4OpBoundaryProcess* boundaryProcess = new G4OpBoundaryProcess();
+        G4OpMieHG* mieHGScatteringProcess = new G4OpMieHG();
+        G4OpBoundaryProcess* boundaryProcess = new G4OpBoundaryProcess();
 
         // Use Birks Correction in the Scintillation process
         if(!G4Threading::IsWorkerThread())
@@ -243,8 +245,8 @@ void PhysicsList::ConstructOp(G4bool constructOp)
             G4cout << "AddDiscreteProcess to OpticalPhoton " << G4endl;
             pmanager->AddDiscreteProcess(absorptionProcess);
             pmanager->AddDiscreteProcess(rayleighScatteringProcess);
-            // pmanager->AddDiscreteProcess(mieHGScatteringProcess);
-            //  pmanager->AddDiscreteProcess(boundaryProcess);
+            pmanager->AddDiscreteProcess(mieHGScatteringProcess);
+            pmanager->AddDiscreteProcess(boundaryProcess);
             }
         }
         G4cout << "Done Building Optical Physics" << G4endl;
