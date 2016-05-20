@@ -127,7 +127,8 @@ G4int DetectionSystemTestcan::BuildTestcan()
     MPT->AddConstProperty("PROTONSCINTILLATIONYIELD",9200./CLHEP::MeV);
     MPT->AddConstProperty("ELECTRONSCINTILLATIONYIELD",1000./CLHEP::MeV);
     */
-    MPT->AddConstProperty("RESOLUTIONSCALE",25.);
+    G4double res_scale = 1.;
+    MPT->AddConstProperty("RESOLUTIONSCALE", res_scale);
     MPT->AddConstProperty("ABSLENGTH",3.*m);
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
     // values for fast and slow time component taken from :                                              //
