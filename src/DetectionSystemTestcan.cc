@@ -127,7 +127,7 @@ G4int DetectionSystemTestcan::BuildTestcan()
     MPT->AddConstProperty("PROTONSCINTILLATIONYIELD",9200./CLHEP::MeV);
     MPT->AddConstProperty("ELECTRONSCINTILLATIONYIELD",1000./CLHEP::MeV);
     */
-    G4double res_scale = 1.;
+    G4double res_scale = 20.0; G4cout << "--->>> res_scale = " << res_scale << G4endl;
     MPT->AddConstProperty("RESOLUTIONSCALE", res_scale);
     MPT->AddConstProperty("ABSLENGTH",3.*m);
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
