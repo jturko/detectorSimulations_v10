@@ -44,7 +44,7 @@ class G4AssemblyVolume;
 class DetectionSystemTestcan
 {
 public:
-    DetectionSystemTestcan(G4double length, G4double radius);
+    DetectionSystemTestcan(G4double length, G4double radius, G4double res);
     ~DetectionSystemTestcan();
 
     G4int Build();
@@ -66,6 +66,8 @@ private:
     G4double alum_can_thickness;
     G4double quartz_thickness;
     G4double quartz_radius;
+
+    G4double res_scale;
 
     G4double start_phi;
     G4double end_phi;

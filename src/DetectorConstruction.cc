@@ -890,8 +890,9 @@ void DetectorConstruction::AddDetectionSystemTestcan(G4ThreeVector input)
 {
     G4double length = G4double(input.x())*cm;
     G4double radius = G4double(input.y())*cm;
+    G4double resolution = G4double(input.z());
 
-    DetectionSystemTestcan* pDetectionSystemTestcan = new DetectionSystemTestcan(length, radius);
+    DetectionSystemTestcan* pDetectionSystemTestcan = new DetectionSystemTestcan(length, radius, resolution);
     pDetectionSystemTestcan->Build();
     pDetectionSystemTestcan->PlaceDetector(logicWorld);
 }

@@ -26,7 +26,7 @@
 
 #include <string>
 
-DetectionSystemTestcan::DetectionSystemTestcan(G4double length, G4double radius) :
+DetectionSystemTestcan::DetectionSystemTestcan(G4double length, G4double radius, G4double res) :
     // LogicalVolumes
     testcan_alum_casing_log(0),
     testcan_scintillator_log(0),
@@ -42,6 +42,9 @@ DetectionSystemTestcan::DetectionSystemTestcan(G4double length, G4double radius)
     can_material                = "G4_Al";
     liquid_material             = "Deuterated Scintillator";
     quartz_material             = "G4_SILICON_DIOXIDE";
+
+    // resolution scale 
+    res_scale = res;
 
     start_phi               = 0.0*deg;
     end_phi                 = 360.0*deg;
@@ -110,14 +113,15 @@ G4int DetectionSystemTestcan::BuildTestcan()
     //-------------------------------------------------------------------------------------------------------------------------
     G4MaterialPropertiesTable * MPT = new G4MaterialPropertiesTable();
     const G4int NUM = 6;
-    G4double photon_energies[NUM] = {3.1*eV,2.88*eV,2.82*eV,2.695*eV,2.58*eV,2.48*eV};
-    G4double emission_spectra[NUM] = {0.05,1.,0.7,0.37,0.2,0.1};
+    G4double photon_energies[NUM] = {3.1*eV, 2.88*eV, 2.82*eV, 2.695*eV, 2.58*eV, 2.48*eV};
+    G4double emission_spectra[NUM] = {0.05, 1., 0.7, 0.37, 0.2, 0.1};
     MPT->AddConstProperty("RINDEX",1.498);
     MPT->AddConstProperty("SCINTILLATIONYIELD",9200./MeV);
 
-    G4double electron_energy[4] = {1.*keV,1.*MeV,10.*MeV,100.*MeV};
-    G4double electron[4] = {1.,9200.,92000.,920000.};
-    MPT->AddProperty("ELECTRONSCINTILLATIONYIELD",electron_energy,electron,4);
+    const G4int NUM2 = 4;
+    G4double electron_energy[NUM2] = {1.*keV, 1.*MeV, 10.*MeV, 100.*MeV};
+    G4double electron[NUM2] = {1., 9200., 92000., 920000.};
+    MPT->AddProperty("ELECTRONSCINTILLATIONYIELD", electron_energy, electron, NUM2);
      // MPT->AddProperty("DEUTERONSCINTILLATIONYIELD",1.*CLHEP::MeV,2000./CLHEP::MeV,1);
     /*
     MPT->AddConstProperty("IONSCINTILLATIONYIELD",1000./CLHEP::MeV);
@@ -127,8 +131,7 @@ G4int DetectionSystemTestcan::BuildTestcan()
     MPT->AddConstProperty("PROTONSCINTILLATIONYIELD",9200./CLHEP::MeV);
     MPT->AddConstProperty("ELECTRONSCINTILLATIONYIELD",1000./CLHEP::MeV);
     */
-    G4double res_scale = 1.;
-    MPT->AddConstProperty("RESOLUTIONSCALE", res_scale);
+    MPT->AddConstProperty("RESOLUTIONSCALE", res_scale); G4cout << "res_scale = " << res_scale << G4endl;
     MPT->AddConstProperty("ABSLENGTH",3.*m);
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
     // values for fast and slow time component taken from :                                              //
