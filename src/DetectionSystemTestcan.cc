@@ -124,17 +124,20 @@ G4int DetectionSystemTestcan::BuildTestcan()
     //MPT->AddConstProperty("SCINTILLATIONYIELD",1./keV);
     //MPT->AddProperty("ELECTRONSCINTILLATIONYIELD", electron_energy, electron, NUM2);
 
-    G4double e_test[4] = {1*keV, 0.1*MeV, 1.0*MeV, 10.0*MeV};
+    G4double e_test[4] = {1.*keV, 0.1*MeV, 1.0*MeV, 10.0*MeV};
     G4double num_test[4] = {10., 1000., 10000., 100000.};
     MPT->AddProperty("ELECTRONSCINTILLATIONYIELD", e_test, num_test, 4);
     
-    G4double e_test2[4] = {1*keV, 0.1*MeV, 1.0*MeV, 10.0*MeV};
+    G4double e_test2[4] = {1.*keV, 0.1*MeV, 1.0*MeV, 10.0*MeV};
     G4double num_test2[4] = {10., 1000., 10000., 100000.};
+    //G4double num_test2[4] = {0., 0., 0., 0.};
     MPT->AddProperty("DEUTERONSCINTILLATIONYIELD", e_test2, num_test2, 4);
     
-    G4double e_test3[4] = {1*keV, 0.1*MeV, 1.0*MeV, 10.0*MeV};
-    G4double num_test3[4] = {10., 1000., 10000., 100000.};
-    //G4double num_test3[3] = {0., 0., 0.};
+    G4double e_test3[4] = {1.*keV, 0.1*MeV, 1.0*MeV, 10.0*MeV};
+    //G4double num_test3[4] = {10., 1000., 10000., 100000.};                 // 100% carbon
+    //G4double num_test3[4] = {1., 100., 1000., 10000.};                     // 10%  carbon
+    G4double num_test3[4] = {5., 500., 5000., 50000.};                       // 50%  carbon
+    //G4double num_test3[4] = {0., 0., 0., 0.};                              // 0%   carbon
     MPT->AddProperty("IONSCINTILLATIONYIELD", e_test3, num_test3, 4);
     /*
     MPT->AddConstProperty("IONSCINTILLATIONYIELD",1000./CLHEP::MeV);
