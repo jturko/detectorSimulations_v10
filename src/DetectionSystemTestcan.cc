@@ -112,52 +112,45 @@ G4int DetectionSystemTestcan::BuildTestcan()
     // SCINTILLATION PROPERTIES
     //-------------------------------------------------------------------------------------------------------------------------
     G4MaterialPropertiesTable * MPT = new G4MaterialPropertiesTable();
+    
+    //const G4int NUM2 = 4;
+    //G4double electron_energy[NUM2] = {1.*keV, 1.*MeV, 10.*MeV, 100.*MeV};
+    //G4double electron[NUM2] = {9.2., 9200., 92000., 920000.};
+    //MPT->AddConstProperty("SCINTILLATIONYIELD",1./keV);
+    //MPT->AddProperty("ELECTRONSCINTILLATIONYIELD", electron_energy, electron, NUM2);
+    
+    // --------------->>> ELECTRONS
+    G4double e_test[4] = {1.*keV, 0.1*MeV, 1.0*MeV, 10.0*MeV};
+    G4double num_test[4] = {10., 1000., 10000., 100000.};
+    MPT->AddProperty("ELECTRONSCINTILLATIONYIELD", e_test, num_test, 4)->SetSpline(true);
+    
+    // --------------->>> DEUTERONS
+    G4double e_test2[4] = {1.*keV, 0.1*MeV, 1.0*MeV, 10.0*MeV};
+    G4double num_test2[4] = {10., 1000., 10000., 100000.};
+    //G4double num_test2[4] = {0., 0., 0., 0.};
+    MPT->AddProperty("DEUTERONSCINTILLATIONYIELD", e_test2, num_test2, 4)->SetSpline(true);
+    
+    // --------------->>> IONS (CARBON)
+    G4double e_test3[4] = {1.*keV, 0.1*MeV, 1.0*MeV, 10.0*MeV};
+    G4double num_test3[4] = {10., 1000., 10000., 100000.}; G4cout << "100% carbon" << G4endl;               // 100% carbon
+    //G4double num_test3[4] = {5., 500., 5000., 50000.}; G4cout << "50% carbon" << G4endl;                    // 50%  carbon
+    //G4double num_test3[4] = {1., 100., 1000., 10000.}; G4cout << "10% carbon" << G4endl;                    // 10%  carbon
+    //G4double num_test3[4] = {0., 0., 0., 0.}; G4cout << "0% carbon" << G4endl;                              // 0%   carbon
+    MPT->AddProperty("IONSCINTILLATIONYIELD", e_test3, num_test3, 4)->SetSpline(true);
+    
+    // --------------->>> OTHERS
+    //MPT->AddConstProperty("TRITONSCINTILLATIONYIELD",1000./CLHEP::MeV);
+    //MPT->AddConstProperty("ALPHASCINTILLATIONYIELD",1000./CLHEP::MeV);
+    //MPT->AddConstProperty("PROTONSCINTILLATIONYIELD",9200./CLHEP::MeV);
+    
+    MPT->AddConstProperty("RESOLUTIONSCALE", res_scale); G4cout << "res_scale = " << res_scale << G4endl;
+    MPT->AddConstProperty("ABSLENGTH",3.*m);
+    MPT->AddConstProperty("FASTTIMECONSTANT",3.5*ns);
     const G4int NUM = 6;
     G4double photon_energies[NUM] = {3.1*eV, 2.88*eV, 2.82*eV, 2.695*eV, 2.58*eV, 2.48*eV};
     G4double emission_spectra[NUM] = {0.05, 1., 0.7, 0.37, 0.2, 0.1};
     MPT->AddConstProperty("RINDEX",1.498);
-    
-
-    const G4int NUM2 = 4;
-    G4double electron_energy[NUM2] = {100.*keV, 1.*MeV, 10.*MeV, 100.*MeV};
-    G4double electron[NUM2] = {920., 9200., 92000., 920000.};
-    //MPT->AddConstProperty("SCINTILLATIONYIELD",1./keV);
-    //MPT->AddProperty("ELECTRONSCINTILLATIONYIELD", electron_energy, electron, NUM2);
-
-    G4double e_test[4] = {1.*keV, 0.1*MeV, 1.0*MeV, 10.0*MeV};
-    G4double num_test[4] = {10., 1000., 10000., 100000.};
-    MPT->AddProperty("ELECTRONSCINTILLATIONYIELD", e_test, num_test, 4);
-    
-    G4double e_test2[4] = {1.*keV, 0.1*MeV, 1.0*MeV, 10.0*MeV};
-    G4double num_test2[4] = {10., 1000., 10000., 100000.};
-    //G4double num_test2[4] = {0., 0., 0., 0.};
-    MPT->AddProperty("DEUTERONSCINTILLATIONYIELD", e_test2, num_test2, 4);
-    
-    G4double e_test3[4] = {1.*keV, 0.1*MeV, 1.0*MeV, 10.0*MeV};
-    //G4double num_test3[4] = {10., 1000., 10000., 100000.};                 // 100% carbon
-    //G4double num_test3[4] = {1., 100., 1000., 10000.};                     // 10%  carbon
-    G4double num_test3[4] = {5., 500., 5000., 50000.};                       // 50%  carbon
-    //G4double num_test3[4] = {0., 0., 0., 0.};                              // 0%   carbon
-    MPT->AddProperty("IONSCINTILLATIONYIELD", e_test3, num_test3, 4);
-    /*
-    MPT->AddConstProperty("IONSCINTILLATIONYIELD",1000./CLHEP::MeV);
-    MPT->AddConstProperty("DEUTERONSCINTILLATIONYIELD",9200./CLHEP::MeV);
-    MPT->AddConstProperty("TRITONSCINTILLATIONYIELD",1000./CLHEP::MeV);
-    MPT->AddConstProperty("ALPHASCINTILLATIONYIELD",1000./CLHEP::MeV);
-    MPT->AddConstProperty("PROTONSCINTILLATIONYIELD",9200./CLHEP::MeV);
-    MPT->AddConstProperty("ELECTRONSCINTILLATIONYIELD",1000./CLHEP::MeV);
-    */
-    MPT->AddConstProperty("RESOLUTIONSCALE", res_scale); G4cout << "res_scale = " << res_scale << G4endl;
-    MPT->AddConstProperty("ABSLENGTH",3.*m);
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////
-    // values for fast and slow time component taken from :                                              //
-    //     http://research.physics.lsa.umich.edu/twinsol/Publications/Ojaruegathesis.pdf                 //
-    //                                                                                                   //
-    //     Pulse shape analysis of liquid scintillators for neutron studies,  S. Marrone et al.          //
-    MPT->AddConstProperty("FASTTIMECONSTANT",3.5*ns);
     MPT->AddProperty("FASTCOMPONENT",photon_energies,emission_spectra,NUM)->SetSpline(true);
-    // MPT->AddConstProperty("SLOWTIMECONSTANT",50.7*CLHEP::ns);
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////
     MPT->AddConstProperty("YIELDRATIO",1.);
     //------------------------------------------------------------------------------------------------------------------------
 
