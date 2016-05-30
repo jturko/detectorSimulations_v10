@@ -65,10 +65,12 @@ EventAction::~EventAction()
 
 void EventAction::BeginOfEventAction(const G4Event* evt)
 {  
+    G4RunManager* runManager = G4RunManager::GetRunManager();
+    const G4int numEvents = runManager->GetCurrentRun()->GetNumberOfEventToBeProcessed();
     evtNb = evt->GetEventID();
-    if (evtNb%fPrintModulo == 0)
+    //if (evtNb%fPrintModulo == 0)
         //    G4cout << "\n---> Begin of event: " << evtNb << G4endl;
-        printf( " ---> Ev.# %5d\r", evtNb);
+        printf( " ---> Ev.# %5d :: %.1f %% \r", evtNb, 100.*G4double(evtNb)/G4double(numEvents));
     G4cout.flush();
 
     ClearVariables();
