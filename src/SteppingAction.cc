@@ -165,10 +165,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
             if( secondaries->at(i)->GetParentID()>0 ) {
                 if( secondaries->at(i)->GetDynamicParticle()->GetParticleDefinition() == G4OpticalPhoton::OpticalPhotonDefinition() ) {
                     if( secondaries->at(i)->GetCreatorProcess()->GetProcessName() == "Scintillation" ) {
-                        //fEventAction->CountOneScintPhoton(); //G4cout << "volume of scint: " << volname << G4endl;
-                        if( found!=G4String::npos ) {
-                            G4cout << "I think we're in the quartz window now..." << G4endl;
-                        }
+                        fEventAction->CountOneScintPhoton(); //G4cout << "volume of scint: " << volname << G4endl;
                     }
                 }
             }
@@ -487,7 +484,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
 
     found = volname.find("testcan_scintillator_log");
     if (found!=G4String::npos && particleType == 8) {
-        fEventAction->CountOneScintPhoton();
+        //fEventAction->CountOneScintPhoton();
     }
 
 

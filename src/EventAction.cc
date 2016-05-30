@@ -36,6 +36,9 @@
 
 #include "EventAction.hh"
 
+#include "G4RunManager.hh"
+#include "G4Run.hh"
+
 #include "RunAction.hh"
 #include "HistoManager.hh"
 
@@ -96,7 +99,9 @@ void EventAction::EndOfEventAction(const G4Event*)
 
     ClearVariables();
 
-    // G4cout << "totScintPhotons = " << GetTotScintPhotons() << "    quartzScintPhotons = " << GetQuartzScintPhotons() << G4endl;
+    G4RunManager* runManager = G4RunManager::GetRunManager();
+    const G4int numEvents = runManager->GetCurrentRun()->GetNumberOfEventToBeProcessed();
+    if(numEvents < 1000) G4cout << "totScintPhotons = " << GetTotScintPhotons() << "    quartzScintPhotons = " << GetQuartzScintPhotons() << G4endl;
     
 }
 

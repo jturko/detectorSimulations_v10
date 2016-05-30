@@ -40,6 +40,7 @@
 #include "globals.hh"
 
 class G4AssemblyVolume;
+class G4OpticalSurface;
 
 class DetectionSystemTestcan
 {
@@ -50,11 +51,16 @@ public:
     G4int Build();
     G4int PlaceDetector(G4LogicalVolume* exp_hall_log);
 
+    //G4int BuildOpSurface();
+
 private:
     // Logical volumes
     G4LogicalVolume* testcan_alum_casing_log;
     G4LogicalVolume* testcan_scintillator_log;   
     G4LogicalVolume* testcan_quartz_window_log;
+
+    // Optical Surface
+    G4OpticalSurface * OpCanScintSurface;
 
     // Assembly volumes
     G4AssemblyVolume* assemblyTestcan;                 // Contains all non-sensitive materials

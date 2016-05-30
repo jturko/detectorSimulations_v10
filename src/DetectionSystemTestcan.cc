@@ -22,6 +22,9 @@
 
 #include "DetectionSystemTestcan.hh"
 
+#include "G4OpticalSurface.hh"
+#include "G4LogicalSkinSurface.hh"
+
 #include "G4SystemOfUnits.hh"
 
 #include <string>
@@ -111,51 +114,81 @@ G4int DetectionSystemTestcan::BuildTestcan()
 
     // SCINTILLATION PROPERTIES
     //-------------------------------------------------------------------------------------------------------------------------
-    G4MaterialPropertiesTable * MPT = new G4MaterialPropertiesTable();
+    G4MaterialPropertiesTable * scintMPT = new G4MaterialPropertiesTable();
     
     //const G4int NUM2 = 4;
     //G4double electron_energy[NUM2] = {1.*keV, 1.*MeV, 10.*MeV, 100.*MeV};
     //G4double electron[NUM2] = {9.2., 9200., 92000., 920000.};
-    //MPT->AddConstProperty("SCINTILLATIONYIELD",1./keV);
-    //MPT->AddProperty("ELECTRONSCINTILLATIONYIELD", electron_energy, electron, NUM2);
+    //scintMPT->AddConstProperty("SCINTILLATIONYIELD",1./keV);
+    //scintMPT->AddProperty("ELECTRONSCINTILLATIONYIELD", electron_energy, electron, NUM2);
     
     // --------------->>> ELECTRONS
     G4double e_test[4] = {1.*keV, 0.1*MeV, 1.0*MeV, 10.0*MeV};
     G4double num_test[4] = {10., 1000., 10000., 100000.};
-    MPT->AddProperty("ELECTRONSCINTILLATIONYIELD", e_test, num_test, 4)->SetSpline(true);
+    scintMPT->AddProperty("ELECTRONSCINTILLATIONYIELD", e_test, num_test, 4)->SetSpline(true);
     
     // --------------->>> DEUTERONS
     G4double e_test2[4] = {1.*keV, 0.1*MeV, 1.0*MeV, 10.0*MeV};
     G4double num_test2[4] = {10., 1000., 10000., 100000.};
     //G4double num_test2[4] = {0., 0., 0., 0.};
-    MPT->AddProperty("DEUTERONSCINTILLATIONYIELD", e_test2, num_test2, 4)->SetSpline(true);
+    scintMPT->AddProperty("DEUTERONSCINTILLATIONYIELD", e_test2, num_test2, 4)->SetSpline(true);
     
     // --------------->>> IONS (CARBON)
     G4double e_test3[4] = {1.*keV, 0.1*MeV, 1.0*MeV, 10.0*MeV};
-    G4double num_test3[4] = {10., 1000., 10000., 100000.}; G4cout << "100% carbon" << G4endl;               // 100% carbon
+    //G4double num_test3[4] = {10., 1000., 10000., 100000.}; G4cout << "100% carbon" << G4endl;               // 100% carbon
     //G4double num_test3[4] = {5., 500., 5000., 50000.}; G4cout << "50% carbon" << G4endl;                    // 50%  carbon
-    //G4double num_test3[4] = {1., 100., 1000., 10000.}; G4cout << "10% carbon" << G4endl;                    // 10%  carbon
+    G4double num_test3[4] = {1., 100., 1000., 10000.}; G4cout << "10% carbon" << G4endl;                    // 10%  carbon
     //G4double num_test3[4] = {0., 0., 0., 0.}; G4cout << "0% carbon" << G4endl;                              // 0%   carbon
-    MPT->AddProperty("IONSCINTILLATIONYIELD", e_test3, num_test3, 4)->SetSpline(true);
+    scintMPT->AddProperty("IONSCINTILLATIONYIELD", e_test3, num_test3, 4)->SetSpline(true);
     
     // --------------->>> OTHERS
-    //MPT->AddConstProperty("TRITONSCINTILLATIONYIELD",1000./CLHEP::MeV);
-    //MPT->AddConstProperty("ALPHASCINTILLATIONYIELD",1000./CLHEP::MeV);
-    //MPT->AddConstProperty("PROTONSCINTILLATIONYIELD",9200./CLHEP::MeV);
+    //scintMPT->AddConstProperty("TRITONSCINTILLATIONYIELD",1000./CLHEP::MeV);
+    //scintMPT->AddConstProperty("ALPHASCINTILLATIONYIELD",1000./CLHEP::MeV);
+    //scintMPT->AddConstProperty("PROTONSCINTILLATIONYIELD",9200./CLHEP::MeV);
     
-    MPT->AddConstProperty("RESOLUTIONSCALE", res_scale); G4cout << "res_scale = " << res_scale << G4endl;
-    MPT->AddConstProperty("ABSLENGTH",3.*m);
-    MPT->AddConstProperty("FASTTIMECONSTANT",3.5*ns);
+    scintMPT->AddConstProperty("RESOLUTIONSCALE", res_scale); G4cout << "res_scale = " << res_scale << G4endl;
+    scintMPT->AddConstProperty("ABSLENGTH", 3.*m);
+    scintMPT->AddConstProperty("FASTTIMECONSTANT", 2.8*ns);
     const G4int NUM = 6;
     G4double photon_energies[NUM] = {3.1*eV, 2.88*eV, 2.82*eV, 2.695*eV, 2.58*eV, 2.48*eV};
     G4double emission_spectra[NUM] = {0.05, 1., 0.7, 0.37, 0.2, 0.1};
-    MPT->AddConstProperty("RINDEX",1.498);
-    MPT->AddProperty("FASTCOMPONENT",photon_energies,emission_spectra,NUM)->SetSpline(true);
-    MPT->AddConstProperty("YIELDRATIO",1.);
+    G4double rindex_scint[NUM] = {1.50, 1.50, 1.50, 1.50, 1.50, 1.50}; 
+    //scintMPT->AddConstProperty("RINDEX", 1.50);
+    scintMPT->AddProperty("RINDEX", photon_energies, rindex_scint, NUM);
+    scintMPT->AddProperty("FASTCOMPONENT", photon_energies, emission_spectra, NUM)->SetSpline(true);
+    scintMPT->AddConstProperty("YIELDRATIO",1.);
+
+    liquid_g4material->SetMaterialPropertiesTable(scintMPT);
+    
+    // ALUMINUM MPT
     //------------------------------------------------------------------------------------------------------------------------
+    G4MaterialPropertiesTable * alumMPT = new G4MaterialPropertiesTable();
+    G4double rindex_alum[NUM] = {0.46, 0.55, 0.59, 0.62, 0.72, 0.79};
+    G4double rindex_alum_imag[NUM] = {4.70, 5.10, 5.21, 5.43, 5.64, 5.86};
+    //alumMPT->AddProperty("RINDEX", photon_energies, rindex_alum, NUM)->SetSpline(true); // ---->>>> JUST THIS CAUSES OPTICAL PHOTONS w/ v > c ; NOT POSSIBLE!!!!
+    alumMPT->AddProperty("REALRINDEX", photon_energies, rindex_alum, NUM)->SetSpline(true);
+    alumMPT->AddProperty("IMAGINARYRINDEX", photon_energies, rindex_alum_imag, NUM)->SetSpline(true);
+    alumMPT->AddConstProperty("ABSLENGTH", 1.e-8*m);
 
-    liquid_g4material->SetMaterialPropertiesTable(MPT);
+    can_g4material->SetMaterialPropertiesTable(alumMPT);
 
+    OpCanScintSurface = new G4OpticalSurface("CanScintSurface");
+    OpCanScintSurface->SetModel(glisur);
+    OpCanScintSurface->SetType(dielectric_metal);
+    OpCanScintSurface->SetFinish(polishedfrontpainted);
+    // logical skin surface comes after the volume has been created (the aluminum can volume)
+ 
+    // QUARTZ MPT
+    G4MaterialPropertiesTable * quartzMPT = new G4MaterialPropertiesTable();
+    G4double rindex_quartz[NUM] = {1.474, 1.474, 1.474, 1.474, 1.474, 1.474};
+    quartzMPT->AddProperty("RINDEX", photon_energies, rindex_quartz, NUM)->SetSpline(true);
+    quartzMPT->AddConstProperty("ABSLENGTH", 40.*cm);
+
+    quartz_g4material->SetMaterialPropertiesTable(quartzMPT);
+
+  
+    //------------------------------------------------------------------------------------------------------------------------
+    
     // building the aluminum can
     G4double cut_extra = 10.0*cm;
     G4Tubs* cut = new G4Tubs("cutting volume", this->scintillator_inner_radius, this->scintillator_outer_radius, this->scintillator_length/2.0 + cut_extra, this->start_phi, this->end_phi);
@@ -190,6 +223,7 @@ G4int DetectionSystemTestcan::BuildTestcan()
     {
         testcan_alum_casing_log = new G4LogicalVolume(testcan_alum_casing, can_g4material, "testcan_alum_casing_log", 0, 0, 0);
         testcan_alum_casing_log->SetVisAttributes(can_vis_att);
+        G4LogicalSkinSurface * OpCanScintSurfaceLog = new G4LogicalSkinSurface("OpCanScintSurfaceLog", testcan_alum_casing_log, OpCanScintSurface);
     }
     this->assemblyTestcan->AddPlacedVolume(testcan_alum_casing_log, move, rotate);
     
@@ -219,7 +253,9 @@ G4int DetectionSystemTestcan::BuildTestcan()
     }
     this->assemblyTestcan->AddPlacedVolume(testcan_quartz_window_log, move, rotate);
 
-    
+        
+
+
     return 1;
 }
 
