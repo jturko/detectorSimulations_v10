@@ -65,8 +65,7 @@ EventAction::~EventAction()
 
 void EventAction::BeginOfEventAction(const G4Event* evt)
 {  
-    G4RunManager* runManager = G4RunManager::GetRunManager();
-    const G4int numEvents = runManager->GetCurrentRun()->GetNumberOfEventToBeProcessed();
+    const G4int numEvents = G4RunManager::GetRunManager()->GetCurrentRun()->GetNumberOfEventToBeProcessed();
     evtNb = evt->GetEventID();
     //if (evtNb%fPrintModulo == 0)
         //    G4cout << "\n---> Begin of event: " << evtNb << G4endl;
@@ -101,8 +100,7 @@ void EventAction::EndOfEventAction(const G4Event*)
 
     ClearVariables();
 
-    G4RunManager* runManager = G4RunManager::GetRunManager();
-    const G4int numEvents = runManager->GetCurrentRun()->GetNumberOfEventToBeProcessed();
+    const G4int numEvents = G4RunManager::GetRunManager()->GetCurrentRun()->GetNumberOfEventToBeProcessed();
     if(numEvents < 1000) G4cout << "totScintPhotons = " << GetTotScintPhotons() << "    quartzScintPhotons = " << GetQuartzScintPhotons() << G4endl;
     
 }
