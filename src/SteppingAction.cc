@@ -481,6 +481,16 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
         fEventAction->CountOneQuartzPhoton();
         theTrack->SetTrackStatus(fKillTrackAndSecondaries); 
     }
+    found = volname.find("quartz_window_3inch_log");
+    if (found!=G4String::npos && particleType == 8) {
+        fEventAction->CountOneQuartzPhoton();
+        theTrack->SetTrackStatus(fKillTrackAndSecondaries); 
+    }
+    found = volname.find("quartz_window_5inch_log");
+    if (found!=G4String::npos && particleType == 8) {
+        fEventAction->CountOneQuartzPhoton();
+        theTrack->SetTrackStatus(fKillTrackAndSecondaries); 
+    }
 
     found = volname.find("testcan_scintillator_log");
     if (found!=G4String::npos && particleType == 8) {

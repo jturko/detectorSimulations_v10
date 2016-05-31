@@ -23,8 +23,10 @@
 #include "DetectionSystemDescant.hh"
 
 #include "G4SystemOfUnits.hh"
-
 #include <string>
+
+#include "G4OpticalSurface.hh"
+#include "G4LogicalSkinSurface.hh"
 
 DetectionSystemDescant::DetectionSystemDescant(G4bool leadShield) :
     // LogicalVolumes
@@ -630,7 +632,7 @@ G4int DetectionSystemDescant::BuildCanVolume()
     G4ThreeVector move_cut, move, direction;
     G4RotationMatrix* rotate_cut;
     G4RotationMatrix* rotate;
-    G4double z_position, move_extra;
+    G4double z_position;
     G4double extra_cut_length = 100.0*mm;
 
     G4Material* can_g4material = G4Material::GetMaterial(this->can_material);
@@ -650,6 +652,30 @@ G4int DetectionSystemDescant::BuildCanVolume()
         G4cout << " ----> Material " << this->quartz_material << " not found, cannot build! " << G4endl;
         return 0;
     }
+
+    // ALUMINUM MPT
+    const G4int NUM = 6;
+    G4double photon_energies[NUM] = {3.1*eV, 2.88*eV, 2.82*eV, 2.695*eV, 2.58*eV, 2.48*eV};
+    G4MaterialPropertiesTable * alumMPT = new G4MaterialPropertiesTable();
+    G4double rindex_alum[NUM] = {0.46, 0.55, 0.59, 0.62, 0.72, 0.79};
+    G4double rindex_alum_imag[NUM] = {4.70, 5.10, 5.21, 5.43, 5.64, 5.86};
+    alumMPT->AddProperty("REALRINDEX", photon_energies, rindex_alum, NUM)->SetSpline(true);
+    alumMPT->AddProperty("IMAGINARYRINDEX", photon_energies, rindex_alum_imag, NUM)->SetSpline(true);
+    alumMPT->AddConstProperty("ABSLENGTH", 1.e-8*m);
+    can_g4material->SetMaterialPropertiesTable(alumMPT);
+
+    // OPTICAL SURFACE OF THE CAN/SCINTILLATOR BOUNDARY
+    G4OpticalSurface* OpCanScintSurface = new G4OpticalSurface("CanScintSurface");
+    OpCanScintSurface->SetModel(glisur);
+    OpCanScintSurface->SetType(dielectric_metal);
+    OpCanScintSurface->SetFinish(polishedfrontpainted);
+
+    // QUARTZ MPT
+    G4MaterialPropertiesTable * quartzMPT = new G4MaterialPropertiesTable();
+    G4double rindex_quartz[NUM] = {1.474, 1.474, 1.474, 1.474, 1.474, 1.474};
+    quartzMPT->AddProperty("RINDEX", photon_energies, rindex_quartz, NUM)->SetSpline(true);
+    quartzMPT->AddConstProperty("ABSLENGTH", 40.*cm);
+    quartz_g4material->SetMaterialPropertiesTable(quartzMPT);
 
     // for cutting PMT window
     G4Tubs * window_cut_5inch = new G4Tubs("window_cut_5inch", inner_radius_window, outer_radius_window_5inch, half_length_z_window_cut, start_phi, end_phi);
@@ -707,8 +733,7 @@ G4int DetectionSystemDescant::BuildCanVolume()
     this->assemblyBlue->AddPlacedVolume(blue_volume_log, move, rotate);
     
     // quartz window blue
-    move_extra = 2.0*(1.85*mm);
-    move = G4ThreeVector( blue_PMT_offset_X, 0.0, -1.0*( this->can_length + (this->can_back_thickness)/2.0 + move_extra ) );
+    move = G4ThreeVector( blue_PMT_offset_X, 0.0, -1.0*(optical_window_half_thickness+can_length) );
     rotate = new G4RotationMatrix;
     this->assemblyBlue->AddPlacedVolume(quartz_window_5inch_log, move, rotate);
 
@@ -770,8 +795,7 @@ G4int DetectionSystemDescant::BuildCanVolume()
     this->assemblyGreen->AddPlacedVolume(green_volume_log, move, rotate);
 
     // quartz window green
-    move_extra = 2.0*(1.85*mm);
-    move = G4ThreeVector( -1.0*yellow_green_PMT_offset_X, yellow_green_PMT_offset_Y, -1.0*( this->can_length + (this->can_back_thickness)/2.0 + move_extra ) );
+    move = G4ThreeVector( -1.0*yellow_green_PMT_offset_X, yellow_green_PMT_offset_Y, -1.0*(optical_window_half_thickness+can_length) );
     rotate = new G4RotationMatrix;
     this->assemblyGreen->AddPlacedVolume(quartz_window_3inch_log, move, rotate);
 
@@ -832,8 +856,7 @@ G4int DetectionSystemDescant::BuildCanVolume()
     }
     this->assemblyRed->AddPlacedVolume(red_volume_log, move, rotate);
     
-    move_extra = 2.0*(1.85*mm);
-    move = G4ThreeVector( -1.0*red_PMT_offset_X, 0.0, -1.0*( this->can_length + (this->can_back_thickness)/2.0 + move_extra ) );
+    move = G4ThreeVector( -1.0*red_PMT_offset_X, 0.0, -1.0*(optical_window_half_thickness+can_length) );
     rotate = new G4RotationMatrix;
     this->assemblyRed->AddPlacedVolume(quartz_window_5inch_log, move, rotate);
     
@@ -891,13 +914,12 @@ G4int DetectionSystemDescant::BuildCanVolume()
     {
         white_volume_log = new G4LogicalVolume(white_volume_3, can_g4material, "descant_white_volume_log", 0, 0, 0);
         white_volume_log->SetVisAttributes(white_vis_att);
-        
+        G4LogicalSkinSurface * OpCanScintSurfaceLog = new G4LogicalSkinSurface("OpCanScintSurfaceLog", white_volume_log, OpCanScintSurface);
     }
     this->assemblyWhite->AddPlacedVolume(white_volume_log, move, rotate);
     
     // QUARTZ WINDOW
-    move_extra = 2.0*(1.85*mm);
-    move = G4ThreeVector(0.0, white_PMT_offset_Y, -1.0*(this->can_length + (this->can_back_thickness)/2.0 + move_extra ));
+    move = G4ThreeVector(0.0, white_PMT_offset_Y, -1.0*(optical_window_half_thickness+can_length) );
     rotate = new G4RotationMatrix;
     this->assemblyWhite->AddPlacedVolume(quartz_window_5inch_log, move, rotate);
     
@@ -959,8 +981,7 @@ G4int DetectionSystemDescant::BuildCanVolume()
     this->assemblyYellow->AddPlacedVolume(yellow_volume_log, move, rotate);
     
     // QUARTZ WINDOW
-    move_extra = 2.0*(1.85*mm);
-    move = G4ThreeVector( 1.0*yellow_green_PMT_offset_X, yellow_green_PMT_offset_Y, -1.0*( this->can_length + (this->can_back_thickness)/2.0 + move_extra ) );
+    move = G4ThreeVector( 1.0*yellow_green_PMT_offset_X, yellow_green_PMT_offset_Y, -1.0*(optical_window_half_thickness+can_length) );
     rotate = new G4RotationMatrix;
     this->assemblyYellow->AddPlacedVolume(quartz_window_3inch_log, move, rotate);
     
@@ -1002,6 +1023,45 @@ G4int DetectionSystemDescant::BuildDetectorVolume()
         G4cout << " ----> Material " << this->liquid_material << " not found, cannot build the detector shell! " << G4endl;
         return 0;
     }
+
+    // SCINTILLATION PROPERTIES
+    //-------------------------------------------------------------------------------------------------------------------------
+    G4MaterialPropertiesTable * scintMPT = new G4MaterialPropertiesTable();
+    // --------------->>> ELECTRONS
+    G4double e_test[4] = {1.*keV, 0.1*MeV, 1.0*MeV, 10.0*MeV};
+    G4double num_test[4] = {10., 1000., 10000., 100000.};
+    scintMPT->AddProperty("ELECTRONSCINTILLATIONYIELD", e_test, num_test, 4)->SetSpline(true);
+    // --------------->>> DEUTERONS
+    G4double e_test2[4] = {1.*keV, 0.1*MeV, 1.0*MeV, 10.0*MeV};
+    G4double num_test2[4] = {10., 1000., 10000., 100000.};
+    //G4double num_test2[4] = {0., 0., 0., 0.};
+    scintMPT->AddProperty("DEUTERONSCINTILLATIONYIELD", e_test2, num_test2, 4)->SetSpline(true);
+    // --------------->>> IONS (CARBON)
+    G4double e_test3[4] = {1.*keV, 0.1*MeV, 1.0*MeV, 10.0*MeV};
+    //G4double num_test3[4] = {10., 1000., 10000., 100000.}; G4cout << "100% carbon" << G4endl;               // 100% carbon
+    //G4double num_test3[4] = {5., 500., 5000., 50000.}; G4cout << "50% carbon" << G4endl;                    // 50%  carbon
+    G4double num_test3[4] = {1., 100., 1000., 10000.}; G4cout << "10% carbon" << G4endl;                    // 10%  carbon
+    //G4double num_test3[4] = {0., 0., 0., 0.}; G4cout << "0% carbon" << G4endl;                              // 0%   carbon
+    scintMPT->AddProperty("IONSCINTILLATIONYIELD", e_test3, num_test3, 4)->SetSpline(true);
+    // --------------->>> OTHERS
+    //scintMPT->AddConstProperty("TRITONSCINTILLATIONYIELD",1000./CLHEP::MeV);
+    //scintMPT->AddConstProperty("ALPHASCINTILLATIONYIELD",1000./CLHEP::MeV);
+    //scintMPT->AddConstProperty("PROTONSCINTILLATIONYIELD",9200./CLHEP::MeV);
+    //-------------------------------------------------------------------------------------------------------------------------
+    G4double res_scale = 20.0;
+    scintMPT->AddConstProperty("RESOLUTIONSCALE", res_scale); G4cout << "res_scale = " << res_scale << G4endl;
+    scintMPT->AddConstProperty("ABSLENGTH", 3.*m);
+    scintMPT->AddConstProperty("FASTTIMECONSTANT", 2.8*ns);
+    const G4int NUM = 6;
+    G4double photon_energies[NUM] = {3.1*eV, 2.88*eV, 2.82*eV, 2.695*eV, 2.58*eV, 2.48*eV};
+    G4double emission_spectra[NUM] = {0.05, 1., 0.7, 0.37, 0.2, 0.1};
+    G4double rindex_scint[NUM] = {1.50, 1.50, 1.50, 1.50, 1.50, 1.50};
+    scintMPT->AddProperty("RINDEX", photon_energies, rindex_scint, NUM);
+    scintMPT->AddProperty("FASTCOMPONENT", photon_energies, emission_spectra, NUM)->SetSpline(true);
+    scintMPT->AddConstProperty("YIELDRATIO",1.);
+
+    material->SetMaterialPropertiesTable(scintMPT);
+    //-------------------------------------------------------------------------------------------------------------------------
 
     // BLUE
     // Set visualization attributes
@@ -1135,8 +1195,10 @@ G4SubtractionSolid* DetectionSystemDescant::CanVolume(G4bool insideVol, G4double
     G4ThreeVector back_p1;
     G4ThreeVector back_p2;
 
-    G4double start_phi      = 0.0*deg;
-    G4double end_phi        = 360.0*deg;
+    //G4double start_phi      = 0.0*deg;
+    //G4double end_phi        = 360.0*deg;
+    start_phi      = 0.0*deg;
+    end_phi        = 360.0*deg;
     G4double inner_radius;
     G4double outer_radius;
     G4double half_length_z;
