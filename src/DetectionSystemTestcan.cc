@@ -165,9 +165,11 @@ G4int DetectionSystemTestcan::BuildTestcan()
     G4MaterialPropertiesTable * alumMPT = new G4MaterialPropertiesTable();
     G4double rindex_alum[NUM] = {0.46, 0.55, 0.59, 0.62, 0.72, 0.79};
     G4double rindex_alum_imag[NUM] = {4.70, 5.10, 5.21, 5.43, 5.64, 5.86};
+    G4double reflect_alum[NUM] = {0.95, 0.95, 0.95, 0.95, 0.95, 0.95};
     //alumMPT->AddProperty("RINDEX", photon_energies, rindex_alum, NUM)->SetSpline(true); // ---->>>> JUST THIS CAUSES OPTICAL PHOTONS w/ v > c ; NOT POSSIBLE!!!!
     alumMPT->AddProperty("REALRINDEX", photon_energies, rindex_alum, NUM)->SetSpline(true);
     alumMPT->AddProperty("IMAGINARYRINDEX", photon_energies, rindex_alum_imag, NUM)->SetSpline(true);
+    alumMPT->AddProperty("REFLECTIVITY", photon_energies, reflect_alum, NUM)->SetSpline(true);
     alumMPT->AddConstProperty("ABSLENGTH", 1.e-8*m);
 
     can_g4material->SetMaterialPropertiesTable(alumMPT);
@@ -176,8 +178,16 @@ G4int DetectionSystemTestcan::BuildTestcan()
     OpCanScintSurface->SetModel(glisur);
     OpCanScintSurface->SetType(dielectric_metal);
     OpCanScintSurface->SetFinish(polishedfrontpainted);
+    OpCanScintSurface->SetPolish(0.9);
+    OpCanScintSurface->SetMaterialPropertiesTable(alumMPT);
+    //G4MaterialPropertiesTable * surfMPT = new G4MaterialPropertiesTable();
+    //G4double reflect_surf[NUM] = { 0.5, 0.5, 0.5, 0.5, 0.5, 0.5 }; 
+    //surfMPT->AddProperty("REFLECTIVITY", photon_energies, reflect_surf, NUM)->SetSpline(true);
+    //CanScintSurface->SetMaterialPropertiesTable(surfMPT);
     // logical skin surface comes after the volume has been created (the aluminum can volume)
- 
+
+
+
     // QUARTZ MPT
     G4MaterialPropertiesTable * quartzMPT = new G4MaterialPropertiesTable();
     G4double rindex_quartz[NUM] = {1.474, 1.474, 1.474, 1.474, 1.474, 1.474};

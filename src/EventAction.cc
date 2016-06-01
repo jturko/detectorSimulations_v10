@@ -355,6 +355,10 @@ void EventAction::AddHitTracker(G4String mnemonic, G4int eventNumber, G4int trac
         if(pHitMnemonic[i] == mnemonic) {
             // sum the new enery
             hitTrackerD[0][i] = hitTrackerD[0][i] + depEnergy;
+            hitTrackerI[4][i] = particleType;
+            hitTrackerD[1][i] = posx;
+            hitTrackerD[2][i] = posy;
+            hitTrackerD[3][i] = posz;
             newhit = false;
             break;
         }
