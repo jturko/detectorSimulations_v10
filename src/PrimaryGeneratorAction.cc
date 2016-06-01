@@ -46,13 +46,19 @@
 #include "G4Geantino.hh"
 #include "Randomize.hh"
 
+#include "G4GeneralParticleSource.hh"
+
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 PrimaryGeneratorAction::PrimaryGeneratorAction(DetectorConstruction* DC)
     : G4VUserPrimaryGeneratorAction(),
       fParticleGun(0),
+      fGPS(0),
       fDetector(DC)
 {
+    useGPS = true;
+    fGPS = new G4GeneralParticleSource();
+
     G4int n_particle = 1;
     fParticleGun  = new G4ParticleGun(n_particle);
     //create a messenger for this class
@@ -134,6 +140,10 @@ PrimaryGeneratorAction::~PrimaryGeneratorAction()
 
 void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 {
+    if(useGPS) fGPS->GeneratePrimaryVertex(anEvent);
+    else
+    {
+
     if(numberOfDecayingLaBrDetectors != 0) {
         G4double crystalRadius    = 2.54*cm;
         G4double crystalLength    = 5.08*cm;
@@ -290,6 +300,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
     //create vertex
     //
     fParticleGun->GeneratePrimaryVertex(anEvent);
+    }
 }
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 

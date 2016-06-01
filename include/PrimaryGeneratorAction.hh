@@ -47,6 +47,7 @@ class G4ParticleGun;
 class G4Event;
 class DetectorConstruction;
 class PrimaryGeneratorMessenger;
+class G4GeneralParticleSource;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -70,6 +71,9 @@ private:
     G4ParticleGun*                fParticleGun;  //pointer a to G4 class
     DetectorConstruction*         fDetector;     //pointer to the geometry
     PrimaryGeneratorMessenger*    fGunMessenger; //messenger of this class
+    G4GeneralParticleSource*      fGPS;
+
+    G4bool useGPS;
 
     G4int numberOfDecayingLaBrDetectors;
     G4double effEnergy;
