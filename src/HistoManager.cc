@@ -392,7 +392,11 @@ void HistoManager::book()
         fNtColIdHit[16] = analysisManager->CreateNtupleIColumn("numQuartzPhotons");
         fNtColIdHit[17] = analysisManager->CreateNtupleDColumn("eDepD");
         fNtColIdHit[18] = analysisManager->CreateNtupleDColumn("eDepC");
-        fNtColIdHit[19] = analysisManager->CreateNtupleDColumn("eDepOther");
+        fNtColIdHit[19] = analysisManager->CreateNtupleDColumn("eDepP");
+        fNtColIdHit[20] = analysisManager->CreateNtupleDColumn("eDepA");
+        fNtColIdHit[21] = analysisManager->CreateNtupleDColumn("eDepE");
+        fNtColIdHit[22] = analysisManager->CreateNtupleDColumn("eDepN");
+        fNtColIdHit[23] = analysisManager->CreateNtupleDColumn("eDepOther");
         analysisManager->FinishNtuple();
 		  G4cout<<"created ntuple HitTracker"<<G4endl;
     }
@@ -419,7 +423,11 @@ void HistoManager::book()
         fNtColIdStep[16] = analysisManager->CreateNtupleIColumn("numQuartzPhotons");
         fNtColIdStep[17] = analysisManager->CreateNtupleDColumn("eDepD");
         fNtColIdStep[18] = analysisManager->CreateNtupleDColumn("eDepC");
-        fNtColIdStep[19] = analysisManager->CreateNtupleDColumn("eDepOther");
+        fNtColIdStep[19] = analysisManager->CreateNtupleDColumn("eDepP");
+        fNtColIdStep[20] = analysisManager->CreateNtupleDColumn("eDepA");
+        fNtColIdStep[21] = analysisManager->CreateNtupleDColumn("eDepE");
+        fNtColIdStep[22] = analysisManager->CreateNtupleDColumn("eDepN");
+        fNtColIdStep[23] = analysisManager->CreateNtupleDColumn("eDepOther");
         analysisManager->FinishNtuple();
     }
 
@@ -501,7 +509,7 @@ void HistoManager::Normalize(G4int ih, G4double fac)
 //}
 
 
-void HistoManager::FillHitNtuple(G4int eventNumber, G4int trackID, G4int parentID, G4int stepNumber, G4int particleType, G4int processType, G4int systemID, G4int cryNumber, G4int detNumber, G4double depEnergy, G4double posx, G4double posy, G4double posz, G4double time, G4int targetZ, G4int numScintPhotons, G4int numQuartzPhotons, G4double eDepD, G4double eDepC, G4double eDepOther)
+void HistoManager::FillHitNtuple(G4int eventNumber, G4int trackID, G4int parentID, G4int stepNumber, G4int particleType, G4int processType, G4int systemID, G4int cryNumber, G4int detNumber, G4double depEnergy, G4double posx, G4double posy, G4double posz, G4double time, G4int targetZ, G4int numScintPhotons, G4int numQuartzPhotons, G4double eDepD, G4double eDepC, G4double eDepP, G4double eDepA, G4double eDepE, G4double eDepN, G4double eDepOther)
 {
     if(hitTrackerBool) {
         G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
@@ -524,12 +532,16 @@ void HistoManager::FillHitNtuple(G4int eventNumber, G4int trackID, G4int parentI
         analysisManager->FillNtupleIColumn(fNtColIdHit[16], numQuartzPhotons);
         analysisManager->FillNtupleDColumn(fNtColIdHit[17], eDepD);
         analysisManager->FillNtupleDColumn(fNtColIdHit[18], eDepC);
-        analysisManager->FillNtupleDColumn(fNtColIdHit[19], eDepOther);
+        analysisManager->FillNtupleDColumn(fNtColIdHit[19], eDepP);
+        analysisManager->FillNtupleDColumn(fNtColIdHit[20], eDepA);
+        analysisManager->FillNtupleDColumn(fNtColIdHit[21], eDepE);
+        analysisManager->FillNtupleDColumn(fNtColIdHit[22], eDepN);
+        analysisManager->FillNtupleDColumn(fNtColIdHit[23], eDepOther);
         analysisManager->AddNtupleRow();
     }
 }
 
-void HistoManager::FillStepNtuple(G4int eventNumber, G4int trackID, G4int parentID, G4int stepNumber, G4int particleType, G4int processType, G4int systemID, G4int cryNumber, G4int detNumber, G4double depEnergy, G4double posx, G4double posy, G4double posz, G4double time, G4int targetZ, G4int numScintPhotons, G4int numQuartzPhotons, G4double eDepD, G4double eDepC, G4double eDepOther)
+void HistoManager::FillStepNtuple(G4int eventNumber, G4int trackID, G4int parentID, G4int stepNumber, G4int particleType, G4int processType, G4int systemID, G4int cryNumber, G4int detNumber, G4double depEnergy, G4double posx, G4double posy, G4double posz, G4double time, G4int targetZ, G4int numScintPhotons, G4int numQuartzPhotons, G4double eDepD, G4double eDepC, G4double eDepP, G4double eDepA, G4double eDepE, G4double eDepN, G4double eDepOther)
 {
     if(stepTrackerBool) {
         G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
@@ -552,7 +564,11 @@ void HistoManager::FillStepNtuple(G4int eventNumber, G4int trackID, G4int parent
         analysisManager->FillNtupleIColumn(fNtColIdStep[16], numQuartzPhotons);
         analysisManager->FillNtupleDColumn(fNtColIdStep[17], eDepD);
         analysisManager->FillNtupleDColumn(fNtColIdStep[18], eDepC);
-        analysisManager->FillNtupleDColumn(fNtColIdStep[19], eDepOther);
+        analysisManager->FillNtupleDColumn(fNtColIdStep[19], eDepP);
+        analysisManager->FillNtupleDColumn(fNtColIdStep[20], eDepA);
+        analysisManager->FillNtupleDColumn(fNtColIdStep[21], eDepE);
+        analysisManager->FillNtupleDColumn(fNtColIdStep[22], eDepN);
+        analysisManager->FillNtupleDColumn(fNtColIdStep[23], eDepOther);
         analysisManager->AddNtupleRow();
     }
 }
