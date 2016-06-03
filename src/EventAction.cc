@@ -67,7 +67,7 @@ void EventAction::BeginOfEventAction(const G4Event* evt)
 {  
     const G4int numEvents = G4RunManager::GetRunManager()->GetCurrentRun()->GetNumberOfEventToBeProcessed();
     evtNb = evt->GetEventID();
-    //if (evtNb%fPrintModulo == 0)
+    if (evtNb%fPrintModulo == 0)
         //    G4cout << "\n---> Begin of event: " << evtNb << G4endl;
         printf( " ---> Ev.# %5d :: %.1f %% \r", evtNb, 100.*G4double(evtNb)/G4double(numEvents));
     G4cout.flush();
@@ -92,10 +92,10 @@ void EventAction::EndOfEventAction(const G4Event*)
 
     //G4cout << "numberOfHits = " << numberOfHits << G4endl;
     for (G4int i = 0 ; i < numberOfHits; i++) {
-		fHistoManager->FillHitNtuple(hitTrackerI[0][i], hitTrackerI[1][i], hitTrackerI[2][i], hitTrackerI[3][i],  hitTrackerI[4][i], hitTrackerI[5][i], hitTrackerI[6][i], hitTrackerI[7][i], hitTrackerI[8][i], hitTrackerD[0][i]/keV, hitTrackerD[1][i]/mm, hitTrackerD[2][i]/mm, hitTrackerD[3][i]/mm, hitTrackerD[4][i]/second, hitTrackerI[9][i], GetTotScintPhotons(), GetQuartzScintPhotons());
+		fHistoManager->FillHitNtuple(hitTrackerI[0][i], hitTrackerI[1][i], hitTrackerI[2][i], hitTrackerI[3][i],  hitTrackerI[4][i], hitTrackerI[5][i], hitTrackerI[6][i], hitTrackerI[7][i], hitTrackerI[8][i], hitTrackerD[0][i]/keV, hitTrackerD[1][i]/mm, hitTrackerD[2][i]/mm, hitTrackerD[3][i]/mm, hitTrackerD[4][i]/second, hitTrackerI[9][i], GetTotScintPhotons(), GetQuartzScintPhotons(), hitTrackerD[5][i]/keV, hitTrackerD[6][i]/keV, hitTrackerD[7][i]/keV);
     }
     for (G4int i = 0 ; i < numberOfSteps; i++) {
-		fHistoManager->FillStepNtuple(stepTrackerI[0][i], stepTrackerI[1][i], stepTrackerI[2][i], stepTrackerI[3][i],  stepTrackerI[4][i], stepTrackerI[5][i], stepTrackerI[6][i], stepTrackerI[7][i], stepTrackerI[8][i], stepTrackerD[0][i]/keV, stepTrackerD[1][i]/mm, stepTrackerD[2][i]/mm, stepTrackerD[3][i]/mm, stepTrackerD[4][i]/second, stepTrackerI[9][i], GetTotScintPhotons(), GetQuartzScintPhotons());
+		fHistoManager->FillStepNtuple(stepTrackerI[0][i], stepTrackerI[1][i], stepTrackerI[2][i], stepTrackerI[3][i],  stepTrackerI[4][i], stepTrackerI[5][i], stepTrackerI[6][i], stepTrackerI[7][i], stepTrackerI[8][i], stepTrackerD[0][i]/keV, stepTrackerD[1][i]/mm, stepTrackerD[2][i]/mm, stepTrackerD[3][i]/mm, stepTrackerD[4][i]/second, stepTrackerI[9][i], GetTotScintPhotons(), GetQuartzScintPhotons(), hitTrackerD[5][i]/keV, hitTrackerD[6][i]/keV, hitTrackerD[7][i]/keV);
     }
 
     ClearVariables();
@@ -348,7 +348,7 @@ void EventAction::FillGridCell()
     }
 }
 
-void EventAction::AddHitTracker(G4String mnemonic, G4int eventNumber, G4int trackID, G4int parentID, G4int stepNumber, G4int particleType, G4int processType, G4int systemID, G4int cryNumber, G4int detNumber, G4double depEnergy, G4double posx, G4double posy, G4double posz, G4double time, G4int targetZ, G4int numScintPhotons, G4int numQuartzPhotons)
+void EventAction::AddHitTracker(G4String mnemonic, G4int eventNumber, G4int trackID, G4int parentID, G4int stepNumber, G4int particleType, G4int processType, G4int systemID, G4int cryNumber, G4int detNumber, G4double depEnergy, G4double posx, G4double posy, G4double posz, G4double time, G4int targetZ, G4int numScintPhotons, G4int numQuartzPhotons, G4double eDepD, G4double eDepC, G4double eDepOther)
 {
     G4bool newhit = true;
     for (G4int i = 0 ; i < numberOfHits; i++) {
@@ -359,6 +359,9 @@ void EventAction::AddHitTracker(G4String mnemonic, G4int eventNumber, G4int trac
             hitTrackerD[1][i] = posx;
             hitTrackerD[2][i] = posy;
             hitTrackerD[3][i] = posz;
+            hitTrackerD[5][i] = hitTrackerD[5][i] + eDepD;
+            hitTrackerD[6][i] = hitTrackerD[6][i] + eDepC;
+            hitTrackerD[7][i] = hitTrackerD[7][i] + eDepOther;
             newhit = false;
             break;
         }
@@ -384,6 +387,9 @@ void EventAction::AddHitTracker(G4String mnemonic, G4int eventNumber, G4int trac
         hitTrackerD[2][hitIndex] = posy;
         hitTrackerD[3][hitIndex] = posz;
         hitTrackerD[4][hitIndex] = time;
+        hitTrackerD[5][hitIndex] = eDepD;
+        hitTrackerD[6][hitIndex] = eDepC;
+        hitTrackerD[7][hitIndex] = eDepOther;
 
         hitIndex++;
         numberOfHits = hitIndex;
@@ -395,7 +401,7 @@ void EventAction::AddHitTracker(G4String mnemonic, G4int eventNumber, G4int trac
 }
 
 
-void EventAction::AddStepTracker(G4String mnemonic, G4int eventNumber, G4int trackID, G4int parentID, G4int stepNumber, G4int particleType, G4int processType, G4int systemID, G4int cryNumber, G4int detNumber, G4double depEnergy, G4double posx, G4double posy, G4double posz, G4double time, G4int targetZ, G4int numScintPhotons, G4int numQuartzPhotons)
+void EventAction::AddStepTracker(G4String mnemonic, G4int eventNumber, G4int trackID, G4int parentID, G4int stepNumber, G4int particleType, G4int processType, G4int systemID, G4int cryNumber, G4int detNumber, G4double depEnergy, G4double posx, G4double posy, G4double posz, G4double time, G4int targetZ, G4int numScintPhotons, G4int numQuartzPhotons, G4double eDepD, G4double eDepC, G4double eDepOther)
 {
     G4bool newstep = true;
     if (newstep) { // new step
@@ -416,6 +422,9 @@ void EventAction::AddStepTracker(G4String mnemonic, G4int eventNumber, G4int tra
         stepTrackerD[2][stepIndex] = posy;
         stepTrackerD[3][stepIndex] = posz;
         stepTrackerD[4][stepIndex] = time;
+        stepTrackerD[5][stepIndex] = eDepD;
+        stepTrackerD[6][stepIndex] = eDepC;
+        stepTrackerD[7][stepIndex] = eDepOther;
 
         stepIndex++;
 
