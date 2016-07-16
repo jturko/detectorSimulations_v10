@@ -43,7 +43,8 @@ DetectionSystemTestcan::DetectionSystemTestcan(G4double length, G4double radius,
     quartz_thickness            = 6.35*mm;
     quartz_radius               = radius + alum_can_thickness;
     can_material                = "G4_Al";
-    liquid_material             = "Deuterated Scintillator";
+    //liquid_material             = "Deuterated Scintillator";
+    liquid_material             = "BC501A";
     quartz_material             = "G4_SILICON_DIOXIDE";
 
     // resolution scale 
@@ -83,7 +84,7 @@ G4int DetectionSystemTestcan::PlaceDetector(G4LogicalVolume* exp_hall_log)
     G4RotationMatrix * rotate = new G4RotationMatrix;
     G4ThreeVector move = G4ThreeVector(0., 0., 0.);
 
-    assemblyTestcan->MakeImprint(exp_hall_log, move, rotate);
+    assemblyTestcan->MakeImprint(exp_hall_log, move, rotate,0,true);
 
     return 1;
 }

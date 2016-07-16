@@ -52,7 +52,8 @@ DetectionSystemDescant::DetectionSystemDescant(G4bool leadShield) :
     can_length              = 150.0*mm;
     can_thickness           = 1.5*mm;
     can_material            = "G4_Al";
-    liquid_material         = "Deuterated Scintillator";
+    //liquid_material         = "Deuterated Scintillator";
+    liquid_material         = "G4_C";
     lead_material           = "G4_Pb";
     lead_shield_thickness   = 6.35*mm;
     can_back_thickness      = 12.7*mm;   
