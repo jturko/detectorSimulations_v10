@@ -180,6 +180,10 @@ void EventAction::ClearVariables()
         }
     }
     // NOTE: Clear the variables from the new Fill___Cryst functions.
+
+    fHistoManager->clear_Edep();
+    fHistoManager->clear_Ekin();
+    fHistoManager->clear_Ptype();
 }
 
 
@@ -410,6 +414,80 @@ void EventAction::AddHitTracker(G4String mnemonic, G4int eventNumber, G4int trac
             G4cout << "ERROR! Too many hits!" << G4endl;
         }
     }
+
+    // push back the new element(s) of the vector(s) w/ edep, ekin, and particleType
+    fHistoManager->push_back_Edep(depEnergy);
+    fHistoManager->push_back_Ekin(0.);
+    fHistoManager->push_back_Ptype(particleType);
+}
+
+void EventAction::AddHitTracker(G4String mnemonic, G4int eventNumber, G4int trackID, G4int parentID, G4int stepNumber, G4int particleType, G4int processType, G4int systemID, G4int cryNumber, G4int detNumber, G4double depEnergy, G4double posx, G4double posy, G4double posz, G4double time, G4int targetZ, G4int numScintPhotons, G4int numQuartzPhotons, G4double eDepD, G4double eDepC, G4double eDepP, G4double eDepA, G4double eDepE, G4double eDepN, G4double eDepOther, G4double eDepBe, G4double eDepB, G4double kinEnergy) // with ekin
+{
+    G4bool newhit = true;
+    for (G4int i = 0 ; i < numberOfHits; i++) {
+        if(pHitMnemonic[i] == mnemonic) {
+            // sum the new enery
+            hitTrackerD[0][i] = hitTrackerD[0][i] + depEnergy;
+            hitTrackerI[4][i] = particleType;
+            hitTrackerD[1][i] = posx;
+            hitTrackerD[2][i] = posy;
+            hitTrackerD[3][i] = posz;
+            hitTrackerD[5][i] = hitTrackerD[5][i] + eDepD;
+            hitTrackerD[6][i] = hitTrackerD[6][i] + eDepC;
+            hitTrackerD[7][i] = hitTrackerD[7][i] + eDepP;
+            hitTrackerD[8][i] = hitTrackerD[8][i] + eDepA;
+            hitTrackerD[9][i] = hitTrackerD[9][i] + eDepE;
+            hitTrackerD[10][i] = hitTrackerD[10][i] + eDepN;
+            hitTrackerD[11][i] = hitTrackerD[11][i] + eDepOther;
+            hitTrackerD[12][i] = hitTrackerD[12][i] + eDepBe;
+            hitTrackerD[13][i] = hitTrackerD[13][i] + eDepB;
+            newhit = false;
+            break;
+        }
+    }
+    if (newhit) { // new hit
+        pHitMnemonic[hitIndex] = mnemonic;
+        pTrackID = trackID;
+        pParentID = parentID;
+        hitTrackerI[0][hitIndex] = eventNumber;
+        hitTrackerI[1][hitIndex] = trackID;
+        hitTrackerI[2][hitIndex] = parentID;
+        hitTrackerI[3][hitIndex] = stepNumber;
+        hitTrackerI[4][hitIndex] = particleType;
+        hitTrackerI[5][hitIndex] = processType;
+        hitTrackerI[6][hitIndex] = systemID;
+        hitTrackerI[7][hitIndex] = cryNumber;
+        hitTrackerI[8][hitIndex] = detNumber;
+        hitTrackerI[9][hitIndex] = targetZ;
+        hitTrackerI[10][hitIndex] = numScintPhotons;
+        hitTrackerI[11][hitIndex] = numQuartzPhotons;
+        hitTrackerD[0][hitIndex] = depEnergy;
+        hitTrackerD[1][hitIndex] = posx;
+        hitTrackerD[2][hitIndex] = posy;
+        hitTrackerD[3][hitIndex] = posz;
+        hitTrackerD[4][hitIndex] = time;
+        hitTrackerD[5][hitIndex] = eDepD;
+        hitTrackerD[6][hitIndex] = eDepC;
+        hitTrackerD[7][hitIndex] = eDepP;
+        hitTrackerD[8][hitIndex] = eDepA;
+        hitTrackerD[9][hitIndex] = eDepE;
+        hitTrackerD[10][hitIndex] = eDepN;
+        hitTrackerD[11][hitIndex] = eDepOther;
+        hitTrackerD[12][hitIndex] = eDepBe;
+        hitTrackerD[13][hitIndex] = eDepB;
+
+        hitIndex++;
+        numberOfHits = hitIndex;
+
+        if(numberOfHits >= MAXHITS) {
+            G4cout << "ERROR! Too many hits!" << G4endl;
+        }
+    }
+
+    // push back the new element(s) of the vector(s) w/ edep, ekin, and particleType
+    fHistoManager->push_back_Edep(depEnergy);
+    fHistoManager->push_back_Ekin(kinEnergy);
+    fHistoManager->push_back_Ptype(particleType);
 }
 
 

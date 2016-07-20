@@ -399,6 +399,9 @@ void HistoManager::book()
         fNtColIdHit[23] = analysisManager->CreateNtupleDColumn("eDepOther");
         fNtColIdHit[24] = analysisManager->CreateNtupleDColumn("eDepBe");
         fNtColIdHit[25] = analysisManager->CreateNtupleDColumn("eDepB");
+        fNtColIdHit[26] = analysisManager->CreateNtupleDColumn("eDepVector", fEdepVector );
+        fNtColIdHit[27] = analysisManager->CreateNtupleDColumn("eKinVector", fEkinVector);
+        fNtColIdHit[28] = analysisManager->CreateNtupleIColumn("particleTypeVector", fParticleTypeVector);
         analysisManager->FinishNtuple();
 		  G4cout<<"created ntuple HitTracker"<<G4endl;
     }

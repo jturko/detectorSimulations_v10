@@ -106,14 +106,17 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
     // Track particle type in EVERY step
     //G4cout << "Particle name = " << aStep->GetTrack()->GetParticleDefinition()->GetParticleName() << G4endl;
     particleName = aStep->GetTrack()->GetParticleDefinition()->GetParticleName();
-    if (particleName == "gamma")         particleType = 1;
-    else if (particleName == "e-")       particleType = 2;
-    else if (particleName == "e+")       particleType = 3;
-    else if (particleName == "proton")   particleType = 4;
-    else if (particleName == "neutron")  particleType = 5;
-    else if (particleName == "deuteron") particleType = 6;
-    else if (particleName == "C12")      particleType = 7;
-    else if (particleName == "opticalphoton") particleType = 8;
+    if (particleName == "gamma")                particleType = 1;
+    else if (particleName == "e-")              particleType = 2;
+    else if (particleName == "e+")              particleType = 3;
+    else if (particleName == "proton")          particleType = 4;
+    else if (particleName == "neutron")         particleType = 5;
+    else if (particleName == "deuteron")        particleType = 6;
+    else if (particleName == "C12" || particleName == "C13") particleType = 7;
+    else if (particleName == "alpha")           particleType = 8;
+    else if (particleName == "Be9")             particleType = 9;
+    else if (particleName == "B10")             particleType = 10;
+    else if (particleName == "opticalphoton")   particleType = 11;
     else particleType = 0;
 
 	 const G4VProcess* process = aStep->GetPostStepPoint()->GetProcessDefinedStep();
@@ -168,7 +171,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
     G4StepPoint* point1 = aStep->GetPreStepPoint();
     G4StepPoint* point2 = aStep->GetPostStepPoint();
 
-    G4ThreeVector pos1 = point1->GetPosition();
+        G4ThreeVector pos1 = point1->GetPosition();
     G4ThreeVector pos2 = point2->GetPosition();
 
     //G4double time1 = point1->GetGlobalTime();
@@ -180,7 +183,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
     G4double numScintPhotons = 0;
     G4double numQuartzPhotons = 0;
     found = volname.find("testcan_quartz_window_log");
-    const std::vector<const G4Track*> * secondaries = aStep->GetSecondaryInCurrentStep();
+    const std::vector<const G4Track*> * secondaries = aStep->GetSecondaryInCurrentStep(); 
     if( secondaries->size()>0 ) {
         for( unsigned int i=0; i<secondaries->size(); ++i ) {
             if( secondaries->at(i)->GetParentID()>0 ) {
@@ -494,27 +497,27 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
         mnemonic.replace(3,2,G4intToG4String(det));
         mnemonic.replace(5,1,GetCrystalColour(cry));
         systemID = 8500;
-        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB);
+        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, ekin);
     }
 
     found = volname.find("testcan_quartz_window_log");
-    if (found!=G4String::npos && particleType == 8) {
+    if (found!=G4String::npos && particleType == 11) {
         fEventAction->CountOneQuartzPhoton();
         theTrack->SetTrackStatus(fKillTrackAndSecondaries); 
     }
     found = volname.find("quartz_window_3inch_log");
-    if (found!=G4String::npos && particleType == 8) {
+    if (found!=G4String::npos && particleType == 11) {
         fEventAction->CountOneQuartzPhoton();
         theTrack->SetTrackStatus(fKillTrackAndSecondaries); 
     }
     found = volname.find("quartz_window_5inch_log");
-    if (found!=G4String::npos && particleType == 8) {
+    if (found!=G4String::npos && particleType == 11) {
         fEventAction->CountOneQuartzPhoton();
         theTrack->SetTrackStatus(fKillTrackAndSecondaries); 
     }
 
     found = volname.find("testcan_scintillator_log");
-    if (found!=G4String::npos && particleType == 8) {
+    if (found!=G4String::npos && particleType == 11) {
         //fEventAction->CountOneScintPhoton();
     }
 

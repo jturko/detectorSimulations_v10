@@ -48,7 +48,7 @@ const G4bool WRITEEDEPHISTOS    = true;
 const G4bool WRITETRACKLHISTOS  = true;
 
 const G4int MAXHISTO            = 500;
-const G4int MAXNTCOL            = 26;
+const G4int MAXNTCOL            = 29;
 const G4int MAXNUMDET           = 20;
 const G4int MAXNUMDETGRIFFIN    = 16;
 const G4int MAXNUMCRYGRIFFIN    = 4;
@@ -548,6 +548,14 @@ public:
     G4bool GetStepTrackerBool() {return stepTrackerBool;};
     G4bool GetHitTrackerBool() {return hitTrackerBool;};
 
+    void push_back_Edep(G4double edep) { fEdepVector.push_back(edep); };
+    void push_back_Ekin(G4double ekin) { fEkinVector.push_back(ekin); };
+    void push_back_Ptype(G4int ptype) { fParticleTypeVector.push_back(ptype); };
+
+    void clear_Edep() {  fEdepVector.clear(); };
+    void clear_Ekin() {  fEkinVector.clear(); };
+    void clear_Ptype() {  fParticleTypeVector.clear(); };
+
 private:
     G4String G4intToG4String(G4int value);
 
@@ -566,6 +574,9 @@ private:
     G4bool stepTrackerBool;
     G4bool hitTrackerBool;
 
+    std::vector<G4double> fEdepVector;
+    std::vector<G4double> fEkinVector;
+    std::vector<G4int> fParticleTypeVector;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
