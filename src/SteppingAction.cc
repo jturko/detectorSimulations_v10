@@ -500,27 +500,27 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
         mnemonic.replace(3,2,G4intToG4String(det));
         mnemonic.replace(5,1,GetCrystalColour(cry));
         systemID = 8500;
-        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, ekin);
+        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT, ekin);
     }
 
     found = volname.find("testcan_quartz_window_log");
-    if (found!=G4String::npos && particleType == 11) {
+    if (found!=G4String::npos && particleType == 12) {
         fEventAction->CountOneQuartzPhoton();
         theTrack->SetTrackStatus(fKillTrackAndSecondaries); 
     }
     found = volname.find("quartz_window_3inch_log");
-    if (found!=G4String::npos && particleType == 11) {
+    if (found!=G4String::npos && particleType == 12) {
         fEventAction->CountOneQuartzPhoton();
         theTrack->SetTrackStatus(fKillTrackAndSecondaries); 
     }
     found = volname.find("quartz_window_5inch_log");
-    if (found!=G4String::npos && particleType == 11) {
+    if (found!=G4String::npos && particleType == 12) {
         fEventAction->CountOneQuartzPhoton();
         theTrack->SetTrackStatus(fKillTrackAndSecondaries); 
     }
 
     found = volname.find("testcan_scintillator_log");
-    if (found!=G4String::npos && particleType == 11) {
+    if (found!=G4String::npos && particleType == 12) {
         //fEventAction->CountOneScintPhoton();
     }
 

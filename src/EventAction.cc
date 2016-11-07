@@ -71,6 +71,8 @@ void EventAction::BeginOfEventAction(const G4Event* evt)
         //    G4cout << "\n---> Begin of event: " << evtNb << G4endl;
         printf( " ---> Ev.# %5d :: %.2f %% \r", evtNb, 100.*G4double(evtNb)/G4double(numEvents));
     G4cout.flush();
+    
+    //std::cout << "Event # = " << evtNb << std::endl;
 
     ClearVariables();
 
