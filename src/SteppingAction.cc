@@ -37,6 +37,7 @@
 
 #include "DetectorConstruction.hh"
 #include "EventAction.hh"
+#include "RunAction.hh"
 
 #include "G4Step.hh"
 #include "G4VProcess.hh"
@@ -495,6 +496,19 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
 
     found = volname.find("testcan_scintillator_log");
     if (edep != 0 && found!=G4String::npos) {
+        bool newParticle = true;
+        for(int i=0; i<int(fEventAction->GetRunAction()->fParticleCounter.size()); i++) {
+            if(fEventAction->GetRunAction()->fParticleCounter.at(i).first == particleName) {
+               fEventAction->GetRunAction()->fParticleCounter.at(i).second++;
+                newParticle = false;
+            }
+        }
+        if(newParticle == true) {
+            std::pair<std::string,int> temp;
+            temp.first = particleName;
+            temp.second = 1;
+            fEventAction->GetRunAction()->fParticleCounter.push_back(temp);
+        }
         SetDetNumberForGenericDetector(volname);
         mnemonic.replace(0,3,"XXX");
         mnemonic.replace(3,2,G4intToG4String(det));
@@ -518,12 +532,6 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
         fEventAction->CountOneQuartzPhoton();
         theTrack->SetTrackStatus(fKillTrackAndSecondaries); 
     }
-
-    found = volname.find("testcan_scintillator_log");
-    if (found!=G4String::npos && particleType == 12) {
-        //fEventAction->CountOneScintPhoton();
-    }
-
 
     //  // gamma angular correlations in world
     //  found = volname.find("World");

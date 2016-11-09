@@ -40,6 +40,8 @@
 #include "G4UserRunAction.hh"
 #include "globals.hh"
 
+#include <vector>
+
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 class G4Run;
@@ -53,6 +55,8 @@ public:
 
     virtual void BeginOfRunAction(const G4Run*);
     virtual void   EndOfRunAction(const G4Run*);
+
+    std::vector<std::pair<std::string,int>> fParticleCounter;
     
 private:
     HistoManager* fHistoManager;

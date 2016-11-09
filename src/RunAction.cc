@@ -67,6 +67,11 @@ void RunAction::EndOfRunAction(const G4Run* aRun)
     G4int NbOfEvents = aRun->GetNumberOfEvent();
     if (NbOfEvents == 0) return;
 
+    std::cout << "The following particles deposited energy in testcan :" << std::endl;
+    for(int i=0; i<int(fParticleCounter.size()); i++) {
+        std::cout << " --> " << fParticleCounter.at(i).second << " " << fParticleCounter.at(i).first << std::endl;
+    }
+
     //fHistoManager->PrintStatistic();
     fHistoManager->save();
 }

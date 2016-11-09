@@ -96,6 +96,8 @@ public:
     G4int GetQuartzScintPhotons() { return quartzScintPhotons; }
     void SetQuartzScintPhotons(G4int num) { quartzScintPhotons = num; }
 
+    RunAction * GetRunAction() { return fRunAct; }
+
 private:
     RunAction*    fRunAct;
     HistoManager* fHistoManager;
