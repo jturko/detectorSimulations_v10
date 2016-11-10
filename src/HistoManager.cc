@@ -551,7 +551,7 @@ void HistoManager::FillHitNtuple(G4int eventNumber, G4int trackID, G4int parentI
         analysisManager->FillNtupleDColumn(fNtColIdHit[24], eDepBe);
         analysisManager->FillNtupleDColumn(fNtColIdHit[25], eDepB);
         analysisManager->FillNtupleDColumn(fNtColIdHit[26], eDepT);
-        analysisManager->FillNtupleDColumn(fNtColIdHit[27], eDepT);
+        analysisManager->FillNtupleDColumn(fNtColIdHit[27], eDepG);
         analysisManager->AddNtupleRow();
     }
 }
