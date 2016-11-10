@@ -96,6 +96,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
     G4double eDepBe    = 0.;
     G4double eDepB     = 0.;
     G4double eDepT     = 0.;
+    G4double eDepG     = 0.;
 
 
     G4Track* theTrack = aStep->GetTrack();
@@ -113,10 +114,10 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
     else if (particleName == "e+")              particleType = 3;
     else if (particleName == "proton")          particleType = 4;
     else if (particleName == "neutron")         particleType = 5;
-    else if (particleName == "deuteron")        particleType = 6;
-    else if (particleName == "C12" || particleName == "C13") particleType = 7;
-    else if (particleName == "alpha")           particleType = 8;
-    else if (particleName == "Be9")             particleType = 9;
+    else if (particleName == "deuteron")                        particleType = 6;
+    else if (particleName == "C12" || particleName == "C13")    particleType = 7;
+    else if (particleName == "alpha")                           particleType = 8;
+    else if (particleName == "Be9" || particleName == "Be10")   particleType = 9;
     else if (particleName == "B10")             particleType = 10;
     else if (particleName == "triton")          particleType = 11;
     else if (particleName == "opticalphoton")   particleType = 12;
@@ -136,16 +137,17 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
 		}
 	 }
 
-    if( particleName == "deuteron" )                          eDepD = edep;
-    else if( particleName == "C12" || particleName == "C13" ) eDepC = edep;
-    else if( particleName == "proton" )                       eDepP = edep;
-    else if( particleName == "alpha" )                        eDepA = edep;
-    else if( particleName == "e-" )                           eDepE = edep;
-    else if( particleName == "neutron" )                      eDepN = edep;
-    else if( particleName == "Be9" )                          eDepBe = edep;
-    else if( particleName == "B10" )                          eDepB = edep;
-    else if( particleName == "triton" )                       eDepT = edep;
-    else                                                      eDepOther = edep;
+    if( particleName == "deuteron" )                           eDepD = edep;
+    else if( particleName == "C12" || particleName == "C13" )  eDepC = edep;
+    else if( particleName == "proton" )                        eDepP = edep;
+    else if( particleName == "alpha" )                         eDepA = edep;
+    else if( particleName == "e-" || particleName == "e+" )    eDepE = edep;
+    else if( particleName == "neutron" )                       eDepN = edep;
+    else if( particleName == "Be9" || particleName == "Be10" ) eDepBe = edep;
+    else if( particleName == "B10" )                           eDepB = edep;
+    else if( particleName == "triton" )                        eDepT = edep;
+    else if( particleName == "gamma" )                         eDepG = edep;
+    else                                                       eDepOther = edep;
 
     // this can be modified to add more processes
 	 if(theTrack->GetCreatorProcess() != NULL) {
@@ -211,7 +213,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
         mnemonic.replace(5,1,GetCrystalColour(cry));
         mnemonic.replace(6,1,"G");
         systemID = 1000;
-        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT);
+        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT, eDepG);
     }
 
     found = volname.find("back_quarter_suppressor");
@@ -223,7 +225,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
         mnemonic.replace(5,1,GetCrystalColour(cry));
         mnemonic.replace(6,1,"E");
         systemID = 1050;
-        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT);
+        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT, eDepG);
     }
 
     found = volname.find("left_suppressor_extension");
@@ -235,7 +237,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
         mnemonic.replace(5,1,GetCrystalColour(cry));
         mnemonic.replace(6,1,"A");
         systemID = 1010;
-        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT);
+        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT, eDepG);
     }
 
     found = volname.find("right_suppressor_extension");
@@ -247,7 +249,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
         mnemonic.replace(5,1,GetCrystalColour(cry));
         mnemonic.replace(6,1,"B");
         systemID = 1020;
-        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT);
+        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT, eDepG);
     }
 
     found = volname.find("left_suppressor_casing");
@@ -259,7 +261,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
         mnemonic.replace(5,1,GetCrystalColour(cry));
         mnemonic.replace(6,1,"C");
         systemID = 1030;
-        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT);
+        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT, eDepG);
     }
 
     found = volname.find("right_suppressor_casing");
@@ -271,7 +273,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
         mnemonic.replace(5,1,GetCrystalColour(cry));
         mnemonic.replace(6,1,"D");
         systemID = 1040;
-        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT);
+        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT, eDepG);
     }
 
     // Dead layer specific code
@@ -284,7 +286,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
         mnemonic.replace(5,1,GetCrystalColour(cry));
         mnemonic.replace(6,1,"G");
         systemID = 1000;
-        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT);
+        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT, eDepG);
     }
 
     // LaBr detector energy deposits ////////////////////////////////////////////////////////////////////////////////
@@ -296,7 +298,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
         mnemonic.replace(3,2,G4intToG4String(det));
         mnemonic.replace(5,1,GetCrystalColour(cry));
         systemID = 2000;
-        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT);
+        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT, eDepG);
     }
 
     // Ancillary BGO detector energy deposits ////////////////////////////////////////////////////////////////////////////////
@@ -308,7 +310,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
         mnemonic.replace(3,2,G4intToG4String(det));
         mnemonic.replace(5,1,GetCrystalColour(cry));
         systemID = 3000;
-        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT);
+        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT, eDepG);
     }
 
     // NaI energy deposits ////////////////////////////////////////////////////////////////////////////////
@@ -319,7 +321,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
         mnemonic.replace(3,2,G4intToG4String(det));
         mnemonic.replace(5,1,GetCrystalColour(cry));
         systemID = 4000;
-        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT);
+        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT, eDepG);
     }
 
     // Sceptar energy deposits ////////////////////////////////////////////////////////////////////////////////
@@ -343,7 +345,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
         mnemonic.replace(3,2,G4intToG4String(det));
         mnemonic.replace(5,1,GetCrystalColour(cry));
         systemID = 5000;
-        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT);
+        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT, eDepG);
     }
     found = volname.find("sceptar_angled_scintillator_log");
     if (edep != 0 && found!=G4String::npos) {
@@ -363,7 +365,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
         mnemonic.replace(3,2,G4intToG4String(det));
         mnemonic.replace(5,1,GetCrystalColour(cry));
         systemID = 5000;
-        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT);
+        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT, eDepG);
     }
 
     // 8PI energy deposits ////////////////////////////////////////////////////////////////////////////////
@@ -375,7 +377,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
         mnemonic.replace(3,2,G4intToG4String(det));
         mnemonic.replace(5,1,GetCrystalColour(cry));
         systemID = 6000;
-        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT);
+        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT, eDepG);
     }
 
     found = volname.find("8pi_inner_BGO_annulus");
@@ -386,7 +388,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
         mnemonic.replace(5,1,GetCrystalColour(cry));
         mnemonic.replace(6,1,"A");
         systemID = 6010;
-        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT);
+        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT, eDepG);
     }
 
     found = volname.find("8pi_outer_lower_BGO_annulus");
@@ -397,7 +399,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
         mnemonic.replace(5,1,GetCrystalColour(cry));
         mnemonic.replace(6,1,"B");
         systemID = 6020;
-        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT);
+        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT, eDepG);
     }
 
     found = volname.find("8pi_outer_upper_BGO_annulus");
@@ -408,7 +410,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
         mnemonic.replace(5,1,GetCrystalColour(cry));
         mnemonic.replace(6,1,"C");
         systemID = 6030;
-        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT);
+        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT, eDepG);
     }
 
     found = volname.find("gridcell_log");
@@ -422,7 +424,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
         mnemonic.replace(5,1,GetCrystalColour(cry));
         systemID = 7000;
         // edep is ekin in this case. It would be useful if we also had the momentum positiin of the particles...
-        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, ekin, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT);
+        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, ekin, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT, eDepG);
         // Now kill the track!
         theTrack->SetTrackStatus(fStopAndKill);
     }
@@ -436,7 +438,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
         mnemonic.replace(5,1,GetCrystalColour(cry));
 		  if(targetZ < 10) mnemonic.replace(6,1,G4intToG4String(targetZ));
         systemID = 8010;
-        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT);
+        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT, eDepG);
     }
 
     found = volname.find("green_scintillator_volume_log");
@@ -447,7 +449,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
         mnemonic.replace(5,1,GetCrystalColour(cry));
 		  if(targetZ < 10) mnemonic.replace(6,1,G4intToG4String(targetZ));
         systemID = 8020;
-        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT);
+        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT, eDepG);
     }
 
     found = volname.find("red_scintillator_volume_log");
@@ -458,7 +460,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
         mnemonic.replace(5,1,GetCrystalColour(cry));
 		  if(targetZ < 10) mnemonic.replace(6,1,G4intToG4String(targetZ));
         systemID = 8030;
-        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT);
+        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT, eDepG);
     }
 
     found = volname.find("white_scintillator_volume_log");
@@ -469,7 +471,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
         mnemonic.replace(5,1,GetCrystalColour(cry));
 		  if(targetZ < 10) mnemonic.replace(6,1,G4intToG4String(targetZ));
         systemID = 8040;
-        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT);
+        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT, eDepG);
     }
 
     found = volname.find("yellow_scintillator_volume_log");
@@ -480,7 +482,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
         mnemonic.replace(5,1,GetCrystalColour(cry));
 		  if(targetZ < 10) mnemonic.replace(6,1,G4intToG4String(targetZ));
         systemID = 8050;
-        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT);
+        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT, eDepG);
     }
 
     found = volname.find("paces_silicon_block_log");
@@ -491,7 +493,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
         mnemonic.replace(3,2,G4intToG4String(det));
         mnemonic.replace(5,1,GetCrystalColour(cry));
         systemID = 9000;
-        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT);
+        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT, eDepG);
     }
 
     found = volname.find("testcan_scintillator_log");
@@ -514,7 +516,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
         mnemonic.replace(3,2,G4intToG4String(det));
         mnemonic.replace(5,1,GetCrystalColour(cry));
         systemID = 8500;
-        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT, ekin);
+        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT, eDepG, ekin);
     }
 
     found = volname.find("testcan_quartz_window_log");
@@ -602,7 +604,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
     //  }
 
     if(trackSteps) {
-        fEventAction->AddStepTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT);
+        fEventAction->AddStepTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT, eDepG);
 	 }
 }
 

@@ -46,7 +46,8 @@ class HistoManager;
 
 static const int MAXSTEPS       = 1000;
 static const int MAXHITS        = 100;
-static const int NUMSTEPVARS    = 15;
+//static const int NUMSTEPVARS    = 15;
+static const int NUMSTEPVARS    = 16;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -84,9 +85,9 @@ public:
     void AddGridCellGamma(G4double de, G4double dl, G4int det) {GridCellGammaEKinDet[det] += de; GridCellGammaTrackDet[det] += dl;} ;
     void AddGridCellNeutron(G4double de, G4double dl, G4int det) {GridCellNeutronEKinDet[det] += de; GridCellNeutronTrackDet[det] += dl;} ;
 
-    void AddHitTracker(G4String mnemonic, G4int eventNumber, G4int trackID, G4int parentID, G4int stepNumber, G4int particleType, G4int processType, G4int systemID, G4int cryNumber, G4int detNumber, G4double depEnergy, G4double posx, G4double posy, G4double posz, G4double time, G4int trackerZ, G4int numScintPhotons, G4int numQuartzPhotons, G4double eDepD, G4double eDepC, G4double eDepP, G4double eDepA, G4double eDepE,  G4double eDepN, G4double eDepOther, G4double eDepBe, G4double eDepB, G4double eDepT);
-    void AddHitTracker(G4String mnemonic, G4int eventNumber, G4int trackID, G4int parentID, G4int stepNumber, G4int particleType, G4int processType, G4int systemID, G4int cryNumber, G4int detNumber, G4double depEnergy, G4double posx, G4double posy, G4double posz, G4double time, G4int trackerZ, G4int numScintPhotons, G4int numQuartzPhotons, G4double eDepD, G4double eDepC, G4double eDepP, G4double eDepA, G4double eDepE,  G4double eDepN, G4double eDepOther, G4double eDepBe, G4double eDepB, G4double eDepT, G4double kinEnergy); // with ekin
-    void AddStepTracker(G4String mnemonic, G4int eventNumber, G4int trackID, G4int parentID, G4int stepNumber, G4int particleType, G4int processType, G4int systemID, G4int cryNumber, G4int detNumber, G4double depEnergy, G4double posx, G4double posy, G4double posz, G4double time, G4int trackerZ, G4int numScintPhotons, G4int numQuartzPhotons, G4double eDepD, G4double eDepC, G4double eDepP, G4double eDepA, G4double eDepE, G4double eDepN, G4double eDepOther, G4double eDepBe, G4double eDepB, G4double eDepT);
+    void AddHitTracker(G4String mnemonic, G4int eventNumber, G4int trackID, G4int parentID, G4int stepNumber, G4int particleType, G4int processType, G4int systemID, G4int cryNumber, G4int detNumber, G4double depEnergy, G4double posx, G4double posy, G4double posz, G4double time, G4int trackerZ, G4int numScintPhotons, G4int numQuartzPhotons, G4double eDepD, G4double eDepC, G4double eDepP, G4double eDepA, G4double eDepE,  G4double eDepN, G4double eDepOther, G4double eDepBe, G4double eDepB, G4double eDepT, G4double eDepG);
+    void AddHitTracker(G4String mnemonic, G4int eventNumber, G4int trackID, G4int parentID, G4int stepNumber, G4int particleType, G4int processType, G4int systemID, G4int cryNumber, G4int detNumber, G4double depEnergy, G4double posx, G4double posy, G4double posz, G4double time, G4int trackerZ, G4int numScintPhotons, G4int numQuartzPhotons, G4double eDepD, G4double eDepC, G4double eDepP, G4double eDepA, G4double eDepE,  G4double eDepN, G4double eDepOther, G4double eDepBe, G4double eDepB, G4double eDepT, G4double eDepG, G4double kinEnergy); // with ekin
+    void AddStepTracker(G4String mnemonic, G4int eventNumber, G4int trackID, G4int parentID, G4int stepNumber, G4int particleType, G4int processType, G4int systemID, G4int cryNumber, G4int detNumber, G4double depEnergy, G4double posx, G4double posy, G4double posz, G4double time, G4int trackerZ, G4int numScintPhotons, G4int numQuartzPhotons, G4double eDepD, G4double eDepC, G4double eDepP, G4double eDepA, G4double eDepE, G4double eDepN, G4double eDepOther, G4double eDepBe, G4double eDepB, G4double eDepT, G4double eDepG);
 
     void CountOneScintPhoton() { ++totScintPhotons; }
     G4int GetTotScintPhotons() { return totScintPhotons; }
