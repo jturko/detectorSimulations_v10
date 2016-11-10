@@ -362,7 +362,6 @@ DetectorMessenger::~DetectorMessenger()
     delete AddApparatus8piVacuumChamberAuxMatShellCmd;
     delete AddApparatusGriffinStructureCmd;
 
-
     delete AddDetectionSystemSodiumIodideCmd;
     delete AddDetectionSystemLanthanumBromideCmd;
     delete AddDetectionSystemAncillaryBGOCmd;
@@ -537,7 +536,7 @@ void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
     if( command == AddDetectionSystemTestcanCmd ) { 
         Detector->AddDetectionSystemTestcan(AddDetectionSystemTestcanCmd->GetNew3VectorValue(newValue));
     }
-
+    
     if( command == AddDetectionSystemSceptarCmd ) {
         Detector->AddDetectionSystemSceptar(AddDetectionSystemSceptarCmd->GetNewIntValue(newValue));
     }

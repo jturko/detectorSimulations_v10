@@ -29,7 +29,7 @@
 
 #include <string>
 
-DetectionSystemTestcan::DetectionSystemTestcan(G4double length, G4double radius, G4double res) :
+DetectionSystemTestcan::DetectionSystemTestcan(G4double length, G4double radius, G4int material) :
     // LogicalVolumes
     testcan_alum_casing_log(0),
     testcan_scintillator_log(0),
@@ -43,12 +43,11 @@ DetectionSystemTestcan::DetectionSystemTestcan(G4double length, G4double radius,
     quartz_thickness            = 6.35*mm;
     quartz_radius               = radius + alum_can_thickness;
     can_material                = "G4_Al";
-    //liquid_material             = "Deuterated Scintillator";
-    liquid_material             = "BC501A";
     quartz_material             = "G4_SILICON_DIOXIDE";
 
-    // resolution scale 
-    res_scale = res;
+    if(material == 1) liquid_material = "BC501A";
+    else if(material == 2) liquid_material = "Deuterated Scintillator";
+    else std::cout << "unrecognized material!" << std::endl;
 
     start_phi               = 0.0*deg;
     end_phi                 = 360.0*deg;

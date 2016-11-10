@@ -45,7 +45,7 @@ class G4OpticalSurface;
 class DetectionSystemTestcan
 {
 public:
-    DetectionSystemTestcan(G4double length, G4double radius, G4double res);
+    DetectionSystemTestcan(G4double length, G4double radius, G4int material);
     ~DetectionSystemTestcan();
 
     G4int Build();
