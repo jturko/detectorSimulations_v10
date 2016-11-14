@@ -157,6 +157,8 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
       else if (processName == "msc")              processType = 3;
       else if (processName == "Scintillation")    processType = 4;
       else if (processName == "Cerenkov")         processType = 5;
+      else if (processName == "neutronInelastic") processType = 6;
+      else if (processName == "hadElastic")       processType = 7;
       else  processType = 0;
 	 } else {
 		processType = -1;
