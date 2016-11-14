@@ -98,6 +98,7 @@ public:
     void SetQuartzScintPhotons(G4int num) { quartzScintPhotons = num; }
 
     RunAction * GetRunAction() { return fRunAct; }
+    std::map<int,int> pParticleMap;
 
 private:
     RunAction*    fRunAct;

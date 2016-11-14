@@ -46,7 +46,7 @@ DetectionSystemTestcan::DetectionSystemTestcan(G4double length, G4double radius,
     quartz_material             = "G4_SILICON_DIOXIDE";
 
     if(material == 1) liquid_material = "BC501A";
-    else if(material == 2) liquid_material = "Deuterated Scintillator";
+    else if(material == 2) liquid_material = "BC537";
     else std::cout << "unrecognized material!" << std::endl;
 
     start_phi               = 0.0*deg;

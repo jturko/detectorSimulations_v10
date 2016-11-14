@@ -78,6 +78,8 @@ void EventAction::BeginOfEventAction(const G4Event* evt)
 
     SetTotScintPhotons(0);
     SetQuartzScintPhotons(0);
+    
+    pParticleMap.clear();
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -104,6 +106,8 @@ void EventAction::EndOfEventAction(const G4Event*)
 
     const G4int numEvents = G4RunManager::GetRunManager()->GetCurrentRun()->GetNumberOfEventToBeProcessed();
     if(numEvents < 10) G4cout << "totScintPhotons = " << GetTotScintPhotons() << "    quartzScintPhotons = " << GetQuartzScintPhotons() << G4endl;
+    
+    pParticleMap.clear();
     
 }
 

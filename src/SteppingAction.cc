@@ -98,7 +98,6 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
     G4double eDepT     = 0.;
     G4double eDepG     = 0.;
 
-
     G4Track* theTrack = aStep->GetTrack();
     G4double stepl = 0.;
     if (theTrack->GetDefinition()->GetPDGCharge() != 0.)
@@ -173,11 +172,14 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
     // Get initial momentum direction & energy of particle
     G4int trackID = theTrack->GetTrackID();
     G4int parentID = theTrack->GetParentID();
+    
+    fEventAction->pParticleMap[trackID]= particleType;
+    if(fEventAction->pParticleMap[parentID] == 1 && particleType == 2) { eDepG = edep; eDepE = 0.; }
 
     G4StepPoint* point1 = aStep->GetPreStepPoint();
     G4StepPoint* point2 = aStep->GetPostStepPoint();
 
-        G4ThreeVector pos1 = point1->GetPosition();
+    G4ThreeVector pos1 = point1->GetPosition();
     G4ThreeVector pos2 = point2->GetPosition();
 
     //G4double time1 = point1->GetGlobalTime();
