@@ -138,6 +138,7 @@ void PhysListHadron::ConstructProcess()
     fTheElasticProcess.RegisterMe(new G4HadronElastic());
 
     // Hadron elastic process for all particles except neutrons and generic ions
+    auto aParticleIterator=GetParticleIterator();
     aParticleIterator->reset();
     while ((*aParticleIterator)() ) {
         G4ParticleDefinition* particle = aParticleIterator->value();

@@ -233,6 +233,7 @@ void PhysicsList::ConstructOp(G4bool constructOp)
             scintProcess->AddSaturation(emSaturation);
         }
 
+        auto theParticleIterator=GetParticleIterator();
         theParticleIterator->reset();
         while( (*theParticleIterator)() )
         {
