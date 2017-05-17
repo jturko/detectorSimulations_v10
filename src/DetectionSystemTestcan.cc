@@ -27,6 +27,8 @@
 
 #include "G4SystemOfUnits.hh"
 
+#include "G4UserLimits.hh"
+
 #include <string>
 
 DetectionSystemTestcan::DetectionSystemTestcan(G4double length, G4double radius, G4int material) :
@@ -47,6 +49,9 @@ DetectionSystemTestcan::DetectionSystemTestcan(G4double length, G4double radius,
 
     if(material == 1) liquid_material = "BC501A";
     else if(material == 2) liquid_material = "BC537";
+    else if(material == 3) liquid_material = "Hydrogen";
+    else if(material == 4) liquid_material = "Deuterium";
+    else if(material == 5) liquid_material = "Carbon";
     else std::cout << "unrecognized material!" << std::endl;
 
     start_phi               = 0.0*deg;
@@ -247,6 +252,10 @@ G4int DetectionSystemTestcan::BuildTestcan()
     {
         testcan_scintillator_log = new G4LogicalVolume(testcan_scintillator, liquid_g4material, "testcan_scintillator_log", 0, 0, 0);
         testcan_scintillator_log->SetVisAttributes(liquid_vis_att);
+        G4UserLimits * steplim = new G4UserLimits();
+        G4cout << "\n\n\n trying to set max step to 1 nm \n\n\n";
+        steplim->SetMaxAllowedStep(1*m);
+        testcan_scintillator_log->SetUserLimits(steplim);
     }
     this->assemblyTestcan->AddPlacedVolume(testcan_scintillator_log, move, rotate);
 

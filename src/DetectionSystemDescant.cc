@@ -659,7 +659,7 @@ G4int DetectionSystemDescant::BuildCanVolume()
     G4MaterialPropertiesTable * alumMPT = new G4MaterialPropertiesTable();
     G4double rindex_alum[NUM] = {0.46, 0.55, 0.59, 0.62, 0.72, 0.79};
     G4double rindex_alum_imag[NUM] = {4.70, 5.10, 5.21, 5.43, 5.64, 5.86};
-    G4double reflect_alum[NUM] = {0.95, 0.95, 0.95, 0.95, 0.95, 0.95};
+    G4double reflect_alum[NUM] = {0.92, 0.92, 0.92, 0.92, 0.92, 0.92};
     alumMPT->AddProperty("REALRINDEX", photon_energies, rindex_alum, NUM)->SetSpline(true);
     alumMPT->AddProperty("IMAGINARYRINDEX", photon_energies, rindex_alum_imag, NUM)->SetSpline(true);
     alumMPT->AddConstProperty("ABSLENGTH", 1.e-8*m);
@@ -1030,22 +1030,32 @@ G4int DetectionSystemDescant::BuildDetectorVolume()
     // SCINTILLATION PROPERTIES
     //-------------------------------------------------------------------------------------------------------------------------
     G4MaterialPropertiesTable * scintMPT = new G4MaterialPropertiesTable();
+    const G4int nArray = 5;
+    G4double energy_array[nArray] =      { 0.001*MeV , 0.01*MeV  , 0.1*MeV   , 1*MeV , 10*MeV };
+    G4double electron_yield[nArray] =    { 10        , 100       , 1000      , 10000 , 100000 };
+    G4double deuteron_yield[nArray] =    { 1         , 10        , 100       , 1000  , 10000  };
+    G4double carbon_yield[nArray] =      { 0.1       , 1         , 10        , 100   , 1000   };
+
+    scintMPT->AddProperty("ELECTRONSCINTILLATIONYIELD",energy_array,electron_yield,nArray)->SetSpline(true);
+    scintMPT->AddProperty("DEUTERONSCINTILLATIONYIELD",energy_array,carbon_yield,nArray)->SetSpline(true);
+    scintMPT->AddProperty("IONSCINTILLATIONYIELD",energy_array,carbon_yield,nArray)->SetSpline(true);
+
     // --------------->>> ELECTRONS
-    G4double e_test[4] = {1.*keV, 0.1*MeV, 1.0*MeV, 10.0*MeV};
-    G4double num_test[4] = {10., 1000., 10000., 100000.};
-    scintMPT->AddProperty("ELECTRONSCINTILLATIONYIELD", e_test, num_test, 4)->SetSpline(true);
+    //G4double e_test[4] = {1.*keV, 0.1*MeV, 1.0*MeV, 10.0*MeV};
+    //G4double num_test[4] = {1., 100., 1000., 10000.};
+    //scintMPT->AddProperty("ELECTRONSCINTILLATIONYIELD", e_test, num_test, 4)->SetSpline(true);
     // --------------->>> DEUTERONS
-    G4double e_test2[4] = {1.*keV, 0.1*MeV, 1.0*MeV, 10.0*MeV};
-    G4double num_test2[4] = {10., 1000., 10000., 100000.};
+    //G4double e_test2[4] = {1.*keV, 0.1*MeV, 1.0*MeV, 10.0*MeV};
+    //G4double num_test2[4] = {1., 100., 1000., 10000.};
     //G4double num_test2[4] = {0., 0., 0., 0.};
-    scintMPT->AddProperty("DEUTERONSCINTILLATIONYIELD", e_test2, num_test2, 4)->SetSpline(true);
+    //scintMPT->AddProperty("DEUTERONSCINTILLATIONYIELD", e_test2, num_test2, 4)->SetSpline(true);
     // --------------->>> IONS (CARBON)
-    G4double e_test3[4] = {1.*keV, 0.1*MeV, 1.0*MeV, 10.0*MeV};
+    //G4double e_test3[4] = {1.*keV, 0.1*MeV, 1.0*MeV, 10.0*MeV};
     //G4double num_test3[4] = {10., 1000., 10000., 100000.}; G4cout << "100% carbon" << G4endl;               // 100% carbon
     //G4double num_test3[4] = {5., 500., 5000., 50000.}; G4cout << "50% carbon" << G4endl;                    // 50%  carbon
-    G4double num_test3[4] = {1., 100., 1000., 10000.}; G4cout << "10% carbon" << G4endl;                    // 10%  carbon
+    //G4double num_test3[4] = {0.1, 10., 100., 1000.}; G4cout << "10% carbon" << G4endl;                    // 10%  carbon
     //G4double num_test3[4] = {0., 0., 0., 0.}; G4cout << "0% carbon" << G4endl;                              // 0%   carbon
-    scintMPT->AddProperty("IONSCINTILLATIONYIELD", e_test3, num_test3, 4)->SetSpline(true);
+    //scintMPT->AddProperty("IONSCINTILLATIONYIELD", e_test3, num_test3, 4)->SetSpline(true);
     // --------------->>> OTHERS
     //scintMPT->AddConstProperty("TRITONSCINTILLATIONYIELD",1000./CLHEP::MeV);
     //scintMPT->AddConstProperty("ALPHASCINTILLATIONYIELD",1000./CLHEP::MeV);
@@ -1061,7 +1071,7 @@ G4int DetectionSystemDescant::BuildDetectorVolume()
     G4double rindex_scint[NUM] = {1.50, 1.50, 1.50, 1.50, 1.50, 1.50};
     scintMPT->AddProperty("RINDEX", photon_energies, rindex_scint, NUM);
     scintMPT->AddProperty("FASTCOMPONENT", photon_energies, emission_spectra, NUM)->SetSpline(true);
-    scintMPT->AddConstProperty("YIELDRATIO",1.);
+    scintMPT->AddConstProperty("YIELDRATIO",0.1);
 
     material->SetMaterialPropertiesTable(scintMPT);
     //-------------------------------------------------------------------------------------------------------------------------

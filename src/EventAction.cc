@@ -51,6 +51,7 @@ EventAction::EventAction(RunAction* run, HistoManager* histo)
       fRunAct(run),fHistoManager(histo),
       fPrintModulo(0)
 {
+    pLabAngle = -1;
     numberOfHits = 0;
     numberOfSteps = 0;
     fPrintModulo = 1000;
@@ -80,6 +81,7 @@ void EventAction::BeginOfEventAction(const G4Event* evt)
     SetQuartzScintPhotons(0);
     
     pParticleMap.clear();
+    pLabAngle = -1;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -96,10 +98,10 @@ void EventAction::EndOfEventAction(const G4Event*)
 
     //G4cout << "numberOfHits = " << numberOfHits << G4endl;
     for (G4int i = 0 ; i < numberOfHits; i++) {
-		fHistoManager->FillHitNtuple(hitTrackerI[0][i], hitTrackerI[1][i], hitTrackerI[2][i], hitTrackerI[3][i],  hitTrackerI[4][i], hitTrackerI[5][i], hitTrackerI[6][i], hitTrackerI[7][i], hitTrackerI[8][i], hitTrackerD[0][i]/keV, hitTrackerD[1][i]/mm, hitTrackerD[2][i]/mm, hitTrackerD[3][i]/mm, hitTrackerD[4][i]/second, hitTrackerI[9][i], GetTotScintPhotons(), GetQuartzScintPhotons(), hitTrackerD[5][i]/keV, hitTrackerD[6][i]/keV, hitTrackerD[7][i]/keV, hitTrackerD[8][i]/keV, hitTrackerD[9][i]/keV, hitTrackerD[10][i]/keV, hitTrackerD[11][i]/keV, hitTrackerD[12][i]/keV, hitTrackerD[13][i]/keV, hitTrackerD[14][i]/keV , hitTrackerD[15][i]/keV);
+		fHistoManager->FillHitNtuple(hitTrackerI[0][i], hitTrackerI[1][i], hitTrackerI[2][i], hitTrackerI[3][i],  hitTrackerI[4][i], hitTrackerI[5][i], hitTrackerI[6][i], hitTrackerI[7][i], hitTrackerI[8][i], hitTrackerD[0][i]/keV, hitTrackerD[1][i]/mm, hitTrackerD[2][i]/mm, hitTrackerD[3][i]/mm, hitTrackerD[4][i]/second, hitTrackerI[9][i], GetTotScintPhotons(), GetQuartzScintPhotons(), hitTrackerD[5][i]/keV, hitTrackerD[6][i]/keV, hitTrackerD[7][i]/keV, hitTrackerD[8][i]/keV, hitTrackerD[9][i]/keV, hitTrackerD[10][i]/keV, hitTrackerD[11][i]/keV, hitTrackerD[12][i]/keV, hitTrackerD[13][i]/keV, hitTrackerD[14][i]/keV , hitTrackerD[15][i]/keV, hitTrackerD[16][i]);
     }
     for (G4int i = 0 ; i < numberOfSteps; i++) {
-		fHistoManager->FillStepNtuple(stepTrackerI[0][i], stepTrackerI[1][i], stepTrackerI[2][i], stepTrackerI[3][i],  stepTrackerI[4][i], stepTrackerI[5][i], stepTrackerI[6][i], stepTrackerI[7][i], stepTrackerI[8][i], stepTrackerD[0][i]/keV, stepTrackerD[1][i]/mm, stepTrackerD[2][i]/mm, stepTrackerD[3][i]/mm, stepTrackerD[4][i]/second, stepTrackerI[9][i], GetTotScintPhotons(), GetQuartzScintPhotons(), stepTrackerD[5][i]/keV, stepTrackerD[6][i]/keV, stepTrackerD[7][i]/keV, stepTrackerD[8][i]/keV, stepTrackerD[9][i]/keV, stepTrackerD[10][i]/keV, stepTrackerD[11][i]/keV, stepTrackerD[12][i]/keV, stepTrackerD[13][i]/keV, stepTrackerD[14][i]/keV , stepTrackerD[15][i]/keV);
+		fHistoManager->FillStepNtuple(stepTrackerI[0][i], stepTrackerI[1][i], stepTrackerI[2][i], stepTrackerI[3][i],  stepTrackerI[4][i], stepTrackerI[5][i], stepTrackerI[6][i], stepTrackerI[7][i], stepTrackerI[8][i], stepTrackerD[0][i]/keV, stepTrackerD[1][i]/mm, stepTrackerD[2][i]/mm, stepTrackerD[3][i]/mm, stepTrackerD[4][i]/second, stepTrackerI[9][i], GetTotScintPhotons(), GetQuartzScintPhotons(), stepTrackerD[5][i]/keV, stepTrackerD[6][i]/keV, stepTrackerD[7][i]/keV, stepTrackerD[8][i]/keV, stepTrackerD[9][i]/keV, stepTrackerD[10][i]/keV, stepTrackerD[11][i]/keV, stepTrackerD[12][i]/keV, stepTrackerD[13][i]/keV, stepTrackerD[14][i]/keV , stepTrackerD[15][i]/keV, stepTrackerD[16][i]);
     }
 
     ClearVariables();
@@ -112,8 +114,6 @@ void EventAction::EndOfEventAction(const G4Event*)
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-
 
 
 void EventAction::ClearVariables()
@@ -358,7 +358,7 @@ void EventAction::FillGridCell()
     }
 }
 
-void EventAction::AddHitTracker(G4String mnemonic, G4int eventNumber, G4int trackID, G4int parentID, G4int stepNumber, G4int particleType, G4int processType, G4int systemID, G4int cryNumber, G4int detNumber, G4double depEnergy, G4double posx, G4double posy, G4double posz, G4double time, G4int targetZ, G4int numScintPhotons, G4int numQuartzPhotons, G4double eDepD, G4double eDepC, G4double eDepP, G4double eDepA, G4double eDepE, G4double eDepN, G4double eDepOther, G4double eDepBe, G4double eDepB, G4double eDepT, G4double eDepG)
+void EventAction::AddHitTracker(G4String mnemonic, G4int eventNumber, G4int trackID, G4int parentID, G4int stepNumber, G4int particleType, G4int processType, G4int systemID, G4int cryNumber, G4int detNumber, G4double depEnergy, G4double posx, G4double posy, G4double posz, G4double time, G4int targetZ, G4int numScintPhotons, G4int numQuartzPhotons, G4double eDepD, G4double eDepC, G4double eDepP, G4double eDepA, G4double eDepE, G4double eDepN, G4double eDepOther, G4double eDepBe, G4double eDepB, G4double eDepT, G4double eDepG, G4double lab_angle)
 {
     G4bool newhit = true;
     for (G4int i = 0 ; i < numberOfHits; i++) {
@@ -380,6 +380,7 @@ void EventAction::AddHitTracker(G4String mnemonic, G4int eventNumber, G4int trac
             hitTrackerD[13][i] = hitTrackerD[13][i] + eDepB;
             hitTrackerD[14][i] = hitTrackerD[14][i] + eDepT;
             hitTrackerD[15][i] = hitTrackerD[15][i] + eDepG;
+            hitTrackerD[16][i] = pLabAngle;
             newhit = false;
             break;
         }
@@ -416,6 +417,7 @@ void EventAction::AddHitTracker(G4String mnemonic, G4int eventNumber, G4int trac
         hitTrackerD[13][hitIndex] = eDepB;
         hitTrackerD[14][hitIndex] = eDepT;
         hitTrackerD[15][hitIndex] = eDepG;
+        hitTrackerD[16][hitIndex] = pLabAngle;
 
         hitIndex++;
         numberOfHits = hitIndex;
@@ -431,7 +433,7 @@ void EventAction::AddHitTracker(G4String mnemonic, G4int eventNumber, G4int trac
     fHistoManager->push_back_Ptype(particleType);
 }
 
-void EventAction::AddHitTracker(G4String mnemonic, G4int eventNumber, G4int trackID, G4int parentID, G4int stepNumber, G4int particleType, G4int processType, G4int systemID, G4int cryNumber, G4int detNumber, G4double depEnergy, G4double posx, G4double posy, G4double posz, G4double time, G4int targetZ, G4int numScintPhotons, G4int numQuartzPhotons, G4double eDepD, G4double eDepC, G4double eDepP, G4double eDepA, G4double eDepE, G4double eDepN, G4double eDepOther, G4double eDepBe, G4double eDepB, G4double eDepT, G4double eDepG, G4double kinEnergy) // with ekin
+void EventAction::AddHitTracker(G4String mnemonic, G4int eventNumber, G4int trackID, G4int parentID, G4int stepNumber, G4int particleType, G4int processType, G4int systemID, G4int cryNumber, G4int detNumber, G4double depEnergy, G4double posx, G4double posy, G4double posz, G4double time, G4int targetZ, G4int numScintPhotons, G4int numQuartzPhotons, G4double eDepD, G4double eDepC, G4double eDepP, G4double eDepA, G4double eDepE, G4double eDepN, G4double eDepOther, G4double eDepBe, G4double eDepB, G4double eDepT, G4double eDepG, G4double lab_angle, G4double kinEnergy) // with ekin
 {
     G4bool newhit = true;
     for (G4int i = 0 ; i < numberOfHits; i++) {
@@ -453,6 +455,7 @@ void EventAction::AddHitTracker(G4String mnemonic, G4int eventNumber, G4int trac
             hitTrackerD[13][i] = hitTrackerD[13][i] + eDepB;
             hitTrackerD[14][i] = hitTrackerD[14][i] + eDepT;
             hitTrackerD[15][i] = hitTrackerD[15][i] + eDepG;
+            hitTrackerD[16][i] = pLabAngle;
             newhit = false;
             break;
         }
@@ -489,6 +492,7 @@ void EventAction::AddHitTracker(G4String mnemonic, G4int eventNumber, G4int trac
         hitTrackerD[13][hitIndex] = eDepB;
         hitTrackerD[14][hitIndex] = eDepT;
         hitTrackerD[15][hitIndex] = eDepG;
+        hitTrackerD[16][hitIndex] = pLabAngle;
 
         hitIndex++;
         numberOfHits = hitIndex;
@@ -505,7 +509,7 @@ void EventAction::AddHitTracker(G4String mnemonic, G4int eventNumber, G4int trac
 }
 
 
-void EventAction::AddStepTracker(G4String mnemonic, G4int eventNumber, G4int trackID, G4int parentID, G4int stepNumber, G4int particleType, G4int processType, G4int systemID, G4int cryNumber, G4int detNumber, G4double depEnergy, G4double posx, G4double posy, G4double posz, G4double time, G4int targetZ, G4int numScintPhotons, G4int numQuartzPhotons, G4double eDepD, G4double eDepC, G4double eDepP, G4double eDepA, G4double eDepE, G4double eDepN, G4double eDepOther, G4double eDepBe, G4double eDepB, G4double eDepT, G4double eDepG)
+void EventAction::AddStepTracker(G4String mnemonic, G4int eventNumber, G4int trackID, G4int parentID, G4int stepNumber, G4int particleType, G4int processType, G4int systemID, G4int cryNumber, G4int detNumber, G4double depEnergy, G4double posx, G4double posy, G4double posz, G4double time, G4int targetZ, G4int numScintPhotons, G4int numQuartzPhotons, G4double eDepD, G4double eDepC, G4double eDepP, G4double eDepA, G4double eDepE, G4double eDepN, G4double eDepOther, G4double eDepBe, G4double eDepB, G4double eDepT, G4double eDepG, G4double lab_angle)
 {
     G4bool newstep = true;
     if (newstep) { // new step
@@ -537,6 +541,7 @@ void EventAction::AddStepTracker(G4String mnemonic, G4int eventNumber, G4int tra
         stepTrackerD[13][stepIndex] = eDepB;
         stepTrackerD[14][stepIndex] = eDepT;
         stepTrackerD[15][stepIndex] = eDepG;
+        stepTrackerD[16][stepIndex] = pLabAngle;
 
         stepIndex++;
 

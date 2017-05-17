@@ -81,6 +81,7 @@
 
 #include "G4SystemOfUnits.hh"
 
+#include "G4StepLimiter.hh"
 
 PhysListHadron::PhysListHadron(const G4String& name)
     : G4VPhysicsConstructor(name),
@@ -138,7 +139,7 @@ void PhysListHadron::ConstructProcess()
     fTheElasticProcess.RegisterMe(new G4HadronElastic());
 
     // Hadron elastic process for all particles except neutrons and generic ions
-    auto aParticleIterator=GetParticleIterator();
+    //auto aParticleIterator=GetParticleIterator();
     aParticleIterator->reset();
     while ((*aParticleIterator)() ) {
         G4ParticleDefinition* particle = aParticleIterator->value();
@@ -159,6 +160,10 @@ void PhysListHadron::ConstructProcess()
 
     // Proton
     pManager = G4Proton::Proton()->GetProcessManager();
+ 
+    // adding step limiter to recoil protons
+    pManager->AddProcess(new G4StepLimiter);
+
     // add inelastic process
     // Binary Cascade
     G4BinaryCascade * theBC = new G4BinaryCascade;

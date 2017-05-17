@@ -72,6 +72,8 @@
 
 #include "G4SystemOfUnits.hh"
 
+#include "G4StepLimiterPhysics.hh"
+
 #include "G4Threading.hh"
 #include "G4OpAbsorption.hh"
 #include "G4OpRayleigh.hh"
@@ -93,6 +95,8 @@ PhysicsList::PhysicsList() :
     fPMessenger(0),fDetectorCuts(0), fTargetCuts(0),
     scintProcess(0)
 {
+    this->RegisterPhysics(new G4StepLimiterPhysics());
+
     G4LossTableManager::Instance();
     defaultCutValue =0.1*mm;
 
@@ -233,7 +237,7 @@ void PhysicsList::ConstructOp(G4bool constructOp)
             scintProcess->AddSaturation(emSaturation);
         }
 
-        auto theParticleIterator=GetParticleIterator();
+        //auto theParticleIterator=GetParticleIterator();
         theParticleIterator->reset();
         while( (*theParticleIterator)() )
         {
@@ -282,9 +286,9 @@ void PhysicsList::SetCuts()
     SetCutValue(fCutForElectron, "e-");
     SetCutValue(fCutForPositron, "e+");
 
-    SetCutValue(1.0*um, "proton");
-    SetCutValue(1.0*um, "deuteron");
-    SetCutValue(1.0*um, "C12");
+    SetCutValue(1.0*nm, "proton");
+    SetCutValue(1.0*nm, "deuteron");
+    SetCutValue(1.0*nm, "C12");
     SetCutValue(1.0*um, "C13");
     SetCutValue(1.0*um, "Be9");
     SetCutValue(1.0*um, "B10");
