@@ -1033,11 +1033,13 @@ G4int DetectionSystemDescant::BuildDetectorVolume()
     const G4int nArray = 5;
     G4double energy_array[nArray] =      { 0.001*MeV , 0.01*MeV  , 0.1*MeV   , 1*MeV , 10*MeV };
     G4double electron_yield[nArray] =    { 10        , 100       , 1000      , 10000 , 100000 };
-    G4double deuteron_yield[nArray] =    { 1         , 10        , 100       , 1000  , 10000  };
-    G4double carbon_yield[nArray] =      { 0.1       , 1         , 10        , 100   , 1000   };
+    G4double deuteron_yield[nArray] =    { 5         , 50        , 500       , 5000  , 50000  };
+    G4double proton_yield[nArray] =      { 5         , 50        , 500       , 5000  , 50000  };
+    G4double carbon_yield[nArray] =      { 0.5       , 5         , 50        , 500   , 5000   };
 
     scintMPT->AddProperty("ELECTRONSCINTILLATIONYIELD",energy_array,electron_yield,nArray)->SetSpline(true);
-    scintMPT->AddProperty("DEUTERONSCINTILLATIONYIELD",energy_array,carbon_yield,nArray)->SetSpline(true);
+    scintMPT->AddProperty("DEUTERONSCINTILLATIONYIELD",energy_array,deuteron_yield,nArray)->SetSpline(true);
+    scintMPT->AddProperty("PROTONSCINTILLATIONYIELD",energy_array,proton_yield,nArray)->SetSpline(true);
     scintMPT->AddProperty("IONSCINTILLATIONYIELD",energy_array,carbon_yield,nArray)->SetSpline(true);
 
     // --------------->>> ELECTRONS
