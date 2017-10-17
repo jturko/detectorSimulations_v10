@@ -56,7 +56,7 @@ PrimaryGeneratorAction::PrimaryGeneratorAction(DetectorConstruction* DC)
       fGPS(0),
       fDetector(DC)
 {
-    useGPS = true;
+    useGPS = false;
     fGPS = new G4GeneralParticleSource();
 
     G4int n_particle = 1;

@@ -370,6 +370,7 @@ void EventAction::AddHitTracker(G4String mnemonic, G4int eventNumber, G4int trac
             hitTrackerD[1][i] = posx;
             hitTrackerD[2][i] = posy;
             hitTrackerD[3][i] = posz;
+            hitTrackerD[4][i] = time;
             hitTrackerD[5][i] = hitTrackerD[5][i] + eDepD;
             hitTrackerD[6][i] = hitTrackerD[6][i] + eDepC;
             hitTrackerD[7][i] = hitTrackerD[7][i] + eDepP;
