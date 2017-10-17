@@ -181,6 +181,7 @@ private:
     std::vector<G4double> fEkinVector;
     std::vector<G4double> fEdepVector;
     std::vector<G4int> fParticleTypeVector;
+    std::vector<G4double> fTimingVector;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

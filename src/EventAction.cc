@@ -187,9 +187,10 @@ void EventAction::ClearVariables()
     }
     // NOTE: Clear the variables from the new Fill___Cryst functions.
 
-    fHistoManager->clear_Edep();
-    fHistoManager->clear_Ekin();
-    fHistoManager->clear_Ptype();
+    //fHistoManager->clear_Edep();
+    //fHistoManager->clear_Ekin();
+    //fHistoManager->clear_Ptype();
+    fHistoManager->clear_all();
 }
 
 
@@ -428,9 +429,10 @@ void EventAction::AddHitTracker(G4String mnemonic, G4int eventNumber, G4int trac
     }
 
     // push back the new element(s) of the vector(s) w/ edep, ekin, and particleType
-    fHistoManager->push_back_Edep(depEnergy);
-    fHistoManager->push_back_Ekin(0.);
-    fHistoManager->push_back_Ptype(particleType);
+    //fHistoManager->push_back_Edep(depEnergy);
+    //fHistoManager->push_back_Ekin(0.);
+    //fHistoManager->push_back_Ptype(particleType);
+    fHistoManager->push_back_all(depEnergy,0.,particleType,time);
 }
 
 void EventAction::AddHitTracker(G4String mnemonic, G4int eventNumber, G4int trackID, G4int parentID, G4int stepNumber, G4int particleType, G4int processType, G4int systemID, G4int cryNumber, G4int detNumber, G4double depEnergy, G4double posx, G4double posy, G4double posz, G4double time, G4int targetZ, G4int numScintPhotons, G4int numQuartzPhotons, G4double eDepD, G4double eDepC, G4double eDepP, G4double eDepA, G4double eDepE, G4double eDepN, G4double eDepOther, G4double eDepBe, G4double eDepB, G4double eDepT, G4double eDepG, G4double lab_angle, G4double kinEnergy) // with ekin
@@ -503,9 +505,10 @@ void EventAction::AddHitTracker(G4String mnemonic, G4int eventNumber, G4int trac
     }
 
     // push back the new element(s) of the vector(s) w/ edep, ekin, and particleType
-    fHistoManager->push_back_Edep(depEnergy);
-    fHistoManager->push_back_Ekin(kinEnergy);
-    fHistoManager->push_back_Ptype(particleType);
+    //fHistoManager->push_back_Edep(depEnergy);
+    //fHistoManager->push_back_Ekin(kinEnergy);
+    //fHistoManager->push_back_Ptype(particleType);
+    fHistoManager->push_back_all(depEnergy,kinEnergy,particleType,time);
 }
 
 

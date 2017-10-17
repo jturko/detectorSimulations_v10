@@ -402,9 +402,10 @@ void HistoManager::book()
         fNtColIdHit[26] = analysisManager->CreateNtupleDColumn("eDepT");
         fNtColIdHit[27] = analysisManager->CreateNtupleDColumn("eDepG");
         fNtColIdHit[28] = analysisManager->CreateNtupleDColumn("lab_angle");
-        fNtColIdHit[29] = analysisManager->CreateNtupleDColumn("eDepVector", fEdepVector );
+        fNtColIdHit[29] = analysisManager->CreateNtupleDColumn("eDepVector", fEdepVector);
         fNtColIdHit[30] = analysisManager->CreateNtupleDColumn("eKinVector", fEkinVector);
         fNtColIdHit[31] = analysisManager->CreateNtupleIColumn("particleTypeVector", fParticleTypeVector);
+        fNtColIdHit[32] = analysisManager->CreateNtupleDColumn("timingVector", fTimingVector);
         analysisManager->FinishNtuple();
 		  G4cout<<"created ntuple HitTracker"<<G4endl;
     }
