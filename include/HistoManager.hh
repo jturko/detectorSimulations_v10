@@ -48,7 +48,7 @@ const G4bool WRITEEDEPHISTOS    = true;
 const G4bool WRITETRACKLHISTOS  = true;
 
 const G4int MAXHISTO            = 500;
-const G4int MAXNTCOL            = 34;
+const G4int MAXNTCOL            = 35;
 const G4int MAXNUMDET           = 20;
 const G4int MAXNUMDETGRIFFIN    = 16;
 const G4int MAXNUMCRYGRIFFIN    = 4;
@@ -552,22 +552,26 @@ public:
     void push_back_Ekin(G4double ekin) { fEkinVector.push_back(ekin); };
     void push_back_Ptype(G4int ptype) { fParticleTypeVector.push_back(ptype); };
     void push_back_Timing(G4double time) { fTimingVector.push_back(time); };
-    void push_back_all(G4double edep, G4double ekin, G4double ptype, G4double time) {
+    void push_back_Process(G4int process) { fProcessVector.push_back(process); };
+    void push_back_all(G4double edep, G4double ekin, G4double ptype, G4double time, G4int process) {
         push_back_Edep(edep);
         push_back_Ekin(ekin);
         push_back_Ptype(ptype);
         push_back_Timing(time);
+        push_back_Process(process);
     }
 
     void clear_Edep() {  fEdepVector.clear(); };
     void clear_Ekin() {  fEkinVector.clear(); };
     void clear_Ptype() {  fParticleTypeVector.clear(); };
     void clear_Timing() { fTimingVector.clear(); };
+    void clear_Process() { fProcessVector.clear(); };
     void clear_all() { 
         clear_Edep();
         clear_Ekin();
         clear_Ptype();
         clear_Timing();
+        clear_Process();
     };
 
 private:
@@ -592,6 +596,7 @@ private:
     std::vector<G4double> fEkinVector;
     std::vector<G4int> fParticleTypeVector;
     std::vector<G4double> fTimingVector;
+    std::vector<G4int> fProcessVector;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

@@ -157,8 +157,10 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
       else if (processName == "msc")              processType = 3;
       else if (processName == "Scintillation")    processType = 4;
       else if (processName == "Cerenkov")         processType = 5;
-      else if (processName == "neutronInelastic") processType = 6;
-      else if (processName == "hadElastic")       processType = 7;
+      else if (processName == "hadElastic")       processType = 6;
+      else if (processName == "neutronInelastic") processType = 7;
+      else if (processName == "nCapture")         processType = 8;
+      else if (processName == "nKiller")          processType = 9;
       else  processType = 0;
 	 } else {
 		processType = -1;
@@ -488,7 +490,8 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
         mnemonic.replace(5,1,GetCrystalColour(cry));
 		  if(targetZ < 10) mnemonic.replace(6,1,G4intToG4String(targetZ));
         systemID = 8040;
-        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT, eDepG, lab_angle);
+        //fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT, eDepG, lab_angle);
+        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, stepNumber, particleType, processType, systemID, cry-1, det-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ, numScintPhotons, numQuartzPhotons, eDepD, eDepC, eDepP, eDepA, eDepE, eDepN, eDepOther, eDepBe, eDepB, eDepT, eDepG, lab_angle, ekin);
     }
 
     found = volname.find("yellow_scintillator_volume_log");
