@@ -160,8 +160,18 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
       else if (processName == "hadElastic")       processType = 6;
       else if (processName == "neutronInelastic") processType = 7;
       else if (processName == "nCapture")         processType = 8;
-      else if (processName == "nKiller")          processType = 9;
-      else  processType = 0;
+      else if (processName == "hIoni")            processType = 9;
+      else if (processName == "ionIoni")          processType = 10;
+      else if (processName == "compt")            processType = 11;
+      else if (processName == "phot")             processType = 12;
+      else if (processName == "conv")             processType = 13;
+      else if (processName == "eBrem")            processType = 14;
+      else if (processName == "annihil")          processType = 15;
+      else if (processName == "dInelastic")       processType = 16;
+      else if (processName == "CoulombScat")      processType = 17;
+      else {                                      processType = 0; 
+        std::cout << "unknown process -> " << processName << std::endl; 
+      }
 	 } else {
 		processType = -1;
 	 }
