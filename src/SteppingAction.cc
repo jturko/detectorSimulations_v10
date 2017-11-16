@@ -169,6 +169,10 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
       else if (processName == "annihil")          processType = 15;
       else if (processName == "dInelastic")       processType = 16;
       else if (processName == "CoulombScat")      processType = 17;
+      else if (processName == "protonInelastic")  processType = 18;
+      else if (processName == "alphaInelastic")   processType = 19;
+      else if (processName == "tInelastic")       processType = 20;
+      else if (processName == "photonNuclear")    processType = 21;
       else {                                      processType = 0; 
         std::cout << "unknown process -> " << processName << std::endl; 
       }
