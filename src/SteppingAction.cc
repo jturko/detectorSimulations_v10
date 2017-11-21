@@ -149,36 +149,38 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep)
     else                                                       eDepOther = edep;
 
     // this can be modified to add more processes
-	 if(theTrack->GetCreatorProcess() != NULL) {
-		G4String processName = theTrack->GetCreatorProcess()->GetProcessName();
+	if(theTrack->GetCreatorProcess() != NULL) {
+        G4String processName = theTrack->GetCreatorProcess()->GetProcessName();
 		//G4cout<<"found secondary, particle "<<particleName<<", creation process "<<process<<G4endl;
-      if (processName == "RadioactiveDecay")      processType = 1;
-      else if (processName == "eIoni")            processType = 2;
-      else if (processName == "msc")              processType = 3;
-      else if (processName == "Scintillation")    processType = 4;
-      else if (processName == "Cerenkov")         processType = 5;
-      else if (processName == "hadElastic")       processType = 6;
-      else if (processName == "neutronInelastic") processType = 7;
-      else if (processName == "nCapture")         processType = 8;
-      else if (processName == "hIoni")            processType = 9;
-      else if (processName == "ionIoni")          processType = 10;
-      else if (processName == "compt")            processType = 11;
-      else if (processName == "phot")             processType = 12;
-      else if (processName == "conv")             processType = 13;
-      else if (processName == "eBrem")            processType = 14;
-      else if (processName == "annihil")          processType = 15;
-      else if (processName == "dInelastic")       processType = 16;
-      else if (processName == "CoulombScat")      processType = 17;
-      else if (processName == "protonInelastic")  processType = 18;
-      else if (processName == "alphaInelastic")   processType = 19;
-      else if (processName == "tInelastic")       processType = 20;
-      else if (processName == "photonNuclear")    processType = 21;
-      else {                                      processType = 0; 
-        std::cout << "unknown process -> " << processName << std::endl; 
-      }
-	 } else {
+        if (processName == "RadioactiveDecay")      processType = 1;
+        else if (processName == "eIoni")            processType = 2;
+        else if (processName == "msc")              processType = 3;
+        else if (processName == "Scintillation")    processType = 4;
+        else if (processName == "Cerenkov")         processType = 5;
+        else if (processName == "hadElastic")       processType = 6;
+        else if (processName == "neutronInelastic") processType = 7;
+        else if (processName == "nCapture")         processType = 8;
+        else if (processName == "hIoni")            processType = 9;
+        else if (processName == "ionIoni")          processType = 10;
+        else if (processName == "compt")            processType = 11;
+        else if (processName == "phot")             processType = 12;
+        else if (processName == "conv")             processType = 13;
+        else if (processName == "eBrem")            processType = 14;
+        else if (processName == "annihil")          processType = 15;
+        else if (processName == "dInelastic")       processType = 16;
+        else if (processName == "CoulombScat")      processType = 17;
+        else if (processName == "protonInelastic")  processType = 18;
+        else if (processName == "alphaInelastic")   processType = 19;
+        else if (processName == "tInelastic")       processType = 20;
+        else if (processName == "photonNuclear")    processType = 21;
+        else if (processName == "He3Inelastic")     processType = 22;
+        else {                                      processType = 0; 
+            std::cout << "unknown process -> " << processName << std::endl; 
+        }
+    } 
+    else {
 		processType = -1;
-	 }
+	}
 
     fEventAction->AddParticleType(particleType);
     evntNb =  fEventAction->GetEventNumber();
