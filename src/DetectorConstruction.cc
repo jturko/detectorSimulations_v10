@@ -89,6 +89,8 @@
 
 #include "DetectionSystemAncillaryBGO.hh"
 
+#include "DetectionSystemTISTAR.hh"
+
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 DetectorConstruction::DetectorConstruction() :
@@ -791,4 +793,14 @@ void DetectorConstruction::AddDetectionSystemPaces(G4int ndet) {
   pPaces->Build() ;
 
   pPaces->PlaceDetector(fLogicWorld, ndet) ;
+}
+
+void DetectorConstruction::AddDetectionSystemTISTAR() {
+    if(fLogicWorld == NULL) {
+        Construct();
+    }
+
+    DetectionSystemTISTAR * pTISTAR = new DetectionSystemTISTAR();
+    pTISTAR->Build();
+    pTISTAR->PlaceDetector(fLogicWorld);
 }

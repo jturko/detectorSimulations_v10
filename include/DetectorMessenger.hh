@@ -48,6 +48,7 @@ class G4UIcmdWithAnInteger;
 class G4UIcmdWith3Vector;
 class G4UIcmdWith3VectorAndUnit;
 class G4UIcmdWithABool;
+class G4UIcmdWithoutParameter;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -149,6 +150,8 @@ private:
 	G4UIcmdWithAnInteger*       fAddDetectionSystemGriffinSetExtensionSuppLocationCmd ;
 	G4UIcmdWith3Vector*         fAddDetectionSystemGriffinSetDeadLayerCmd ;
 	G4UIcmdWithABool*           fUseTIGRESSPositionsCmd;
+
+    G4UIcmdWithoutParameter*    fAddDetectionSystemTISTARCmd;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

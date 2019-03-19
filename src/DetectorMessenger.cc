@@ -323,6 +323,11 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction* Det)
 	fUseTIGRESSPositionsCmd = new G4UIcmdWithABool("/DetSys/det/UseTIGRESSPositions",this);
 	fUseTIGRESSPositionsCmd->SetGuidance("Use TIGRESS detector positions rather than GRIFFIN");
 	fUseTIGRESSPositionsCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+    fAddDetectionSystemTISTARCmd = new G4UIcmdWithoutParameter("/DetSys/det/addTISTAR",this);
+    fAddDetectionSystemTISTARCmd->SetGuidance("Build the TI-STAR silicon tracker");
+    fAddDetectionSystemTISTARCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -372,10 +377,8 @@ DetectorMessenger::~DetectorMessenger()
 
 	delete fAddDetectionSystem8piCmd;
 	delete fAddDetectionSystem8piDetectorCmd;
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	delete fAddDetectionSystemDescantCmd;
 	delete fAddDetectionSystemDescantAuxPortsCmd;
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	delete fAddApparatusDescantStructureCmd;
 
 	delete fAddDetectionSystemTestcanCmd;
@@ -403,6 +406,8 @@ DetectorMessenger::~DetectorMessenger()
 	delete fAddDetectionSystemGriffinSetDeadLayerCmd ;
 
 	delete fUseTIGRESSPositionsCmd;
+
+    delete fAddDetectionSystemTISTARCmd;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -522,14 +527,12 @@ void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
 	if(command == fAddDetectionSystem8piDetectorCmd ) {
 		fDetector->AddDetectionSystem8piDetector(fAddDetectionSystem8piDetectorCmd->GetNewIntValue(newValue));
 	}
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	if(command == fAddDetectionSystemDescantCmd ) {
 		fDetector->AddDetectionSystemDescant(fAddDetectionSystemDescantCmd->GetNewIntValue(newValue));
 	}
 	if(command == fAddDetectionSystemDescantAuxPortsCmd )  {
 		fDetector->AddDetectionSystemDescantAuxPorts(fAddDetectionSystemDescantAuxPortsCmd->GetNew3VectorValue(newValue));
 	}
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	if(command == fAddApparatusDescantStructureCmd ) {
 		fDetector->AddApparatusDescantStructure();
 	}
@@ -598,6 +601,10 @@ void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
 	if(command == fUseTIGRESSPositionsCmd ) {
 		fDetector->UseTIGRESSPositions(fUseTIGRESSPositionsCmd->GetNewBoolValue(newValue));
 	}
+
+    if(command == fAddDetectionSystemTISTARCmd) {
+        fDetector->AddDetectionSystemTISTAR();
+    }
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

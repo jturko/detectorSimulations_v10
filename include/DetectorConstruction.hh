@@ -50,9 +50,6 @@ class DetectorMessenger;
 class DetectionSystemGriffin;
 class DetectionSystem8pi;
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-class DetectionSystemDescant;
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class ApparatusDescantStructure;
 class ApparatusLayeredTarget;
 class DetectionSystemDescant;
@@ -64,6 +61,8 @@ class DetectionSystemSodiumIodide;
 class DetectionSystemLanthanumBromide;
 class DetectionSystemBox;
 class DetectionSystemAncillaryBGO;
+
+class DetectionSystemTISTAR;
 
 //class MagneticField;
 
@@ -140,15 +139,12 @@ public:
 
     void AddDetectionSystem8pi(G4int ndet);
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     void AddDetectionSystemDescant(G4int ndet);
     void AddDetectionSystemDescantAuxPorts(G4ThreeVector input);
- 
     void SetDetectionSystemDescantRotation(G4ThreeVector input);
     void SetDetectionSystemDescantColor(G4String input);
     void AddDetectionSystemDescantCart(G4ThreeVector input);
     void AddDetectionSystemDescantSpher(G4ThreeVector input, G4double unit);
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     void AddApparatusDescantStructure();
 
     void AddDetectionSystemTestcan(G4ThreeVector input);
@@ -170,6 +166,8 @@ public:
     void AddDetectionSystemSceptar(G4int ndet);
     void AddDetectionSystemPaces(G4int ndet);
     void AddDetectionSystemSpice(G4int nRings);
+
+    void AddDetectionSystemTISTAR();
 
     G4double GetLanthanumBromideCrystalRadius();
     G4double GetLanthanumBromideCrystalLength();
