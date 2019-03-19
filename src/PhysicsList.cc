@@ -227,6 +227,7 @@ void PhysicsList::ConstructOp(G4bool constructOp)
             fScintProcess->AddSaturation(emSaturation);
         }
 
+        auto theParticleIterator = GetParticleIterator();
         theParticleIterator->reset();
         while( (*theParticleIterator)() )
         {
@@ -258,6 +259,7 @@ void PhysicsList::SpiceStepper(G4bool step)
   if( step == false ) { G4cout << "No SPICE step" << G4endl; return; }
   else if( step == true ) 
     {
+        auto theParticleIterator = GetParticleIterator();
         theParticleIterator->reset();
         while( (*theParticleIterator)() )
         {
