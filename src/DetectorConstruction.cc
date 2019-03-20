@@ -94,81 +94,97 @@
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 DetectorConstruction::DetectorConstruction() :
-  fSolidWorld(NULL),
-  fLogicWorld(NULL),
-  fPhysiWorld(NULL)
+    fSolidWorld(NULL),
+    fLogicWorld(NULL),
+    fPhysiWorld(NULL)
 {
-  fWorldSizeX  = fWorldSizeY = fWorldSizeZ = 10.0*m;
+    fWorldSizeX  = fWorldSizeY = fWorldSizeZ = 10.0*m;
 
-  fBoxMat = "G4_WATER";
-  fBoxThickness = 0.0*mm;
-  fBoxInnerDimensions = G4ThreeVector(0.0*mm,0.0*mm,0.0*mm);
-  fBoxColour = G4ThreeVector(0.0,0.0,1.0);
+    fBoxMat = "G4_WATER";
+    fBoxThickness = 0.0*mm;
+    fBoxInnerDimensions = G4ThreeVector(0.0*mm,0.0*mm,0.0*mm);
+    fBoxColour = G4ThreeVector(0.0,0.0,1.0);
 
-  fGridMat = "G4_WATER";
-  fGridSize = 0.0*mm;
-  fGridDimensions = G4ThreeVector(0.0*mm,0.0*mm,0.0*mm);
-  fGridColour = G4ThreeVector(1.0,0.0,0.0);
+    fGridMat = "G4_WATER";
+    fGridSize = 0.0*mm;
+    fGridDimensions = G4ThreeVector(0.0*mm,0.0*mm,0.0*mm);
+    fGridColour = G4ThreeVector(1.0,0.0,0.0);
 
-  // materials
-  DefineMaterials();
+    // materials
+    DefineMaterials();
 
-  //  builtDetectors = false;
-
-
-  fMatWorldName = "G4_AIR";
-
-  // Generic Target Apparatus
-  fSetGenericTargetMaterial   = false;
-  fSetGenericTargetDimensions = false;
-  fSetGenericTargetPosition   = false;
-
-  // Field Box
-  fSetFieldBoxMaterial= false;//think this has been removed 17/8
-  fSetFieldBoxDimensions= false;
-  fSetFieldBoxPosition= false;
-  fSetFieldBoxMagneticField= false;
-
-  // parameters to suppress:
-
-  DefineSuppressedParameters();
-
-  // Shield Selection Default
-
-  fUseTigressPositions = false;
-
-  fDetectorShieldSelect = 1 ; // Include suppressors by default.
-  fExtensionSuppressorLocation = 0 ; // Back by default (Detector Forward)
-  fHevimetSelector = 0 ; // Chooses whether or not to include a hevimet
-
-  fCustomDetectorNumber 		= 1 ; // detNum
-  fCustomDetectorPosition  = 1 ; // posNum
-  fCustomDetectorVal				= 0 ; // Unused for now (Oct 2013)
+    //  builtDetectors = false;
 
 
-  // create commands for interactive definition
+    fMatWorldName = "G4_AIR";
 
-  fDetectorMessenger = new DetectorMessenger(this);
- 
-  // ensure the global field is initialized
-  //(void)GlobalField::getObject();
+    // Generic Target Apparatus
+    fSetGenericTargetMaterial   = false;
+    fSetGenericTargetDimensions = false;
+    fSetGenericTargetPosition   = false;
 
-  //expHallMagField = new MagneticField(); // Global field is set to zero
+    // Field Box
+    fSetFieldBoxMaterial= false;//think this has been removed 17/8
+    fSetFieldBoxDimensions= false;
+    fSetFieldBoxPosition= false;
+    fSetFieldBoxMagneticField= false;
 
-  fGriffinDetectorsMapIndex = 0;
-  for(G4int i = 0; i < 16; i++)
+    // parameters to suppress:
+
+    DefineSuppressedParameters();
+
+    // Shield Selection Default
+
+    fUseTigressPositions = false;
+
+    fDetectorShieldSelect = 1 ; // Include suppressors by default.
+    fExtensionSuppressorLocation = 0 ; // Back by default (Detector Forward)
+    fHevimetSelector = 0 ; // Chooses whether or not to include a hevimet
+
+    fCustomDetectorNumber 		= 1 ; // detNum
+    fCustomDetectorPosition  = 1 ; // posNum
+    fCustomDetectorVal				= 0 ; // Unused for now (Oct 2013)
+
+
+    // create commands for interactive definition
+
+    fDetectorMessenger = new DetectorMessenger(this);
+   
+    // ensure the global field is initialized
+    //(void)GlobalField::getObject();
+
+    //expHallMagField = new MagneticField(); // Global field is set to zero
+
+    fGriffinDetectorsMapIndex = 0;
+    for(G4int i = 0; i < 16; i++)
     {
-		fGriffinDetectorsMap[i] = 0;
+      	fGriffinDetectorsMap[i] = 0;
     }
 
-  fDescantColor = "white";
-  fDescantRotation.setX(M_PI);
-  fDescantRotation.setY(0.);
-  fDescantRotation.setZ(0.);
-  
-  fApparatusLayeredTarget=0;
-  
-  fSetSpiceIn = false;	  
+    fDescantColor = "white";
+    fDescantRotation.setX(M_PI);
+    fDescantRotation.setY(0.);
+    fDescantRotation.setZ(0.);
+    
+    fApparatusLayeredTarget=0;
+    
+    fSetSpiceIn = false;	  
+
+    // TI-STAR parameters; if set to -1, use default parameters in DetectionSystemTISTAR class
+    fTISTARFirstLayerX = -1;
+    fTISTARFirstLayerZ = -1;
+    fTISTARFirstLayerThickness = -1;
+    fTISTARFirstLayerDistFromBeam = -1;
+
+    fTISTARSecondLayerX = -1;
+    fTISTARSecondLayerZ = -1;
+    fTISTARSecondLayerThickness = -1;
+    fTISTARSecondLayerDistFromBeam = -1;
+
+    fTISTARThirdLayerX = -1;
+    fTISTARThirdLayerZ = -1;
+    fTISTARThirdLayerThickness = -1;
+    fTISTARThirdLayerDistFromBeam = -1;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -801,6 +817,22 @@ void DetectorConstruction::AddDetectionSystemTISTAR() {
     }
 
     DetectionSystemTISTAR * pTISTAR = new DetectionSystemTISTAR();
+    
+    if(fTISTARFirstLayerX > 0.) pTISTAR->SetFirstLayerX(fTISTARFirstLayerX);
+    if(fTISTARFirstLayerZ > 0.) pTISTAR->SetFirstLayerZ(fTISTARFirstLayerZ);
+    if(fTISTARFirstLayerThickness > 0.) pTISTAR->SetFirstLayerThickness(fTISTARFirstLayerThickness);
+    if(fTISTARFirstLayerDistFromBeam > 0.) pTISTAR->SetFirstLayerDistFromBeam(fTISTARFirstLayerDistFromBeam);
+    
+    if(fTISTARSecondLayerX > 0.) pTISTAR->SetSecondLayerX(fTISTARSecondLayerX);
+    if(fTISTARSecondLayerZ > 0.) pTISTAR->SetSecondLayerZ(fTISTARSecondLayerZ);
+    if(fTISTARSecondLayerThickness > 0.) pTISTAR->SetSecondLayerThickness(fTISTARSecondLayerThickness);
+    if(fTISTARSecondLayerDistFromBeam > 0.) pTISTAR->SetSecondLayerDistFromBeam(fTISTARSecondLayerDistFromBeam);
+    
+    if(fTISTARThirdLayerX > 0.) pTISTAR->SetThirdLayerX(fTISTARThirdLayerX);
+    if(fTISTARThirdLayerZ > 0.) pTISTAR->SetThirdLayerZ(fTISTARThirdLayerZ);
+    if(fTISTARThirdLayerThickness > 0.) pTISTAR->SetThirdLayerThickness(fTISTARThirdLayerThickness);
+    if(fTISTARThirdLayerDistFromBeam > 0.) pTISTAR->SetThirdLayerDistFromBeam(fTISTARThirdLayerDistFromBeam);
+
     pTISTAR->Build();
     pTISTAR->PlaceDetector(fLogicWorld);
 }
