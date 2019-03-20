@@ -26,14 +26,39 @@
 
 #include <string>
 
-DetectionSystemTISTAR::DetectionSystemTISTAR()
-    // LogicalVolumes
+DetectionSystemTISTAR::DetectionSystemTISTAR() :
+    fAssemblyTISTAR(NULL),
+    fFirstLayerLV(NULL),
+    fSecondLayerLV(NULL),
+    fThirdLayerLV(NULL)
 {
+    // Default parameters taken from TI-STAR Technical Design Report
+    fFirstLayerX = 40.0*mm;
+    fFirstLayerZ = 70.0*mm;
+    fFirstLayerThickness = 20.0*um;
+    fFirstLayerDistFromBeam = 10.0*mm;    
+
+    fSecondLayerX = 100.0*mm;
+    fSecondLayerZ = 75.0*mm;
+    fSecondLayerThickness = 300.0*um;
+    fSecondLayerDistFromBeam = 30.0*mm;    
+    
+    fThirdLayerX = 100.0*mm;
+    fThirdLayerZ = 70.0*mm;
+    fThirdLayerThickness = 2000.0*um;
+    fThirdLayerDistFromBeam = 32.0*mm;    
+ 
+    fSiliconMaterialName = "Silicon";
+   
 }
 
 DetectionSystemTISTAR::~DetectionSystemTISTAR() 
 {
-    // LogicalVolumes
+    delete fFirstLayerLV;
+    delete fSecondLayerLV;
+    delete fThirdLayerLV;
+
+    delete fAssemblyTISTAR;
 }
 
 G4int DetectionSystemTISTAR::Build() 
@@ -45,7 +70,8 @@ G4int DetectionSystemTISTAR::Build()
     return 1;
 }
 
-G4int DetectionSystemTISTAR::PlaceDetector(G4LogicalVolume* expHallLog) {
+G4int DetectionSystemTISTAR::PlaceDetector(G4LogicalVolume* expHallLog) 
+{
     G4RotationMatrix * rotate = new G4RotationMatrix;
     G4ThreeVector move = G4ThreeVector(0., 0., 0.);
 
@@ -57,7 +83,63 @@ G4int DetectionSystemTISTAR::PlaceDetector(G4LogicalVolume* expHallLog) {
 G4int DetectionSystemTISTAR::BuildTISTAR() 
 {
     G4ThreeVector move, direction;
-    G4RotationMatrix* rotate;
+    G4RotationMatrix* rotate = new G4RotationMatrix();
+
+    // Get the materials (should be built in the DetectorConstructionSuppressed)
+    G4Material* siliconMaterial = G4Material::GetMaterial(fSiliconMaterialName);
+    if( !siliconMaterial ) {
+        G4cout << " ----> Material " << fSiliconMaterialName << " not found, cannot build! " << G4endl;
+        return 0;
+    }
+    
+    // Set up colours and other vis. attributes
+    G4VisAttributes * siliconVisAtt = new G4VisAttributes(G4Colour::Cyan());
+    siliconVisAtt->SetVisibility(true);
+
+    // Build the first layer
+    G4Box * firstLayerPV = new G4Box("firstLayerPV",fFirstLayerX/2.,fFirstLayerThickness/2.,fFirstLayerZ/2.);
+    if(fFirstLayerLV == NULL) {
+        fFirstLayerLV = new G4LogicalVolume(firstLayerPV,siliconMaterial,"firstLayerLV",0,0,0);
+        fFirstLayerLV->SetVisAttributes(siliconVisAtt);
+    }
+    // Add forward left strip
+    move = G4ThreeVector(0.,+fFirstLayerThickness/2.+fFirstLayerDistFromBeam,+fFirstLayerZ/2.);
+    fAssemblyTISTAR->AddPlacedVolume(fFirstLayerLV,move,rotate);
+    // Add backward left strip
+    move = G4ThreeVector(0.,+fFirstLayerThickness/2.+fFirstLayerDistFromBeam,-fFirstLayerZ/2.);
+    fAssemblyTISTAR->AddPlacedVolume(fFirstLayerLV,move,rotate);
+    // Add forward right strip
+    move = G4ThreeVector(0.,-fFirstLayerThickness/2.-fFirstLayerDistFromBeam,+fFirstLayerZ/2.);
+    fAssemblyTISTAR->AddPlacedVolume(fFirstLayerLV,move,rotate);
+    // Add forward right strip
+    move = G4ThreeVector(0.,-fFirstLayerThickness/2.-fFirstLayerDistFromBeam,-fFirstLayerZ/2.);
+    fAssemblyTISTAR->AddPlacedVolume(fFirstLayerLV,move,rotate);
+    
+    // Build the second layer
+    G4Box * secondLayerPV = new G4Box("secondLayerPV",fSecondLayerX/2.,fSecondLayerThickness/2.,fSecondLayerZ/2.);
+    if(fSecondLayerLV == NULL) {
+        fSecondLayerLV = new G4LogicalVolume(secondLayerPV,siliconMaterial,"secondLayerLV",0,0,0);
+        fSecondLayerLV->SetVisAttributes(siliconVisAtt);
+    }
+    // Add left strip
+    move = G4ThreeVector(0.,+fSecondLayerThickness/2.+fSecondLayerDistFromBeam,0.);
+    fAssemblyTISTAR->AddPlacedVolume(fSecondLayerLV,move,rotate);
+    // Add right strip
+    move = G4ThreeVector(0.,-fSecondLayerThickness/2.-fSecondLayerDistFromBeam,0.);
+    fAssemblyTISTAR->AddPlacedVolume(fSecondLayerLV,move,rotate);
+
+    // Build the third layer
+    G4Box * thirdLayerPV = new G4Box("thirdLayerPV",fThirdLayerX/2.,fThirdLayerThickness/2.,fThirdLayerZ/2.);
+    if(fThirdLayerLV == NULL) {
+        fThirdLayerLV = new G4LogicalVolume(thirdLayerPV,siliconMaterial,"ThirdLayerLV",0,0,0);
+        fThirdLayerLV->SetVisAttributes(siliconVisAtt);
+    }
+    // Add left strip
+    move = G4ThreeVector(0.,+fThirdLayerThickness/2.+fThirdLayerDistFromBeam,0.);
+    fAssemblyTISTAR->AddPlacedVolume(fThirdLayerLV,move,rotate);
+    // Add right strip
+    move = G4ThreeVector(0.,-fThirdLayerThickness/2.-fThirdLayerDistFromBeam,0.);
+    fAssemblyTISTAR->AddPlacedVolume(fThirdLayerLV,move,rotate);
 
     return 1;
 }

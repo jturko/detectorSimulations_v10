@@ -50,13 +50,51 @@ public:
     G4int Build();
     G4int PlaceDetector(G4LogicalVolume* expHallLog);
 
+    void SetFirstLayerX(G4double xx) { fFirstLayerX = xx; }
+    void SetFirstLayerZ(G4double zz) { fFirstLayerZ = zz; }
+    void SetFirstLayerThickness(G4double thickness) { fFirstLayerThickness = thickness; }
+    void SetFirstLayerDistFromBeam(G4double dist) { fFirstLayerDistFromBeam = dist; }
+    
+    void SetSecondLayerX(G4double xx) { fSecondLayerX = xx; }
+    void SetSecondLayerZ(G4double zz) { fSecondLayerZ = zz; }
+    void SetSecondLayerThickness(G4double thickness) { fSecondLayerThickness = thickness; }
+    void SetSecondLayerDistFromBeam(G4double dist) { fSecondLayerDistFromBeam = dist; }
+    
+    void SetThirdLayerX(G4double xx) { fThirdLayerX = xx; }
+    void SetThirdLayerZ(G4double zz) { fThirdLayerZ = zz; }
+    void SetThirdLayerThickness(G4double thickness) { fThirdLayerThickness = thickness; }
+    void SetThirdLayerDistFromBeam(G4double dist) { fThirdLayerDistFromBeam = dist; }
+
 private:
-    // Logical volumes
-
-    // Assembly volumes
-    G4AssemblyVolume* fAssemblyTISTAR;                 // Contains all non-sensitive materials
-
+    
     G4int BuildTISTAR();
+    
+    // Assembly volumes
+    G4AssemblyVolume* fAssemblyTISTAR;            
+
+    // Logical volumes
+    G4LogicalVolume * fFirstLayerLV;
+    G4LogicalVolume * fSecondLayerLV;
+    G4LogicalVolume * fThirdLayerLV;
+
+    // Materials 
+    G4String fSiliconMaterialName;
+
+    // Dimensions
+    G4double fFirstLayerX;
+    G4double fFirstLayerZ;
+    G4double fFirstLayerThickness;
+    G4double fFirstLayerDistFromBeam;
+       
+    G4double fSecondLayerX;
+    G4double fSecondLayerZ;
+    G4double fSecondLayerThickness;
+    G4double fSecondLayerDistFromBeam;
+    
+    G4double fThirdLayerX;
+    G4double fThirdLayerZ;
+    G4double fThirdLayerThickness;
+    G4double fThirdLayerDistFromBeam;
 
 };
 
