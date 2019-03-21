@@ -187,17 +187,26 @@ public:
     void SetTISTARFirstLayerZ(G4double value)               { fTISTARFirstLayerZ = value; } 
     void SetTISTARFirstLayerThickness(G4double value)       { fTISTARFirstLayerThickness = value; } 
     void SetTISTARFirstLayerDistFromBeam(G4double value)    { fTISTARFirstLayerDistFromBeam = value; } 
+    void SetTISTARFirstLayerOffset(G4ThreeVector value)     { fTISTARFirstLayerOffset = value; } 
+    void SetTISTARFirstLayerPCBUpperX(G4double value)       { fTISTARFirstLayerPCBUpperX = value; }
+    void SetTISTARFirstLayerPCBLowerX(G4double value)       { fTISTARFirstLayerPCBLowerX = value; }
     void SetTISTARFirstLayerGapZ(G4double value)            { fTISTARFirstLayerGapZ = value; }
 
     void SetTISTARSecondLayerX(G4double value)              { fTISTARSecondLayerX = value; } 
     void SetTISTARSecondLayerZ(G4double value)              { fTISTARSecondLayerZ = value; } 
     void SetTISTARSecondLayerThickness(G4double value)      { fTISTARSecondLayerThickness = value; } 
     void SetTISTARSecondLayerDistFromBeam(G4double value)   { fTISTARSecondLayerDistFromBeam = value; } 
+    void SetTISTARSecondLayerOffset(G4ThreeVector value)    { fTISTARSecondLayerOffset = value; } 
+    void SetTISTARSecondLayerPCBUpperX(G4double value)       { fTISTARSecondLayerPCBUpperX = value; }
+    void SetTISTARSecondLayerPCBLowerX(G4double value)       { fTISTARSecondLayerPCBLowerX = value; }
 
     void SetTISTARThirdLayerX(G4double value)               { fTISTARThirdLayerX = value; } 
     void SetTISTARThirdLayerZ(G4double value)               { fTISTARThirdLayerZ = value; } 
     void SetTISTARThirdLayerThickness(G4double value)       { fTISTARThirdLayerThickness = value; } 
     void SetTISTARThirdLayerDistFromBeam(G4double value)    { fTISTARThirdLayerDistFromBeam = value; } 
+    void SetTISTARThirdLayerOffset(G4ThreeVector value)     { fTISTARThirdLayerOffset = value; } 
+    void SetTISTARThirdLayerPCBUpperX(G4double value)       { fTISTARThirdLayerPCBUpperX = value; }
+    void SetTISTARThirdLayerPCBLowerX(G4double value)       { fTISTARThirdLayerPCBLowerX = value; }
 
 private:
 
@@ -269,22 +278,31 @@ private:
     
     G4ThreeVector fDetEffPosition;
 
-    // TI-STARDimensions
+    // TI-STAR Dimensions
     G4double fTISTARFirstLayerX;
     G4double fTISTARFirstLayerZ;
     G4double fTISTARFirstLayerThickness;
     G4double fTISTARFirstLayerDistFromBeam;
+    G4ThreeVector fTISTARFirstLayerOffset;
+    G4double fTISTARFirstLayerPCBUpperX;
+    G4double fTISTARFirstLayerPCBLowerX;
     G4double fTISTARFirstLayerGapZ;
 
     G4double fTISTARSecondLayerX;
     G4double fTISTARSecondLayerZ;
     G4double fTISTARSecondLayerThickness;
     G4double fTISTARSecondLayerDistFromBeam;
+    G4ThreeVector fTISTARSecondLayerOffset;
+    G4double fTISTARSecondLayerPCBUpperX;
+    G4double fTISTARSecondLayerPCBLowerX;
 
     G4double fTISTARThirdLayerX;
     G4double fTISTARThirdLayerZ;
     G4double fTISTARThirdLayerThickness;
     G4double fTISTARThirdLayerDistFromBeam;
+    G4ThreeVector fTISTARThirdLayerOffset;
+    G4double fTISTARThirdLayerPCBUpperX;
+    G4double fTISTARThirdLayerPCBLowerX;
 
 };
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

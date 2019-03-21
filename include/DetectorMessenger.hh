@@ -153,21 +153,31 @@ private:
 
     // TI-STAR
     G4UIcmdWithoutParameter*    fAddDetectionSystemTISTARCmd;
+    
     G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARFirstLayerXCmd;
     G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARFirstLayerZCmd;
     G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARFirstLayerThicknessCmd;
     G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARFirstLayerDistFromBeamCmd;
+    G4UIcmdWith3VectorAndUnit*  fSetDetectionSystemTISTARFirstLayerOffsetCmd;
+    G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARFirstLayerPCBUpperXCmd;    
+    G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARFirstLayerPCBLowerXCmd;    
     G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARFirstLayerGapZCmd;    
 
     G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARSecondLayerXCmd;
     G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARSecondLayerZCmd;
     G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARSecondLayerThicknessCmd;
     G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARSecondLayerDistFromBeamCmd;
+    G4UIcmdWith3VectorAndUnit*  fSetDetectionSystemTISTARSecondLayerOffsetCmd;
+    G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARSecondLayerPCBUpperXCmd;    
+    G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARSecondLayerPCBLowerXCmd;    
     
     G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARThirdLayerXCmd;
     G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARThirdLayerZCmd;
     G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARThirdLayerThicknessCmd;
     G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARThirdLayerDistFromBeamCmd;
+    G4UIcmdWith3VectorAndUnit*  fSetDetectionSystemTISTARThirdLayerOffsetCmd;
+    G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARThirdLayerPCBUpperXCmd;    
+    G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARThirdLayerPCBLowerXCmd;    
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

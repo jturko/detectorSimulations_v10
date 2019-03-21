@@ -14,17 +14,26 @@
 /DetSys/det/setTISTARFirstLayerZ 50 mm
 /DetSys/det/setTISTARFirstLayerThickness 20 um
 /DetSys/det/setTISTARFirstLayerDistFromBeam 10 mm
+/DetSys/det/setTISTARFirstLayerOffset 0 0 0 mm
+/DetSys/det/setTISTARFirstLayerPCBUpperX 0 mm
+/DetSys/det/setTISTARFirstLayerPCBLowerX 0 mm
 /DetSys/det/setTISTARFirstLayerGapZ 4 mm 
 
 /DetSys/det/setTISTARSecondLayerX 100 mm
 /DetSys/det/setTISTARSecondLayerZ 100 mm
 /DetSys/det/setTISTARSecondLayerThickness 150 um
+/DetSys/det/setTISTARSecondLayerOffset 0 0 0 mm
 /DetSys/det/setTISTARSecondLayerDistFromBeam 30 mm
+/DetSys/det/setTISTARSecondLayerPCBUpperX 5 mm
+/DetSys/det/setTISTARSecondLayerPCBLowerX 40 mm
 
 /DetSys/det/setTISTARThirdLayerX 100 mm
 /DetSys/det/setTISTARThirdLayerZ 100 mm
 /DetSys/det/setTISTARThirdLayerThickness 2000 um
 /DetSys/det/setTISTARThirdLayerDistFromBeam 33 mm
+/DetSys/det/setTISTARThirdLayerOffset 0 0 0 mm
+/DetSys/det/setTISTARThirdLayerPCBUpperX 5 mm
+/DetSys/det/setTISTARThirdLayerPCBLowerX 40 mm
 
 /DetSys/det/addTISTAR
 /run/beamOn 1

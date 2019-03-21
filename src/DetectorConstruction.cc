@@ -175,17 +175,26 @@ DetectorConstruction::DetectorConstruction() :
     fTISTARFirstLayerZ = -1;
     fTISTARFirstLayerThickness = -1;
     fTISTARFirstLayerDistFromBeam = -1;
+    fTISTARFirstLayerOffset = G4ThreeVector(0.,0.,0.);
+    fTISTARFirstLayerPCBUpperX = -1;
+    fTISTARFirstLayerPCBLowerX = -1;
     fTISTARFirstLayerGapZ = -1;
 
     fTISTARSecondLayerX = -1;
     fTISTARSecondLayerZ = -1;
     fTISTARSecondLayerThickness = -1;
     fTISTARSecondLayerDistFromBeam = -1;
+    fTISTARSecondLayerOffset = G4ThreeVector(0.,0.,0.);
+    fTISTARSecondLayerPCBUpperX = -1;
+    fTISTARSecondLayerPCBLowerX = -1;
 
     fTISTARThirdLayerX = -1;
     fTISTARThirdLayerZ = -1;
     fTISTARThirdLayerThickness = -1;
     fTISTARThirdLayerDistFromBeam = -1;
+    fTISTARThirdLayerOffset = G4ThreeVector(0.,0.,0.);
+    fTISTARThirdLayerPCBUpperX = -1;
+    fTISTARThirdLayerPCBLowerX = -1;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -823,17 +832,26 @@ void DetectorConstruction::AddDetectionSystemTISTAR() {
     if(fTISTARFirstLayerZ > 0.)             pTISTAR->SetFirstLayerZ(fTISTARFirstLayerZ);
     if(fTISTARFirstLayerThickness > 0.)     pTISTAR->SetFirstLayerThickness(fTISTARFirstLayerThickness);
     if(fTISTARFirstLayerDistFromBeam > 0.)  pTISTAR->SetFirstLayerDistFromBeam(fTISTARFirstLayerDistFromBeam);
+    pTISTAR->SetFirstLayerOffset(fTISTARFirstLayerOffset);
+    if(fTISTARFirstLayerPCBUpperX > 0.)     pTISTAR->SetFirstLayerPCBUpperX(fTISTARFirstLayerPCBUpperX);
+    if(fTISTARFirstLayerPCBLowerX > 0.)     pTISTAR->SetFirstLayerPCBLowerX(fTISTARFirstLayerPCBLowerX);
     if(fTISTARFirstLayerGapZ > 0.)          pTISTAR->SetFirstLayerGapZ(fTISTARFirstLayerGapZ);    
 
     if(fTISTARSecondLayerX > 0.)            pTISTAR->SetSecondLayerX(fTISTARSecondLayerX);
     if(fTISTARSecondLayerZ > 0.)            pTISTAR->SetSecondLayerZ(fTISTARSecondLayerZ);
     if(fTISTARSecondLayerThickness > 0.)    pTISTAR->SetSecondLayerThickness(fTISTARSecondLayerThickness);
     if(fTISTARSecondLayerDistFromBeam > 0.) pTISTAR->SetSecondLayerDistFromBeam(fTISTARSecondLayerDistFromBeam);
+    pTISTAR->SetSecondLayerOffset(fTISTARSecondLayerOffset);
+    if(fTISTARSecondLayerPCBUpperX > 0.)     pTISTAR->SetSecondLayerPCBUpperX(fTISTARSecondLayerPCBUpperX);
+    if(fTISTARSecondLayerPCBLowerX > 0.)     pTISTAR->SetSecondLayerPCBLowerX(fTISTARSecondLayerPCBLowerX);
     
     if(fTISTARThirdLayerX > 0.)             pTISTAR->SetThirdLayerX(fTISTARThirdLayerX);
     if(fTISTARThirdLayerZ > 0.)             pTISTAR->SetThirdLayerZ(fTISTARThirdLayerZ);
     if(fTISTARThirdLayerThickness > 0.)     pTISTAR->SetThirdLayerThickness(fTISTARThirdLayerThickness);
     if(fTISTARThirdLayerDistFromBeam > 0.)  pTISTAR->SetThirdLayerDistFromBeam(fTISTARThirdLayerDistFromBeam);
+    pTISTAR->SetThirdLayerOffset(fTISTARThirdLayerOffset);
+    if(fTISTARThirdLayerPCBUpperX > 0.)     pTISTAR->SetThirdLayerPCBUpperX(fTISTARThirdLayerPCBUpperX);
+    if(fTISTARThirdLayerPCBLowerX > 0.)     pTISTAR->SetThirdLayerPCBLowerX(fTISTARThirdLayerPCBLowerX);
 
     pTISTAR->Build();
     pTISTAR->PlaceDetector(fLogicWorld);

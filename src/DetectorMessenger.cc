@@ -327,6 +327,7 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction* Det)
     fAddDetectionSystemTISTARCmd->SetGuidance("Build the TI-STAR silicon tracker");
     fAddDetectionSystemTISTARCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
+    // first layer
     fSetDetectionSystemTISTARFirstLayerXCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/det/setTISTARFirstLayerX",this);
     fSetDetectionSystemTISTARFirstLayerXCmd->SetGuidance("Set x-dimension for TI-STAR first layer");
     fSetDetectionSystemTISTARFirstLayerXCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
@@ -342,11 +343,24 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction* Det)
     fSetDetectionSystemTISTARFirstLayerDistFromBeamCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/det/setTISTARFirstLayerDistFromBeam",this);
     fSetDetectionSystemTISTARFirstLayerDistFromBeamCmd->SetGuidance("Set TI-STAR first layer distance from beam axis");
     fSetDetectionSystemTISTARFirstLayerDistFromBeamCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    
+    fSetDetectionSystemTISTARFirstLayerOffsetCmd = new G4UIcmdWith3VectorAndUnit("/DetSys/det/setTISTARFirstLayerOffset",this);
+    fSetDetectionSystemTISTARFirstLayerOffsetCmd->SetGuidance("Set the TI-STAR first layer offset");
+    fSetDetectionSystemTISTARFirstLayerOffsetCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    
+    fSetDetectionSystemTISTARFirstLayerPCBUpperXCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/det/setTISTARFirstLayerPCBUpperX",this);
+    fSetDetectionSystemTISTARFirstLayerPCBUpperXCmd->SetGuidance("Set the upper x-dim of PCB for the TI-STAR first layer");
+    fSetDetectionSystemTISTARFirstLayerPCBUpperXCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+    fSetDetectionSystemTISTARFirstLayerPCBLowerXCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/det/setTISTARFirstLayerPCBLowerX",this);
+    fSetDetectionSystemTISTARFirstLayerPCBLowerXCmd->SetGuidance("Set the lower x-dim of PCB for the TI-STAR first layer");
+    fSetDetectionSystemTISTARFirstLayerPCBLowerXCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
     fSetDetectionSystemTISTARFirstLayerGapZCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/det/setTISTARFirstLayerGapZ",this);
     fSetDetectionSystemTISTARFirstLayerGapZCmd->SetGuidance("Set the gap between the two first layer strips in TI-STAR");
     fSetDetectionSystemTISTARFirstLayerGapZCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
+    // second layer
     fSetDetectionSystemTISTARSecondLayerXCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/det/setTISTARSecondLayerX",this);
     fSetDetectionSystemTISTARSecondLayerXCmd->SetGuidance("Set x-dimension for TI-STAR second layer");
     fSetDetectionSystemTISTARSecondLayerXCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
@@ -362,7 +376,20 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction* Det)
     fSetDetectionSystemTISTARSecondLayerDistFromBeamCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/det/setTISTARSecondLayerDistFromBeam",this);
     fSetDetectionSystemTISTARSecondLayerDistFromBeamCmd->SetGuidance("Set TI-STAR second layer distance from beam axis");
     fSetDetectionSystemTISTARSecondLayerDistFromBeamCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    
+    fSetDetectionSystemTISTARSecondLayerOffsetCmd = new G4UIcmdWith3VectorAndUnit("/DetSys/det/setTISTARSecondLayerOffset",this);
+    fSetDetectionSystemTISTARSecondLayerOffsetCmd->SetGuidance("Set the TI-STAR second layer offset");
+    fSetDetectionSystemTISTARSecondLayerOffsetCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    
+    fSetDetectionSystemTISTARSecondLayerPCBUpperXCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/det/setTISTARSecondLayerPCBUpperX",this);
+    fSetDetectionSystemTISTARSecondLayerPCBUpperXCmd->SetGuidance("Set the upper x-dim of PCB for the TI-STAR second layer");
+    fSetDetectionSystemTISTARSecondLayerPCBUpperXCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+                                   
+    fSetDetectionSystemTISTARSecondLayerPCBLowerXCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/det/setTISTARSecondLayerPCBLowerX",this);
+    fSetDetectionSystemTISTARSecondLayerPCBLowerXCmd->SetGuidance("Set the lower x-dim of PCB for the TI-STAR second layer");
+    fSetDetectionSystemTISTARSecondLayerPCBLowerXCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
+    // third layer
     fSetDetectionSystemTISTARThirdLayerXCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/det/setTISTARThirdLayerX",this);
     fSetDetectionSystemTISTARThirdLayerXCmd->SetGuidance("Set x-dimension for TI-STAR third layer");
     fSetDetectionSystemTISTARThirdLayerXCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
@@ -378,6 +405,18 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction* Det)
     fSetDetectionSystemTISTARThirdLayerDistFromBeamCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/det/setTISTARThirdLayerDistFromBeam",this);
     fSetDetectionSystemTISTARThirdLayerDistFromBeamCmd->SetGuidance("Set TI-STAR third layer distance from beam axis");
     fSetDetectionSystemTISTARThirdLayerDistFromBeamCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    
+    fSetDetectionSystemTISTARThirdLayerOffsetCmd = new G4UIcmdWith3VectorAndUnit("/DetSys/det/setTISTARThirdLayerOffset",this);
+    fSetDetectionSystemTISTARThirdLayerOffsetCmd->SetGuidance("Set the TI-STAR third layer offset");
+    fSetDetectionSystemTISTARThirdLayerOffsetCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    
+    fSetDetectionSystemTISTARThirdLayerPCBUpperXCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/det/setTISTARThirdLayerPCBUpperX",this);
+    fSetDetectionSystemTISTARThirdLayerPCBUpperXCmd->SetGuidance("Set the upper x-dim of PCB for the TI-STAR third layer");
+    fSetDetectionSystemTISTARThirdLayerPCBUpperXCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+                                  
+    fSetDetectionSystemTISTARThirdLayerPCBLowerXCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/det/setTISTARThirdLayerPCBLowerX",this);
+    fSetDetectionSystemTISTARThirdLayerPCBLowerXCmd->SetGuidance("Set the lower x-dim of PCB for the TI-STAR third layer");
+    fSetDetectionSystemTISTARThirdLayerPCBLowerXCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -463,17 +502,26 @@ DetectorMessenger::~DetectorMessenger()
     delete fSetDetectionSystemTISTARFirstLayerZCmd;
     delete fSetDetectionSystemTISTARFirstLayerThicknessCmd;
     delete fSetDetectionSystemTISTARFirstLayerDistFromBeamCmd;
+    delete fSetDetectionSystemTISTARFirstLayerOffsetCmd;
+    delete fSetDetectionSystemTISTARFirstLayerPCBUpperXCmd;
+    delete fSetDetectionSystemTISTARFirstLayerPCBLowerXCmd;
     delete fSetDetectionSystemTISTARFirstLayerGapZCmd;
 
     delete fSetDetectionSystemTISTARSecondLayerXCmd;
     delete fSetDetectionSystemTISTARSecondLayerZCmd;
     delete fSetDetectionSystemTISTARSecondLayerThicknessCmd;
     delete fSetDetectionSystemTISTARSecondLayerDistFromBeamCmd;
+    delete fSetDetectionSystemTISTARSecondLayerOffsetCmd;
+    delete fSetDetectionSystemTISTARSecondLayerPCBUpperXCmd;
+    delete fSetDetectionSystemTISTARSecondLayerPCBLowerXCmd;
 
     delete fSetDetectionSystemTISTARThirdLayerXCmd;
     delete fSetDetectionSystemTISTARThirdLayerZCmd;
     delete fSetDetectionSystemTISTARThirdLayerThicknessCmd;
     delete fSetDetectionSystemTISTARThirdLayerDistFromBeamCmd;
+    delete fSetDetectionSystemTISTARThirdLayerOffsetCmd;
+    delete fSetDetectionSystemTISTARThirdLayerPCBUpperXCmd;
+    delete fSetDetectionSystemTISTARThirdLayerPCBLowerXCmd;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -686,6 +734,15 @@ void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
     if(command == fSetDetectionSystemTISTARFirstLayerDistFromBeamCmd) {
         fDetector->SetTISTARFirstLayerDistFromBeam(fSetDetectionSystemTISTARFirstLayerDistFromBeamCmd->GetNewDoubleValue(newValue));
     }
+    if(command == fSetDetectionSystemTISTARFirstLayerOffsetCmd) {
+        fDetector->SetTISTARFirstLayerOffset(fSetDetectionSystemTISTARFirstLayerOffsetCmd->GetNew3VectorValue(newValue));
+    }
+    if(command == fSetDetectionSystemTISTARFirstLayerPCBUpperXCmd) {
+        fDetector->SetTISTARFirstLayerPCBUpperX(fSetDetectionSystemTISTARFirstLayerPCBUpperXCmd->GetNewDoubleValue(newValue));
+    }
+    if(command == fSetDetectionSystemTISTARFirstLayerPCBLowerXCmd) {
+        fDetector->SetTISTARFirstLayerPCBLowerX(fSetDetectionSystemTISTARFirstLayerPCBLowerXCmd->GetNewDoubleValue(newValue));
+    }
     if(command == fSetDetectionSystemTISTARFirstLayerGapZCmd) {
         fDetector->SetTISTARFirstLayerGapZ(fSetDetectionSystemTISTARFirstLayerGapZCmd->GetNewDoubleValue(newValue));
     }
@@ -702,6 +759,15 @@ void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
     if(command == fSetDetectionSystemTISTARSecondLayerDistFromBeamCmd) {
         fDetector->SetTISTARSecondLayerDistFromBeam(fSetDetectionSystemTISTARSecondLayerDistFromBeamCmd->GetNewDoubleValue(newValue));
     }
+    if(command == fSetDetectionSystemTISTARSecondLayerOffsetCmd) {
+        fDetector->SetTISTARSecondLayerOffset(fSetDetectionSystemTISTARSecondLayerOffsetCmd->GetNew3VectorValue(newValue));
+    }
+    if(command == fSetDetectionSystemTISTARSecondLayerPCBUpperXCmd) {
+        fDetector->SetTISTARSecondLayerPCBUpperX(fSetDetectionSystemTISTARSecondLayerPCBUpperXCmd->GetNewDoubleValue(newValue));
+    }
+    if(command == fSetDetectionSystemTISTARSecondLayerPCBLowerXCmd) {
+        fDetector->SetTISTARSecondLayerPCBLowerX(fSetDetectionSystemTISTARSecondLayerPCBLowerXCmd->GetNewDoubleValue(newValue));
+    }
     
     if(command == fSetDetectionSystemTISTARThirdLayerXCmd) {
         fDetector->SetTISTARThirdLayerX(fSetDetectionSystemTISTARThirdLayerXCmd->GetNewDoubleValue(newValue));
@@ -714,6 +780,15 @@ void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
     }
     if(command == fSetDetectionSystemTISTARThirdLayerDistFromBeamCmd) {
         fDetector->SetTISTARThirdLayerDistFromBeam(fSetDetectionSystemTISTARThirdLayerDistFromBeamCmd->GetNewDoubleValue(newValue));
+    }
+    if(command == fSetDetectionSystemTISTARThirdLayerOffsetCmd) {
+        fDetector->SetTISTARThirdLayerOffset(fSetDetectionSystemTISTARThirdLayerOffsetCmd->GetNew3VectorValue(newValue));
+    }
+    if(command == fSetDetectionSystemTISTARThirdLayerPCBUpperXCmd) {
+        fDetector->SetTISTARThirdLayerPCBUpperX(fSetDetectionSystemTISTARThirdLayerPCBUpperXCmd->GetNewDoubleValue(newValue));
+    }
+    if(command == fSetDetectionSystemTISTARThirdLayerPCBLowerXCmd) {
+        fDetector->SetTISTARThirdLayerPCBLowerX(fSetDetectionSystemTISTARThirdLayerPCBLowerXCmd->GetNewDoubleValue(newValue));
     }
 
 }

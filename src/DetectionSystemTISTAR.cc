@@ -103,17 +103,18 @@ G4int DetectionSystemTISTAR::BuildTISTAR()
         fFirstLayerLV = new G4LogicalVolume(firstLayerPV,siliconMaterial,"firstLayerLV",0,0,0);
         fFirstLayerLV->SetVisAttributes(siliconVisAtt);
     }
+    
     // Add first layer forward left strip
-    move = G4ThreeVector(0.,+fFirstLayerThickness/2.+fFirstLayerDistFromBeam,+fFirstLayerZ/2.+fFirstLayerGapZ/2.);
+    move = G4ThreeVector(-fFirstLayerPCBUpperX/2.+fFirstLayerPCBLowerX/2.,+fFirstLayerThickness/2.+fFirstLayerDistFromBeam,+fFirstLayerZ/2.+fFirstLayerGapZ/2.) + fFirstLayerOffset;
     fAssemblyTISTAR->AddPlacedVolume(fFirstLayerLV,move,rotate);
     // Add first layer backward left strip
-    move = G4ThreeVector(0.,+fFirstLayerThickness/2.+fFirstLayerDistFromBeam,-fFirstLayerZ/2.-fFirstLayerGapZ/2.);
+    move = G4ThreeVector(-fFirstLayerPCBUpperX/2.+fFirstLayerPCBLowerX/2.,+fFirstLayerThickness/2.+fFirstLayerDistFromBeam,-fFirstLayerZ/2.-fFirstLayerGapZ/2.) + fFirstLayerOffset;
     fAssemblyTISTAR->AddPlacedVolume(fFirstLayerLV,move,rotate);
     // Add first layer forward right strip
-    move = G4ThreeVector(0.,-fFirstLayerThickness/2.-fFirstLayerDistFromBeam,+fFirstLayerZ/2.+fFirstLayerGapZ/2.);
+    move = G4ThreeVector(-fFirstLayerPCBUpperX/2.+fFirstLayerPCBLowerX/2.,-fFirstLayerThickness/2.-fFirstLayerDistFromBeam,+fFirstLayerZ/2.+fFirstLayerGapZ/2.) + fFirstLayerOffset;
     fAssemblyTISTAR->AddPlacedVolume(fFirstLayerLV,move,rotate);
     // Add first layer forward right strip
-    move = G4ThreeVector(0.,-fFirstLayerThickness/2.-fFirstLayerDistFromBeam,-fFirstLayerZ/2.-fFirstLayerGapZ/2.);
+    move = G4ThreeVector(-fFirstLayerPCBUpperX/2.+fFirstLayerPCBLowerX/2.,-fFirstLayerThickness/2.-fFirstLayerDistFromBeam,-fFirstLayerZ/2.-fFirstLayerGapZ/2.) + fFirstLayerOffset;
     fAssemblyTISTAR->AddPlacedVolume(fFirstLayerLV,move,rotate);
     
     // Build the second layer
@@ -123,10 +124,10 @@ G4int DetectionSystemTISTAR::BuildTISTAR()
         fSecondLayerLV->SetVisAttributes(siliconVisAtt);
     }
     // Add second layer left strip
-    move = G4ThreeVector(0.,+fSecondLayerThickness/2.+fSecondLayerDistFromBeam,0.);
+    move = G4ThreeVector(-fSecondLayerPCBUpperX/2.+fSecondLayerPCBLowerX/2.,+fSecondLayerThickness/2.+fSecondLayerDistFromBeam,0.) + fSecondLayerOffset;
     fAssemblyTISTAR->AddPlacedVolume(fSecondLayerLV,move,rotate);
     // Add second layer right strip
-    move = G4ThreeVector(0.,-fSecondLayerThickness/2.-fSecondLayerDistFromBeam,0.);
+    move = G4ThreeVector(-fSecondLayerPCBUpperX/2.+fSecondLayerPCBLowerX/2.,-fSecondLayerThickness/2.-fSecondLayerDistFromBeam,0.) + fSecondLayerOffset;
     fAssemblyTISTAR->AddPlacedVolume(fSecondLayerLV,move,rotate);
 
     // Build the third layer
@@ -136,10 +137,10 @@ G4int DetectionSystemTISTAR::BuildTISTAR()
         fThirdLayerLV->SetVisAttributes(siliconVisAtt);
     }
     // Add third left strip
-    move = G4ThreeVector(0.,+fThirdLayerThickness/2.+fThirdLayerDistFromBeam,0.);
+    move = G4ThreeVector(-fThirdLayerPCBUpperX/2.+fThirdLayerPCBLowerX/2.,+fThirdLayerThickness/2.+fThirdLayerDistFromBeam,0.) + fThirdLayerOffset;
     fAssemblyTISTAR->AddPlacedVolume(fThirdLayerLV,move,rotate);
     // Add third right strip
-    move = G4ThreeVector(0.,-fThirdLayerThickness/2.-fThirdLayerDistFromBeam,0.);
+    move = G4ThreeVector(-fThirdLayerPCBUpperX/2.+fThirdLayerPCBLowerX/2.,-fThirdLayerThickness/2.-fThirdLayerDistFromBeam,0.) + fThirdLayerOffset;
     fAssemblyTISTAR->AddPlacedVolume(fThirdLayerLV,move,rotate);
 
     return 1;
