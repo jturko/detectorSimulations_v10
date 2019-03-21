@@ -79,6 +79,7 @@ private:
     G4UIcmdWithAnInteger* 	   fBeamDistroCmd;
     G4UIcmdWithAString* 	   fBeamFileCmd;
     G4UIcmdWithAString*		   fSourceBeamCmd;
+    G4UIcmdWithABool*               fUseGPSCmd;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

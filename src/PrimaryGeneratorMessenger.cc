@@ -105,6 +105,10 @@ PrimaryGeneratorMessenger::PrimaryGeneratorMessenger(PrimaryGeneratorAction* Gun
     fSourceBeamCmd = new G4UIcmdWithAString("/DetSys/gun/SourceBeam",this);//apply beam make-up from bismuth/barium
     fSourceBeamCmd->SetGuidance("Set beam distribution from source, named by the command");
     fSourceBeamCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+    fUseGPSCmd = new G4UIcmdWithABool("/DetSys/gun/useGPS",this);
+    fUseGPSCmd->SetGuidance("Set to use the general particle source instead of the particle gun (commands under /gps/)");
+    fUseGPSCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -120,6 +124,7 @@ PrimaryGeneratorMessenger::~PrimaryGeneratorMessenger() {
     delete fBeamDistroCmd;
     delete fBeamFileCmd;
     delete fSourceBeamCmd;    
+    delete fUseGPSCmd;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -177,6 +182,9 @@ void PrimaryGeneratorMessenger::SetNewValue(G4UIcommand* command, G4String newVa
 		G4cout<<"Source beam chosen"<< G4endl;
 		fAction->SetSourceName(newValue);
 	}  
+    if(command == fUseGPSCmd) {
+        fAction->SetUseGPS(fUseGPSCmd->GetNewBoolValue(newValue));
+    }
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

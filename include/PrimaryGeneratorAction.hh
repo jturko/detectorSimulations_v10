@@ -41,6 +41,7 @@
 #include "globals.hh"
 #include "G4ThreeVector.hh"
 #include "G4SystemOfUnits.hh"
+#include "G4GeneralParticleSource.hh"
 
 
 class G4ParticleGun;
@@ -56,6 +57,7 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 {
 private:    
     G4ParticleGun*                fParticleGun;  //pointer a to G4 class
+    G4GeneralParticleSource*      fGPS; // pointer to a G4 general particle source (alternative to G4ParticleGun)
     DetectorConstruction*         fDetector;     //pointer to the geometry
     PrimaryGeneratorMessenger*    fGunMessenger; //messenger of this class
     BeamDistribution*		  fBeamDistribution;//pointer to the BeamDistribution class
@@ -86,6 +88,8 @@ public:
     void SetSourceNeeded(G4bool needed){fSourceNeeded = needed;};
     void SetSourceName(G4String input){fSourceName = input;};
     
+    void SetUseGPS(G4bool val) { fUseGPS = val; }
+
 private:
     //variables
     G4int fNumberOfDecayingLaBrDetectors;
@@ -112,6 +116,8 @@ private:
     
     G4bool fSourceNeeded;
     G4String fSourceName;
+
+    G4bool fUseGPS;
     
     //functions
     void LaBrinit();
