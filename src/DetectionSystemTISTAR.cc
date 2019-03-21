@@ -32,21 +32,22 @@ DetectionSystemTISTAR::DetectionSystemTISTAR() :
     fSecondLayerLV(NULL),
     fThirdLayerLV(NULL)
 {
-    // Default parameters taken from TI-STAR Technical Design Report
+    // Default parameters taken from image of Leila's G4 setup
     fFirstLayerX = 40.0*mm;
-    fFirstLayerZ = 70.0*mm;
+    fFirstLayerZ = 50.0*mm;
     fFirstLayerThickness = 20.0*um;
     fFirstLayerDistFromBeam = 10.0*mm;    
+    fFirstLayerGapZ = 4.0*mm;
 
     fSecondLayerX = 100.0*mm;
-    fSecondLayerZ = 75.0*mm;
-    fSecondLayerThickness = 300.0*um;
+    fSecondLayerZ = 100.0*mm;
+    fSecondLayerThickness = 150.0*um;
     fSecondLayerDistFromBeam = 30.0*mm;    
     
     fThirdLayerX = 100.0*mm;
-    fThirdLayerZ = 70.0*mm;
+    fThirdLayerZ = 100.0*mm;
     fThirdLayerThickness = 2000.0*um;
-    fThirdLayerDistFromBeam = 32.0*mm;    
+    fThirdLayerDistFromBeam = 33.0*mm;    
  
     fSiliconMaterialName = "Silicon";
    
@@ -102,17 +103,17 @@ G4int DetectionSystemTISTAR::BuildTISTAR()
         fFirstLayerLV = new G4LogicalVolume(firstLayerPV,siliconMaterial,"firstLayerLV",0,0,0);
         fFirstLayerLV->SetVisAttributes(siliconVisAtt);
     }
-    // Add forward left strip
-    move = G4ThreeVector(0.,+fFirstLayerThickness/2.+fFirstLayerDistFromBeam,+fFirstLayerZ/2.);
+    // Add first layer forward left strip
+    move = G4ThreeVector(0.,+fFirstLayerThickness/2.+fFirstLayerDistFromBeam,+fFirstLayerZ/2.+fFirstLayerGapZ/2.);
     fAssemblyTISTAR->AddPlacedVolume(fFirstLayerLV,move,rotate);
-    // Add backward left strip
-    move = G4ThreeVector(0.,+fFirstLayerThickness/2.+fFirstLayerDistFromBeam,-fFirstLayerZ/2.);
+    // Add first layer backward left strip
+    move = G4ThreeVector(0.,+fFirstLayerThickness/2.+fFirstLayerDistFromBeam,-fFirstLayerZ/2.-fFirstLayerGapZ/2.);
     fAssemblyTISTAR->AddPlacedVolume(fFirstLayerLV,move,rotate);
-    // Add forward right strip
-    move = G4ThreeVector(0.,-fFirstLayerThickness/2.-fFirstLayerDistFromBeam,+fFirstLayerZ/2.);
+    // Add first layer forward right strip
+    move = G4ThreeVector(0.,-fFirstLayerThickness/2.-fFirstLayerDistFromBeam,+fFirstLayerZ/2.+fFirstLayerGapZ/2.);
     fAssemblyTISTAR->AddPlacedVolume(fFirstLayerLV,move,rotate);
-    // Add forward right strip
-    move = G4ThreeVector(0.,-fFirstLayerThickness/2.-fFirstLayerDistFromBeam,-fFirstLayerZ/2.);
+    // Add first layer forward right strip
+    move = G4ThreeVector(0.,-fFirstLayerThickness/2.-fFirstLayerDistFromBeam,-fFirstLayerZ/2.-fFirstLayerGapZ/2.);
     fAssemblyTISTAR->AddPlacedVolume(fFirstLayerLV,move,rotate);
     
     // Build the second layer
@@ -121,23 +122,23 @@ G4int DetectionSystemTISTAR::BuildTISTAR()
         fSecondLayerLV = new G4LogicalVolume(secondLayerPV,siliconMaterial,"secondLayerLV",0,0,0);
         fSecondLayerLV->SetVisAttributes(siliconVisAtt);
     }
-    // Add left strip
+    // Add second layer left strip
     move = G4ThreeVector(0.,+fSecondLayerThickness/2.+fSecondLayerDistFromBeam,0.);
     fAssemblyTISTAR->AddPlacedVolume(fSecondLayerLV,move,rotate);
-    // Add right strip
+    // Add second layer right strip
     move = G4ThreeVector(0.,-fSecondLayerThickness/2.-fSecondLayerDistFromBeam,0.);
     fAssemblyTISTAR->AddPlacedVolume(fSecondLayerLV,move,rotate);
 
     // Build the third layer
     G4Box * thirdLayerPV = new G4Box("thirdLayerPV",fThirdLayerX/2.,fThirdLayerThickness/2.,fThirdLayerZ/2.);
     if(fThirdLayerLV == NULL) {
-        fThirdLayerLV = new G4LogicalVolume(thirdLayerPV,siliconMaterial,"ThirdLayerLV",0,0,0);
+        fThirdLayerLV = new G4LogicalVolume(thirdLayerPV,siliconMaterial,"thirdLayerLV",0,0,0);
         fThirdLayerLV->SetVisAttributes(siliconVisAtt);
     }
-    // Add left strip
+    // Add third left strip
     move = G4ThreeVector(0.,+fThirdLayerThickness/2.+fThirdLayerDistFromBeam,0.);
     fAssemblyTISTAR->AddPlacedVolume(fThirdLayerLV,move,rotate);
-    // Add right strip
+    // Add third right strip
     move = G4ThreeVector(0.,-fThirdLayerThickness/2.-fThirdLayerDistFromBeam,0.);
     fAssemblyTISTAR->AddPlacedVolume(fThirdLayerLV,move,rotate);
 

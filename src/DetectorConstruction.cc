@@ -175,6 +175,7 @@ DetectorConstruction::DetectorConstruction() :
     fTISTARFirstLayerZ = -1;
     fTISTARFirstLayerThickness = -1;
     fTISTARFirstLayerDistFromBeam = -1;
+    fTISTARFirstLayerGapZ = -1;
 
     fTISTARSecondLayerX = -1;
     fTISTARSecondLayerZ = -1;
@@ -818,20 +819,21 @@ void DetectorConstruction::AddDetectionSystemTISTAR() {
 
     DetectionSystemTISTAR * pTISTAR = new DetectionSystemTISTAR();
     
-    if(fTISTARFirstLayerX > 0.) pTISTAR->SetFirstLayerX(fTISTARFirstLayerX);
-    if(fTISTARFirstLayerZ > 0.) pTISTAR->SetFirstLayerZ(fTISTARFirstLayerZ);
-    if(fTISTARFirstLayerThickness > 0.) pTISTAR->SetFirstLayerThickness(fTISTARFirstLayerThickness);
-    if(fTISTARFirstLayerDistFromBeam > 0.) pTISTAR->SetFirstLayerDistFromBeam(fTISTARFirstLayerDistFromBeam);
-    
-    if(fTISTARSecondLayerX > 0.) pTISTAR->SetSecondLayerX(fTISTARSecondLayerX);
-    if(fTISTARSecondLayerZ > 0.) pTISTAR->SetSecondLayerZ(fTISTARSecondLayerZ);
-    if(fTISTARSecondLayerThickness > 0.) pTISTAR->SetSecondLayerThickness(fTISTARSecondLayerThickness);
+    if(fTISTARFirstLayerX > 0.)             pTISTAR->SetFirstLayerX(fTISTARFirstLayerX);
+    if(fTISTARFirstLayerZ > 0.)             pTISTAR->SetFirstLayerZ(fTISTARFirstLayerZ);
+    if(fTISTARFirstLayerThickness > 0.)     pTISTAR->SetFirstLayerThickness(fTISTARFirstLayerThickness);
+    if(fTISTARFirstLayerDistFromBeam > 0.)  pTISTAR->SetFirstLayerDistFromBeam(fTISTARFirstLayerDistFromBeam);
+    if(fTISTARFirstLayerGapZ > 0.)          pTISTAR->SetFirstLayerGapZ(fTISTARFirstLayerGapZ);    
+
+    if(fTISTARSecondLayerX > 0.)            pTISTAR->SetSecondLayerX(fTISTARSecondLayerX);
+    if(fTISTARSecondLayerZ > 0.)            pTISTAR->SetSecondLayerZ(fTISTARSecondLayerZ);
+    if(fTISTARSecondLayerThickness > 0.)    pTISTAR->SetSecondLayerThickness(fTISTARSecondLayerThickness);
     if(fTISTARSecondLayerDistFromBeam > 0.) pTISTAR->SetSecondLayerDistFromBeam(fTISTARSecondLayerDistFromBeam);
     
-    if(fTISTARThirdLayerX > 0.) pTISTAR->SetThirdLayerX(fTISTARThirdLayerX);
-    if(fTISTARThirdLayerZ > 0.) pTISTAR->SetThirdLayerZ(fTISTARThirdLayerZ);
-    if(fTISTARThirdLayerThickness > 0.) pTISTAR->SetThirdLayerThickness(fTISTARThirdLayerThickness);
-    if(fTISTARThirdLayerDistFromBeam > 0.) pTISTAR->SetThirdLayerDistFromBeam(fTISTARThirdLayerDistFromBeam);
+    if(fTISTARThirdLayerX > 0.)             pTISTAR->SetThirdLayerX(fTISTARThirdLayerX);
+    if(fTISTARThirdLayerZ > 0.)             pTISTAR->SetThirdLayerZ(fTISTARThirdLayerZ);
+    if(fTISTARThirdLayerThickness > 0.)     pTISTAR->SetThirdLayerThickness(fTISTARThirdLayerThickness);
+    if(fTISTARThirdLayerDistFromBeam > 0.)  pTISTAR->SetThirdLayerDistFromBeam(fTISTARThirdLayerDistFromBeam);
 
     pTISTAR->Build();
     pTISTAR->PlaceDetector(fLogicWorld);

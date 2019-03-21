@@ -226,11 +226,9 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction* Det)
 	fAddDetectionSystem8piDetectorCmd->SetGuidance("Add 8pi Detector");
 	fAddDetectionSystem8piDetectorCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	fAddDetectionSystemDescantCmd = new G4UIcmdWithAnInteger("/DetSys/det/addDescant",this);
 	fAddDetectionSystemDescantCmd->SetGuidance("Add Detection System DESCANT");
 	fAddDetectionSystemDescantCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	fAddDetectionSystemDescantAuxPortsCmd = new G4UIcmdWith3Vector("/DetSys/det/addDescantAuxPorts",this);
 	fAddDetectionSystemDescantAuxPortsCmd->SetGuidance("Add 8 DESCANT detectors in the auxillary LaBr3 detector locations");
@@ -324,6 +322,7 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction* Det)
 	fUseTIGRESSPositionsCmd->SetGuidance("Use TIGRESS detector positions rather than GRIFFIN");
 	fUseTIGRESSPositionsCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
+    // TI-STAR
     fAddDetectionSystemTISTARCmd = new G4UIcmdWithoutParameter("/DetSys/det/addTISTAR",this);
     fAddDetectionSystemTISTARCmd->SetGuidance("Build the TI-STAR silicon tracker");
     fAddDetectionSystemTISTARCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
@@ -343,6 +342,10 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction* Det)
     fSetDetectionSystemTISTARFirstLayerDistFromBeamCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/det/setTISTARFirstLayerDistFromBeam",this);
     fSetDetectionSystemTISTARFirstLayerDistFromBeamCmd->SetGuidance("Set TI-STAR first layer distance from beam axis");
     fSetDetectionSystemTISTARFirstLayerDistFromBeamCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+    fSetDetectionSystemTISTARFirstLayerGapZCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/det/setTISTARFirstLayerGapZ",this);
+    fSetDetectionSystemTISTARFirstLayerGapZCmd->SetGuidance("Set the gap between the two first layer strips in TI-STAR");
+    fSetDetectionSystemTISTARFirstLayerGapZCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
     fSetDetectionSystemTISTARSecondLayerXCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/det/setTISTARSecondLayerX",this);
     fSetDetectionSystemTISTARSecondLayerXCmd->SetGuidance("Set x-dimension for TI-STAR second layer");
@@ -460,10 +463,13 @@ DetectorMessenger::~DetectorMessenger()
     delete fSetDetectionSystemTISTARFirstLayerZCmd;
     delete fSetDetectionSystemTISTARFirstLayerThicknessCmd;
     delete fSetDetectionSystemTISTARFirstLayerDistFromBeamCmd;
+    delete fSetDetectionSystemTISTARFirstLayerGapZCmd;
+
     delete fSetDetectionSystemTISTARSecondLayerXCmd;
     delete fSetDetectionSystemTISTARSecondLayerZCmd;
     delete fSetDetectionSystemTISTARSecondLayerThicknessCmd;
     delete fSetDetectionSystemTISTARSecondLayerDistFromBeamCmd;
+
     delete fSetDetectionSystemTISTARThirdLayerXCmd;
     delete fSetDetectionSystemTISTARThirdLayerZCmd;
     delete fSetDetectionSystemTISTARThirdLayerThicknessCmd;
@@ -662,6 +668,8 @@ void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
 		fDetector->UseTIGRESSPositions(fUseTIGRESSPositionsCmd->GetNewBoolValue(newValue));
 	}
 
+    
+    // TI-STAR
     if(command == fAddDetectionSystemTISTARCmd) {
         fDetector->AddDetectionSystemTISTAR();
     }
@@ -677,6 +685,9 @@ void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
     }
     if(command == fSetDetectionSystemTISTARFirstLayerDistFromBeamCmd) {
         fDetector->SetTISTARFirstLayerDistFromBeam(fSetDetectionSystemTISTARFirstLayerDistFromBeamCmd->GetNewDoubleValue(newValue));
+    }
+    if(command == fSetDetectionSystemTISTARFirstLayerGapZCmd) {
+        fDetector->SetTISTARFirstLayerGapZ(fSetDetectionSystemTISTARFirstLayerGapZCmd->GetNewDoubleValue(newValue));
     }
     
     if(command == fSetDetectionSystemTISTARSecondLayerXCmd) {

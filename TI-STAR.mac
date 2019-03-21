@@ -1,0 +1,30 @@
+# $Id: run.mac 68015 2013-03-13 13:27:27Z gcosmo $
+#
+# Macro file for "AnaEx01.cc"
+# 
+# can be run in batch, without graphic
+# or interactively: Idle> /control/execute run.mac
+#
+
+/run/initialize
+
+/control/execute vis.mac
+
+/DetSys/det/setTISTARFirstLayerX 40 mm
+/DetSys/det/setTISTARFirstLayerZ 50 mm
+/DetSys/det/setTISTARFirstLayerThickness 20 um
+/DetSys/det/setTISTARFirstLayerDistFromBeam 10 mm
+/DetSys/det/setTISTARFirstLayerGapZ 4 mm 
+
+/DetSys/det/setTISTARSecondLayerX 100 mm
+/DetSys/det/setTISTARSecondLayerZ 100 mm
+/DetSys/det/setTISTARSecondLayerThickness 150 um
+/DetSys/det/setTISTARSecondLayerDistFromBeam 30 mm
+
+/DetSys/det/setTISTARThirdLayerX 100 mm
+/DetSys/det/setTISTARThirdLayerZ 100 mm
+/DetSys/det/setTISTARThirdLayerThickness 2000 um
+/DetSys/det/setTISTARThirdLayerDistFromBeam 33 mm
+
+/DetSys/det/addTISTAR
+/run/beamOn 1

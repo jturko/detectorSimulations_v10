@@ -54,7 +54,8 @@ public:
     void SetFirstLayerZ(G4double zz) { fFirstLayerZ = zz; }
     void SetFirstLayerThickness(G4double thickness) { fFirstLayerThickness = thickness; }
     void SetFirstLayerDistFromBeam(G4double dist) { fFirstLayerDistFromBeam = dist; }
-    
+    void SetFirstLayerGapZ(G4double gap) { fFirstLayerGapZ = gap; }    
+
     void SetSecondLayerX(G4double xx) { fSecondLayerX = xx; }
     void SetSecondLayerZ(G4double zz) { fSecondLayerZ = zz; }
     void SetSecondLayerThickness(G4double thickness) { fSecondLayerThickness = thickness; }
@@ -85,6 +86,7 @@ private:
     G4double fFirstLayerZ;
     G4double fFirstLayerThickness;
     G4double fFirstLayerDistFromBeam;
+    G4double fFirstLayerGapZ;
        
     G4double fSecondLayerX;
     G4double fSecondLayerZ;

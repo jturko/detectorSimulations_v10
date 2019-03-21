@@ -183,18 +183,21 @@ public:
     G4bool GetSpiceIn(){return fSetSpiceIn;};
     void UseTIGRESSPositions( G4bool input )                  {fUseTigressPositions = input;};
     
-    void SetTISTARFirstLayerX(G4double value) { fTISTARFirstLayerX = value; } 
-    void SetTISTARFirstLayerZ(G4double value) { fTISTARFirstLayerZ = value; } 
-    void SetTISTARFirstLayerThickness(G4double value) { fTISTARFirstLayerThickness = value; } 
-    void SetTISTARFirstLayerDistFromBeam(G4double value) { fTISTARFirstLayerDistFromBeam = value; } 
-    void SetTISTARSecondLayerX(G4double value) { fTISTARSecondLayerX = value; } 
-    void SetTISTARSecondLayerZ(G4double value) { fTISTARSecondLayerZ = value; } 
-    void SetTISTARSecondLayerThickness(G4double value) { fTISTARSecondLayerThickness = value; } 
-    void SetTISTARSecondLayerDistFromBeam(G4double value) { fTISTARSecondLayerDistFromBeam = value; } 
-    void SetTISTARThirdLayerX(G4double value) { fTISTARThirdLayerX = value; } 
-    void SetTISTARThirdLayerZ(G4double value) { fTISTARThirdLayerZ = value; } 
-    void SetTISTARThirdLayerThickness(G4double value) { fTISTARThirdLayerThickness = value; } 
-    void SetTISTARThirdLayerDistFromBeam(G4double value) { fTISTARThirdLayerDistFromBeam = value; } 
+    void SetTISTARFirstLayerX(G4double value)               { fTISTARFirstLayerX = value; } 
+    void SetTISTARFirstLayerZ(G4double value)               { fTISTARFirstLayerZ = value; } 
+    void SetTISTARFirstLayerThickness(G4double value)       { fTISTARFirstLayerThickness = value; } 
+    void SetTISTARFirstLayerDistFromBeam(G4double value)    { fTISTARFirstLayerDistFromBeam = value; } 
+    void SetTISTARFirstLayerGapZ(G4double value)            { fTISTARFirstLayerGapZ = value; }
+
+    void SetTISTARSecondLayerX(G4double value)              { fTISTARSecondLayerX = value; } 
+    void SetTISTARSecondLayerZ(G4double value)              { fTISTARSecondLayerZ = value; } 
+    void SetTISTARSecondLayerThickness(G4double value)      { fTISTARSecondLayerThickness = value; } 
+    void SetTISTARSecondLayerDistFromBeam(G4double value)   { fTISTARSecondLayerDistFromBeam = value; } 
+
+    void SetTISTARThirdLayerX(G4double value)               { fTISTARThirdLayerX = value; } 
+    void SetTISTARThirdLayerZ(G4double value)               { fTISTARThirdLayerZ = value; } 
+    void SetTISTARThirdLayerThickness(G4double value)       { fTISTARThirdLayerThickness = value; } 
+    void SetTISTARThirdLayerDistFromBeam(G4double value)    { fTISTARThirdLayerDistFromBeam = value; } 
 
 private:
 
@@ -271,6 +274,7 @@ private:
     G4double fTISTARFirstLayerZ;
     G4double fTISTARFirstLayerThickness;
     G4double fTISTARFirstLayerDistFromBeam;
+    G4double fTISTARFirstLayerGapZ;
 
     G4double fTISTARSecondLayerX;
     G4double fTISTARSecondLayerZ;
