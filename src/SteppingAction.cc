@@ -447,6 +447,38 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
         systemID = 8500;
         fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, fStepNumber, particleType, processType, systemID, fCry-1, fDet-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ);
     }
+    
+    // TI-STAR
+    // first layer
+    found = volname.find("firstLayerLV"); 
+    if (edep != 0 && found!=G4String::npos) {
+        SetDetNumberForGenericDetector(volname);
+        mnemonic.replace(0,3,"TS1");
+        mnemonic.replace(3,2,G4intToG4String(fDet));
+        mnemonic.replace(5,1,GetCrystalColour(fCry));
+        systemID = 9100;
+        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, fStepNumber, particleType, processType, systemID, fCry-1, fDet-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ);
+    }
+    // second layer
+    found = volname.find("secondLayerLV"); 
+    if (edep != 0 && found!=G4String::npos) {
+        SetDetNumberForGenericDetector(volname);
+        mnemonic.replace(0,3,"TS2");
+        mnemonic.replace(3,2,G4intToG4String(fDet));
+        mnemonic.replace(5,1,GetCrystalColour(fCry));
+        systemID = 9200;
+        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, fStepNumber, particleType, processType, systemID, fCry-1, fDet-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ);
+    }
+    // third layer
+    found = volname.find("thirdLayerLV"); 
+    if (edep != 0 && found!=G4String::npos) {
+        SetDetNumberForGenericDetector(volname);
+        mnemonic.replace(0,3,"TS3");
+        mnemonic.replace(3,2,G4intToG4String(fDet));
+        mnemonic.replace(5,1,GetCrystalColour(fCry));
+        systemID = 9300;
+        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, fStepNumber, particleType, processType, systemID, fCry-1, fDet-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ);
+    }
 
 
     if(trackSteps) {
