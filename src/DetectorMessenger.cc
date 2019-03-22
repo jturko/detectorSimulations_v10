@@ -355,6 +355,14 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction* Det)
     fSetDetectionSystemTISTARFirstLayerPCBLowerXCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/det/setTISTARFirstLayerPCBLowerX",this);
     fSetDetectionSystemTISTARFirstLayerPCBLowerXCmd->SetGuidance("Set the lower x-dim of PCB for the TI-STAR first layer");
     fSetDetectionSystemTISTARFirstLayerPCBLowerXCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    
+    fSetDetectionSystemTISTARFirstLayerPCBForwardZCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/det/setTISTARFirstLayerPCBForwardZ",this);
+    fSetDetectionSystemTISTARFirstLayerPCBForwardZCmd->SetGuidance("Set the forward z-dim of PCB for the TI-STAR first layer");
+    fSetDetectionSystemTISTARFirstLayerPCBForwardZCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+    fSetDetectionSystemTISTARFirstLayerPCBBackwardZCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/det/setTISTARFirstLayerPCBBackwardZ",this);
+    fSetDetectionSystemTISTARFirstLayerPCBBackwardZCmd->SetGuidance("Set the backward z-dim of PCB for the TI-STAR first layer");
+    fSetDetectionSystemTISTARFirstLayerPCBBackwardZCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
     fSetDetectionSystemTISTARFirstLayerGapZCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/det/setTISTARFirstLayerGapZ",this);
     fSetDetectionSystemTISTARFirstLayerGapZCmd->SetGuidance("Set the gap between the two first layer strips in TI-STAR");
@@ -388,6 +396,14 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction* Det)
     fSetDetectionSystemTISTARSecondLayerPCBLowerXCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/det/setTISTARSecondLayerPCBLowerX",this);
     fSetDetectionSystemTISTARSecondLayerPCBLowerXCmd->SetGuidance("Set the lower x-dim of PCB for the TI-STAR second layer");
     fSetDetectionSystemTISTARSecondLayerPCBLowerXCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    
+    fSetDetectionSystemTISTARSecondLayerPCBForwardZCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/det/setTISTARSecondLayerPCBForwardZ",this);
+    fSetDetectionSystemTISTARSecondLayerPCBForwardZCmd->SetGuidance("Set the forward z-dim of PCB for the TI-STAR Second layer");
+    fSetDetectionSystemTISTARSecondLayerPCBForwardZCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+    fSetDetectionSystemTISTARSecondLayerPCBBackwardZCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/det/setTISTARSecondLayerPCBBackwardZ",this);
+    fSetDetectionSystemTISTARSecondLayerPCBBackwardZCmd->SetGuidance("Set the backward z-dim of PCB for the TI-STAR Second layer");
+    fSetDetectionSystemTISTARSecondLayerPCBBackwardZCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
     // third layer
     fSetDetectionSystemTISTARThirdLayerXCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/det/setTISTARThirdLayerX",this);
@@ -417,6 +433,14 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction* Det)
     fSetDetectionSystemTISTARThirdLayerPCBLowerXCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/det/setTISTARThirdLayerPCBLowerX",this);
     fSetDetectionSystemTISTARThirdLayerPCBLowerXCmd->SetGuidance("Set the lower x-dim of PCB for the TI-STAR third layer");
     fSetDetectionSystemTISTARThirdLayerPCBLowerXCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    
+    fSetDetectionSystemTISTARThirdLayerPCBForwardZCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/det/setTISTARThirdLayerPCBForwardZ",this);
+    fSetDetectionSystemTISTARThirdLayerPCBForwardZCmd->SetGuidance("Set the forward z-dim of PCB for the TI-STAR Third layer");
+    fSetDetectionSystemTISTARThirdLayerPCBForwardZCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+    fSetDetectionSystemTISTARThirdLayerPCBBackwardZCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/det/setTISTARThirdLayerPCBBackwardZ",this);
+    fSetDetectionSystemTISTARThirdLayerPCBBackwardZCmd->SetGuidance("Set the backward z-dim of PCB for the TI-STAR Third layer");
+    fSetDetectionSystemTISTARThirdLayerPCBBackwardZCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -505,6 +529,8 @@ DetectorMessenger::~DetectorMessenger()
     delete fSetDetectionSystemTISTARFirstLayerOffsetCmd;
     delete fSetDetectionSystemTISTARFirstLayerPCBUpperXCmd;
     delete fSetDetectionSystemTISTARFirstLayerPCBLowerXCmd;
+    delete fSetDetectionSystemTISTARFirstLayerPCBForwardZCmd;
+    delete fSetDetectionSystemTISTARFirstLayerPCBBackwardZCmd;
     delete fSetDetectionSystemTISTARFirstLayerGapZCmd;
 
     delete fSetDetectionSystemTISTARSecondLayerXCmd;
@@ -514,6 +540,8 @@ DetectorMessenger::~DetectorMessenger()
     delete fSetDetectionSystemTISTARSecondLayerOffsetCmd;
     delete fSetDetectionSystemTISTARSecondLayerPCBUpperXCmd;
     delete fSetDetectionSystemTISTARSecondLayerPCBLowerXCmd;
+    delete fSetDetectionSystemTISTARSecondLayerPCBForwardZCmd;
+    delete fSetDetectionSystemTISTARSecondLayerPCBBackwardZCmd;
 
     delete fSetDetectionSystemTISTARThirdLayerXCmd;
     delete fSetDetectionSystemTISTARThirdLayerZCmd;
@@ -522,6 +550,8 @@ DetectorMessenger::~DetectorMessenger()
     delete fSetDetectionSystemTISTARThirdLayerOffsetCmd;
     delete fSetDetectionSystemTISTARThirdLayerPCBUpperXCmd;
     delete fSetDetectionSystemTISTARThirdLayerPCBLowerXCmd;
+    delete fSetDetectionSystemTISTARThirdLayerPCBForwardZCmd;
+    delete fSetDetectionSystemTISTARThirdLayerPCBBackwardZCmd;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -743,6 +773,12 @@ void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
     if(command == fSetDetectionSystemTISTARFirstLayerPCBLowerXCmd) {
         fDetector->SetTISTARFirstLayerPCBLowerX(fSetDetectionSystemTISTARFirstLayerPCBLowerXCmd->GetNewDoubleValue(newValue));
     }
+    if(command == fSetDetectionSystemTISTARFirstLayerPCBForwardZCmd) {
+        fDetector->SetTISTARFirstLayerPCBForwardZ(fSetDetectionSystemTISTARFirstLayerPCBForwardZCmd->GetNewDoubleValue(newValue));
+    }
+    if(command == fSetDetectionSystemTISTARFirstLayerPCBBackwardZCmd) {
+        fDetector->SetTISTARFirstLayerPCBBackwardZ(fSetDetectionSystemTISTARFirstLayerPCBBackwardZCmd->GetNewDoubleValue(newValue));
+    }
     if(command == fSetDetectionSystemTISTARFirstLayerGapZCmd) {
         fDetector->SetTISTARFirstLayerGapZ(fSetDetectionSystemTISTARFirstLayerGapZCmd->GetNewDoubleValue(newValue));
     }
@@ -768,6 +804,12 @@ void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
     if(command == fSetDetectionSystemTISTARSecondLayerPCBLowerXCmd) {
         fDetector->SetTISTARSecondLayerPCBLowerX(fSetDetectionSystemTISTARSecondLayerPCBLowerXCmd->GetNewDoubleValue(newValue));
     }
+    if(command == fSetDetectionSystemTISTARSecondLayerPCBForwardZCmd) {
+        fDetector->SetTISTARSecondLayerPCBForwardZ(fSetDetectionSystemTISTARSecondLayerPCBForwardZCmd->GetNewDoubleValue(newValue));
+    }
+    if(command == fSetDetectionSystemTISTARSecondLayerPCBBackwardZCmd) {
+        fDetector->SetTISTARSecondLayerPCBBackwardZ(fSetDetectionSystemTISTARSecondLayerPCBBackwardZCmd->GetNewDoubleValue(newValue));
+    }
     
     if(command == fSetDetectionSystemTISTARThirdLayerXCmd) {
         fDetector->SetTISTARThirdLayerX(fSetDetectionSystemTISTARThirdLayerXCmd->GetNewDoubleValue(newValue));
@@ -789,6 +831,12 @@ void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
     }
     if(command == fSetDetectionSystemTISTARThirdLayerPCBLowerXCmd) {
         fDetector->SetTISTARThirdLayerPCBLowerX(fSetDetectionSystemTISTARThirdLayerPCBLowerXCmd->GetNewDoubleValue(newValue));
+    }
+    if(command == fSetDetectionSystemTISTARThirdLayerPCBForwardZCmd) {
+        fDetector->SetTISTARThirdLayerPCBForwardZ(fSetDetectionSystemTISTARThirdLayerPCBForwardZCmd->GetNewDoubleValue(newValue));
+    }
+    if(command == fSetDetectionSystemTISTARThirdLayerPCBBackwardZCmd) {
+        fDetector->SetTISTARThirdLayerPCBBackwardZ(fSetDetectionSystemTISTARThirdLayerPCBBackwardZCmd->GetNewDoubleValue(newValue));
     }
 
 }

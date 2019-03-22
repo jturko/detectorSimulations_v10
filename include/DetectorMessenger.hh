@@ -161,6 +161,8 @@ private:
     G4UIcmdWith3VectorAndUnit*  fSetDetectionSystemTISTARFirstLayerOffsetCmd;
     G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARFirstLayerPCBUpperXCmd;    
     G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARFirstLayerPCBLowerXCmd;    
+    G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARFirstLayerPCBForwardZCmd;    
+    G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARFirstLayerPCBBackwardZCmd;    
     G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARFirstLayerGapZCmd;    
 
     G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARSecondLayerXCmd;
@@ -170,6 +172,8 @@ private:
     G4UIcmdWith3VectorAndUnit*  fSetDetectionSystemTISTARSecondLayerOffsetCmd;
     G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARSecondLayerPCBUpperXCmd;    
     G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARSecondLayerPCBLowerXCmd;    
+    G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARSecondLayerPCBForwardZCmd;    
+    G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARSecondLayerPCBBackwardZCmd;    
     
     G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARThirdLayerXCmd;
     G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARThirdLayerZCmd;
@@ -178,6 +182,8 @@ private:
     G4UIcmdWith3VectorAndUnit*  fSetDetectionSystemTISTARThirdLayerOffsetCmd;
     G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARThirdLayerPCBUpperXCmd;    
     G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARThirdLayerPCBLowerXCmd;    
+    G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARThirdLayerPCBForwardZCmd;    
+    G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARThirdLayerPCBBackwardZCmd;    
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

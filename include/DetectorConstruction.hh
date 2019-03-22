@@ -190,6 +190,8 @@ public:
     void SetTISTARFirstLayerOffset(G4ThreeVector value)     { fTISTARFirstLayerOffset = value; } 
     void SetTISTARFirstLayerPCBUpperX(G4double value)       { fTISTARFirstLayerPCBUpperX = value; }
     void SetTISTARFirstLayerPCBLowerX(G4double value)       { fTISTARFirstLayerPCBLowerX = value; }
+    void SetTISTARFirstLayerPCBForwardZ(G4double value)     { fTISTARFirstLayerPCBForwardZ = value; }
+    void SetTISTARFirstLayerPCBBackwardZ(G4double value)    { fTISTARFirstLayerPCBBackwardZ = value; }
     void SetTISTARFirstLayerGapZ(G4double value)            { fTISTARFirstLayerGapZ = value; }
 
     void SetTISTARSecondLayerX(G4double value)              { fTISTARSecondLayerX = value; } 
@@ -199,6 +201,8 @@ public:
     void SetTISTARSecondLayerOffset(G4ThreeVector value)    { fTISTARSecondLayerOffset = value; } 
     void SetTISTARSecondLayerPCBUpperX(G4double value)       { fTISTARSecondLayerPCBUpperX = value; }
     void SetTISTARSecondLayerPCBLowerX(G4double value)       { fTISTARSecondLayerPCBLowerX = value; }
+    void SetTISTARSecondLayerPCBForwardZ(G4double value)     { fTISTARSecondLayerPCBForwardZ = value; }
+    void SetTISTARSecondLayerPCBBackwardZ(G4double value)    { fTISTARSecondLayerPCBBackwardZ = value; }
 
     void SetTISTARThirdLayerX(G4double value)               { fTISTARThirdLayerX = value; } 
     void SetTISTARThirdLayerZ(G4double value)               { fTISTARThirdLayerZ = value; } 
@@ -207,6 +211,8 @@ public:
     void SetTISTARThirdLayerOffset(G4ThreeVector value)     { fTISTARThirdLayerOffset = value; } 
     void SetTISTARThirdLayerPCBUpperX(G4double value)       { fTISTARThirdLayerPCBUpperX = value; }
     void SetTISTARThirdLayerPCBLowerX(G4double value)       { fTISTARThirdLayerPCBLowerX = value; }
+    void SetTISTARThirdLayerPCBForwardZ(G4double value)     { fTISTARThirdLayerPCBForwardZ = value; }
+    void SetTISTARThirdLayerPCBBackwardZ(G4double value)    { fTISTARThirdLayerPCBBackwardZ = value; }
 
 private:
 
@@ -286,6 +292,8 @@ private:
     G4ThreeVector fTISTARFirstLayerOffset;
     G4double fTISTARFirstLayerPCBUpperX;
     G4double fTISTARFirstLayerPCBLowerX;
+    G4double fTISTARFirstLayerPCBForwardZ;
+    G4double fTISTARFirstLayerPCBBackwardZ;
     G4double fTISTARFirstLayerGapZ;
 
     G4double fTISTARSecondLayerX;
@@ -295,6 +303,8 @@ private:
     G4ThreeVector fTISTARSecondLayerOffset;
     G4double fTISTARSecondLayerPCBUpperX;
     G4double fTISTARSecondLayerPCBLowerX;
+    G4double fTISTARSecondLayerPCBForwardZ;
+    G4double fTISTARSecondLayerPCBBackwardZ;
 
     G4double fTISTARThirdLayerX;
     G4double fTISTARThirdLayerZ;
@@ -303,6 +313,8 @@ private:
     G4ThreeVector fTISTARThirdLayerOffset;
     G4double fTISTARThirdLayerPCBUpperX;
     G4double fTISTARThirdLayerPCBLowerX;
+    G4double fTISTARThirdLayerPCBForwardZ;
+    G4double fTISTARThirdLayerPCBBackwardZ;
 
 };
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

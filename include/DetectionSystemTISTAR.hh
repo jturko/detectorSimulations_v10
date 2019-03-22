@@ -57,6 +57,8 @@ public:
     void SetFirstLayerOffset(G4ThreeVector offset) { fFirstLayerOffset = offset; }
     void SetFirstLayerPCBUpperX(G4double xx) { fFirstLayerPCBUpperX = xx; }
     void SetFirstLayerPCBLowerX(G4double xx) { fFirstLayerPCBLowerX = xx; }
+    void SetFirstLayerPCBForwardZ(G4double xx) { fFirstLayerPCBForwardZ = xx; }
+    void SetFirstLayerPCBBackwardZ(G4double xx) { fFirstLayerPCBBackwardZ = xx; }
     void SetFirstLayerGapZ(G4double gap) { fFirstLayerGapZ = gap; }    
 
     void SetSecondLayerX(G4double xx) { fSecondLayerX = xx; }
@@ -66,6 +68,8 @@ public:
     void SetSecondLayerOffset(G4ThreeVector offset) { fSecondLayerOffset = offset; }
     void SetSecondLayerPCBUpperX(G4double xx) { fSecondLayerPCBUpperX = xx; }
     void SetSecondLayerPCBLowerX(G4double xx) { fSecondLayerPCBLowerX = xx; }
+    void SetSecondLayerPCBForwardZ(G4double xx) { fSecondLayerPCBForwardZ = xx; }
+    void SetSecondLayerPCBBackwardZ(G4double xx) { fSecondLayerPCBBackwardZ = xx; }
     
     void SetThirdLayerX(G4double xx) { fThirdLayerX = xx; }
     void SetThirdLayerZ(G4double zz) { fThirdLayerZ = zz; }
@@ -74,6 +78,8 @@ public:
     void SetThirdLayerOffset(G4ThreeVector offset) { fThirdLayerOffset = offset; }
     void SetThirdLayerPCBUpperX(G4double xx) { fThirdLayerPCBUpperX = xx; }
     void SetThirdLayerPCBLowerX(G4double xx) { fThirdLayerPCBLowerX = xx; }
+    void SetThirdLayerPCBForwardZ(G4double xx) { fThirdLayerPCBForwardZ = xx; }
+    void SetThirdLayerPCBBackwardZ(G4double xx) { fThirdLayerPCBBackwardZ = xx; }
 
 private:
     
@@ -81,6 +87,8 @@ private:
     
     G4int BuildSiliconStrips();
     G4int BuildPCBs();
+
+    void CalculateDimensions();
 
     // Assembly volumes
     G4AssemblyVolume* fAssemblyTISTAR;            
@@ -92,10 +100,16 @@ private:
     
     G4LogicalVolume * fFirstLayerPCBUpperXLV;
     G4LogicalVolume * fFirstLayerPCBLowerXLV;
+    G4LogicalVolume * fFirstLayerPCBForwardZLV;
+    G4LogicalVolume * fFirstLayerPCBBackwardZLV;
     G4LogicalVolume * fSecondLayerPCBUpperXLV;
     G4LogicalVolume * fSecondLayerPCBLowerXLV;
+    G4LogicalVolume * fSecondLayerPCBForwardZLV;
+    G4LogicalVolume * fSecondLayerPCBBackwardZLV;
     G4LogicalVolume * fThirdLayerPCBUpperXLV;
     G4LogicalVolume * fThirdLayerPCBLowerXLV;
+    G4LogicalVolume * fThirdLayerPCBForwardZLV;
+    G4LogicalVolume * fThirdLayerPCBBackwardZLV;
 
     // Materials 
     G4String fSiliconMaterialName;
@@ -109,8 +123,10 @@ private:
     G4ThreeVector fFirstLayerOffset;
     G4double fFirstLayerPCBUpperX;
     G4double fFirstLayerPCBLowerX;
+    G4double fFirstLayerPCBForwardZ;
+    G4double fFirstLayerPCBBackwardZ;
     G4double fFirstLayerGapZ;
-       
+
     G4double fSecondLayerX;
     G4double fSecondLayerZ;
     G4double fSecondLayerThickness;
@@ -118,6 +134,8 @@ private:
     G4ThreeVector fSecondLayerOffset;
     G4double fSecondLayerPCBUpperX;
     G4double fSecondLayerPCBLowerX;
+    G4double fSecondLayerPCBForwardZ;
+    G4double fSecondLayerPCBBackwardZ;
     
     G4double fThirdLayerX;
     G4double fThirdLayerZ;
@@ -126,6 +144,8 @@ private:
     G4ThreeVector fThirdLayerOffset;
     G4double fThirdLayerPCBUpperX;
     G4double fThirdLayerPCBLowerX;
+    G4double fThirdLayerPCBForwardZ;
+    G4double fThirdLayerPCBBackwardZ;
     
     G4double fPCBThickness;
 

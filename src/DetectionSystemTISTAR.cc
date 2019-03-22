@@ -33,10 +33,16 @@ DetectionSystemTISTAR::DetectionSystemTISTAR() :
     fThirdLayerLV(NULL),
     fFirstLayerPCBUpperXLV(NULL),
     fFirstLayerPCBLowerXLV(NULL),
+    fFirstLayerPCBForwardZLV(NULL),
+    fFirstLayerPCBBackwardZLV(NULL),
     fSecondLayerPCBUpperXLV(NULL),
     fSecondLayerPCBLowerXLV(NULL),
+    fSecondLayerPCBForwardZLV(NULL),
+    fSecondLayerPCBBackwardZLV(NULL),
     fThirdLayerPCBUpperXLV(NULL),
-    fThirdLayerPCBLowerXLV(NULL)
+    fThirdLayerPCBLowerXLV(NULL),
+    fThirdLayerPCBForwardZLV(NULL),
+    fThirdLayerPCBBackwardZLV(NULL)
 {
     // Default parameters taken from image of Leila's G4 setup
     fFirstLayerX = 40.0*mm;
@@ -45,15 +51,30 @@ DetectionSystemTISTAR::DetectionSystemTISTAR() :
     fFirstLayerDistFromBeam = 10.0*mm;    
     fFirstLayerGapZ = 4.0*mm;
 
+    fFirstLayerPCBUpperX = 0.0*mm;
+    fFirstLayerPCBLowerX = 0.0*mm;
+    fFirstLayerPCBForwardZ = 0.0*mm;
+    fFirstLayerPCBBackwardZ = 0.0*mm;
+
     fSecondLayerX = 100.0*mm;
     fSecondLayerZ = 100.0*mm;
     fSecondLayerThickness = 150.0*um;
     fSecondLayerDistFromBeam = 30.0*mm;    
+
+    fSecondLayerPCBUpperX = 0.0*mm;
+    fSecondLayerPCBLowerX = 0.0*mm;
+    fSecondLayerPCBForwardZ = 0.0*mm;
+    fSecondLayerPCBBackwardZ = 0.0*mm;
     
     fThirdLayerX = 100.0*mm;
     fThirdLayerZ = 100.0*mm;
     fThirdLayerThickness = 2000.0*um;
     fThirdLayerDistFromBeam = 33.0*mm;    
+
+    fThirdLayerPCBUpperX = 0.0*mm;
+    fThirdLayerPCBLowerX = 0.0*mm;
+    fThirdLayerPCBForwardZ = 0.0*mm;
+    fThirdLayerPCBBackwardZ = 0.0*mm;
  
     fSiliconMaterialName = "Silicon";
     fPCBMaterialName = "Epoxy-Resin";
@@ -70,10 +91,18 @@ DetectionSystemTISTAR::~DetectionSystemTISTAR()
 
     delete fFirstLayerPCBUpperXLV;
     delete fFirstLayerPCBLowerXLV;
+    delete fFirstLayerPCBForwardZLV;
+    delete fFirstLayerPCBBackwardZLV;
+    
     delete fSecondLayerPCBUpperXLV;
     delete fSecondLayerPCBLowerXLV;
+    delete fSecondLayerPCBForwardZLV;
+    delete fSecondLayerPCBBackwardZLV;
+    
     delete fThirdLayerPCBUpperXLV;
     delete fThirdLayerPCBLowerXLV;
+    delete fThirdLayerPCBForwardZLV;
+    delete fThirdLayerPCBBackwardZLV;
 
     delete fAssemblyTISTAR;
 }
@@ -129,16 +158,16 @@ G4int DetectionSystemTISTAR::BuildSiliconStrips()
         fFirstLayerLV->SetVisAttributes(siliconVisAtt);
     }
     // Add first layer forward left strip
-    move = G4ThreeVector(-fFirstLayerPCBUpperX/2.+fFirstLayerPCBLowerX/2.,+fFirstLayerThickness/2.+fFirstLayerDistFromBeam,+fFirstLayerZ/2.+fFirstLayerGapZ/2.) + fFirstLayerOffset;
+    move = G4ThreeVector(0.,+fFirstLayerThickness/2.+fFirstLayerDistFromBeam,+fFirstLayerZ/2.+fFirstLayerGapZ/2.) + fFirstLayerOffset;
     fAssemblyTISTAR->AddPlacedVolume(fFirstLayerLV,move,rotate);
     // Add first layer backward left strip
-    move = G4ThreeVector(-fFirstLayerPCBUpperX/2.+fFirstLayerPCBLowerX/2.,+fFirstLayerThickness/2.+fFirstLayerDistFromBeam,-fFirstLayerZ/2.-fFirstLayerGapZ/2.) + fFirstLayerOffset;
+    move = G4ThreeVector(0.,+fFirstLayerThickness/2.+fFirstLayerDistFromBeam,-fFirstLayerZ/2.-fFirstLayerGapZ/2.) + fFirstLayerOffset;
     fAssemblyTISTAR->AddPlacedVolume(fFirstLayerLV,move,rotate);
     // Add first layer forward right strip
-    move = G4ThreeVector(-fFirstLayerPCBUpperX/2.+fFirstLayerPCBLowerX/2.,-fFirstLayerThickness/2.-fFirstLayerDistFromBeam,+fFirstLayerZ/2.+fFirstLayerGapZ/2.) + fFirstLayerOffset;
+    move = G4ThreeVector(0.,-fFirstLayerThickness/2.-fFirstLayerDistFromBeam,+fFirstLayerZ/2.+fFirstLayerGapZ/2.) + fFirstLayerOffset;
     fAssemblyTISTAR->AddPlacedVolume(fFirstLayerLV,move,rotate);
     // Add first layer backward right strip
-    move = G4ThreeVector(-fFirstLayerPCBUpperX/2.+fFirstLayerPCBLowerX/2.,-fFirstLayerThickness/2.-fFirstLayerDistFromBeam,-fFirstLayerZ/2.-fFirstLayerGapZ/2.) + fFirstLayerOffset;
+    move = G4ThreeVector(0.,-fFirstLayerThickness/2.-fFirstLayerDistFromBeam,-fFirstLayerZ/2.-fFirstLayerGapZ/2.) + fFirstLayerOffset;
     fAssemblyTISTAR->AddPlacedVolume(fFirstLayerLV,move,rotate);
 
     // Build the second layer
@@ -194,19 +223,18 @@ G4int DetectionSystemTISTAR::BuildPCBs()
             fFirstLayerPCBUpperXLV->SetVisAttributes(PCBVisAtt);
         }
         // Add first layer upper forward left strip PCB
-        move = G4ThreeVector(+fFirstLayerPCBLowerX/2.+fFirstLayerX/2.,+fFirstLayerThickness/2.+fFirstLayerDistFromBeam,+fFirstLayerZ/2.+fFirstLayerGapZ/2.) + fFirstLayerOffset;
+        move = G4ThreeVector(+fFirstLayerPCBUpperX/2.+fFirstLayerX/2.,+fFirstLayerThickness/2.+fFirstLayerDistFromBeam,+fFirstLayerZ/2.+fFirstLayerGapZ/2.) + fFirstLayerOffset;
         fAssemblyTISTAR->AddPlacedVolume(fFirstLayerPCBUpperXLV,move,rotate);
         // Add first layer upper backward left strip PCB
-        move = G4ThreeVector(+fFirstLayerPCBLowerX/2.+fFirstLayerX/2.,+fFirstLayerThickness/2.+fFirstLayerDistFromBeam,-fFirstLayerZ/2.-fFirstLayerGapZ/2.) + fFirstLayerOffset;
+        move = G4ThreeVector(+fFirstLayerPCBUpperX/2.+fFirstLayerX/2.,+fFirstLayerThickness/2.+fFirstLayerDistFromBeam,-fFirstLayerZ/2.-fFirstLayerGapZ/2.) + fFirstLayerOffset;
         fAssemblyTISTAR->AddPlacedVolume(fFirstLayerPCBUpperXLV,move,rotate);
         // Add first layer upper forward right strip PCB
-        move = G4ThreeVector(+fFirstLayerPCBLowerX/2.+fFirstLayerX/2.,-fFirstLayerThickness/2.-fFirstLayerDistFromBeam,+fFirstLayerZ/2.+fFirstLayerGapZ/2.) + fFirstLayerOffset;
+        move = G4ThreeVector(+fFirstLayerPCBUpperX/2.+fFirstLayerX/2.,-fFirstLayerThickness/2.-fFirstLayerDistFromBeam,+fFirstLayerZ/2.+fFirstLayerGapZ/2.) + fFirstLayerOffset;
         fAssemblyTISTAR->AddPlacedVolume(fFirstLayerPCBUpperXLV,move,rotate);
         // Add first layer upper backward right strip PCB
-        move = G4ThreeVector(+fFirstLayerPCBLowerX/2.+fFirstLayerX/2.,-fFirstLayerThickness/2.-fFirstLayerDistFromBeam,-fFirstLayerZ/2.-fFirstLayerGapZ/2.) + fFirstLayerOffset;
+        move = G4ThreeVector(+fFirstLayerPCBUpperX/2.+fFirstLayerX/2.,-fFirstLayerThickness/2.-fFirstLayerDistFromBeam,-fFirstLayerZ/2.-fFirstLayerGapZ/2.) + fFirstLayerOffset;
         fAssemblyTISTAR->AddPlacedVolume(fFirstLayerPCBUpperXLV,move,rotate);
     }    
-
     // Build the first layer Lower PCB
     if(fFirstLayerPCBLowerX > 0.) {
         G4Box * firstLayerPCBLowerXPV = new G4Box("firstLayerPCBLowerXPV",fFirstLayerPCBLowerX/2.,fPCBThickness/2.,fFirstLayerZ/2.);
@@ -215,17 +243,46 @@ G4int DetectionSystemTISTAR::BuildPCBs()
             fFirstLayerPCBLowerXLV->SetVisAttributes(PCBVisAtt);
         }
         // Add first layer lower forward left strip PCB
-        move = G4ThreeVector(-fFirstLayerPCBUpperX/2.-fFirstLayerX/2.,+fFirstLayerThickness/2.+fFirstLayerDistFromBeam,+fFirstLayerZ/2.+fFirstLayerGapZ/2.) + fFirstLayerOffset;
+        move = G4ThreeVector(-fFirstLayerPCBLowerX/2.-fFirstLayerX/2.,+fFirstLayerThickness/2.+fFirstLayerDistFromBeam,+fFirstLayerZ/2.+fFirstLayerGapZ/2.) + fFirstLayerOffset;
         fAssemblyTISTAR->AddPlacedVolume(fFirstLayerPCBLowerXLV,move,rotate);
         // Add first layer lower backward left strip PCB
-        move = G4ThreeVector(-fFirstLayerPCBUpperX/2.-fFirstLayerX/2.,+fFirstLayerThickness/2.+fFirstLayerDistFromBeam,-fFirstLayerZ/2.-fFirstLayerGapZ/2.) + fFirstLayerOffset;
+        move = G4ThreeVector(-fFirstLayerPCBLowerX/2.-fFirstLayerX/2.,+fFirstLayerThickness/2.+fFirstLayerDistFromBeam,-fFirstLayerZ/2.-fFirstLayerGapZ/2.) + fFirstLayerOffset;
         fAssemblyTISTAR->AddPlacedVolume(fFirstLayerPCBLowerXLV,move,rotate);
         // Add first layer lower forward right strip PCB
-        move = G4ThreeVector(-fFirstLayerPCBUpperX/2.-fFirstLayerX/2.,-fFirstLayerThickness/2.-fFirstLayerDistFromBeam,+fFirstLayerZ/2.+fFirstLayerGapZ/2.) + fFirstLayerOffset;
+        move = G4ThreeVector(-fFirstLayerPCBLowerX/2.-fFirstLayerX/2.,-fFirstLayerThickness/2.-fFirstLayerDistFromBeam,+fFirstLayerZ/2.+fFirstLayerGapZ/2.) + fFirstLayerOffset;
         fAssemblyTISTAR->AddPlacedVolume(fFirstLayerPCBLowerXLV,move,rotate);
         // Add first layer lower backward right strip PCB
-        move = G4ThreeVector(-fFirstLayerPCBUpperX/2.-fFirstLayerX/2.,-fFirstLayerThickness/2.-fFirstLayerDistFromBeam,-fFirstLayerZ/2.-fFirstLayerGapZ/2.) + fFirstLayerOffset;
+        move = G4ThreeVector(-fFirstLayerPCBLowerX/2.-fFirstLayerX/2.,-fFirstLayerThickness/2.-fFirstLayerDistFromBeam,-fFirstLayerZ/2.-fFirstLayerGapZ/2.) + fFirstLayerOffset;
         fAssemblyTISTAR->AddPlacedVolume(fFirstLayerPCBLowerXLV,move,rotate);
+    }
+    
+    // Build the first layer forward PCB
+    if(fFirstLayerPCBForwardZ > 0.) {
+        G4Box * firstLayerPCBForwardZPV = new G4Box("firstLayerPCBForwardZPV",fFirstLayerX/2.+fFirstLayerPCBUpperX/2.+fFirstLayerPCBLowerX/2.,fPCBThickness/2.,fFirstLayerPCBForwardZ/2.);
+        if(fFirstLayerPCBForwardZLV == NULL) {
+            fFirstLayerPCBForwardZLV = new G4LogicalVolume(firstLayerPCBForwardZPV,PCBMaterial,"firstLayerPCBForwardZLV",0,0,0);
+            fFirstLayerPCBForwardZLV->SetVisAttributes(PCBVisAtt);
+        }
+        // Add first layer forward left strip PCB
+        move = G4ThreeVector(+fFirstLayerPCBUpperX/2.-fFirstLayerPCBLowerX/2.,+fFirstLayerThickness/2.+fFirstLayerDistFromBeam,+fFirstLayerPCBForwardZ/2.+fFirstLayerZ+fFirstLayerGapZ/2.) + fFirstLayerOffset;
+        fAssemblyTISTAR->AddPlacedVolume(fFirstLayerPCBForwardZLV,move,rotate);
+        // Add first layer forward right strip PCB
+        move = G4ThreeVector(+fFirstLayerPCBUpperX/2.-fFirstLayerPCBLowerX/2.,-fFirstLayerThickness/2.-fFirstLayerDistFromBeam,+fFirstLayerPCBForwardZ/2.+fFirstLayerZ+fFirstLayerGapZ/2.) + fFirstLayerOffset;
+        fAssemblyTISTAR->AddPlacedVolume(fFirstLayerPCBForwardZLV,move,rotate);
+    }
+    // Build the first layer backward PCB
+    if(fFirstLayerPCBBackwardZ > 0.) {
+        G4Box * firstLayerPCBBackwardZPV = new G4Box("firstLayerPCBBackwardZPV",fFirstLayerX/2.+fFirstLayerPCBUpperX/2.+fFirstLayerPCBLowerX/2.,fPCBThickness/2.,fFirstLayerPCBBackwardZ/2.);
+        if(fFirstLayerPCBBackwardZLV == NULL) {
+            fFirstLayerPCBBackwardZLV = new G4LogicalVolume(firstLayerPCBBackwardZPV,PCBMaterial,"firstLayerPCBBackwardZLV",0,0,0);
+            fFirstLayerPCBBackwardZLV->SetVisAttributes(PCBVisAtt);
+        }
+        // Add first layer forward left strip PCB
+        move = G4ThreeVector(+fFirstLayerPCBUpperX/2.-fFirstLayerPCBLowerX/2.,+fFirstLayerThickness/2.+fFirstLayerDistFromBeam,-fFirstLayerPCBBackwardZ/2.-fFirstLayerZ-fFirstLayerGapZ/2.) + fFirstLayerOffset;
+        fAssemblyTISTAR->AddPlacedVolume(fFirstLayerPCBBackwardZLV,move,rotate);
+        // Add first layer forward right strip PCB
+        move = G4ThreeVector(+fFirstLayerPCBUpperX/2.-fFirstLayerPCBLowerX/2.,-fFirstLayerThickness/2.-fFirstLayerDistFromBeam,-fFirstLayerPCBBackwardZ/2.-fFirstLayerZ-fFirstLayerGapZ/2.) + fFirstLayerOffset;
+        fAssemblyTISTAR->AddPlacedVolume(fFirstLayerPCBBackwardZLV,move,rotate);
     }
 
     // Build the Second layer upper PCB
@@ -242,7 +299,6 @@ G4int DetectionSystemTISTAR::BuildPCBs()
         move = G4ThreeVector(+fSecondLayerPCBLowerX/2.+fSecondLayerX/2.,-fSecondLayerThickness/2.-fSecondLayerDistFromBeam,0.) + fSecondLayerOffset;
         fAssemblyTISTAR->AddPlacedVolume(fSecondLayerPCBUpperXLV,move,rotate);
     }    
-
     // Build the Second layer Lower PCB
     if(fSecondLayerPCBLowerX > 0.) {
         G4Box * secondLayerPCBLowerXPV = new G4Box("secondLayerPCBLowerXPV",fSecondLayerPCBLowerX/2.,fPCBThickness/2.,fSecondLayerZ/2.);
@@ -256,6 +312,35 @@ G4int DetectionSystemTISTAR::BuildPCBs()
         // Add Second layer lower backward right strip PCB
         move = G4ThreeVector(-fSecondLayerPCBUpperX/2.-fSecondLayerX/2.,-fSecondLayerThickness/2.-fSecondLayerDistFromBeam,0.) + fSecondLayerOffset;
         fAssemblyTISTAR->AddPlacedVolume(fSecondLayerPCBLowerXLV,move,rotate);
+    }
+
+    // Build the second layer forward PCB
+    if(fSecondLayerPCBForwardZ > 0.) {
+        G4Box * secondLayerPCBForwardZPV = new G4Box("secondLayerPCBForwardZPV",fSecondLayerX/2.+fSecondLayerPCBUpperX/2.+fSecondLayerPCBLowerX/2.,fPCBThickness/2.,fSecondLayerPCBForwardZ/2.);
+        if(fSecondLayerPCBForwardZLV == NULL) {
+            fSecondLayerPCBForwardZLV = new G4LogicalVolume(secondLayerPCBForwardZPV,PCBMaterial,"secondLayerPCBForwardZLV",0,0,0);
+            fSecondLayerPCBForwardZLV->SetVisAttributes(PCBVisAtt);
+        }
+        // Add Second layer forward left strip PCB
+        move = G4ThreeVector(0.,+fSecondLayerThickness/2.+fSecondLayerDistFromBeam,+fSecondLayerPCBForwardZ/2.+fSecondLayerZ/2.) + fSecondLayerOffset;
+        fAssemblyTISTAR->AddPlacedVolume(fSecondLayerPCBForwardZLV,move,rotate);
+        // Add Second layer forward right strip PCB
+        move = G4ThreeVector(0.,-fSecondLayerThickness/2.-fSecondLayerDistFromBeam,+fSecondLayerPCBForwardZ/2.+fSecondLayerZ/2.) + fSecondLayerOffset;
+        fAssemblyTISTAR->AddPlacedVolume(fSecondLayerPCBForwardZLV,move,rotate);
+    }
+    // Build the second layer backward PCB
+    if(fSecondLayerPCBBackwardZ > 0.) {
+        G4Box * secondLayerPCBBackwardZPV = new G4Box("secondLayerPCBBackwardZPV",fSecondLayerX/2.+fSecondLayerPCBUpperX/2.+fSecondLayerPCBLowerX/2.,fPCBThickness/2.,fSecondLayerPCBBackwardZ/2.);
+        if(fSecondLayerPCBBackwardZLV == NULL) {
+            fSecondLayerPCBBackwardZLV = new G4LogicalVolume(secondLayerPCBBackwardZPV,PCBMaterial,"secondLayerPCBBackwardZLV",0,0,0);
+            fSecondLayerPCBBackwardZLV->SetVisAttributes(PCBVisAtt);
+        }
+        // Add Second layer forward left strip PCB
+        move = G4ThreeVector(0.,+fSecondLayerThickness/2.+fSecondLayerDistFromBeam,-fSecondLayerPCBBackwardZ/2.-fSecondLayerZ/2.) + fSecondLayerOffset;
+        fAssemblyTISTAR->AddPlacedVolume(fSecondLayerPCBBackwardZLV,move,rotate);
+        // Add Second layer forward right strip PCB
+        move = G4ThreeVector(0.,-fSecondLayerThickness/2.-fSecondLayerDistFromBeam,-fSecondLayerPCBBackwardZ/2.-fSecondLayerZ/2.) + fSecondLayerOffset;
+        fAssemblyTISTAR->AddPlacedVolume(fSecondLayerPCBBackwardZLV,move,rotate);
     }
     
     // Build the Third layer upper PCB
@@ -272,7 +357,6 @@ G4int DetectionSystemTISTAR::BuildPCBs()
         move = G4ThreeVector(+fThirdLayerPCBLowerX/2.+fThirdLayerX/2.,-fThirdLayerThickness/2.-fThirdLayerDistFromBeam,0.) + fThirdLayerOffset;
         fAssemblyTISTAR->AddPlacedVolume(fThirdLayerPCBUpperXLV,move,rotate);
     }    
-
     // Build the Third layer Lower PCB
     if(fThirdLayerPCBLowerX > 0.) {
         G4Box * thirdLayerPCBLowerXPV = new G4Box("thirdLayerPCBLowerXPV",fThirdLayerPCBLowerX/2.,fPCBThickness/2.,fThirdLayerZ/2.);
@@ -286,6 +370,35 @@ G4int DetectionSystemTISTAR::BuildPCBs()
         // Add Third layer lower backward right strip PCB
         move = G4ThreeVector(-fThirdLayerPCBUpperX/2.-fThirdLayerX/2.,-fThirdLayerThickness/2.-fThirdLayerDistFromBeam,0.) + fThirdLayerOffset;
         fAssemblyTISTAR->AddPlacedVolume(fThirdLayerPCBLowerXLV,move,rotate);
+    }
+    
+    // Build the third layer forward PCB
+    if(fThirdLayerPCBForwardZ > 0.) {
+        G4Box * thirdLayerPCBForwardZPV = new G4Box("thirdLayerPCBForwardZPV",fThirdLayerX/2.+fThirdLayerPCBUpperX/2.+fThirdLayerPCBLowerX/2.,fPCBThickness/2.,fThirdLayerPCBForwardZ/2.);
+        if(fThirdLayerPCBForwardZLV == NULL) {
+            fThirdLayerPCBForwardZLV = new G4LogicalVolume(thirdLayerPCBForwardZPV,PCBMaterial,"thirdLayerPCBForwardZLV",0,0,0);
+            fThirdLayerPCBForwardZLV->SetVisAttributes(PCBVisAtt);
+        }
+        // Add Third layer forward left strip PCB
+        move = G4ThreeVector(0.,+fThirdLayerThickness/2.+fThirdLayerDistFromBeam,+fThirdLayerPCBForwardZ/2.+fThirdLayerZ/2.) + fThirdLayerOffset;
+        fAssemblyTISTAR->AddPlacedVolume(fThirdLayerPCBForwardZLV,move,rotate);
+        // Add Third layer forward right strip PCB
+        move = G4ThreeVector(0.,-fThirdLayerThickness/2.-fThirdLayerDistFromBeam,+fThirdLayerPCBForwardZ/2.+fThirdLayerZ/2.) + fThirdLayerOffset;
+        fAssemblyTISTAR->AddPlacedVolume(fThirdLayerPCBForwardZLV,move,rotate);
+    }
+    // Build the third layer backward PCB
+    if(fThirdLayerPCBBackwardZ > 0.) {
+        G4Box * thirdLayerPCBBackwardZPV = new G4Box("thirdLayerPCBBackwardZPV",fThirdLayerX/2.+fThirdLayerPCBUpperX/2.+fThirdLayerPCBLowerX/2.,fPCBThickness/2.,fThirdLayerPCBBackwardZ/2.);
+        if(fThirdLayerPCBBackwardZLV == NULL) {
+            fThirdLayerPCBBackwardZLV = new G4LogicalVolume(thirdLayerPCBBackwardZPV,PCBMaterial,"thirdLayerPCBBackwardZLV",0,0,0);
+            fThirdLayerPCBBackwardZLV->SetVisAttributes(PCBVisAtt);
+        }
+        // Add Third layer forward left strip PCB
+        move = G4ThreeVector(0.,+fThirdLayerThickness/2.+fThirdLayerDistFromBeam,-fThirdLayerPCBBackwardZ/2.-fThirdLayerZ/2.) + fThirdLayerOffset;
+        fAssemblyTISTAR->AddPlacedVolume(fThirdLayerPCBBackwardZLV,move,rotate);
+        // Add Third layer forward right strip PCB
+        move = G4ThreeVector(0.,-fThirdLayerThickness/2.-fThirdLayerDistFromBeam,-fThirdLayerPCBBackwardZ/2.-fThirdLayerZ/2.) + fThirdLayerOffset;
+        fAssemblyTISTAR->AddPlacedVolume(fThirdLayerPCBBackwardZLV,move,rotate);
     }
 
     return 1;
