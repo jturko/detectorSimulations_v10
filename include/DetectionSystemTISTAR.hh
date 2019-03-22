@@ -86,9 +86,17 @@ private:
     G4LogicalVolume * fFirstLayerLV;
     G4LogicalVolume * fSecondLayerLV;
     G4LogicalVolume * fThirdLayerLV;
+    
+    G4LogicalVolume * fFirstLayerPCBUpperXLV;
+    G4LogicalVolume * fFirstLayerPCBLowerXLV;
+    G4LogicalVolume * fSecondLayerPCBUpperXLV;
+    G4LogicalVolume * fSecondLayerPCBLowerXLV;
+    G4LogicalVolume * fThirdLayerPCBUpperXLV;
+    G4LogicalVolume * fThirdLayerPCBLowerXLV;
 
     // Materials 
     G4String fSiliconMaterialName;
+    G4String fPCBMaterialName;
 
     // Dimensions
     G4double fFirstLayerX;
@@ -115,6 +123,8 @@ private:
     G4ThreeVector fThirdLayerOffset;
     G4double fThirdLayerPCBUpperX;
     G4double fThirdLayerPCBLowerX;
+    
+    G4double fPCBThickness;
 
 };
 
