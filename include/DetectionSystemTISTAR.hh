@@ -79,6 +79,9 @@ private:
     
     G4int BuildTISTAR();
     
+    G4int BuildSiliconStrips();
+    G4int BuildPCBs();
+
     // Assembly volumes
     G4AssemblyVolume* fAssemblyTISTAR;            
 

@@ -99,26 +99,28 @@ G4int DetectionSystemTISTAR::PlaceDetector(G4LogicalVolume* expHallLog)
 
 G4int DetectionSystemTISTAR::BuildTISTAR() 
 {
+
+    BuildSiliconStrips();
+    BuildPCBs();
+
+    return 1;
+}
+
+G4int DetectionSystemTISTAR::BuildSiliconStrips()
+{
     G4ThreeVector move, direction;
     G4RotationMatrix* rotate = new G4RotationMatrix();
-
+    
     // Get the materials (should be built in the DetectorConstructionSuppressed)
     G4Material* siliconMaterial = G4Material::GetMaterial(fSiliconMaterialName);
     if( !siliconMaterial ) {
         G4cout << " ----> Material " << fSiliconMaterialName << " not found, cannot build! " << G4endl;
         return 0;
     }
-    G4Material* PCBMaterial = G4Material::GetMaterial(fPCBMaterialName);
-    if( !PCBMaterial ) {
-        G4cout << " ----> Material " << fPCBMaterialName << " not found, cannot build! " << G4endl;
-        return 0;
-    }
-    
+
     // Set up colours and other vis. attributes
     G4VisAttributes * siliconVisAtt = new G4VisAttributes(G4Colour::Cyan());
     siliconVisAtt->SetVisibility(true);
-    G4VisAttributes * PCBVisAtt = new G4VisAttributes(G4Colour::Green());
-    PCBVisAtt->SetVisibility(true);
 
     // Build the first layer
     G4Box * firstLayerPV = new G4Box("firstLayerPV",fFirstLayerX/2.,fFirstLayerThickness/2.,fFirstLayerZ/2.);
@@ -138,7 +140,52 @@ G4int DetectionSystemTISTAR::BuildTISTAR()
     // Add first layer backward right strip
     move = G4ThreeVector(-fFirstLayerPCBUpperX/2.+fFirstLayerPCBLowerX/2.,-fFirstLayerThickness/2.-fFirstLayerDistFromBeam,-fFirstLayerZ/2.-fFirstLayerGapZ/2.) + fFirstLayerOffset;
     fAssemblyTISTAR->AddPlacedVolume(fFirstLayerLV,move,rotate);
+
+    // Build the second layer
+    G4Box * secondLayerPV = new G4Box("secondLayerPV",fSecondLayerX/2.,fSecondLayerThickness/2.,fSecondLayerZ/2.);
+    if(fSecondLayerLV == NULL) {
+        fSecondLayerLV = new G4LogicalVolume(secondLayerPV,siliconMaterial,"secondLayerLV",0,0,0);
+        fSecondLayerLV->SetVisAttributes(siliconVisAtt);
+    }
+    // Add second layer left strip
+    move = G4ThreeVector(-fSecondLayerPCBUpperX/2.+fSecondLayerPCBLowerX/2.,+fSecondLayerThickness/2.+fSecondLayerDistFromBeam,0.) + fSecondLayerOffset;
+    fAssemblyTISTAR->AddPlacedVolume(fSecondLayerLV,move,rotate);
+    // Add second layer right strip
+    move = G4ThreeVector(-fSecondLayerPCBUpperX/2.+fSecondLayerPCBLowerX/2.,-fSecondLayerThickness/2.-fSecondLayerDistFromBeam,0.) + fSecondLayerOffset;
+    fAssemblyTISTAR->AddPlacedVolume(fSecondLayerLV,move,rotate);
     
+    // Build the third layer
+    G4Box * thirdLayerPV = new G4Box("thirdLayerPV",fThirdLayerX/2.,fThirdLayerThickness/2.,fThirdLayerZ/2.);
+    if(fThirdLayerLV == NULL) {
+        fThirdLayerLV = new G4LogicalVolume(thirdLayerPV,siliconMaterial,"thirdLayerLV",0,0,0);
+        fThirdLayerLV->SetVisAttributes(siliconVisAtt);
+    }
+    // Add third left strip
+    move = G4ThreeVector(-fThirdLayerPCBUpperX/2.+fThirdLayerPCBLowerX/2.,+fThirdLayerThickness/2.+fThirdLayerDistFromBeam,0.) + fThirdLayerOffset;
+    fAssemblyTISTAR->AddPlacedVolume(fThirdLayerLV,move,rotate);
+    // Add third right strip
+    move = G4ThreeVector(-fThirdLayerPCBUpperX/2.+fThirdLayerPCBLowerX/2.,-fThirdLayerThickness/2.-fThirdLayerDistFromBeam,0.) + fThirdLayerOffset;
+    fAssemblyTISTAR->AddPlacedVolume(fThirdLayerLV,move,rotate);
+
+    return 1;
+}
+
+G4int DetectionSystemTISTAR::BuildPCBs()
+{
+    G4ThreeVector move, direction;
+    G4RotationMatrix* rotate = new G4RotationMatrix();
+
+    // Get the materials (should be built in the DetectorConstructionSuppressed)
+    G4Material* PCBMaterial = G4Material::GetMaterial(fPCBMaterialName);
+    if( !PCBMaterial ) {
+        G4cout << " ----> Material " << fPCBMaterialName << " not found, cannot build! " << G4endl;
+        return 0;
+    }
+    
+    // Set up colours and other vis. attributes
+    G4VisAttributes * PCBVisAtt = new G4VisAttributes(G4Colour::Green());
+    PCBVisAtt->SetVisibility(true);
+
     // Build the first layer upper PCB
     if(fFirstLayerPCBUpperX > 0.) {
         G4Box * firstLayerPCBUpperXPV = new G4Box("firstLayerPCBUpperXPV",fFirstLayerPCBUpperX/2.,fPCBThickness/2.,fFirstLayerZ/2.);
@@ -181,19 +228,6 @@ G4int DetectionSystemTISTAR::BuildTISTAR()
         fAssemblyTISTAR->AddPlacedVolume(fFirstLayerPCBLowerXLV,move,rotate);
     }
 
-    // Build the second layer
-    G4Box * secondLayerPV = new G4Box("secondLayerPV",fSecondLayerX/2.,fSecondLayerThickness/2.,fSecondLayerZ/2.);
-    if(fSecondLayerLV == NULL) {
-        fSecondLayerLV = new G4LogicalVolume(secondLayerPV,siliconMaterial,"secondLayerLV",0,0,0);
-        fSecondLayerLV->SetVisAttributes(siliconVisAtt);
-    }
-    // Add second layer left strip
-    move = G4ThreeVector(-fSecondLayerPCBUpperX/2.+fSecondLayerPCBLowerX/2.,+fSecondLayerThickness/2.+fSecondLayerDistFromBeam,0.) + fSecondLayerOffset;
-    fAssemblyTISTAR->AddPlacedVolume(fSecondLayerLV,move,rotate);
-    // Add second layer right strip
-    move = G4ThreeVector(-fSecondLayerPCBUpperX/2.+fSecondLayerPCBLowerX/2.,-fSecondLayerThickness/2.-fSecondLayerDistFromBeam,0.) + fSecondLayerOffset;
-    fAssemblyTISTAR->AddPlacedVolume(fSecondLayerLV,move,rotate);
-    
     // Build the Second layer upper PCB
     if(fSecondLayerPCBUpperX > 0.) {
         G4Box * secondLayerPCBUpperXPV = new G4Box("secondLayerPCBUpperXPV",fSecondLayerPCBUpperX/2.,fPCBThickness/2.,fSecondLayerZ/2.);
@@ -223,19 +257,6 @@ G4int DetectionSystemTISTAR::BuildTISTAR()
         move = G4ThreeVector(-fSecondLayerPCBUpperX/2.-fSecondLayerX/2.,-fSecondLayerThickness/2.-fSecondLayerDistFromBeam,0.) + fSecondLayerOffset;
         fAssemblyTISTAR->AddPlacedVolume(fSecondLayerPCBLowerXLV,move,rotate);
     }
-
-    // Build the third layer
-    G4Box * thirdLayerPV = new G4Box("thirdLayerPV",fThirdLayerX/2.,fThirdLayerThickness/2.,fThirdLayerZ/2.);
-    if(fThirdLayerLV == NULL) {
-        fThirdLayerLV = new G4LogicalVolume(thirdLayerPV,siliconMaterial,"thirdLayerLV",0,0,0);
-        fThirdLayerLV->SetVisAttributes(siliconVisAtt);
-    }
-    // Add third left strip
-    move = G4ThreeVector(-fThirdLayerPCBUpperX/2.+fThirdLayerPCBLowerX/2.,+fThirdLayerThickness/2.+fThirdLayerDistFromBeam,0.) + fThirdLayerOffset;
-    fAssemblyTISTAR->AddPlacedVolume(fThirdLayerLV,move,rotate);
-    // Add third right strip
-    move = G4ThreeVector(-fThirdLayerPCBUpperX/2.+fThirdLayerPCBLowerX/2.,-fThirdLayerThickness/2.-fThirdLayerDistFromBeam,0.) + fThirdLayerOffset;
-    fAssemblyTISTAR->AddPlacedVolume(fThirdLayerLV,move,rotate);
     
     // Build the Third layer upper PCB
     if(fThirdLayerPCBUpperX > 0.) {
@@ -269,4 +290,3 @@ G4int DetectionSystemTISTAR::BuildTISTAR()
 
     return 1;
 }
-
