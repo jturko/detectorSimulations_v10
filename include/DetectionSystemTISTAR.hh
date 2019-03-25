@@ -44,7 +44,7 @@ class G4AssemblyVolume;
 class DetectionSystemTISTAR
 {
 public:
-    DetectionSystemTISTAR();
+    DetectionSystemTISTAR(G4int nlayers=1);
     ~DetectionSystemTISTAR();
 
     G4int Build();
@@ -81,6 +81,8 @@ public:
     void SetThirdLayerPCBForwardZ(G4double xx) { fThirdLayerPCBForwardZ = xx; }
     void SetThirdLayerPCBBackwardZ(G4double xx) { fThirdLayerPCBBackwardZ = xx; }
 
+    G4int BuildLayer(G4int layer);
+
 private:
     
     G4int BuildTISTAR();
@@ -90,13 +92,18 @@ private:
 
     void CalculateDimensions();
 
+    const G4int fNLayers;
+    
     // Assembly volumes
     G4AssemblyVolume* fAssemblyTISTAR;            
-
+    std::vector<G4AssemblyVolume*> fAssemblyLayers;
+    
     // Logical volumes
     G4LogicalVolume * fFirstLayerLV;
     G4LogicalVolume * fSecondLayerLV;
     G4LogicalVolume * fThirdLayerLV;
+    std::vector<G4LogicalVolume*> fLogicalSiLayers;
+    std::vector<G4LogicalVolume*> fLogicalPCBLayers;
     
     G4LogicalVolume * fFirstLayerPCBUpperXLV;
     G4LogicalVolume * fFirstLayerPCBLowerXLV;
@@ -148,6 +155,10 @@ private:
     G4double fThirdLayerPCBBackwardZ;
     
     G4double fPCBThickness;
+
+    std::vector<G4ThreeVector> fDimensionsSiLayers;
+    std::vector<G4ThreeVector> fDimensionsPCBLayers;
+    std::vector<G4ThreeVector> fOffsetLayers;
 
 };
 
