@@ -94,9 +94,13 @@ DetectionSystemTISTAR::DetectionSystemTISTAR(G4int nlayers) :
         fLogicalPCBLayers.at(i) = NULL;
     }
 
-    fDimensionsSiLayers.at(0) = G4ThreeVector(40.*mm,20.*um,50.*mm);
-    fDimensionsPCBLayers.at(0) = G4ThreeVector(80.*mm,1.5*mm,75.*mm);
-    fOffsetLayers.at(0) = G4ThreeVector(5.*mm,0.*mm,0.*mm);
+    fDimensionsSet.resize(fNLayers);
+    for(int i=0; i<fNLayers; ++i) {
+        fDimensionsSet.at(i).resize(2);
+        fDimensionsSet.at(i).at(0) = false; // silicon dimensons
+        fDimensionsSet.at(i).at(1) = false; // PCB dimensions
+        fOffsetLayers.at(i) = G4ThreeVector(0.,0.,0.);
+    }
 }
 
 DetectionSystemTISTAR::~DetectionSystemTISTAR() 
@@ -143,6 +147,22 @@ G4int DetectionSystemTISTAR::PlaceDetector(G4LogicalVolume* expHallLog)
 
     //fAssemblyTISTAR->MakeImprint(expHallLog, move, rotate);
     fAssemblyLayers.at(0)->MakeImprint(expHallLog, move, rotate);
+
+    return 1;
+}
+
+G4int DetectionSystemTISTAR::PlaceDetector(G4int layer, G4ThreeVector move, G4ThreeVector rotate, G4LogicalVolume* expHallLog)
+{
+    if(layer<0||layer>=fNLayers) {
+        G4cout << " ---> This layer doesn't exist! " << G4endl;
+        return 0;
+    }
+
+    G4RotationMatrix * rotation = new G4RotationMatrix;
+    rotation->rotateX(rotate.x()*M_PI/180.);
+    rotation->rotateY(rotate.y()*M_PI/180.);
+    rotation->rotateZ(rotate.z()*M_PI/180.);
+    fAssemblyLayers.at(layer)->MakeImprint(expHallLog, move, rotation);
 
     return 1;
 }
@@ -432,6 +452,10 @@ G4int DetectionSystemTISTAR::BuildLayer(G4int layer)
         G4cout << " ---> This layer doesn't exist! " << G4endl;
         return 0;
     }
+    if(!fDimensionsSet.at(layer).at(0) || !fDimensionsSet.at(layer).at(1)) {
+        G4cout << " ---> Dimensions not set!" << G4endl;
+        return 0;
+    }
 
     G4String name;
     G4RotationMatrix * rotate = new G4RotationMatrix();
@@ -506,3 +530,4 @@ G4int DetectionSystemTISTAR::BuildLayer(G4int layer)
 
     return 1;
 }
+

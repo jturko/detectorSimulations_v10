@@ -49,6 +49,7 @@ public:
 
     G4int Build();
     G4int PlaceDetector(G4LogicalVolume* expHallLog);
+    G4int PlaceDetector(G4int layer, G4ThreeVector move, G4ThreeVector rotate, G4LogicalVolume* expHallLog);
 
     void SetFirstLayerX(G4double xx) { fFirstLayerX = xx; }
     void SetFirstLayerZ(G4double zz) { fFirstLayerZ = zz; }
@@ -80,6 +81,10 @@ public:
     void SetThirdLayerPCBLowerX(G4double xx) { fThirdLayerPCBLowerX = xx; }
     void SetThirdLayerPCBForwardZ(G4double xx) { fThirdLayerPCBForwardZ = xx; }
     void SetThirdLayerPCBBackwardZ(G4double xx) { fThirdLayerPCBBackwardZ = xx; }
+
+    void SetDimensionsSiLayers(G4int i, G4ThreeVector dim) { fDimensionsSiLayers.at(i) = dim; fDimensionsSet.at(i).at(0) = true; }
+    void SetDimensionsPCBLayers(G4int i, G4ThreeVector dim) { fDimensionsPCBLayers.at(i) = dim; fDimensionsSet.at(i).at(1) = true; }
+    void SetOffsetLayers(G4int i, G4ThreeVector offset) { fOffsetLayers.at(i) = offset; }
 
     G4int BuildLayer(G4int layer);
 
@@ -159,6 +164,7 @@ private:
     std::vector<G4ThreeVector> fDimensionsSiLayers;
     std::vector<G4ThreeVector> fDimensionsPCBLayers;
     std::vector<G4ThreeVector> fOffsetLayers;
+    std::vector<std::vector<G4bool>> fDimensionsSet; 
 
 };
 

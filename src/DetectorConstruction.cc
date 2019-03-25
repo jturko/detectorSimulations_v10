@@ -869,3 +869,17 @@ void DetectorConstruction::AddDetectionSystemTISTAR() {
     pTISTAR->Build();
     pTISTAR->PlaceDetector(fLogicWorld);
 }
+
+void DetectorConstruction::AddTISTARLayer() {
+    if(fLogicWorld == NULL) {
+        Construct();
+    }
+    DetectionSystemTISTAR * pTISTAR = new DetectionSystemTISTAR();
+    pTISTAR->SetDimensionsSiLayers(0,fTISTARSiDimensions);
+    pTISTAR->SetDimensionsPCBLayers(0,fTISTARPCBDimensions);
+    pTISTAR->SetOffsetLayers(0,fTISTAROffset);
+
+    pTISTAR->Build();
+    pTISTAR->PlaceDetector(0, fTISTARPosition, fTISTARRotation, fLogicWorld);
+}
+

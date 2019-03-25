@@ -441,6 +441,32 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction* Det)
     fSetDetectionSystemTISTARThirdLayerPCBBackwardZCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/det/setTISTARThirdLayerPCBBackwardZ",this);
     fSetDetectionSystemTISTARThirdLayerPCBBackwardZCmd->SetGuidance("Set the backward z-dim of PCB for the TI-STAR Third layer");
     fSetDetectionSystemTISTARThirdLayerPCBBackwardZCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    
+    ///
+    fAddTISTARLayerCmd = new G4UIcmdWithoutParameter("/DetSys/det/addTISTARLayer",this);
+    fAddTISTARLayerCmd->SetGuidance("Add the previously configured TI-STAR layer");
+    fAddTISTARLayerCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+    fSetTISTARSiDimensionsCmd = new G4UIcmdWith3VectorAndUnit("/DetSys/det/setTISTARSiDimensions",this);
+    fSetTISTARSiDimensionsCmd->SetGuidance("Set the TI-STAR Si dimensions");
+    fSetTISTARSiDimensionsCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+    fSetTISTARPCBDimensionsCmd = new G4UIcmdWith3VectorAndUnit("/DetSys/det/setTISTARPCBDimensions",this);
+    fSetTISTARPCBDimensionsCmd->SetGuidance("Set the TI-STAR PCB dimensions");
+    fSetTISTARPCBDimensionsCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+    fSetTISTAROffsetCmd = new G4UIcmdWith3VectorAndUnit("/DetSys/det/setTISTAROffset",this);
+    fSetTISTAROffsetCmd->SetGuidance("Set the offset of the Si layer from the top left corner of the PCB board (assuming beam in the z-dim)");
+    fSetTISTAROffsetCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+    fSetTISTARPositionCmd = new G4UIcmdWith3VectorAndUnit("/DetSys/det/setTISTARPosition",this);
+    fSetTISTARPositionCmd->SetGuidance("Set the TI-STAR layer position");
+    fSetTISTARPositionCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+    fSetTISTARRotationCmd = new G4UIcmdWith3Vector("/DetSys/det/setTISTARRotation",this);
+    fSetTISTARRotationCmd->SetGuidance("Set the TI-STAR layer rotation (rotate by the x, y, then z axes - units in deg)");
+    fSetTISTARRotationCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -552,6 +578,13 @@ DetectorMessenger::~DetectorMessenger()
     delete fSetDetectionSystemTISTARThirdLayerPCBLowerXCmd;
     delete fSetDetectionSystemTISTARThirdLayerPCBForwardZCmd;
     delete fSetDetectionSystemTISTARThirdLayerPCBBackwardZCmd;
+
+    delete fAddTISTARLayerCmd;
+    delete fSetTISTARSiDimensionsCmd;
+    delete fSetTISTARPCBDimensionsCmd;
+    delete fSetTISTAROffsetCmd;
+    delete fSetTISTARPositionCmd;
+    delete fSetTISTARRotationCmd;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -837,6 +870,25 @@ void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
     }
     if(command == fSetDetectionSystemTISTARThirdLayerPCBBackwardZCmd) {
         fDetector->SetTISTARThirdLayerPCBBackwardZ(fSetDetectionSystemTISTARThirdLayerPCBBackwardZCmd->GetNewDoubleValue(newValue));
+    }
+
+    if(command == fAddTISTARLayerCmd) {
+        fDetector->AddTISTARLayer();
+    }
+    if(command == fSetTISTARSiDimensionsCmd) {
+        fDetector->SetTISTARSiDimensions(fSetTISTARSiDimensionsCmd->GetNew3VectorValue(newValue));
+    }
+    if(command == fSetTISTARPCBDimensionsCmd) {
+        fDetector->SetTISTARPCBDimensions(fSetTISTARPCBDimensionsCmd->GetNew3VectorValue(newValue));
+    }
+    if(command == fSetTISTAROffsetCmd) {
+        fDetector->SetTISTAROffset(fSetTISTAROffsetCmd->GetNew3VectorValue(newValue));
+    }
+    if(command == fSetTISTARPositionCmd) {
+        fDetector->SetTISTARPosition(fSetTISTARPositionCmd->GetNew3VectorValue(newValue));
+    }
+    if(command == fSetTISTARRotationCmd) {
+        fDetector->SetTISTARRotation(fSetTISTARRotationCmd->GetNew3VectorValue(newValue));
     }
 
 }

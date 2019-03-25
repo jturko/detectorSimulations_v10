@@ -184,6 +184,13 @@ private:
     G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARThirdLayerPCBLowerXCmd;    
     G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARThirdLayerPCBForwardZCmd;    
     G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARThirdLayerPCBBackwardZCmd;    
+
+    G4UIcmdWithoutParameter*   fAddTISTARLayerCmd;
+    G4UIcmdWith3VectorAndUnit* fSetTISTARSiDimensionsCmd;
+    G4UIcmdWith3VectorAndUnit* fSetTISTARPCBDimensionsCmd;
+    G4UIcmdWith3VectorAndUnit* fSetTISTAROffsetCmd;
+    G4UIcmdWith3VectorAndUnit* fSetTISTARPositionCmd;
+    G4UIcmdWith3Vector*        fSetTISTARRotationCmd;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

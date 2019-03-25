@@ -214,6 +214,14 @@ public:
     void SetTISTARThirdLayerPCBForwardZ(G4double value)     { fTISTARThirdLayerPCBForwardZ = value; }
     void SetTISTARThirdLayerPCBBackwardZ(G4double value)    { fTISTARThirdLayerPCBBackwardZ = value; }
 
+    void AddTISTARLayer();
+    void SetTISTARSiDimensions(G4ThreeVector dim)   { fTISTARSiDimensions = dim; } 
+    void SetTISTARPCBDimensions(G4ThreeVector dim)  { fTISTARPCBDimensions = dim; } 
+    void SetTISTAROffset(G4ThreeVector offset)      { fTISTAROffset = offset; } 
+    void SetTISTARRotation(G4ThreeVector rotate)    { fTISTARRotation = rotate; }
+    void SetTISTARPosition(G4ThreeVector move)      { fTISTARPosition = move; }
+    
+
 private:
 
     //    MagneticField* worldMagField;
@@ -315,6 +323,12 @@ private:
     G4double fTISTARThirdLayerPCBLowerX;
     G4double fTISTARThirdLayerPCBForwardZ;
     G4double fTISTARThirdLayerPCBBackwardZ;
+
+    G4ThreeVector fTISTARSiDimensions;
+    G4ThreeVector fTISTARPCBDimensions;
+    G4ThreeVector fTISTAROffset;
+    G4ThreeVector fTISTARRotation;
+    G4ThreeVector fTISTARPosition;
 
 };
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
