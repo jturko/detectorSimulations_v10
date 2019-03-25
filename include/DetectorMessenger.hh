@@ -153,6 +153,7 @@ private:
 
     // TI-STAR
     G4UIcmdWithoutParameter*   fAddTISTARLayerCmd;
+    G4UIcmdWithAnInteger*      fSetTISTARLayerNumberCmd;
     G4UIcmdWith3VectorAndUnit* fSetTISTARSiDimensionsCmd;
     G4UIcmdWith3VectorAndUnit* fSetTISTARPCBDimensionsCmd;
     G4UIcmdWith3VectorAndUnit* fSetTISTAROffsetCmd;

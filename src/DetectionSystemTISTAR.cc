@@ -26,44 +26,34 @@
 
 #include <string>
 
-DetectionSystemTISTAR::DetectionSystemTISTAR(G4int nlayers) :
-    fNLayers(nlayers)
+DetectionSystemTISTAR::DetectionSystemTISTAR(G4int layer_number) :
+    fLayerNumber(layer_number),
+    fAssemblyLayer(NULL),
+    fLogicalSiLayer(NULL),
+    fLogicalPCBLayer(NULL),
+    fSiDimensionsSet(false),
+    fPCBDimensionsSet(false)
 {
     fSiliconMaterialName = "Silicon";
     fPCBMaterialName = "Epoxy-Resin";
-   
-    fAssemblyLayers.resize(fNLayers); 
-    fLogicalSiLayers.resize(fNLayers);
-    fLogicalPCBLayers.resize(fNLayers);
-    fDimensionsSiLayers.resize(fNLayers);
-    fDimensionsPCBLayers.resize(fNLayers);
-    fOffsetLayers.resize(fNLayers);
-    for(int i=0; i<fNLayers; i++) {
-        fAssemblyLayers.at(i) = NULL;
-        fLogicalSiLayers.at(i) = NULL;
-        fLogicalPCBLayers.at(i) = NULL;
-    }
+ 
+    fSiDimensions = G4ThreeVector(0.,0.,0.);
+    fPCBDimensions = G4ThreeVector(0.,0.,0.);
+    fOffset = G4ThreeVector(0.,0.,0.);
 
-    fDimensionsSet.resize(fNLayers);
-    for(int i=0; i<fNLayers; ++i) {
-        fDimensionsSet.at(i).resize(2);
-        fDimensionsSet.at(i).at(0) = false; // silicon dimensons
-        fDimensionsSet.at(i).at(1) = false; // PCB dimensions
-        fOffsetLayers.at(i) = G4ThreeVector(0.,0.,0.);
-    }
 }
 
 DetectionSystemTISTAR::~DetectionSystemTISTAR() 
 {
-    for(int i=0; i<int(fLogicalSiLayers.size()); ++i)   delete (fLogicalSiLayers[i]);
-    for(int i=0; i<int(fLogicalPCBLayers.size()); ++i)  delete (fLogicalPCBLayers[i]);
-    for(int i=0; i<int(fAssemblyLayers.size()); ++i)    delete (fAssemblyLayers[i]);
+    delete fLogicalSiLayer;
+    delete fLogicalPCBLayer;
+    delete fAssemblyLayer;
 }
 
 G4int DetectionSystemTISTAR::Build() 
 {
-    BuildTISTAR();
-
+    BuildLayer();
+    
     return 1;
 }
 
@@ -72,45 +62,26 @@ G4int DetectionSystemTISTAR::PlaceDetector(G4LogicalVolume* expHallLog)
     G4RotationMatrix * rotate = new G4RotationMatrix;
     G4ThreeVector move = G4ThreeVector(0., 0., 0.);
 
-    //fAssemblyTISTAR->MakeImprint(expHallLog, move, rotate);
-    fAssemblyLayers.at(0)->MakeImprint(expHallLog, move, rotate);
+    fAssemblyLayer->MakeImprint(expHallLog, move, rotate, fLayerNumber);
 
     return 1;
 }
 
-G4int DetectionSystemTISTAR::PlaceDetector(G4int layer, G4ThreeVector move, G4ThreeVector rotate, G4LogicalVolume* expHallLog)
+G4int DetectionSystemTISTAR::PlaceDetector(G4ThreeVector move, G4ThreeVector rotate, G4LogicalVolume* expHallLog)
 {
-    if(layer<0||layer>=fNLayers) {
-        G4cout << " ---> This layer doesn't exist! " << G4endl;
-        return 0;
-    }
-
     G4RotationMatrix * rotation = new G4RotationMatrix;
     rotation->rotateX(rotate.x()*M_PI/180.);
     rotation->rotateY(rotate.y()*M_PI/180.);
     rotation->rotateZ(rotate.z()*M_PI/180.);
-    fAssemblyLayers.at(layer)->MakeImprint(expHallLog, move, rotation);
+    fAssemblyLayer->MakeImprint(expHallLog, move, rotation, fLayerNumber);
 
     return 1;
 }
 
-G4int DetectionSystemTISTAR::BuildTISTAR() 
+G4int DetectionSystemTISTAR::BuildLayer() 
 {
-    BuildLayer(0);
 
-    return 1;
-}
-
-G4int DetectionSystemTISTAR::BuildLayer(G4int layer) 
-{
-    if(layer<0||layer>=fNLayers) { 
-        G4cout << " ---> This layer doesn't exist! " << G4endl;
-        return 0;
-    }
-    if(!fDimensionsSet.at(layer).at(0) || !fDimensionsSet.at(layer).at(1)) {
-        G4cout << " ---> Dimensions not set!" << G4endl;
-        return 0;
-    }
+    if(!fSiDimensionsSet) { G4cout << " ---> Silicon dimensions not set!" << G4endl; return 0; }
 
     G4String name;
     G4RotationMatrix * rotate = new G4RotationMatrix();
@@ -121,7 +92,7 @@ G4int DetectionSystemTISTAR::BuildLayer(G4int layer)
     if( !si_material ) { G4cout << " ---> Material " << fSiliconMaterialName << " not found, cannot build! " << G4endl; return 0; }
     G4Material* pcb_material = G4Material::GetMaterial(fPCBMaterialName);
     if( !pcb_material ) { G4cout << " ---> Material " << fPCBMaterialName << " not found, cannot build! " << G4endl; return 0; }
-   
+ 
     // Set up colours and other vis. attributes
     G4VisAttributes * si_vis_att = new G4VisAttributes(G4Colour::Cyan());
     si_vis_att->SetVisibility(true);
@@ -129,9 +100,9 @@ G4int DetectionSystemTISTAR::BuildLayer(G4int layer)
     pcb_vis_att->SetVisibility(true);
 
     // Get/calculate dimensions
-    G4ThreeVector si_dim = fDimensionsSiLayers.at(layer);
-    G4ThreeVector pcb_dim = fDimensionsPCBLayers.at(layer);
-    G4ThreeVector offset = fOffsetLayers.at(layer); // offset of Si layer from top left corner of PCB layer
+    G4ThreeVector si_dim = fSiDimensions;
+    G4ThreeVector pcb_dim = fPCBDimensions;
+    G4ThreeVector offset = fOffset; // offset of Si layer from top left corner of PCB layer
     
     G4ThreeVector cut_extra = G4ThreeVector(0.,1.*m,0.);
     if(offset.x()<=0.) cut_extra += G4ThreeVector(1.*m,0.,0.);
@@ -143,44 +114,48 @@ G4int DetectionSystemTISTAR::BuildLayer(G4int layer)
 
     // Physical volumes
     
-    name  = "TISTARSiLayer" + std::to_string(layer) + "PV";
+    name  = "TISTARSiLayer" + std::to_string(fLayerNumber) + "PV";
     G4Box * si_PV = new G4Box(name,si_dim.x()/2.,si_dim.y()/2.,si_dim.z()/2.);
-    
-    name = "TISTARPCBLayerPreCut" + std::to_string(layer) + "PV";
+        
+    name = "TISTARPCBLayerPreCut" + std::to_string(fLayerNumber) + "PV";
     G4Box * pcb_precut_PV = new G4Box(name,pcb_dim.x()/2.,pcb_dim.y()/2.,pcb_dim.z()/2.);    
     
-    name = "TISTARPCBLayer" + std::to_string(layer) + "CuttingPV";
+    name = "TISTARPCBLayer" + std::to_string(fLayerNumber) + "CuttingPV";
     G4Box * pcb_cutting_PV = new G4Box(name,si_dim.x()/2.+cut_extra.x(),pcb_dim.y()/2.+cut_extra.y(),si_dim.z()/2.+cut_extra.z());
     
-    name = "TISTARPCBLayer" + std::to_string(layer) + "PV";
+    name = "TISTARPCBLayer" + std::to_string(fLayerNumber) + "PV";
     G4SubtractionSolid * pcb_PV = new G4SubtractionSolid(name,pcb_precut_PV,pcb_cutting_PV,rotate,move);
-    
+
     // Logical volumes
-    if(fLogicalSiLayers.at(layer) == NULL) {
-        name = "TISTARSiLayer" + std::to_string(layer) + "LV";
-        fLogicalSiLayers.at(layer) = new G4LogicalVolume(si_PV,si_material,name,0,0,0);
-        fLogicalSiLayers.at(layer)->SetVisAttributes(si_vis_att);
+    if(fLogicalSiLayer == NULL) {
+        name = "TISTARSiLayer" + std::to_string(fLayerNumber) + "LV";
+        fLogicalSiLayer = new G4LogicalVolume(si_PV,si_material,name,0,0,0);
+        fLogicalSiLayer->SetVisAttributes(si_vis_att);
     }
-    else { G4cout << " ---> Already built this Si layer - " << layer << G4endl; return 0; }
-    
-    if(fLogicalPCBLayers.at(layer) == NULL) {
-        name = "TISTARPCBLayer" + std::to_string(layer) + "LV";
-        fLogicalPCBLayers.at(layer) = new G4LogicalVolume(pcb_PV,pcb_material,name,0,0,0);
-        fLogicalPCBLayers.at(layer)->SetVisAttributes(pcb_vis_att);
-    }
-    else { G4cout << " ---> Already built this PCB layer - " << layer << G4endl; return 0; }
-    
+        
+    if(fPCBDimensionsSet) {
+        if(fLogicalPCBLayer == NULL) {
+            name = "TISTARPCBLayer" + std::to_string(fLayerNumber) + "LV";
+            fLogicalPCBLayer = new G4LogicalVolume(pcb_PV,pcb_material,name,0,0,0);
+            fLogicalPCBLayer->SetVisAttributes(pcb_vis_att);
+        }
+    }    
+
     // Add to assembly volume
-    if(fAssemblyLayers.at(layer) == NULL) {
-        fAssemblyLayers.at(layer) = new G4AssemblyVolume();
+    if(fAssemblyLayer == NULL) {
+        fAssemblyLayer = new G4AssemblyVolume();
+        
         // Si layer
         move = G4ThreeVector(0.,0.,0.);
-        fAssemblyLayers.at(layer)->AddPlacedVolume(fLogicalSiLayers.at(layer),move,rotate);
+        fAssemblyLayer->AddPlacedVolume(fLogicalSiLayer,move,rotate);
+        
         // PCB layer
-        move = G4ThreeVector( -pcb_dim.x()/2. + si_dim.x()/2. + offset.x(),  // x
-                              0.,                                            // y
-                              +pcb_dim.z()/2. - si_dim.z()/2. - offset.z()); // z
-        fAssemblyLayers.at(layer)->AddPlacedVolume(fLogicalPCBLayers.at(layer),move,rotate);
+        if(fPCBDimensionsSet) {
+            move = G4ThreeVector( -pcb_dim.x()/2. + si_dim.x()/2. + offset.x(),  // x
+                                  0.,                                            // y
+                                  +pcb_dim.z()/2. - si_dim.z()/2. - offset.z()); // z
+            fAssemblyLayer->AddPlacedVolume(fLogicalPCBLayer,move,rotate);
+        }
     }
 
     return 1;

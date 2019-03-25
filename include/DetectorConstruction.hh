@@ -167,8 +167,6 @@ public:
     void AddDetectionSystemPaces(G4int ndet);
     void AddDetectionSystemSpice(G4int nRings);
 
-    void AddDetectionSystemTISTAR();
-
     G4double GetLanthanumBromideCrystalRadius();
     G4double GetLanthanumBromideCrystalLength();
     G4double GetLanthanumBromideR();
@@ -184,6 +182,7 @@ public:
     void UseTIGRESSPositions( G4bool input )                  {fUseTigressPositions = input;};
     
     void AddTISTARLayer();
+    void SetTISTARLayerNumber(G4int layer_number)   { fTISTARLayerNumber = layer_number; }
     void SetTISTARSiDimensions(G4ThreeVector dim)   { fTISTARSiDimensions = dim; } 
     void SetTISTARPCBDimensions(G4ThreeVector dim)  { fTISTARPCBDimensions = dim; } 
     void SetTISTAROffset(G4ThreeVector offset)      { fTISTAROffset = offset; } 
@@ -262,6 +261,7 @@ private:
     G4ThreeVector fDetEffPosition;
 
     // TI-STAR Dimensions
+    G4int fTISTARLayerNumber;
     G4ThreeVector fTISTARSiDimensions;
     G4ThreeVector fTISTARPCBDimensions;
     G4ThreeVector fTISTAROffset;

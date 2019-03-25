@@ -77,6 +77,7 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
     // Get volume of the current step
     G4VPhysicalVolume* volume = aStep->GetPreStepPoint()->GetTouchableHandle()->GetVolume();
     G4String volname = volume->GetName();
+    G4int copyNo = volume->GetCopyNo();
 
     // collect energy and track length step by step
     // As it's called more than once, get the Track and assign to variable
@@ -449,37 +450,15 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
     }
     
     // TI-STAR
-    // first layer
-    found = volname.find("firstLayerLV"); 
+    found = volname.find("TISTARSiLayer"); 
     if (edep != 0 && found!=G4String::npos) {
         SetDetNumberForGenericDetector(volname);
-        mnemonic.replace(0,3,"TS1");
-        mnemonic.replace(3,2,G4intToG4String(fDet));
+        mnemonic.replace(0,3,"TIS");
+        mnemonic.replace(3,2,G4intToG4String(copyNo));
         mnemonic.replace(5,1,GetCrystalColour(fCry));
-        systemID = 9100;
+        systemID = 9000+copyNo-1;
         fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, fStepNumber, particleType, processType, systemID, fCry-1, fDet-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ);
     }
-    // second layer
-    found = volname.find("secondLayerLV"); 
-    if (edep != 0 && found!=G4String::npos) {
-        SetDetNumberForGenericDetector(volname);
-        mnemonic.replace(0,3,"TS2");
-        mnemonic.replace(3,2,G4intToG4String(fDet));
-        mnemonic.replace(5,1,GetCrystalColour(fCry));
-        systemID = 9200;
-        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, fStepNumber, particleType, processType, systemID, fCry-1, fDet-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ);
-    }
-    // third layer
-    found = volname.find("thirdLayerLV"); 
-    if (edep != 0 && found!=G4String::npos) {
-        SetDetNumberForGenericDetector(volname);
-        mnemonic.replace(0,3,"TS3");
-        mnemonic.replace(3,2,G4intToG4String(fDet));
-        mnemonic.replace(5,1,GetCrystalColour(fCry));
-        systemID = 9300;
-        fEventAction->AddHitTracker(mnemonic, evntNb, trackID, parentID, fStepNumber, particleType, processType, systemID, fCry-1, fDet-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ);
-    }
-
 
     if(trackSteps) {
         fEventAction->AddStepTracker(evntNb, trackID, parentID, fStepNumber, particleType, processType, systemID, fCry-1, fDet-1, edep, pos2.x(), pos2.y(), pos2.z(), time2, targetZ);

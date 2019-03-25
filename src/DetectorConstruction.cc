@@ -169,6 +169,8 @@ DetectorConstruction::DetectorConstruction() :
     fApparatusLayeredTarget=0;
     
     fSetSpiceIn = false;	  
+
+    fTISTARLayerNumber = 0;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -795,27 +797,16 @@ void DetectorConstruction::AddDetectionSystemPaces(G4int ndet) {
   pPaces->PlaceDetector(fLogicWorld, ndet) ;
 }
 
-void DetectorConstruction::AddDetectionSystemTISTAR() {
-    if(fLogicWorld == NULL) {
-        Construct();
-    }
-
-    DetectionSystemTISTAR * pTISTAR = new DetectionSystemTISTAR();
-
-    pTISTAR->Build();
-    pTISTAR->PlaceDetector(fLogicWorld);
-}
-
 void DetectorConstruction::AddTISTARLayer() {
     if(fLogicWorld == NULL) {
         Construct();
     }
-    DetectionSystemTISTAR * pTISTAR = new DetectionSystemTISTAR();
-    pTISTAR->SetDimensionsSiLayers(0,fTISTARSiDimensions);
-    pTISTAR->SetDimensionsPCBLayers(0,fTISTARPCBDimensions);
-    pTISTAR->SetOffsetLayers(0,fTISTAROffset);
+    DetectionSystemTISTAR * pTISTAR = new DetectionSystemTISTAR(fTISTARLayerNumber);
+    pTISTAR->SetSiDimensions(fTISTARSiDimensions);
+    pTISTAR->SetPCBDimensions(fTISTARPCBDimensions);
+    pTISTAR->SetOffset(fTISTAROffset);
 
     pTISTAR->Build();
-    pTISTAR->PlaceDetector(0, fTISTARPosition, fTISTARRotation, fLogicWorld);
+    pTISTAR->PlaceDetector(fTISTARPosition, fTISTARRotation, fLogicWorld);
 }
 
