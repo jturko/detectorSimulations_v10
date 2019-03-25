@@ -1,39 +1,98 @@
-# $Id: run.mac 68015 2013-03-13 13:27:27Z gcosmo $
-#
-# Macro file for "AnaEx01.cc"
-# 
-# can be run in batch, without graphic
-# or interactively: Idle> /control/execute run.mac
-#
-
+#####################################################
 /run/initialize
+
+/DetSys/phys/SelectPhysics QGSP_BIC
 
 /control/execute vis.mac
 
-/DetSys/det/setTISTARFirstLayerX 40 mm
-/DetSys/det/setTISTARFirstLayerZ 50 mm
-/DetSys/det/setTISTARFirstLayerThickness 20 um
-/DetSys/det/setTISTARFirstLayerDistFromBeam 10 mm
-/DetSys/det/setTISTARFirstLayerOffset 0 0 0 mm
-/DetSys/det/setTISTARFirstLayerPCBUpperX 0 mm
-/DetSys/det/setTISTARFirstLayerPCBLowerX 0 mm
-/DetSys/det/setTISTARFirstLayerGapZ 4 mm 
+#####################################################
+#/DetSys/world/material Vacuum
 
-/DetSys/det/setTISTARSecondLayerX 100 mm
-/DetSys/det/setTISTARSecondLayerZ 100 mm
-/DetSys/det/setTISTARSecondLayerThickness 150 um
-/DetSys/det/setTISTARSecondLayerOffset 0 0 0 mm
-/DetSys/det/setTISTARSecondLayerDistFromBeam 30 mm
-/DetSys/det/setTISTARSecondLayerPCBUpperX 5 mm
-/DetSys/det/setTISTARSecondLayerPCBLowerX 40 mm
+#/DetSys/det/setTISTARFirstLayerX 40 mm
+#/DetSys/det/setTISTARFirstLayerZ 50 mm
+#/DetSys/det/setTISTARFirstLayerThickness 20 um
+#/DetSys/det/setTISTARFirstLayerDistFromBeam 10 mm
+#/DetSys/det/setTISTARFirstLayerOffset 0 0 0 mm
+#/DetSys/det/setTISTARFirstLayerPCBUpperX 5 mm
+#/DetSys/det/setTISTARFirstLayerPCBLowerX 35 mm
+#/DetSys/det/setTISTARFirstLayerPCBForwardZ 25 mm
+#/DetSys/det/setTISTARFirstLayerPCBBackwardZ 25 mm
+#/DetSys/det/setTISTARFirstLayerGapZ 4 mm 
+#
+#/DetSys/det/setTISTARSecondLayerX 100 mm
+#/DetSys/det/setTISTARSecondLayerZ 100 mm
+#/DetSys/det/setTISTARSecondLayerThickness 150 um
+#/DetSys/det/setTISTARSecondLayerOffset 0 0 0 mm
+#/DetSys/det/setTISTARSecondLayerDistFromBeam 30 mm
+#/DetSys/det/setTISTARSecondLayerPCBUpperX 5 mm
+#/DetSys/det/setTISTARSecondLayerPCBLowerX 35 mm
+#/DetSys/det/setTISTARSecondLayerPCBForwardZ 0 mm
+#/DetSys/det/setTISTARSecondLayerPCBBackwardZ 40 mm
+#
+#/DetSys/det/setTISTARThirdLayerX 100 mm
+#/DetSys/det/setTISTARThirdLayerZ 100 mm
+#/DetSys/det/setTISTARThirdLayerThickness 2000 um
+#/DetSys/det/setTISTARThirdLayerDistFromBeam 33 mm
+#/DetSys/det/setTISTARThirdLayerOffset 0 0 0 mm
+#/DetSys/det/setTISTARThirdLayerPCBUpperX 5 mm
+#/DetSys/det/setTISTARThirdLayerPCBLowerX 35 mm
+#/DetSys/det/setTISTARThirdLayerPCBForwardZ 0 mm
+#/DetSys/det/setTISTARThirdLayerPCBBackwardZ 40 mm
+#
+#/DetSys/det/addTISTAR
 
-/DetSys/det/setTISTARThirdLayerX 100 mm
-/DetSys/det/setTISTARThirdLayerZ 100 mm
-/DetSys/det/setTISTARThirdLayerThickness 2000 um
-/DetSys/det/setTISTARThirdLayerDistFromBeam 33 mm
-/DetSys/det/setTISTARThirdLayerOffset 0 0 0 mm
-/DetSys/det/setTISTARThirdLayerPCBUpperX 5 mm
-/DetSys/det/setTISTARThirdLayerPCBLowerX 40 mm
+# first layer
+/DetSys/det/setTISTARSiDimensions 40 0.02 50 mm  
+/DetSys/det/setTISTARPCBDimensions 80 1.67 75 mm
+/DetSys/det/setTISTAROffset 5 0 0 mm         
 
-/DetSys/det/addTISTAR
+/DetSys/det/setTISTARPosition 10 0 27 mm # 25 + 2       
+/DetSys/det/setTISTARRotation 0 0 90          
+/DetSys/det/addTISTARLayer 
+
+/DetSys/det/setTISTARPosition 10 0 -27 mm # 25 + 2       
+/DetSys/det/setTISTARRotation 0 180 90          
+/DetSys/det/addTISTARLayer 
+
+/DetSys/det/setTISTARPosition -10 0 27 mm # 25 + 2       
+/DetSys/det/setTISTARRotation 0 0 -90          
+/DetSys/det/addTISTARLayer 
+
+/DetSys/det/setTISTARPosition -10 0 -27 mm # 25 + 2       
+/DetSys/det/setTISTARRotation 0 180 -90          
+/DetSys/det/addTISTARLayer 
+
+# second layer
+/DetSys/det/setTISTARSiDimensions 100 0.150 100 mm  
+/DetSys/det/setTISTARPCBDimensions 140 1.67 140 mm
+/DetSys/det/setTISTAROffset 5 0 0 mm         
+
+/DetSys/det/setTISTARPosition 30 0 0 mm # 25 + 2       
+/DetSys/det/setTISTARRotation 0 0 90          
+/DetSys/det/addTISTARLayer 
+
+/DetSys/det/setTISTARPosition -30 0 0 mm # 25 + 2       
+/DetSys/det/setTISTARRotation 0 0 90          
+/DetSys/det/addTISTARLayer 
+
+#####################################################
+/DetSys/gun/useGPS true
+
+/gps/particle proton
+
+/gps/position 0 0 0 m
+/gps/pos/type Point
+/gps/pos/centre 0 0 0 m
+
+/gps/ang/type iso
+
+#/gps/ene/type Lin
+#/gps/ene/min 2 MeV
+#/gps/ene/max 5 MeV
+#/gps/ene/gradient 0
+#/gps/ene/intercept 1
+/gps/energy 0.00000000001 MeV
+
+#####################################################
 /run/beamOn 1
+
