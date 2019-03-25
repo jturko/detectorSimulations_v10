@@ -51,37 +51,6 @@ public:
     G4int PlaceDetector(G4LogicalVolume* expHallLog);
     G4int PlaceDetector(G4int layer, G4ThreeVector move, G4ThreeVector rotate, G4LogicalVolume* expHallLog);
 
-    void SetFirstLayerX(G4double xx) { fFirstLayerX = xx; }
-    void SetFirstLayerZ(G4double zz) { fFirstLayerZ = zz; }
-    void SetFirstLayerThickness(G4double thickness) { fFirstLayerThickness = thickness; }
-    void SetFirstLayerDistFromBeam(G4double dist) { fFirstLayerDistFromBeam = dist; }
-    void SetFirstLayerOffset(G4ThreeVector offset) { fFirstLayerOffset = offset; }
-    void SetFirstLayerPCBUpperX(G4double xx) { fFirstLayerPCBUpperX = xx; }
-    void SetFirstLayerPCBLowerX(G4double xx) { fFirstLayerPCBLowerX = xx; }
-    void SetFirstLayerPCBForwardZ(G4double xx) { fFirstLayerPCBForwardZ = xx; }
-    void SetFirstLayerPCBBackwardZ(G4double xx) { fFirstLayerPCBBackwardZ = xx; }
-    void SetFirstLayerGapZ(G4double gap) { fFirstLayerGapZ = gap; }    
-
-    void SetSecondLayerX(G4double xx) { fSecondLayerX = xx; }
-    void SetSecondLayerZ(G4double zz) { fSecondLayerZ = zz; }
-    void SetSecondLayerThickness(G4double thickness) { fSecondLayerThickness = thickness; }
-    void SetSecondLayerDistFromBeam(G4double dist) { fSecondLayerDistFromBeam = dist; }
-    void SetSecondLayerOffset(G4ThreeVector offset) { fSecondLayerOffset = offset; }
-    void SetSecondLayerPCBUpperX(G4double xx) { fSecondLayerPCBUpperX = xx; }
-    void SetSecondLayerPCBLowerX(G4double xx) { fSecondLayerPCBLowerX = xx; }
-    void SetSecondLayerPCBForwardZ(G4double xx) { fSecondLayerPCBForwardZ = xx; }
-    void SetSecondLayerPCBBackwardZ(G4double xx) { fSecondLayerPCBBackwardZ = xx; }
-    
-    void SetThirdLayerX(G4double xx) { fThirdLayerX = xx; }
-    void SetThirdLayerZ(G4double zz) { fThirdLayerZ = zz; }
-    void SetThirdLayerThickness(G4double thickness) { fThirdLayerThickness = thickness; }
-    void SetThirdLayerDistFromBeam(G4double dist) { fThirdLayerDistFromBeam = dist; }
-    void SetThirdLayerOffset(G4ThreeVector offset) { fThirdLayerOffset = offset; }
-    void SetThirdLayerPCBUpperX(G4double xx) { fThirdLayerPCBUpperX = xx; }
-    void SetThirdLayerPCBLowerX(G4double xx) { fThirdLayerPCBLowerX = xx; }
-    void SetThirdLayerPCBForwardZ(G4double xx) { fThirdLayerPCBForwardZ = xx; }
-    void SetThirdLayerPCBBackwardZ(G4double xx) { fThirdLayerPCBBackwardZ = xx; }
-
     void SetDimensionsSiLayers(G4int i, G4ThreeVector dim) { fDimensionsSiLayers.at(i) = dim; fDimensionsSet.at(i).at(0) = true; }
     void SetDimensionsPCBLayers(G4int i, G4ThreeVector dim) { fDimensionsPCBLayers.at(i) = dim; fDimensionsSet.at(i).at(1) = true; }
     void SetOffsetLayers(G4int i, G4ThreeVector offset) { fOffsetLayers.at(i) = offset; }
@@ -100,67 +69,17 @@ private:
     const G4int fNLayers;
     
     // Assembly volumes
-    G4AssemblyVolume* fAssemblyTISTAR;            
     std::vector<G4AssemblyVolume*> fAssemblyLayers;
     
     // Logical volumes
-    G4LogicalVolume * fFirstLayerLV;
-    G4LogicalVolume * fSecondLayerLV;
-    G4LogicalVolume * fThirdLayerLV;
     std::vector<G4LogicalVolume*> fLogicalSiLayers;
     std::vector<G4LogicalVolume*> fLogicalPCBLayers;
     
-    G4LogicalVolume * fFirstLayerPCBUpperXLV;
-    G4LogicalVolume * fFirstLayerPCBLowerXLV;
-    G4LogicalVolume * fFirstLayerPCBForwardZLV;
-    G4LogicalVolume * fFirstLayerPCBBackwardZLV;
-    G4LogicalVolume * fSecondLayerPCBUpperXLV;
-    G4LogicalVolume * fSecondLayerPCBLowerXLV;
-    G4LogicalVolume * fSecondLayerPCBForwardZLV;
-    G4LogicalVolume * fSecondLayerPCBBackwardZLV;
-    G4LogicalVolume * fThirdLayerPCBUpperXLV;
-    G4LogicalVolume * fThirdLayerPCBLowerXLV;
-    G4LogicalVolume * fThirdLayerPCBForwardZLV;
-    G4LogicalVolume * fThirdLayerPCBBackwardZLV;
-
     // Materials 
     G4String fSiliconMaterialName;
     G4String fPCBMaterialName;
 
     // Dimensions
-    G4double fFirstLayerX;
-    G4double fFirstLayerZ;
-    G4double fFirstLayerThickness;
-    G4double fFirstLayerDistFromBeam;
-    G4ThreeVector fFirstLayerOffset;
-    G4double fFirstLayerPCBUpperX;
-    G4double fFirstLayerPCBLowerX;
-    G4double fFirstLayerPCBForwardZ;
-    G4double fFirstLayerPCBBackwardZ;
-    G4double fFirstLayerGapZ;
-
-    G4double fSecondLayerX;
-    G4double fSecondLayerZ;
-    G4double fSecondLayerThickness;
-    G4double fSecondLayerDistFromBeam;
-    G4ThreeVector fSecondLayerOffset;
-    G4double fSecondLayerPCBUpperX;
-    G4double fSecondLayerPCBLowerX;
-    G4double fSecondLayerPCBForwardZ;
-    G4double fSecondLayerPCBBackwardZ;
-    
-    G4double fThirdLayerX;
-    G4double fThirdLayerZ;
-    G4double fThirdLayerThickness;
-    G4double fThirdLayerDistFromBeam;
-    G4ThreeVector fThirdLayerOffset;
-    G4double fThirdLayerPCBUpperX;
-    G4double fThirdLayerPCBLowerX;
-    G4double fThirdLayerPCBForwardZ;
-    G4double fThirdLayerPCBBackwardZ;
-    
-    G4double fPCBThickness;
-
     std::vector<G4ThreeVector> fDimensionsSiLayers;
     std::vector<G4ThreeVector> fDimensionsPCBLayers;
     std::vector<G4ThreeVector> fOffsetLayers;

@@ -169,38 +169,6 @@ DetectorConstruction::DetectorConstruction() :
     fApparatusLayeredTarget=0;
     
     fSetSpiceIn = false;	  
-
-    // TI-STAR parameters; if set to -1, use default parameters in DetectionSystemTISTAR class
-    fTISTARFirstLayerX = -1;
-    fTISTARFirstLayerZ = -1;
-    fTISTARFirstLayerThickness = -1;
-    fTISTARFirstLayerDistFromBeam = -1;
-    fTISTARFirstLayerOffset = G4ThreeVector(0.,0.,0.);
-    fTISTARFirstLayerPCBUpperX = -1;
-    fTISTARFirstLayerPCBLowerX = -1;
-    fTISTARFirstLayerPCBForwardZ = -1;
-    fTISTARFirstLayerPCBBackwardZ = -1;
-    fTISTARFirstLayerGapZ = -1;
-
-    fTISTARSecondLayerX = -1;
-    fTISTARSecondLayerZ = -1;
-    fTISTARSecondLayerThickness = -1;
-    fTISTARSecondLayerDistFromBeam = -1;
-    fTISTARSecondLayerOffset = G4ThreeVector(0.,0.,0.);
-    fTISTARSecondLayerPCBUpperX = -1;
-    fTISTARSecondLayerPCBLowerX = -1;
-    fTISTARSecondLayerPCBForwardZ = -1;
-    fTISTARSecondLayerPCBBackwardZ = -1;
-
-    fTISTARThirdLayerX = -1;
-    fTISTARThirdLayerZ = -1;
-    fTISTARThirdLayerThickness = -1;
-    fTISTARThirdLayerDistFromBeam = -1;
-    fTISTARThirdLayerOffset = G4ThreeVector(0.,0.,0.);
-    fTISTARThirdLayerPCBUpperX = -1;
-    fTISTARThirdLayerPCBLowerX = -1;
-    fTISTARThirdLayerPCBForwardZ = -1;
-    fTISTARThirdLayerPCBBackwardZ = -1;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -833,38 +801,6 @@ void DetectorConstruction::AddDetectionSystemTISTAR() {
     }
 
     DetectionSystemTISTAR * pTISTAR = new DetectionSystemTISTAR();
-    
-    if(fTISTARFirstLayerX >= 0.)             pTISTAR->SetFirstLayerX(fTISTARFirstLayerX);
-    if(fTISTARFirstLayerZ >= 0.)             pTISTAR->SetFirstLayerZ(fTISTARFirstLayerZ);
-    if(fTISTARFirstLayerThickness >= 0.)     pTISTAR->SetFirstLayerThickness(fTISTARFirstLayerThickness);
-    if(fTISTARFirstLayerDistFromBeam >= 0.)  pTISTAR->SetFirstLayerDistFromBeam(fTISTARFirstLayerDistFromBeam);
-    pTISTAR->SetFirstLayerOffset(fTISTARFirstLayerOffset);
-    if(fTISTARFirstLayerPCBUpperX >= 0.)     pTISTAR->SetFirstLayerPCBUpperX(fTISTARFirstLayerPCBUpperX);
-    if(fTISTARFirstLayerPCBLowerX >= 0.)     pTISTAR->SetFirstLayerPCBLowerX(fTISTARFirstLayerPCBLowerX);
-    if(fTISTARFirstLayerPCBForwardZ >= 0.)   pTISTAR->SetFirstLayerPCBForwardZ(fTISTARFirstLayerPCBForwardZ);
-    if(fTISTARFirstLayerPCBBackwardZ >= 0.)  pTISTAR->SetFirstLayerPCBBackwardZ(fTISTARFirstLayerPCBBackwardZ);
-    if(fTISTARFirstLayerGapZ >= 0.)          pTISTAR->SetFirstLayerGapZ(fTISTARFirstLayerGapZ);   
-    
-
-    if(fTISTARSecondLayerX >= 0.)            pTISTAR->SetSecondLayerX(fTISTARSecondLayerX);
-    if(fTISTARSecondLayerZ >= 0.)            pTISTAR->SetSecondLayerZ(fTISTARSecondLayerZ);
-    if(fTISTARSecondLayerThickness >= 0.)    pTISTAR->SetSecondLayerThickness(fTISTARSecondLayerThickness);
-    if(fTISTARSecondLayerDistFromBeam >= 0.) pTISTAR->SetSecondLayerDistFromBeam(fTISTARSecondLayerDistFromBeam);
-    pTISTAR->SetSecondLayerOffset(fTISTARSecondLayerOffset);
-    if(fTISTARSecondLayerPCBUpperX >= 0.)     pTISTAR->SetSecondLayerPCBUpperX(fTISTARSecondLayerPCBUpperX);
-    if(fTISTARSecondLayerPCBLowerX >= 0.)     pTISTAR->SetSecondLayerPCBLowerX(fTISTARSecondLayerPCBLowerX);
-    if(fTISTARSecondLayerPCBForwardZ >= 0.)   pTISTAR->SetSecondLayerPCBForwardZ(fTISTARSecondLayerPCBForwardZ);
-    if(fTISTARSecondLayerPCBBackwardZ >= 0.)  pTISTAR->SetSecondLayerPCBBackwardZ(fTISTARSecondLayerPCBBackwardZ);
-    
-    if(fTISTARThirdLayerX >= 0.)             pTISTAR->SetThirdLayerX(fTISTARThirdLayerX);
-    if(fTISTARThirdLayerZ >= 0.)             pTISTAR->SetThirdLayerZ(fTISTARThirdLayerZ);
-    if(fTISTARThirdLayerThickness >= 0.)     pTISTAR->SetThirdLayerThickness(fTISTARThirdLayerThickness);
-    if(fTISTARThirdLayerDistFromBeam >= 0.)  pTISTAR->SetThirdLayerDistFromBeam(fTISTARThirdLayerDistFromBeam);
-    pTISTAR->SetThirdLayerOffset(fTISTARThirdLayerOffset);
-    if(fTISTARThirdLayerPCBUpperX >= 0.)     pTISTAR->SetThirdLayerPCBUpperX(fTISTARThirdLayerPCBUpperX);
-    if(fTISTARThirdLayerPCBLowerX >= 0.)     pTISTAR->SetThirdLayerPCBLowerX(fTISTARThirdLayerPCBLowerX);
-    if(fTISTARThirdLayerPCBForwardZ >= 0.)   pTISTAR->SetThirdLayerPCBForwardZ(fTISTARThirdLayerPCBForwardZ);
-    if(fTISTARThirdLayerPCBBackwardZ >= 0.)  pTISTAR->SetThirdLayerPCBBackwardZ(fTISTARThirdLayerPCBBackwardZ);
 
     pTISTAR->Build();
     pTISTAR->PlaceDetector(fLogicWorld);

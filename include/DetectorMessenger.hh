@@ -152,39 +152,6 @@ private:
 	G4UIcmdWithABool*           fUseTIGRESSPositionsCmd;
 
     // TI-STAR
-    G4UIcmdWithoutParameter*    fAddDetectionSystemTISTARCmd;
-    
-    G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARFirstLayerXCmd;
-    G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARFirstLayerZCmd;
-    G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARFirstLayerThicknessCmd;
-    G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARFirstLayerDistFromBeamCmd;
-    G4UIcmdWith3VectorAndUnit*  fSetDetectionSystemTISTARFirstLayerOffsetCmd;
-    G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARFirstLayerPCBUpperXCmd;    
-    G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARFirstLayerPCBLowerXCmd;    
-    G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARFirstLayerPCBForwardZCmd;    
-    G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARFirstLayerPCBBackwardZCmd;    
-    G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARFirstLayerGapZCmd;    
-
-    G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARSecondLayerXCmd;
-    G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARSecondLayerZCmd;
-    G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARSecondLayerThicknessCmd;
-    G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARSecondLayerDistFromBeamCmd;
-    G4UIcmdWith3VectorAndUnit*  fSetDetectionSystemTISTARSecondLayerOffsetCmd;
-    G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARSecondLayerPCBUpperXCmd;    
-    G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARSecondLayerPCBLowerXCmd;    
-    G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARSecondLayerPCBForwardZCmd;    
-    G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARSecondLayerPCBBackwardZCmd;    
-    
-    G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARThirdLayerXCmd;
-    G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARThirdLayerZCmd;
-    G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARThirdLayerThicknessCmd;
-    G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARThirdLayerDistFromBeamCmd;
-    G4UIcmdWith3VectorAndUnit*  fSetDetectionSystemTISTARThirdLayerOffsetCmd;
-    G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARThirdLayerPCBUpperXCmd;    
-    G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARThirdLayerPCBLowerXCmd;    
-    G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARThirdLayerPCBForwardZCmd;    
-    G4UIcmdWithADoubleAndUnit*  fSetDetectionSystemTISTARThirdLayerPCBBackwardZCmd;    
-
     G4UIcmdWithoutParameter*   fAddTISTARLayerCmd;
     G4UIcmdWith3VectorAndUnit* fSetTISTARSiDimensionsCmd;
     G4UIcmdWith3VectorAndUnit* fSetTISTARPCBDimensionsCmd;
