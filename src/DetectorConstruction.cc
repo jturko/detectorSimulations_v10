@@ -171,6 +171,10 @@ DetectorConstruction::DetectorConstruction() :
     fSetSpiceIn = false;	  
 
     fTISTARLayerNumber = 0;
+    fTISTARSiDimensions = G4ThreeVector(0.,0.,0.);
+    fTISTARDistFromBeam = 0.;
+    fTISTARGapZ = 0.;
+    fTISTARSiCentered = false;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -802,11 +806,45 @@ void DetectorConstruction::AddTISTARLayer() {
         Construct();
     }
     DetectionSystemTISTAR * pTISTAR = new DetectionSystemTISTAR(fTISTARLayerNumber);
-    pTISTAR->SetSiDimensions(fTISTARSiDimensions);
+    if(fTISTARSiDimensions.x() > 0. &&
+       fTISTARSiDimensions.y() > 0. &&
+       fTISTARSiDimensions.z() > 0. ) pTISTAR->SetSiDimensions(fTISTARSiDimensions);
     pTISTAR->SetPCBDimensions(fTISTARPCBDimensions);
     pTISTAR->SetOffset(fTISTAROffset);
 
     pTISTAR->Build();
     pTISTAR->PlaceDetector(fTISTARPosition, fTISTARRotation, fLogicWorld);
+}
+
+void DetectorConstruction::AddTISTAR2StripLayer() {
+    if(fLogicWorld == NULL) {
+        Construct();
+    }
+    DetectionSystemTISTAR * pTISTAR = new DetectionSystemTISTAR(fTISTARLayerNumber);
+    if(fTISTARSiDimensions.x() > 0. &&
+       fTISTARSiDimensions.y() > 0. &&
+       fTISTARSiDimensions.z() > 0. ) pTISTAR->SetSiDimensions(fTISTARSiDimensions);
+    pTISTAR->SetPCBDimensions(fTISTARPCBDimensions);
+    pTISTAR->SetOffset(fTISTAROffset);
+
+    pTISTAR->Build();
+    pTISTAR->Add2StripLayer(fTISTARDistFromBeam, fTISTARSiCentered, fLogicWorld);    
+
+}
+
+void DetectorConstruction::AddTISTAR4StripLayer() {
+    if(fLogicWorld == NULL) {
+        Construct();
+    }
+    DetectionSystemTISTAR * pTISTAR = new DetectionSystemTISTAR(fTISTARLayerNumber);
+    if(fTISTARSiDimensions.x() > 0. &&
+       fTISTARSiDimensions.y() > 0. &&
+       fTISTARSiDimensions.z() > 0. ) pTISTAR->SetSiDimensions(fTISTARSiDimensions);
+    pTISTAR->SetPCBDimensions(fTISTARPCBDimensions);
+    pTISTAR->SetOffset(fTISTAROffset);
+
+    pTISTAR->Build();
+    pTISTAR->Add4StripLayer(fTISTARDistFromBeam, fTISTARGapZ, fLogicWorld);    
+
 }
 

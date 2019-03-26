@@ -3,95 +3,79 @@
 
 /DetSys/phys/SelectPhysics QGSP_BIC
 
-/control/execute vis.mac
+#/control/execute vis.mac
 
 #/tracking/verbose 1
 
 #####################################################
 /DetSys/world/material Vacuum
 
-#/DetSys/det/setTISTARFirstLayerX 40 mm
-#/DetSys/det/setTISTARFirstLayerZ 50 mm
-#/DetSys/det/setTISTARFirstLayerThickness 20 um
-#/DetSys/det/setTISTARFirstLayerDistFromBeam 10 mm
-#/DetSys/det/setTISTARFirstLayerOffset 0 0 0 mm
-#/DetSys/det/setTISTARFirstLayerPCBUpperX 5 mm
-#/DetSys/det/setTISTARFirstLayerPCBLowerX 35 mm
-#/DetSys/det/setTISTARFirstLayerPCBForwardZ 25 mm
-#/DetSys/det/setTISTARFirstLayerPCBBackwardZ 25 mm
-#/DetSys/det/setTISTARFirstLayerGapZ 4 mm 
-#
-#/DetSys/det/setTISTARSecondLayerX 100 mm
-#/DetSys/det/setTISTARSecondLayerZ 100 mm
-#/DetSys/det/setTISTARSecondLayerThickness 150 um
-#/DetSys/det/setTISTARSecondLayerOffset 0 0 0 mm
-#/DetSys/det/setTISTARSecondLayerDistFromBeam 30 mm
-#/DetSys/det/setTISTARSecondLayerPCBUpperX 5 mm
-#/DetSys/det/setTISTARSecondLayerPCBLowerX 35 mm
-#/DetSys/det/setTISTARSecondLayerPCBForwardZ 0 mm
-#/DetSys/det/setTISTARSecondLayerPCBBackwardZ 40 mm
-#
-#/DetSys/det/setTISTARThirdLayerX 100 mm
-#/DetSys/det/setTISTARThirdLayerZ 100 mm
-#/DetSys/det/setTISTARThirdLayerThickness 2000 um
-#/DetSys/det/setTISTARThirdLayerDistFromBeam 33 mm
-#/DetSys/det/setTISTARThirdLayerOffset 0 0 0 mm
-#/DetSys/det/setTISTARThirdLayerPCBUpperX 5 mm
-#/DetSys/det/setTISTARThirdLayerPCBLowerX 35 mm
-#/DetSys/det/setTISTARThirdLayerPCBForwardZ 0 mm
-#/DetSys/det/setTISTARThirdLayerPCBBackwardZ 40 mm
-#
-#/DetSys/det/addTISTAR
-
 # first layer
-/DetSys/det/setTISTARLayerNumber 1
+/DetSys/det/setTISTARLayerNumber 11
 /DetSys/det/setTISTARSiDimensions 40 0.02 50 mm  
 /DetSys/det/setTISTARPCBDimensions 80 1.67 75 mm
 /DetSys/det/setTISTAROffset 5 0 0 mm         
+/DetSys/det/setTISTARDistFromBeam 10 mm
+/DetSys/det/setTISTARGapZ 4 mm
+/DetSys/det/addTISTAR4StripLayer
 
-/DetSys/det/setTISTARPosition 10 0 27 mm # 25 + 2       
-/DetSys/det/setTISTARRotation 0 0 90          
-/DetSys/det/addTISTARLayer 
-
-/DetSys/det/setTISTARPosition 10 0 -27 mm # 25 + 2       
-/DetSys/det/setTISTARRotation 0 180 90          
-/DetSys/det/addTISTARLayer 
-
-/DetSys/det/setTISTARPosition -10 0 27 mm # 25 + 2       
-/DetSys/det/setTISTARRotation 0 0 -90          
-/DetSys/det/addTISTARLayer 
-
-/DetSys/det/setTISTARPosition -10 0 -27 mm # 25 + 2       
-/DetSys/det/setTISTARRotation 0 180 -90          
-/DetSys/det/addTISTARLayer 
+#/DetSys/det/setTISTARLayerNumber 11
+#/DetSys/det/setTISTARPosition 10 0 27 mm # 25 + 2       
+#/DetSys/det/setTISTARRotation 0 0 90          
+#/DetSys/det/addTISTARLayer 
+#
+#/DetSys/det/setTISTARLayerNumber 12
+#/DetSys/det/setTISTARPosition 10 0 -27 mm # 25 + 2       
+#/DetSys/det/setTISTARRotation 0 180 90          
+#/DetSys/det/addTISTARLayer 
+#
+#/DetSys/det/setTISTARLayerNumber 13
+#/DetSys/det/setTISTARPosition -10 0 27 mm # 25 + 2       
+#/DetSys/det/setTISTARRotation 0 0 -90          
+#/DetSys/det/addTISTARLayer 
+#
+#/DetSys/det/setTISTARLayerNumber 14
+#/DetSys/det/setTISTARPosition -10 0 -27 mm # 25 + 2       
+#/DetSys/det/setTISTARRotation 0 180 -90          
+#/DetSys/det/addTISTARLayer 
 
 # second layer
-/DetSys/det/setTISTARLayerNumber 2
+/DetSys/det/setTISTARLayerNumber 21
 /DetSys/det/setTISTARSiDimensions 100 0.150 100 mm  
 /DetSys/det/setTISTARPCBDimensions 140 1.67 140 mm
 /DetSys/det/setTISTAROffset 5 0 0 mm         
+/DetSys/det/setTISTARSiCentered false
+/DetSys/det/setTISTARDistFromBeam 30 mm
+/DetSys/det/addTISTAR2StripLayer
 
-/DetSys/det/setTISTARPosition 30 15 0 mm
-/DetSys/det/setTISTARRotation 0 0 90          
-/DetSys/det/addTISTARLayer 
-
-/DetSys/det/setTISTARPosition -30 -15 0 mm 
-/DetSys/det/setTISTARRotation 0 180 90          
-/DetSys/det/addTISTARLayer 
+#/DetSys/det/setTISTARLayerNumber 21
+#/DetSys/det/setTISTARPosition 30 15 0 mm
+#/DetSys/det/setTISTARRotation 0 0 90          
+#/DetSys/det/addTISTARLayer 
+#
+#/DetSys/det/setTISTARLayerNumber 22
+#/DetSys/det/setTISTARPosition -30 -15 0 mm 
+#/DetSys/det/setTISTARRotation 0 180 90          
+#/DetSys/det/addTISTARLayer 
 
 # third layer
-/DetSys/det/setTISTARLayerNumber 3
+/DetSys/det/setTISTARLayerNumber 31
 /DetSys/det/setTISTARSiDimensions 100 2 100 mm  
 /DetSys/det/setTISTARPCBDimensions 140 1.67 140 mm
 /DetSys/det/setTISTAROffset 5 0 0 mm         
+/DetSys/det/setTISTARSiCentered false
+/DetSys/det/setTISTARDistFromBeam 33 mm
+/DetSys/det/addTISTAR2StripLayer
 
-/DetSys/det/setTISTARPosition 33 15 0 mm
-/DetSys/det/setTISTARRotation 0 0 90          
-/DetSys/det/addTISTARLayer 
-
-/DetSys/det/setTISTARPosition -33 -15 0 mm 
-/DetSys/det/setTISTARRotation 0 180 90          
-/DetSys/det/addTISTARLayer 
+#/DetSys/det/setTISTARLayerNumber 31
+#/DetSys/det/setTISTARPosition 33 15 0 mm
+#/DetSys/det/setTISTARRotation 0 0 90          
+#/DetSys/det/addTISTARLayer 
+#
+#/DetSys/det/setTISTARLayerNumber 32
+#/DetSys/det/setTISTARPosition -33 -15 0 mm 
+#/DetSys/det/setTISTARRotation 0 180 90          
+#/DetSys/det/addTISTARLayer 
 
 #####################################################
 /DetSys/gun/useGPS true
@@ -112,5 +96,5 @@
 /gps/energy 5 MeV
 
 #####################################################
-/run/beamOn 1000000
+/run/beamOn 100000
 

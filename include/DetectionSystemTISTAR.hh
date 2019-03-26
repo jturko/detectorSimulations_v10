@@ -57,6 +57,9 @@ public:
 
     G4int BuildLayer();
 
+    G4int Add2StripLayer(G4double dist_from_beam, G4bool si_centered, G4LogicalVolume* expHallLog);
+    G4int Add4StripLayer(G4double dist_from_beam, G4double gap_z, G4LogicalVolume* expHallLog);
+
 private:
     // Assembly volumes
     G4AssemblyVolume* fAssemblyLayer;

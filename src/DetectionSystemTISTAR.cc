@@ -3,10 +3,7 @@
 
 #include "G4Material.hh"
 
-#include "G4Tubs.hh"
 #include "G4Box.hh"
-#include "G4Cons.hh"
-#include "G4Sphere.hh"
 #include "G4LogicalVolume.hh"
 #include "G4PVPlacement.hh"
 
@@ -157,6 +154,83 @@ G4int DetectionSystemTISTAR::BuildLayer()
             fAssemblyLayer->AddPlacedVolume(fLogicalPCBLayer,move,rotate);
         }
     }
+
+    return 1;
+}
+
+G4int DetectionSystemTISTAR::Add2StripLayer(G4double dist_from_beam, G4bool si_centered, G4LogicalVolume* expHallLog) 
+{
+    G4ThreeVector move;
+    G4ThreeVector rotate;
+
+    // first strip
+    move = G4ThreeVector(   +dist_from_beam,        // x
+                            0.,                     // y
+                            0.);                    // z
+    if(!si_centered) move += G4ThreeVector(0., -fOffset.x() -fSiDimensions.x()/2. +fPCBDimensions.x()/2., 0.);
+    rotate = G4ThreeVector( 0.,                     // x-rotation
+                            0.,                     // y-rotation
+                            +90.);                  // z-rotation
+    PlaceDetector(move, rotate, expHallLog);
+    fLayerNumber++;
+    
+    // second strip
+    move = G4ThreeVector(   -dist_from_beam,        // x
+                            0.,                     // y
+                            0.);                    // z
+    if(!si_centered) move += G4ThreeVector(0., +fOffset.x() +fSiDimensions.x()/2. -fPCBDimensions.x()/2., 0.);
+    rotate = G4ThreeVector( 0,                      // x-rotation
+                            +180.,                  // y-rotation
+                            +90.);                  // z-rotation
+    PlaceDetector(move, rotate, expHallLog);
+
+    return 1;
+}
+
+G4int DetectionSystemTISTAR::Add4StripLayer(G4double dist_from_beam, G4double gap_z, G4LogicalVolume* expHallLog) 
+{
+    G4ThreeVector move;
+    G4ThreeVector rotate;
+
+    // first strip
+    move = G4ThreeVector(   +dist_from_beam,                // x
+                            0.,                             // y
+                            +fSiDimensions.z()/2. +gap_z);  // z
+    rotate = G4ThreeVector( 0.,                     // x-rotation
+                            0.,                     // y-rotation
+                            +90.);                  // z-rotation
+    PlaceDetector(move, rotate, expHallLog);
+    fLayerNumber++;
+
+    // second strip
+    move = G4ThreeVector(   +dist_from_beam,                // x
+                            0.,                             // y
+                            -fSiDimensions.z()/2. -gap_z);  // z
+    rotate = G4ThreeVector( 0,                      // x-rotation
+                            +180.,                  // y-rotation
+                            +90.);                  // z-rotation
+    PlaceDetector(move, rotate, expHallLog);
+    fLayerNumber++;
+    
+    // third strip
+    move = G4ThreeVector(   -dist_from_beam,                // x
+                            0.,                             // y
+                            +fSiDimensions.z()/2. +gap_z);  // z
+    rotate = G4ThreeVector( 0.,                     // x-rotation
+                            0.,                     // y-rotation
+                            -90.);                  // z-rotation
+    PlaceDetector(move, rotate, expHallLog);
+    fLayerNumber++;
+
+    // fourth strip
+    move = G4ThreeVector(   -dist_from_beam,                // x
+                            0.,                             // y
+                            -fSiDimensions.z()/2. -gap_z);  // z
+    rotate = G4ThreeVector( 0,                      // x-rotation
+                            +180.,                  // y-rotation
+                            -90.);                  // z-rotation
+    PlaceDetector(move, rotate, expHallLog);
+        
 
     return 1;
 }

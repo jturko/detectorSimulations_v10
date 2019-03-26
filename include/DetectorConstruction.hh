@@ -181,14 +181,23 @@ public:
     G4bool GetSpiceIn(){return fSetSpiceIn;};
     void UseTIGRESSPositions( G4bool input )                  {fUseTigressPositions = input;};
     
+    // TI STAR
     void AddTISTARLayer();
+
     void SetTISTARLayerNumber(G4int layer_number)   { fTISTARLayerNumber = layer_number; }
     void SetTISTARSiDimensions(G4ThreeVector dim)   { fTISTARSiDimensions = dim; } 
     void SetTISTARPCBDimensions(G4ThreeVector dim)  { fTISTARPCBDimensions = dim; } 
     void SetTISTAROffset(G4ThreeVector offset)      { fTISTAROffset = offset; } 
     void SetTISTARRotation(G4ThreeVector rotate)    { fTISTARRotation = rotate; }
     void SetTISTARPosition(G4ThreeVector move)      { fTISTARPosition = move; }
-    
+        
+    void SetTISTARDistFromBeam(G4double dist)   { fTISTARDistFromBeam = dist; }
+    void SetTISTARGapZ(G4double gap)            { fTISTARGapZ = gap; }
+    void SetTISTARSiCentered(G4bool val)        { fTISTARSiCentered = val; }
+
+    void AddTISTAR2StripLayer();
+    void AddTISTAR4StripLayer();
+
 
 private:
 
@@ -267,7 +276,10 @@ private:
     G4ThreeVector fTISTAROffset;
     G4ThreeVector fTISTARRotation;
     G4ThreeVector fTISTARPosition;
-
+    G4double fTISTARDistFromBeam;
+    G4double fTISTARGapZ;
+    G4bool fTISTARSiCentered;
+    
 };
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
