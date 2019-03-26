@@ -43,13 +43,16 @@
 
 #include "G4Event.hh"
 
+#include "G4Run.hh"
+#include "G4RunManager.hh"
+
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 EventAction::EventAction(RunAction* run, HistoManager* hist)
 :G4UserEventAction(),
 	fRunAction(run),
 	fHistoManager(hist),
-	fPrintModulo(1000)
+	fPrintModulo(10000)
 {
 	fNumberOfHits = 0;
 	fNumberOfSteps = 0;
@@ -68,9 +71,51 @@ EventAction::~EventAction() {
 
 void EventAction::BeginOfEventAction(const G4Event* evt) {  
 	fEvtNb = evt->GetEventID();
-	if(fEvtNb%fPrintModulo == 0) {
-		G4cout<<"---> Begin of event: "<<fEvtNb<<G4endl;
-	}
+    const G4int nEvents = G4RunManager::GetRunManager()->GetCurrentRun()->GetNumberOfEventToBeProcessed();
+
+	//if(fEvtNb%fPrintModulo == 0) {
+	//	G4cout<<"---> Begin of event: "<<fEvtNb<<G4endl;
+	//}
+
+    if(fEvtNb == 0) {
+        G4cout << G4endl << " ========================================================" << G4endl;
+        fBeginTime = std::clock();
+        fOverallBeginTime = std::clock();
+    }
+    if(fEvtNb%fPrintModulo==0) {
+        fTimeDiff = double(std::clock()-fBeginTime)/CLOCKS_PER_SEC;
+        fEventsPerSecond = double(fPrintModulo)/fTimeDiff;
+        fTimeRemaining = (nEvents - fEvtNb) / fEventsPerSecond ; // in seconds
+
+        if(fEvtNb > 1e6) {
+            printf(" ---> Ev.# %.3fm :: %.2f %% ", G4double(fEvtNb)/1e6, 100.*G4double(fEvtNb)/G4double(nEvents));
+        }
+        else if(fEvtNb > 1e3) {
+            printf(" ---> Ev.# %.1fk :: %.2f %% ", G4double(fEvtNb)/1e3, 100.*G4double(fEvtNb)/G4double(nEvents));
+        }
+        else {
+            printf(" ---> Ev.# %5d :: %.2f %% ", fEvtNb, 100.*G4double(fEvtNb)/G4double(nEvents));
+        }
+
+        //printf(" ( %dh %dm remaining @ %.0f evts/sec ) \r", int(fTimeRemaining)/60 , int(fTimeRemaining)%60 , fEventsPerSecond);
+        int sec = int(fTimeRemaining);
+        int min = sec/60;
+        int hour = min/60;
+        printf(" time remaining: %dh %dm %ds @ %.0f evts/sec (current), ", int(hour) , int(min%60) , int(sec%60) , fEventsPerSecond);
+        fflush(stdout);
+
+        fBeginTime = std::clock();
+
+        fTimeDiff = double(std::clock()-fOverallBeginTime)/CLOCKS_PER_SEC;
+        fEventsPerSecond = double(fEvtNb)/fTimeDiff;
+        fTimeRemaining = (nEvents - fEvtNb) / fEventsPerSecond ; // in seconds
+
+        sec = int(fTimeRemaining);
+        min = sec/60;
+        hour = min/60;
+        printf(" %dh %dm %ds @ %.0f evts/sec (average)              \r", int(hour) , int(min%60) , int(sec%60) , fEventsPerSecond);
+        fflush(stdout);
+    }
 
 	if(fHistoManager != nullptr) ClearVariables();
 }

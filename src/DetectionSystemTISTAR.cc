@@ -23,8 +23,7 @@
 
 #include <string>
 
-DetectionSystemTISTAR::DetectionSystemTISTAR(G4int layer_number) :
-    fLayerNumber(layer_number),
+DetectionSystemTISTAR::DetectionSystemTISTAR() :
     fAssemblyLayer(NULL),
     fLogicalSiLayer(NULL),
     fLogicalPCBLayer(NULL),
@@ -59,7 +58,7 @@ G4int DetectionSystemTISTAR::PlaceDetector(G4LogicalVolume* expHallLog)
     G4RotationMatrix * rotate = new G4RotationMatrix;
     G4ThreeVector move = G4ThreeVector(0., 0., 0.);
 
-    fAssemblyLayer->MakeImprint(expHallLog, move, rotate, fLayerNumber);
+    fAssemblyLayer->MakeImprint(expHallLog, move, rotate);
 
     return 1;
 }
@@ -70,7 +69,7 @@ G4int DetectionSystemTISTAR::PlaceDetector(G4ThreeVector move, G4ThreeVector rot
     rotation->rotateX(rotate.x()*M_PI/180.);
     rotation->rotateY(rotate.y()*M_PI/180.);
     rotation->rotateZ(rotate.z()*M_PI/180.);
-    fAssemblyLayer->MakeImprint(expHallLog, move, rotation, fLayerNumber);
+    fAssemblyLayer->MakeImprint(expHallLog, move, rotation);
 
     return 1;
 }
@@ -111,31 +110,31 @@ G4int DetectionSystemTISTAR::BuildLayer()
 
     // Physical volumes
 
-    name  = "TISTARSiLayer" + std::to_string(fLayerNumber) + "PV";
+    name  = "TISTARSiLayerPV";
     G4Box * si_PV = new G4Box(name,si_dim.x()/2.,si_dim.y()/2.,si_dim.z()/2.);
 
     G4Box * pcb_precut_PV = NULL;
     G4Box * pcb_cutting_PV = NULL;
     G4SubtractionSolid * pcb_PV = NULL;
     if(fPCBDimensionsSet) {
-        name = "TISTARPCBLayerPreCut" + std::to_string(fLayerNumber) + "PV";
+        name = "TISTARPCBLayerPreCutPV";
         pcb_precut_PV = new G4Box(name,pcb_dim.x()/2.,pcb_dim.y()/2.,pcb_dim.z()/2.);    
-        name = "TISTARPCBLayer" + std::to_string(fLayerNumber) + "CuttingPV";
+        name = "TISTARPCBLayerCuttingPV";
         pcb_cutting_PV = new G4Box(name,si_dim.x()/2.+cut_extra.x(),pcb_dim.y()/2.+cut_extra.y(),si_dim.z()/2.+cut_extra.z());
-        name = "TISTARPCBLayer" + std::to_string(fLayerNumber) + "PV";
+        name = "TISTARPCBLayerPV";
         pcb_PV = new G4SubtractionSolid(name,pcb_precut_PV,pcb_cutting_PV,rotate,move);
     }
 
     // Logical volumes
     if(fLogicalSiLayer == NULL) {
-        name = "TISTARSiLayer" + std::to_string(fLayerNumber) + "LV";
+        name = "TISTARSiLayerLV";
         fLogicalSiLayer = new G4LogicalVolume(si_PV,si_material,name,0,0,0);
         fLogicalSiLayer->SetVisAttributes(si_vis_att);
     }
 
     if(fPCBDimensionsSet) {
         if(fLogicalPCBLayer == NULL) {
-            name = "TISTARPCBLayer" + std::to_string(fLayerNumber) + "LV";
+            name = "TISTARPCBLayerLV";
             fLogicalPCBLayer = new G4LogicalVolume(pcb_PV,pcb_material,name,0,0,0);
             fLogicalPCBLayer->SetVisAttributes(pcb_vis_att);
         }
@@ -175,7 +174,6 @@ G4int DetectionSystemTISTAR::Add2StripLayer(G4double dist_from_beam, G4bool si_c
                             0.,                     // y-rotation
                             +90.);                  // z-rotation
     PlaceDetector(move, rotate, expHallLog);
-    fLayerNumber++;
 
     // second strip
     move = G4ThreeVector(   -dist_from_beam,        // x
@@ -203,7 +201,6 @@ G4int DetectionSystemTISTAR::Add4StripLayer(G4double dist_from_beam, G4double ga
                             0.,                     // y-rotation
                             +90.);                  // z-rotation
     PlaceDetector(move, rotate, expHallLog);
-    fLayerNumber++;
 
     // second strip
     move = G4ThreeVector(   +dist_from_beam,                // x
@@ -213,7 +210,6 @@ G4int DetectionSystemTISTAR::Add4StripLayer(G4double dist_from_beam, G4double ga
                             +180.,                  // y-rotation
                             +90.);                  // z-rotation
     PlaceDetector(move, rotate, expHallLog);
-    fLayerNumber++;
 
     // third strip
     move = G4ThreeVector(   -dist_from_beam,                // x
@@ -223,7 +219,6 @@ G4int DetectionSystemTISTAR::Add4StripLayer(G4double dist_from_beam, G4double ga
                             0.,                     // y-rotation
                             -90.);                  // z-rotation
     PlaceDetector(move, rotate, expHallLog);
-    fLayerNumber++;
 
     // fourth strip
     move = G4ThreeVector(   -dist_from_beam,                // x

@@ -43,6 +43,8 @@
 
 #include "DetectorConstruction.hh" // for DetectorProperties
 
+#include <time.h>
+
 class RunAction;
 class HistoManager;
 
@@ -103,6 +105,13 @@ private:
 	// Energy deposit in detection systems
 	G4double fSpiceEnergyDet[10][12];
 	G4double fSpiceTrackDet[10][12];
+
+    // For time remaining calculation
+    clock_t fBeginTime;
+    clock_t fOverallBeginTime;
+    double fTimeDiff;
+    double fTimeRemaining;
+    double fEventsPerSecond;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

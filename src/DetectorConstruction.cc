@@ -180,7 +180,6 @@ DetectorConstruction::DetectorConstruction() :
 	fApparatusLayeredTarget=0;
 
     // TI-STAR
-    fTISTARLayerNumber = 0;
     fTISTARSiDimensions = G4ThreeVector(0.,0.,0.);
     fTISTARDistFromBeam = 0.;
     fTISTARGapZ = 0.;
@@ -893,7 +892,7 @@ void DetectorConstruction::AddTISTARLayer() {
     if(fLogicWorld == NULL) {
         Construct();
     }
-    DetectionSystemTISTAR * pTISTAR = new DetectionSystemTISTAR(fTISTARLayerNumber);
+    DetectionSystemTISTAR * pTISTAR = new DetectionSystemTISTAR();
     if(fTISTARSiDimensions.x() > 0. &&
        fTISTARSiDimensions.y() > 0. &&
        fTISTARSiDimensions.z() > 0. ) pTISTAR->SetSiDimensions(fTISTARSiDimensions);
@@ -910,7 +909,7 @@ void DetectorConstruction::AddTISTAR2StripLayer() {
     if(fLogicWorld == NULL) {
         Construct();
     }
-    DetectionSystemTISTAR * pTISTAR = new DetectionSystemTISTAR(fTISTARLayerNumber);
+    DetectionSystemTISTAR * pTISTAR = new DetectionSystemTISTAR();
     if(fTISTARSiDimensions.x() > 0. &&
        fTISTARSiDimensions.y() > 0. &&
        fTISTARSiDimensions.z() > 0. ) pTISTAR->SetSiDimensions(fTISTARSiDimensions);
@@ -928,7 +927,7 @@ void DetectorConstruction::AddTISTAR4StripLayer() {
     if(fLogicWorld == NULL) {
         Construct();
     }
-    DetectionSystemTISTAR * pTISTAR = new DetectionSystemTISTAR(fTISTARLayerNumber);
+    DetectionSystemTISTAR * pTISTAR = new DetectionSystemTISTAR();
     if(fTISTARSiDimensions.x() > 0. &&
        fTISTARSiDimensions.y() > 0. &&
        fTISTARSiDimensions.z() > 0. ) pTISTAR->SetSiDimensions(fTISTARSiDimensions);
@@ -1276,7 +1275,7 @@ DetectorProperties DetectorConstruction::ParseVolumeName(G4String volumeName) {
 	}
 	
     if(volumeName.find("TISTARSiLayer") != G4String::npos) {
-		result.systemID = 9000+imprintNumber;
+		result.systemID = 9000 + assemblyNumber*10 + imprintNumber;
 		return result;
 	}
 

@@ -344,10 +344,6 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction* Det)
     fAddTISTARLayerCmd->SetGuidance("Add the previously configured TI-STAR layer");
     fAddTISTARLayerCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
-    fSetTISTARLayerNumberCmd = new G4UIcmdWithAnInteger("/DetSys/det/setTISTARLayerNumber",this);
-    fSetTISTARLayerNumberCmd->SetGuidance("Set the TI-STAR layer number (for ROOT output numbering, will be written to detector_channel = 9000 + layer_number)");
-    fSetTISTARLayerNumberCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
-
     fSetTISTARSiDimensionsCmd = new G4UIcmdWith3VectorAndUnit("/DetSys/det/setTISTARSiDimensions",this);
     fSetTISTARSiDimensionsCmd->SetGuidance("Set the TI-STAR Si dimensions");
     fSetTISTARSiDimensionsCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
@@ -474,7 +470,6 @@ DetectorMessenger::~DetectorMessenger()
     delete fAddTISTARLayerCmd;
     delete fAddTISTAR2StripLayerCmd;
     delete fAddTISTAR4StripLayerCmd;
-    delete fSetTISTARLayerNumberCmd;
     delete fSetTISTARSiDimensionsCmd;
     delete fSetTISTARPCBDimensionsCmd;
     delete fSetTISTAROffsetCmd;
@@ -695,9 +690,6 @@ void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
     // TI-STAR
     if(command == fAddTISTARLayerCmd) {
         fDetector->AddTISTARLayer();
-    }
-    if(command == fSetTISTARLayerNumberCmd) {
-        fDetector->SetTISTARLayerNumber(fSetTISTARLayerNumberCmd->GetNewIntValue(newValue));
     }
     if(command == fSetTISTARSiDimensionsCmd) {
         fDetector->SetTISTARSiDimensions(fSetTISTARSiDimensionsCmd->GetNew3VectorValue(newValue));

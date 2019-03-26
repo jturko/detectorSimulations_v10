@@ -44,7 +44,7 @@ class G4AssemblyVolume;
 class DetectionSystemTISTAR
 {
 public:
-    DetectionSystemTISTAR(G4int layer_number = 1);
+    DetectionSystemTISTAR();
     ~DetectionSystemTISTAR();
 
     G4int Build();
@@ -79,7 +79,6 @@ private:
     G4bool fSiDimensionsSet; 
     G4bool fPCBDimensionsSet; 
 
-    G4int fLayerNumber;
 };
 
 #endif

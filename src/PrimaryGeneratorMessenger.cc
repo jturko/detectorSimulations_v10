@@ -102,6 +102,9 @@ PrimaryGeneratorMessenger::PrimaryGeneratorMessenger(PrimaryGeneratorAction* Gun
 	fBeamFileCmd->SetGuidance("Set beam distribution within a target using definitions in a data file");
 	fBeamFileCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
+    fUseGPSCmd = new G4UIcmdWithABool("/DetSys/gun/useGPS",this);
+    fUseGPSCmd->SetGuidance("Set to use the general particle source instead of the particle gun (commands under /gps/)");
+    fUseGPSCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -116,6 +119,7 @@ PrimaryGeneratorMessenger::~PrimaryGeneratorMessenger() {
 	delete fBeamSpotSigmaCmd;
 	delete fBeamDistroCmd;
 	delete fBeamFileCmd;
+    delete fUseGPSCmd;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -168,6 +172,10 @@ void PrimaryGeneratorMessenger::SetNewValue(G4UIcommand* command, G4String newVa
 		G4cout<<"Beam Distribution from file "<<newValue<<" selected "<< G4endl;
 		fAction->PrepareBeamFile(newValue);
 	}
+
+    if(command == fUseGPSCmd) {
+        fAction->SetUseGPS(fUseGPSCmd->GetNewBoolValue(newValue));
+    }
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

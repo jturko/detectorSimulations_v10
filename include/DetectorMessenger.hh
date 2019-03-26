@@ -158,7 +158,6 @@ private:
     G4UIcmdWithoutParameter*    fAddTISTARLayerCmd;
     G4UIcmdWithoutParameter*    fAddTISTAR2StripLayerCmd;
     G4UIcmdWithoutParameter*    fAddTISTAR4StripLayerCmd;
-    G4UIcmdWithAnInteger*       fSetTISTARLayerNumberCmd;
     G4UIcmdWith3VectorAndUnit*  fSetTISTARSiDimensionsCmd;
     G4UIcmdWith3VectorAndUnit*  fSetTISTARPCBDimensionsCmd;
     G4UIcmdWith3VectorAndUnit*  fSetTISTAROffsetCmd;

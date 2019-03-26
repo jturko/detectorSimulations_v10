@@ -48,6 +48,7 @@
 #include "BeamDistribution.hh"
 
 class G4ParticleGun;
+class G4GeneralParticleSource;
 class G4Event;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -56,6 +57,7 @@ class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 {
 private:    
     G4ParticleGun*                fParticleGun;  //pointer a to G4 class
+    G4GeneralParticleSource*      fGPS;          // pointer to G4 GPS class
     DetectorConstruction*         fDetector;     //pointer to the geometry
     HistoManager*                 fHistoManager; //pointer to the histo manager
     PrimaryGeneratorMessenger*    fGunMessenger; //messenger of this class
@@ -83,6 +85,7 @@ public:
     void PrepareBeamFile(G4String);
     void SetLayeredTargetBeamDistro(G4int layer);
 
+    void SetUseGPS(G4bool val) { fUseGPS = val; }
     
 private:
     //variables
@@ -108,7 +111,8 @@ private:
     G4double fLayerLength;
     G4bool fNeedFileDistro;
 
-    
+    G4bool fUseGPS;    
+
     //functions
     void LaBrinit();
         
