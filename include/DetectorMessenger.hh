@@ -153,6 +153,21 @@ private:
 	G4UIcmdWith3Vector*         fAddDetectionSystemGriffinSetDeadLayerCmd ;
 	G4UIcmdWithABool*           fUseTIGRESSPositionsCmd;
 	G4UIcmdWithABool*           fUseSpiceResolutionCmd;
+
+    // TI-STAR
+    G4UIcmdWithoutParameter*    fAddTISTARLayerCmd;
+    G4UIcmdWithoutParameter*    fAddTISTAR2StripLayerCmd;
+    G4UIcmdWithoutParameter*    fAddTISTAR4StripLayerCmd;
+    G4UIcmdWithAnInteger*       fSetTISTARLayerNumberCmd;
+    G4UIcmdWith3VectorAndUnit*  fSetTISTARSiDimensionsCmd;
+    G4UIcmdWith3VectorAndUnit*  fSetTISTARPCBDimensionsCmd;
+    G4UIcmdWith3VectorAndUnit*  fSetTISTAROffsetCmd;
+    G4UIcmdWith3VectorAndUnit*  fSetTISTARPositionCmd;
+    G4UIcmdWith3Vector*         fSetTISTARRotationCmd;
+    G4UIcmdWithADoubleAndUnit*  fSetTISTARDistFromBeamCmd;
+    G4UIcmdWithADoubleAndUnit*  fSetTISTARGapZCmd;
+    G4UIcmdWithABool*           fSetTISTARSiCenteredCmd;
+
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

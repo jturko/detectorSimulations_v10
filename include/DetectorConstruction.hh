@@ -52,9 +52,6 @@ class DetectorMessenger;
 class DetectionSystemGriffin;
 class DetectionSystem8pi;
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-class DetectionSystemDescant;
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class ApparatusDescantStructure;
 class ApparatusLayeredTarget;
 class DetectionSystemDescant;
@@ -67,6 +64,8 @@ class DetectionSystemSodiumIodide;
 class DetectionSystemLanthanumBromide;
 class DetectionSystemBox;
 class DetectionSystemAncillaryBGO;
+
+class DetectionSystemTISTAR;
 
 //class MagneticField;
 
@@ -141,7 +140,6 @@ public:
 
 	void AddDetectionSystem8pi(G4int ndet);
 
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	void AddDetectionSystemDescant(G4int ndet);
 	void AddDetectionSystemDescantAuxPorts(G4ThreeVector input);
 
@@ -149,7 +147,6 @@ public:
 	void SetDetectionSystemDescantColor(G4String input);
 	void AddDetectionSystemDescantCart(G4ThreeVector input);
 	void AddDetectionSystemDescantSpher(G4ThreeVector input, G4double unit);
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	void AddApparatusDescantStructure();
 
 	void AddDetectionSystemTestcan(G4ThreeVector input);
@@ -184,6 +181,20 @@ public:
 	G4double GetLanthanumBromideRoll(G4int i);
 	G4double GetLanthanumBromideCrystalRadialPosition();
 
+     // TI STAR
+    void AddTISTARLayer();
+    void AddTISTAR2StripLayer();
+    void AddTISTAR4StripLayer();
+    void SetTISTARLayerNumber(G4int layer_number)   { fTISTARLayerNumber = layer_number; }
+    void SetTISTARSiDimensions(G4ThreeVector dim)   { fTISTARSiDimensions = dim; } 
+    void SetTISTARPCBDimensions(G4ThreeVector dim)  { fTISTARPCBDimensions = dim; } 
+    void SetTISTAROffset(G4ThreeVector offset)      { fTISTAROffset = offset; } 
+    void SetTISTARRotation(G4ThreeVector rotate)    { fTISTARRotation = rotate; }
+    void SetTISTARPosition(G4ThreeVector move)      { fTISTARPosition = move; }
+    void SetTISTARDistFromBeam(G4double dist)   { fTISTARDistFromBeam = dist; }
+    void SetTISTARGapZ(G4double gap)            { fTISTARGapZ = gap; }
+    void SetTISTARSiCentered(G4bool val)        { fTISTARSiCentered = val; }
+
 	G4bool   GridCell()   { return fGridCell;   }
 	G4bool   Griffin()    { return fGriffin;    }
 	G4bool   LaBr()       { return fLaBr;       }
@@ -195,6 +206,7 @@ public:
 	G4bool   Paces()      { return fPaces;      }
 	G4bool   Descant()    { return fDescant;    }
 	G4bool   Testcan()    { return fTestcan;    }
+    G4bool   TISTAR()     { return fTISTAR;     }
 
 	void SpiceRes(G4bool val) { fSpiceRes = val; }
 	bool SpiceRes() { return fSpiceRes; }
@@ -279,6 +291,17 @@ private:
 
 	G4ThreeVector fDetEffPosition;
 
+    // TI-STAR Dimensions
+    G4int fTISTARLayerNumber;
+    G4ThreeVector fTISTARSiDimensions;
+    G4ThreeVector fTISTARPCBDimensions;
+    G4ThreeVector fTISTAROffset;
+    G4ThreeVector fTISTARRotation;
+    G4ThreeVector fTISTARPosition;
+    G4double fTISTARDistFromBeam;
+    G4double fTISTARGapZ;
+    G4bool fTISTARSiCentered;
+
 	//booleans which control which histograms are created (these are set by the detector construction)
 	G4bool fGridCell;
 	G4bool fGriffin;
@@ -291,6 +314,7 @@ private:
 	G4bool fTestcan;
 	G4bool fSpice;
 	G4bool fPaces;
+    G4bool fTISTAR;
 
 	//unordered maps which hold properties of the physical volumes created
 	std::unordered_map<G4VPhysicalVolume*, DetectorProperties> fPropertiesMap;

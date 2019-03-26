@@ -231,11 +231,9 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction* Det)
 	fAddDetectionSystem8piDetectorCmd->SetGuidance("Add 8pi Detector");
 	fAddDetectionSystem8piDetectorCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	fAddDetectionSystemDescantCmd = new G4UIcmdWithAnInteger("/DetSys/det/addDescant",this);
 	fAddDetectionSystemDescantCmd->SetGuidance("Add Detection System DESCANT");
 	fAddDetectionSystemDescantCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	fAddDetectionSystemDescantAuxPortsCmd = new G4UIcmdWith3Vector("/DetSys/det/addDescantAuxPorts",this);
 	fAddDetectionSystemDescantAuxPortsCmd->SetGuidance("Add 8 DESCANT detectors in the auxillary LaBr3 detector locations");
@@ -340,6 +338,55 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction* Det)
 	fUseTIGRESSPositionsCmd = new G4UIcmdWithABool("/DetSys/det/UseTIGRESSPositions",this);
 	fUseTIGRESSPositionsCmd->SetGuidance("Use TIGRESS detector positions rather than GRIFFIN");
 	fUseTIGRESSPositionsCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+     // TI-STAR
+    fAddTISTARLayerCmd = new G4UIcmdWithoutParameter("/DetSys/det/addTISTARLayer",this);
+    fAddTISTARLayerCmd->SetGuidance("Add the previously configured TI-STAR layer");
+    fAddTISTARLayerCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+    fSetTISTARLayerNumberCmd = new G4UIcmdWithAnInteger("/DetSys/det/setTISTARLayerNumber",this);
+    fSetTISTARLayerNumberCmd->SetGuidance("Set the TI-STAR layer number (for ROOT output numbering, will be written to detector_channel = 9000 + layer_number)");
+    fSetTISTARLayerNumberCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+    fSetTISTARSiDimensionsCmd = new G4UIcmdWith3VectorAndUnit("/DetSys/det/setTISTARSiDimensions",this);
+    fSetTISTARSiDimensionsCmd->SetGuidance("Set the TI-STAR Si dimensions");
+    fSetTISTARSiDimensionsCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+    fSetTISTARPCBDimensionsCmd = new G4UIcmdWith3VectorAndUnit("/DetSys/det/setTISTARPCBDimensions",this);
+    fSetTISTARPCBDimensionsCmd->SetGuidance("Set the TI-STAR PCB dimensions");
+    fSetTISTARPCBDimensionsCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+    fSetTISTAROffsetCmd = new G4UIcmdWith3VectorAndUnit("/DetSys/det/setTISTAROffset",this);
+    fSetTISTAROffsetCmd->SetGuidance("Set the offset of the Si layer from the top left corner of the PCB board (assuming beam in the z-dim)");
+    fSetTISTAROffsetCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+    fSetTISTARPositionCmd = new G4UIcmdWith3VectorAndUnit("/DetSys/det/setTISTARPosition",this);
+    fSetTISTARPositionCmd->SetGuidance("Set the TI-STAR layer position");
+    fSetTISTARPositionCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+    fSetTISTARRotationCmd = new G4UIcmdWith3Vector("/DetSys/det/setTISTARRotation",this);
+    fSetTISTARRotationCmd->SetGuidance("Set the TI-STAR layer rotation (rotate by the x, y, then z axes - units in deg)");
+    fSetTISTARRotationCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+    fAddTISTAR2StripLayerCmd = new G4UIcmdWithoutParameter("/DetSys/det/addTISTAR2StripLayer",this);
+    fAddTISTAR2StripLayerCmd->SetGuidance("Add a 2-strip layer to TI-STAR (one panel on either side of the beam)");
+    fAddTISTAR2StripLayerCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+    fAddTISTAR4StripLayerCmd = new G4UIcmdWithoutParameter("/DetSys/det/addTISTAR4StripLayer",this);
+    fAddTISTAR4StripLayerCmd->SetGuidance("Add a 4-strip layer to TI-STAR (two panels on either side of the beam)");
+    fAddTISTAR4StripLayerCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+    fSetTISTARDistFromBeamCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/det/setTISTARDistFromBeam",this);
+    fSetTISTARDistFromBeamCmd->SetGuidance("Set the detector to beam axis distance");
+    fSetTISTARDistFromBeamCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+    fSetTISTARGapZCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/det/setTISTARGapZ",this);
+    fSetTISTARGapZCmd->SetGuidance("Set the z-gap distance for a 4-strip layer");
+    fSetTISTARGapZCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+    fSetTISTARSiCenteredCmd = new G4UIcmdWithABool("/DetSys/det/setTISTARSiCentered",this);
+    fSetTISTARSiCenteredCmd->SetGuidance("Set 1 for si-centered layers, 0 for detector-centered layers");
+    fSetTISTARSiCenteredCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -390,10 +437,9 @@ DetectorMessenger::~DetectorMessenger()
 
 	delete fAddDetectionSystem8piCmd;
 	delete fAddDetectionSystem8piDetectorCmd;
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	delete fAddDetectionSystemDescantCmd;
+	
+    delete fAddDetectionSystemDescantCmd;
 	delete fAddDetectionSystemDescantAuxPortsCmd;
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	delete fAddApparatusDescantStructureCmd;
 
 	delete fAddDetectionSystemTestcanCmd;
@@ -424,6 +470,19 @@ DetectorMessenger::~DetectorMessenger()
 
 	delete fUseSpiceResolutionCmd;
 	delete fUseTIGRESSPositionsCmd;
+
+    delete fAddTISTARLayerCmd;
+    delete fAddTISTAR2StripLayerCmd;
+    delete fAddTISTAR4StripLayerCmd;
+    delete fSetTISTARLayerNumberCmd;
+    delete fSetTISTARSiDimensionsCmd;
+    delete fSetTISTARPCBDimensionsCmd;
+    delete fSetTISTAROffsetCmd;
+    delete fSetTISTARPositionCmd;
+    delete fSetTISTARRotationCmd;
+    delete fSetTISTARDistFromBeamCmd;
+    delete fSetTISTARGapZCmd;
+    delete fSetTISTARSiCenteredCmd;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -544,14 +603,12 @@ void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
 	if(command == fAddDetectionSystem8piDetectorCmd) {
 		fDetector->AddDetectionSystem8piDetector(fAddDetectionSystem8piDetectorCmd->GetNewIntValue(newValue));
 	}
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	if(command == fAddDetectionSystemDescantCmd) {
 		fDetector->AddDetectionSystemDescant(fAddDetectionSystemDescantCmd->GetNewIntValue(newValue));
 	}
 	if(command == fAddDetectionSystemDescantAuxPortsCmd)  {
 		fDetector->AddDetectionSystemDescantAuxPorts(fAddDetectionSystemDescantAuxPortsCmd->GetNew3VectorValue(newValue));
 	}
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	if(command == fAddApparatusDescantStructureCmd) {
 		fDetector->AddApparatusDescantStructure();
 	}
@@ -634,6 +691,44 @@ void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
 	if(command == fUseTIGRESSPositionsCmd) {
 		fDetector->UseTIGRESSPositions(fUseTIGRESSPositionsCmd->GetNewBoolValue(newValue));
 	}
+    
+    // TI-STAR
+    if(command == fAddTISTARLayerCmd) {
+        fDetector->AddTISTARLayer();
+    }
+    if(command == fSetTISTARLayerNumberCmd) {
+        fDetector->SetTISTARLayerNumber(fSetTISTARLayerNumberCmd->GetNewIntValue(newValue));
+    }
+    if(command == fSetTISTARSiDimensionsCmd) {
+        fDetector->SetTISTARSiDimensions(fSetTISTARSiDimensionsCmd->GetNew3VectorValue(newValue));
+    }
+    if(command == fSetTISTARPCBDimensionsCmd) {
+        fDetector->SetTISTARPCBDimensions(fSetTISTARPCBDimensionsCmd->GetNew3VectorValue(newValue));
+    }
+    if(command == fSetTISTAROffsetCmd) {
+        fDetector->SetTISTAROffset(fSetTISTAROffsetCmd->GetNew3VectorValue(newValue));
+    }
+    if(command == fSetTISTARPositionCmd) {
+        fDetector->SetTISTARPosition(fSetTISTARPositionCmd->GetNew3VectorValue(newValue));
+    }
+    if(command == fSetTISTARRotationCmd) {
+        fDetector->SetTISTARRotation(fSetTISTARRotationCmd->GetNew3VectorValue(newValue));
+    }
+    if(command == fAddTISTAR2StripLayerCmd) {
+        fDetector->AddTISTAR2StripLayer();
+    }
+    if(command == fAddTISTAR4StripLayerCmd) {
+        fDetector->AddTISTAR4StripLayer();
+    }
+    if(command == fSetTISTARDistFromBeamCmd) {
+        fDetector->SetTISTARDistFromBeam(fSetTISTARDistFromBeamCmd->GetNewDoubleValue(newValue));
+    }   
+    if(command == fSetTISTARGapZCmd) {
+        fDetector->SetTISTARGapZ(fSetTISTARGapZCmd->GetNewDoubleValue(newValue));
+    }   
+    if(command == fSetTISTARSiCenteredCmd) {
+        fDetector->SetTISTARSiCentered(fSetTISTARSiCenteredCmd->GetNewBoolValue(newValue));
+    }
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

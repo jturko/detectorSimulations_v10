@@ -95,6 +95,8 @@
 
 #include "DetectionSystemAncillaryBGO.hh"
 
+#include "DetectionSystemTISTAR.hh"
+
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 bool operator==(const DetectorProperties& lhs, const DetectorProperties& rhs)
@@ -177,6 +179,13 @@ DetectorConstruction::DetectorConstruction() :
 
 	fApparatusLayeredTarget=0;
 
+    // TI-STAR
+    fTISTARLayerNumber = 0;
+    fTISTARSiDimensions = G4ThreeVector(0.,0.,0.);
+    fTISTARDistFromBeam = 0.;
+    fTISTARGapZ = 0.;
+    fTISTARSiCentered = false;
+
 	fGridCell = false;
 	fGriffin  = false;
 	fLaBr     = false;
@@ -188,6 +197,7 @@ DetectorConstruction::DetectorConstruction() :
 	fPaces    = false;
 	fDescant  = false;
 	fTestcan  = false;
+    fTISTAR   = false;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -879,6 +889,59 @@ void DetectorConstruction::AddDetectionSystemPaces(G4int ndet) {
 	fPaces = true;
 }
 
+void DetectorConstruction::AddTISTARLayer() {
+    if(fLogicWorld == NULL) {
+        Construct();
+    }
+    DetectionSystemTISTAR * pTISTAR = new DetectionSystemTISTAR(fTISTARLayerNumber);
+    if(fTISTARSiDimensions.x() > 0. &&
+       fTISTARSiDimensions.y() > 0. &&
+       fTISTARSiDimensions.z() > 0. ) pTISTAR->SetSiDimensions(fTISTARSiDimensions);
+    if(fTISTARPCBDimensions.x() > 0. &&
+       fTISTARPCBDimensions.y() > 0. &&
+       fTISTARPCBDimensions.z() > 0. ) pTISTAR->SetPCBDimensions(fTISTARPCBDimensions);
+    pTISTAR->SetOffset(fTISTAROffset);
+
+    pTISTAR->Build();
+    pTISTAR->PlaceDetector(fTISTARPosition, fTISTARRotation, fLogicWorld);
+}
+
+void DetectorConstruction::AddTISTAR2StripLayer() {
+    if(fLogicWorld == NULL) {
+        Construct();
+    }
+    DetectionSystemTISTAR * pTISTAR = new DetectionSystemTISTAR(fTISTARLayerNumber);
+    if(fTISTARSiDimensions.x() > 0. &&
+       fTISTARSiDimensions.y() > 0. &&
+       fTISTARSiDimensions.z() > 0. ) pTISTAR->SetSiDimensions(fTISTARSiDimensions);
+    if(fTISTARPCBDimensions.x() > 0. &&
+       fTISTARPCBDimensions.y() > 0. &&
+       fTISTARPCBDimensions.z() > 0. ) pTISTAR->SetPCBDimensions(fTISTARPCBDimensions);
+    pTISTAR->SetOffset(fTISTAROffset);
+
+    pTISTAR->Build();
+    pTISTAR->Add2StripLayer(fTISTARDistFromBeam, fTISTARSiCentered, fLogicWorld);    
+
+}
+
+void DetectorConstruction::AddTISTAR4StripLayer() {
+    if(fLogicWorld == NULL) {
+        Construct();
+    }
+    DetectionSystemTISTAR * pTISTAR = new DetectionSystemTISTAR(fTISTARLayerNumber);
+    if(fTISTARSiDimensions.x() > 0. &&
+       fTISTARSiDimensions.y() > 0. &&
+       fTISTARSiDimensions.z() > 0. ) pTISTAR->SetSiDimensions(fTISTARSiDimensions);
+    if(fTISTARPCBDimensions.x() > 0. &&
+       fTISTARPCBDimensions.y() > 0. &&
+       fTISTARPCBDimensions.z() > 0. ) pTISTAR->SetPCBDimensions(fTISTARPCBDimensions);
+    pTISTAR->SetOffset(fTISTAROffset);
+
+    pTISTAR->Build();
+    pTISTAR->Add4StripLayer(fTISTARDistFromBeam, fTISTARGapZ, fLogicWorld);    
+
+}
+
 void DetectorConstruction::SetProperties() {
 	// loop over all existing daughters of the world volume
 	// check if their properties are set and if not, set them
@@ -940,6 +1003,7 @@ bool DetectorConstruction::CheckVolumeName(G4String volumeName) {
 	if(volumeName.find("whiteScintillatorVolumeLog") != G4String::npos) return true;
 	if(volumeName.find("yellowScintillatorVolumeLog") != G4String::npos) return true;
 	if(volumeName.find("testcanScintillatorLog") != G4String::npos) return true;
+	if(volumeName.find("TISTARSiLayer") != G4String::npos) return true;
 	return false;
 }
 
@@ -1208,6 +1272,11 @@ DetectorProperties DetectorConstruction::ParseVolumeName(G4String volumeName) {
 
 	if(volumeName.find("testcanScintillatorLog") != G4String::npos) {
 		result.systemID = 8500;
+		return result;
+	}
+	
+    if(volumeName.find("TISTARSiLayer") != G4String::npos) {
+		result.systemID = 9000+imprintNumber;
 		return result;
 	}
 
