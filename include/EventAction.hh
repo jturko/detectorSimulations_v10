@@ -41,6 +41,8 @@
 #include "globals.hh"
 #include "HistoManager.hh"
 
+#include <time.h>
+
 class RunAction;
 class HistoManager;
 
@@ -92,6 +94,13 @@ private:
 
 	G4int    fPTrackID;
 	G4int    fPParentID;
+
+    // Timing output variables
+    clock_t fBeginTime;
+    clock_t fOverallBeginTime;
+    double fTimeDiff;
+    double fTimeRemaining;
+    double fEventsPerSecond;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
