@@ -114,14 +114,17 @@ G4int DetectionSystemTISTAR::BuildLayer()
     name  = "TISTARSiLayer" + std::to_string(fLayerNumber) + "PV";
     G4Box * si_PV = new G4Box(name,si_dim.x()/2.,si_dim.y()/2.,si_dim.z()/2.);
         
-    name = "TISTARPCBLayerPreCut" + std::to_string(fLayerNumber) + "PV";
-    G4Box * pcb_precut_PV = new G4Box(name,pcb_dim.x()/2.,pcb_dim.y()/2.,pcb_dim.z()/2.);    
-    
-    name = "TISTARPCBLayer" + std::to_string(fLayerNumber) + "CuttingPV";
-    G4Box * pcb_cutting_PV = new G4Box(name,si_dim.x()/2.+cut_extra.x(),pcb_dim.y()/2.+cut_extra.y(),si_dim.z()/2.+cut_extra.z());
-    
-    name = "TISTARPCBLayer" + std::to_string(fLayerNumber) + "PV";
-    G4SubtractionSolid * pcb_PV = new G4SubtractionSolid(name,pcb_precut_PV,pcb_cutting_PV,rotate,move);
+    G4Box * pcb_precut_PV = NULL;
+    G4Box * pcb_cutting_PV = NULL;
+    G4SubtractionSolid * pcb_PV = NULL;
+    if(fPCBDimensionsSet) {
+        name = "TISTARPCBLayerPreCut" + std::to_string(fLayerNumber) + "PV";
+        pcb_precut_PV = new G4Box(name,pcb_dim.x()/2.,pcb_dim.y()/2.,pcb_dim.z()/2.);    
+        name = "TISTARPCBLayer" + std::to_string(fLayerNumber) + "CuttingPV";
+        pcb_cutting_PV = new G4Box(name,si_dim.x()/2.+cut_extra.x(),pcb_dim.y()/2.+cut_extra.y(),si_dim.z()/2.+cut_extra.z());
+        name = "TISTARPCBLayer" + std::to_string(fLayerNumber) + "PV";
+        pcb_PV = new G4SubtractionSolid(name,pcb_precut_PV,pcb_cutting_PV,rotate,move);
+    }
 
     // Logical volumes
     if(fLogicalSiLayer == NULL) {
@@ -167,7 +170,7 @@ G4int DetectionSystemTISTAR::Add2StripLayer(G4double dist_from_beam, G4bool si_c
     move = G4ThreeVector(   +dist_from_beam,        // x
                             0.,                     // y
                             0.);                    // z
-    if(!si_centered) move += G4ThreeVector(0., -fOffset.x() -fSiDimensions.x()/2. +fPCBDimensions.x()/2., 0.);
+    if(fPCBDimensionsSet && !si_centered) move += G4ThreeVector(0., -fOffset.x() -fSiDimensions.x()/2. +fPCBDimensions.x()/2., 0.);
     rotate = G4ThreeVector( 0.,                     // x-rotation
                             0.,                     // y-rotation
                             +90.);                  // z-rotation
@@ -178,7 +181,7 @@ G4int DetectionSystemTISTAR::Add2StripLayer(G4double dist_from_beam, G4bool si_c
     move = G4ThreeVector(   -dist_from_beam,        // x
                             0.,                     // y
                             0.);                    // z
-    if(!si_centered) move += G4ThreeVector(0., +fOffset.x() +fSiDimensions.x()/2. -fPCBDimensions.x()/2., 0.);
+    if(fPCBDimensionsSet && !si_centered) move += G4ThreeVector(0., +fOffset.x() +fSiDimensions.x()/2. -fPCBDimensions.x()/2., 0.);
     rotate = G4ThreeVector( 0,                      // x-rotation
                             +180.,                  // y-rotation
                             +90.);                  // z-rotation

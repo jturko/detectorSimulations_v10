@@ -809,7 +809,9 @@ void DetectorConstruction::AddTISTARLayer() {
     if(fTISTARSiDimensions.x() > 0. &&
        fTISTARSiDimensions.y() > 0. &&
        fTISTARSiDimensions.z() > 0. ) pTISTAR->SetSiDimensions(fTISTARSiDimensions);
-    pTISTAR->SetPCBDimensions(fTISTARPCBDimensions);
+    if(fTISTARPCBDimensions.x() > 0. &&
+       fTISTARPCBDimensions.y() > 0. &&
+       fTISTARPCBDimensions.z() > 0. ) pTISTAR->SetPCBDimensions(fTISTARPCBDimensions);
     pTISTAR->SetOffset(fTISTAROffset);
 
     pTISTAR->Build();
@@ -824,7 +826,9 @@ void DetectorConstruction::AddTISTAR2StripLayer() {
     if(fTISTARSiDimensions.x() > 0. &&
        fTISTARSiDimensions.y() > 0. &&
        fTISTARSiDimensions.z() > 0. ) pTISTAR->SetSiDimensions(fTISTARSiDimensions);
-    pTISTAR->SetPCBDimensions(fTISTARPCBDimensions);
+    if(fTISTARPCBDimensions.x() > 0. &&
+       fTISTARPCBDimensions.y() > 0. &&
+       fTISTARPCBDimensions.z() > 0. ) pTISTAR->SetPCBDimensions(fTISTARPCBDimensions);
     pTISTAR->SetOffset(fTISTAROffset);
 
     pTISTAR->Build();
@@ -840,7 +844,9 @@ void DetectorConstruction::AddTISTAR4StripLayer() {
     if(fTISTARSiDimensions.x() > 0. &&
        fTISTARSiDimensions.y() > 0. &&
        fTISTARSiDimensions.z() > 0. ) pTISTAR->SetSiDimensions(fTISTARSiDimensions);
-    pTISTAR->SetPCBDimensions(fTISTARPCBDimensions);
+    if(fTISTARPCBDimensions.x() > 0. &&
+       fTISTARPCBDimensions.y() > 0. &&
+       fTISTARPCBDimensions.z() > 0. ) pTISTAR->SetPCBDimensions(fTISTARPCBDimensions);
     pTISTAR->SetOffset(fTISTAROffset);
 
     pTISTAR->Build();
