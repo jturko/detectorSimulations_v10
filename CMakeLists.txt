@@ -16,6 +16,14 @@ else()
 endif()
 
 #----------------------------------------------------------------------------
+# Try to find ROOT
+# jturko 27/3/2019
+#
+list(APPEND CMAKE_PREFIX_PATH $ENV{ROOTSYS})
+find_package(ROOT REQUIRED COMPONENTS Graf3d Graf Gpad MathCore RIO Hist Tree Net Thread)
+include_directories(include ${ROOT_INCLUDE_DIRS})
+
+#----------------------------------------------------------------------------
 # Setup Geant4 include directories and compile definitions
 #
 include(${Geant4_USE_FILE})
@@ -86,6 +94,7 @@ endif()
 #
 add_executable(Griffinv10 Griffinv10.cc ${sources} ${headers} ${TOOLS_FORTRAN_OBJECTS})
 target_link_libraries(Griffinv10 ${Geant4_LIBRARIES} ${HBOOK_LIBRARIES})
+target_link_libraries(Griffinv10 ${ROOT_LIBRARIES}) # jturko 27/3/2019
 
 #----------------------------------------------------------------------------
 # Copy all scripts to the build directory, i.e. the directory in which we
