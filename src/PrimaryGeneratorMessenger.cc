@@ -94,17 +94,21 @@ PrimaryGeneratorMessenger::PrimaryGeneratorMessenger(PrimaryGeneratorAction* Gun
 	fBeamSpotSigmaCmd->SetUnitCategory("Length");
 	fBeamSpotSigmaCmd->AvailableForStates(G4State_PreInit,G4State_Idle);   
 
-	fBeamDistroCmd = new G4UIcmdWithAnInteger("/Detsys/gun/TargetLayer",this);//with target, can apply a distribution
+	fBeamDistroCmd = new G4UIcmdWithAnInteger("/DetSys/gun/TargetLayer",this);//with target, can apply a distribution
 	fBeamDistroCmd->SetGuidance("Set beam distribution within a target layer, zero indexed");
 	fBeamDistroCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
-	fBeamFileCmd = new G4UIcmdWithAString("/Detsys/gun/FileDistro",this);//with target, can apply a distribution
+	fBeamFileCmd = new G4UIcmdWithAString("/DetSys/gun/FileDistro",this);//with target, can apply a distribution
 	fBeamFileCmd->SetGuidance("Set beam distribution within a target using definitions in a data file");
 	fBeamFileCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
     fUseGPSCmd = new G4UIcmdWithABool("/DetSys/gun/useGPS",this);
     fUseGPSCmd->SetGuidance("Set to use the general particle source instead of the particle gun (commands under /gps/)");
     fUseGPSCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    
+    fUseTRexGeneratorCmd = new G4UIcmdWithABool("/DetSys/gun/useTRexGenerator",this);
+    fUseTRexGeneratorCmd->SetGuidance("Set to use the miniball/TRex generators");
+    fUseTRexGeneratorCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -120,6 +124,7 @@ PrimaryGeneratorMessenger::~PrimaryGeneratorMessenger() {
 	delete fBeamDistroCmd;
 	delete fBeamFileCmd;
     delete fUseGPSCmd;
+    delete fUseTRexGeneratorCmd;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -176,6 +181,10 @@ void PrimaryGeneratorMessenger::SetNewValue(G4UIcommand* command, G4String newVa
     if(command == fUseGPSCmd) {
         fAction->SetUseGPS(fUseGPSCmd->GetNewBoolValue(newValue));
     }
+    if(command == fUseTRexGeneratorCmd) {
+        fAction->SetGenerator();
+    }
+
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

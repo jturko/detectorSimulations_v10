@@ -1,0 +1,99 @@
+#####################################################
+/run/initialize
+
+/DetSys/phys/SelectPhysics QGSP_BIC
+
+/control/execute vis.mac
+
+#/tracking/verbose 1
+
+#####################################################
+/DetSys/world/material Vacuum
+
+# first layer
+/DetSys/det/setTISTARSiDimensions 40 0.02 50 mm  
+/DetSys/det/setTISTARPCBDimensions 80 1.67 75 mm
+/DetSys/det/setTISTAROffset 5 0 0 mm         
+/DetSys/det/setTISTARDistFromBeam 10 mm
+/DetSys/det/setTISTARGapZ 4 mm
+/DetSys/det/addTISTAR4StripLayer
+
+# second layer
+/DetSys/det/setTISTARSiDimensions 100 0.150 100 mm  
+/DetSys/det/setTISTARPCBDimensions 140 1.67 140 mm
+/DetSys/det/setTISTAROffset 5 0 0 mm         
+/DetSys/det/setTISTARSiCentered false
+/DetSys/det/setTISTARDistFromBeam 30 mm
+/DetSys/det/addTISTAR2StripLayer
+
+# third layer
+/DetSys/det/setTISTARSiDimensions 100 2 100 mm  
+/DetSys/det/setTISTARPCBDimensions 140 1.67 140 mm
+/DetSys/det/setTISTAROffset 5 0 0 mm         
+/DetSys/det/setTISTARSiCentered false
+/DetSys/det/setTISTARDistFromBeam 33 mm
+/DetSys/det/addTISTAR2StripLayer
+
+#####################################################
+/DetSys/miniball/SetPrimaryGenerator            AngularDistribution
+/DetSys/miniball/SetLevelFile                   ../Data/LevelFiles/132Sn_dp.dat
+/DetSys/miniball/SetAngularDistributionFile     ../Data/AngularDistributionFiles/132Sn_dp.dat
+/DetSys/miniball/SetMassFile                    ../Data/MassFile.dat
+
+/DetSys/miniball/SetBeamEnergy 792.0 MeV
+/DetSys/miniball/SetBeamWidth 1.0 mm
+
+/DetSys/miniball/SetProjectileName 132Sn
+/DetSys/miniball/SetProjectileZ 50
+/DetSys/miniball/SetProjectileA 132
+
+/DetSys/miniball/SetTargetName 2H
+/DetSys/miniball/SetTargetZ 1
+/DetSys/miniball/SetTargetA 2
+
+/DetSys/miniball/SetEjectileName 133Sn
+/DetSys/miniball/SetEjectileZ 50
+/DetSys/miniball/SetEjectileA 133
+
+/DetSys/miniball/SetRecoilName 1H
+/DetSys/miniball/SetRecoilZ 1
+/DetSys/miniball/SetRecoilA 1
+
+/DetSys/miniball/SetTargetMaterialName 2H
+/DetSys/miniball/SetTargetDiameter 10.0 mm
+
+/DetSys/miniball/SetTargetThickness 2.582e-1 # in mg/cm2 (50: 1.292e-1 , 100:2.582e-1)
+/DetSys/miniball/SetTargetMaterialDensity 1.614e-5 # in g/cm3 (50: 8.072e-6 , 100:1.614e-5)
+/DetSys/miniball/SetGasTargetLength 16.0 cm
+/DetSys/miniball/SetTargetPressure 0.100 bar
+
+/DetSys/miniball/SetTransferOrCoulexProbability 1.0
+
+/DetSys/miniball/SimulateGammas true
+/DetSys/miniball/IncludeEnergyResolution 1
+/DetSys/miniball/SimulateEjectiles true
+
+/DetSys/miniball/Print
+
+/DetSys/gun/useTRexGenerator true
+
+#####################################################
+#/DetSys/gun/useGPS true
+#
+#/gps/particle proton
+#
+#/gps/position 0 0 0 m
+#/gps/pos/type Point
+#/gps/pos/centre 0 0 0 m
+#
+#/gps/ang/type iso
+#
+##/gps/ene/type Lin
+##/gps/ene/min 2 MeV
+##/gps/ene/max 5 MeV
+##/gps/ene/gradient 0
+##/gps/ene/intercept 1
+#/gps/energy 5 MeV
+
+#####################################################
+/run/beamOn 1000

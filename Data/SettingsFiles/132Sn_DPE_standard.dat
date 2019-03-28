@@ -1,0 +1,205 @@
+################################################################################
+# Primary generator
+################################################################################
+PrimaryGenerator:			AngularDistribution
+LevelFile:					LevelFiles/132Sn_dp.dat
+AngularDistributionFile:	AngularDistributionFiles/132Sn_dp.dat
+
+# energy of the beam
+BeamEnergy:	792.0		in MeV
+BeamWidth:	1.0		in mm
+ 
+ProjectileName:	132Sn
+ProjectileZ:	50
+ProjectileA:	132
+
+TargetName:		2H
+TargetZ:		1
+TargetA:		2
+
+EjectileName:	133Sn
+EjectileZ:		50
+EjectileA:		133
+
+RecoilName:		1H
+RecoilZ:		1
+RecoilA:		1
+
+TargetMaterialName:	DeuteratedPE
+TargetDiameter:		10.0		in mm
+
+TargetThickness:	0.5			in mg/cm2 
+TargetMaterialDensity:	0.92			in g/cm3
+GasTargetLength:	0.0		in cm
+
+TransferOrCoulexProbability:	1.0
+
+SimulateGammas:		1
+IncludeEnergyResolution:	1
+
+IncludeVacuumChamber:	1
+VacuumChamberType:	cylinder
+
+WriteAllEvents:			1
+
+################################################################################
+# Detectors
+################################################################################
+UseFBarrelDeltaE:	1
+UseSecondFBarrelDeltaE:	1
+UseFBarrelErest:	1
+
+UseBBarrelDeltaE:	1
+UseSecondBBarrelDeltaE:	1
+UseBBarrelErest:	1
+
+ConstructPCB:	0
+ResistiveStrips:  0
+
+#pitch size of first layer 
+FBarrelDeltaESinglesStripWidthPar:	0.1	in mm
+FBarrelDeltaESinglesStripWidthPer:	0.1	in mm
+
+#pitch size of second layer forward
+SecondFBarrelDeltaESinglesStripWidthPar:	0.1 in mm
+SecondFBarrelDeltaESinglesStripWidthPer:	0.1 in mm
+
+#pitch size of first layer backward
+BBarrelDeltaESinglesStripWidthPar:	0.1
+BBarrelDeltaESinglesStripWidthPer:	0.1
+
+#pitch size of second layer backward
+SecondBBarrelDeltaESinglesStripWidthPar:	0.1
+SecondBBarrelDeltaESinglesStripWidthPer:	0.1
+
+FBarrelDeltaESinglesFoilThickness: 2.0	in um		# catcher foil thickness
+BBarrelDeltaESinglesFoilThickness: 2.0 in um
+
+NbOfFBarrelDeltaESingles: 2		#no of detector panels  1:top 2:bottom
+NbOfSecondFBarrelDeltaESingles: 2
+NbOfFBarrelErestSingles: 2
+
+NbOfBBarrelDeltaESingles: 2
+NbOfSecondBBarrelDeltaESingles: 2
+NbOfBBarrelErestSingles: 2
+
+############################### first forward layer ####################################
+
+FBarrelDeltaESingles.0.Z: 41.0 	 in mm		#position of the centre forward
+FBarrelDeltaESingles.1.Z: 41.0	 
+FBarrelDeltaESingles.0.DistanceToBeam: 10.0	in mm	#distance of first layer to beam axis
+FBarrelDeltaESingles.1.DistanceToBeam: 10.0	in mm
+FBarrelDeltaESingles.0.Thickness: 20 	in um		#thickness of first layer top & bottom
+FBarrelDeltaESingles.1.Thickness: 20 	in um
+
+FBarrelDeltaESinglesLength.X: 40.0	in mm		#dimensions of each detector panel in the first layer
+FBarrelDeltaESinglesLength.Y: 80.0
+
+################################# second forward layer #####################################
+
+SecondFBarrelDeltaESingles.0.Z:	41.0 	in mm
+SecondFBarrelDeltaESingles.1.Z:	41.0	
+SecondFBarrelDeltaESingles.0.DistanceToBeam: 50.0	in mm
+SecondFBarrelDeltaESingles.1.DistanceToBeam: 50.0	in mm
+
+SecondFBarrelDeltaESingles.0.Thickness: 140  	in um
+SecondFBarrelDeltaESingles.1.Thickness: 140  	in um
+
+SecondFBarrelDeltaESinglesLength.X: 100.0	in mm
+SecondFBarrelDeltaESinglesLength.Y: 80.0
+
+################################## third forward layer #################################
+
+FBarrelErestSingles.0.Z:	41.0	in mm
+FBarrelErestSingles.1.Z:	41.0 	
+FBarrelErestSingles.0.DistanceToBeam: 58.0	in mm
+FBarrelErestSingles.1.DistanceToBeam: 58.0	in mm
+
+FBarrelErestSingles.0.Thickness: 2000.0  	in um
+FBarrelErestSingles.1.Thickness: 2000.0
+
+FBarrelErestSinglesLength.X: 100.0	in mm
+FBarrelErestSinglesLength.Y: 80.0
+
+############################### first backward layer ####################################
+
+BBarrelDeltaESingles.0.Z: -41.0 	 
+BBarrelDeltaESingles.1.Z: -41.0	 
+BBarrelDeltaESingles.0.DistanceToBeam: 10.0	in mm
+BBarrelDeltaESingles.1.DistanceToBeam: 10.0	in mm
+
+BBarrelDeltaESingles.0.Thickness: 20  in um
+BBarrelDeltaESingles.1.Thickness: 20  in um
+
+BBarrelDeltaESinglesLength.X: 40.0	in mm
+BBarrelDeltaESinglesLength.Y: 80.0
+
+############################### second backward layer ####################################
+
+SecondBBarrelDeltaESingles.0.Z:	-41.0 	
+SecondBBarrelDeltaESingles.1.Z:	-41.0		
+SecondBBarrelDeltaESingles.0.DistanceToBeam: 50.0	in mm
+SecondBBarrelDeltaESingles.1.DistanceToBeam: 50.0	in mm
+
+SecondBBarrelDeltaESingles.0.Thickness: 140  	in um
+SecondBBarrelDeltaESingles.1.Thickness: 140 	in um
+
+SecondBBarrelDeltaESinglesLength.X: 100.0	in mm
+SecondBBarrelDeltaESinglesLength.Y: 80.0
+
+############################### third backward layer ####################################
+
+BBarrelErestSingles.0.Z: -41.0	in mm
+BBarrelErestSingles.1.Z: -41.0 	
+BBarrelErestSingles.0.DistanceToBeam: 58.0	in mm
+BBarrelErestSingles.1.DistanceToBeam: 58.0	in mm
+
+BBarrelErestSingles.0.Thickness: 2000.0  	in um
+BBarrelErestSingles.1.Thickness: 2000.0
+
+BBarrelErestSinglesLength.X: 100.0	in mm
+BBarrelErestSinglesLength.Y: 80.0
+
+NbOfMiniballClusters:		  8
+MiniballCluster.Rho.0:		110.  																
+MiniballCluster.Rho.1:		110.  
+MiniballCluster.Rho.2:		110.  
+MiniballCluster.Rho.3:		110.  
+MiniballCluster.Rho.4:		110.  
+MiniballCluster.Rho.5:		110.  
+MiniballCluster.Rho.6:		110.  
+MiniballCluster.Rho.7:		110. 
+ 
+MiniballCluster.Theta.0:	125.
+MiniballCluster.Theta.5:	125.
+MiniballCluster.Theta.1:	67.
+MiniballCluster.Theta.6:	67.
+MiniballCluster.Theta.2:	67.
+MiniballCluster.Theta.4:	67.
+MiniballCluster.Theta.3:	125.
+MiniballCluster.Theta.7:	125.
+
+MiniballCluster.Phi.0:		320. 
+MiniballCluster.Phi.5:		220. 
+MiniballCluster.Phi.1:		320. 
+MiniballCluster.Phi.6:		220. 
+MiniballCluster.Phi.2:		40. 
+MiniballCluster.Phi.4:		140. 
+MiniballCluster.Phi.3:		40. 
+MiniballCluster.Phi.7:		140. 
+
+MiniballCluster.Spin.0:		0. 
+MiniballCluster.Spin.1:		0. 
+MiniballCluster.Spin.2:		0. 
+MiniballCluster.Spin.3:		0. 
+MiniballCluster.Spin.4:		0. 
+MiniballCluster.Spin.5:		0. 
+MiniballCluster.Spin.6:		0. 
+MiniballCluster.Spin.7:		0. 
+
+################################################################################
+# Visualization
+################################################################################
+SetColours:		1
+
+end

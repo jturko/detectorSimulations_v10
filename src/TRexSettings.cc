@@ -26,6 +26,53 @@ TRexSettings* TRexSettings::Get() {
 
 TRexSettings::TRexSettings() 
 {
+    fPrimaryGenerator = "beam";
+    
+    fSimulateEjectiles = false;
+    fSimulateGammas = false;
+    fIncludeEnergyResolution = 0;
+
+    fIncludeVacuumChamber = 1;
+    fVacuumChamberType = "cylinder";
+    fVacuumChamberGas = "helium";
+    fVacuumChamberGasPressure = 1.0;
+
+    fTestSourceEnergy = 5000.*keV;
+    
+    fBeamEnergy = 100.*MeV;
+    fBeamWidth = 3.*mm;
+    fThetaCmMin = 2.*degree;
+	
+    fProjectileZ = 30;
+	fProjectileA = 72;
+	fTargetZ = 1;
+	fTargetA = 3;
+	fEjectileZ = 30;
+	fEjectileA = 74;
+	fRecoilZ = 1;
+	fRecoilA = 1;
+	fProjectileName = "72Zn";
+	fTargetName = "3H";
+	fEjectileName = "74Zn";
+	fRecoilName = "1H";
+
+    fLevelFile = "";
+    fAngularDistributionFile = "";
+    fCrossSectionFile = "";
+    fMassFile = "";
+	
+    fAlphaSourceDiameter = 3. * mm; // original 3 mm //last value: 2
+	fAlphaSourceThickness = 3. * mm;// original 3 mm //last value 40 
+
+	fTargetDiameter = 3.0 * mm;
+	fTargetThickness = 0.5 * mg/cm2;
+	fGasTargetLength = 0.0 * cm;
+	fTargetPressure = 0./1000.0 * bar;
+	fTargetMaterialDensity = 4.507 * g/cm3;
+
+	fTargetMaterialName = "dummy";
+	fTargetAtomicRatio = 1.5;
+	fTransferOrCoulexProbability = 1.0;
 }
 
 TRexSettings::~TRexSettings() {
@@ -46,21 +93,21 @@ void TRexSettings::ReadSettingsFile(std::string settingsFile) {
 	fIncludeVacuumChamber = sett.GetValue("IncludeVacuumChamber", 1);
 	fVacuumChamberType = sett.GetValue("VacuumChamberType", "cylinder");
 	fVacuumChamberGas = sett.GetValue("VacuumChamberGas", "helium");
-	//fVacuumChamberGasPressure = sett.GetValue("VacuumChamberGasPressure", 1e-6) /1000. * CLHEP::bar; // original
-	//fVacuumChamberGasPressure = sett.GetValue("VacuumChamberGasPressure", 0.) /1000. * CLHEP::bar; // no gas pressure in the chamber
-	fVacuumChamberGasPressure = sett.GetValue("VacuumChamberGasPressure", sett.GetValue("TargetPressure", 1000.0) /1000.) * CLHEP::bar;
+	//fVacuumChamberGasPressure = sett.GetValue("VacuumChamberGasPressure", 1e-6) /1000. * bar; // original
+	//fVacuumChamberGasPressure = sett.GetValue("VacuumChamberGasPressure", 0.) /1000. * bar; // no gas pressure in the chamber
+	fVacuumChamberGasPressure = sett.GetValue("VacuumChamberGasPressure", sett.GetValue("TargetPressure", 1000.0) /1000.) * bar;
 
-	fTestSourceEnergy = sett.GetValue("TestSourceEnergy", 5000.0) * CLHEP::keV;
+	fTestSourceEnergy = sett.GetValue("TestSourceEnergy", 5000.0) * keV;
 
 	//beam properties
-	fBeamEnergy = sett.GetValue("BeamEnergy", 100.0) * CLHEP::MeV;
-	fBeamWidth = sett.GetValue("BeamWidth", 3.0) * CLHEP::mm; //original
-	//fBeamWidth = CLHEP::RandFlat::shoot(sett.GetValue("BeamWidth", 3.0) * (-0.5) * CLHEP::mm, sett.GetValue("BeamWidth", 3.0) * 0.5 * CLHEP::mm);
-	//fThetaCmMin = sett.GetValue("ThetaCmMin", 2.0) * CLHEP::degree; // commented out by Leila 27.07.2017
-	fThetaCmMin = sett.GetValue("ThetaCmMin", 2.0) * CLHEP::degree;  // added by Leila 27.07.2017
+	fBeamEnergy = sett.GetValue("BeamEnergy", 100.0) * MeV;
+	fBeamWidth = sett.GetValue("BeamWidth", 3.0) * mm; //original
+	//fBeamWidth = RandFlat::shoot(sett.GetValue("BeamWidth", 3.0) * (-0.5) * mm, sett.GetValue("BeamWidth", 3.0) * 0.5 * mm);
+	//fThetaCmMin = sett.GetValue("ThetaCmMin", 2.0) * degree; // commented out by Leila 27.07.2017
+	fThetaCmMin = sett.GetValue("ThetaCmMin", 2.0) * degree;  // added by Leila 27.07.2017
 	
 	//G4cout<<"Leilaaaaaaaaaaaaaaaaaaaaaaaaaaa RexSettings: fThetaCmMin "<<fThetaCmMin<<"%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%555"<<G4endl;
-	//G4cout<<"Leilaaaaaaaaaaaaaaaaaaaaaaaaaaa RexSettings: vacuumChamberGasPressure "<<fVacuumChamberGasPressure/CLHEP::bar <<" %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%555"<<G4endl;
+	//G4cout<<"Leilaaaaaaaaaaaaaaaaaaaaaaaaaaa RexSettings: vacuumChamberGasPressure "<<fVacuumChamberGasPressure/bar <<" %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%555"<<G4endl;
 
 	//reaction
 	fProjectileZ = sett.GetValue("ProjectileZ", 30);
@@ -98,15 +145,15 @@ void TRexSettings::ReadSettingsFile(std::string settingsFile) {
 		fMassFile.insert(0, simDir);
 	}
 
-	fAlphaSourceDiameter = sett.GetValue("AlphaSourceDiameter", 3.) * CLHEP::mm; // original 3 mm //last value: 2
-	fAlphaSourceThickness = sett.GetValue("AlphaSourceThickness",3.) * CLHEP::mm;// original 3 mm //last value 40 
+	fAlphaSourceDiameter = sett.GetValue("AlphaSourceDiameter", 3.) * mm; // original 3 mm //last value: 2
+	fAlphaSourceThickness = sett.GetValue("AlphaSourceThickness",3.) * mm;// original 3 mm //last value 40 
 
-	fTargetDiameter = sett.GetValue("TargetDiameter", 3) * CLHEP::mm;
-	fTargetThickness = sett.GetValue("TargetThickness", 0.5) * CLHEP::mg/cm2;
-	fGasTargetLength = sett.GetValue("GasTargetLength", 0.0) * CLHEP::cm;
-	fTargetPressure = sett.GetValue("TargetPressure", 0.0) /1000. * CLHEP::bar;
+	fTargetDiameter = sett.GetValue("TargetDiameter", 3) * mm;
+	fTargetThickness = sett.GetValue("TargetThickness", 0.5) * mg/cm2;
+	fGasTargetLength = sett.GetValue("GasTargetLength", 0.0) * cm;
+	fTargetPressure = sett.GetValue("TargetPressure", 0.0) /1000. * bar;
 	//fTargetMaterial = sett.GetValue("TargetMaterial", "vacuum");
-	fTargetMaterialDensity = sett.GetValue("TargetMaterialDensity", 4.507) * CLHEP::g/CLHEP::cm3;
+	fTargetMaterialDensity = sett.GetValue("TargetMaterialDensity", 4.507) * g/cm3;
 
 	fTargetMaterialName = sett.GetValue("TargetMaterialName", "dummy");
 	//std::cout<<"from '"<<fTargetMaterialName<<"' to ";
@@ -126,12 +173,12 @@ void TRexSettings::Print(Option_t* opt) const {
 		<<"fIncludeVacuumChamber = "<<fIncludeVacuumChamber<<std::endl
 		<<"fVacuumChamberType = "<<fVacuumChamberType<<std::endl
 		<<"fVacuumChamberGas = "<<fVacuumChamberGas<<std::endl
-		<<"fVacuumChamberGasPressure = "<<fVacuumChamberGasPressure*1000./CLHEP::bar<<" mbar"<<std::endl
-		<<"fTestSourceEnergy = "<<fTestSourceEnergy/CLHEP::MeV<<" MeV"<<std::endl
+		<<"fVacuumChamberGasPressure = "<<fVacuumChamberGasPressure*1000./bar<<" mbar"<<std::endl
+		<<"fTestSourceEnergy = "<<fTestSourceEnergy/MeV<<" MeV"<<std::endl
 		<<"---------- beam properties"<<std::endl
-		<<"fBeamEnergy = "<<fBeamEnergy/CLHEP::MeV<<" MeV"<<std::endl
-		<<"fBeamWidth = "<<fBeamWidth/CLHEP::mm<<" mm"<<std::endl
-		<<"fThetaCmMin = "<<fThetaCmMin/CLHEP::degree<<" degree"<<std::endl
+		<<"fBeamEnergy = "<<fBeamEnergy/MeV<<" MeV"<<std::endl
+		<<"fBeamWidth = "<<fBeamWidth/mm<<" mm"<<std::endl
+		<<"fThetaCmMin = "<<fThetaCmMin/degree<<" degree"<<std::endl
 		<<"---------- reaction"<<std::endl
 		<<"fProjectileZ = "<<fProjectileZ<<std::endl
 		<<"fProjectileA = "<<fProjectileA<<std::endl
@@ -148,16 +195,17 @@ void TRexSettings::Print(Option_t* opt) const {
 		<<"---------- other files"<<std::endl
 		<<"fLevelFile = "<<fLevelFile<<std::endl
 		<<"fAngularDistributionFile = "<<fAngularDistributionFile<<std::endl
+		<<"fCrossSectionFile = "<<fCrossSectionFile<<std::endl
 		<<"fMassFile = "<<fMassFile<<std::endl
 		<<"---------- alpha source"<<std::endl
-		<<"fAlphaSourceDiameter = "<<fAlphaSourceDiameter/CLHEP::mm<<" mm"<<std::endl
-		<<"fAlphaSourceThickness = "<<fAlphaSourceThickness/CLHEP::mm<<" mm"<<std::endl
+		<<"fAlphaSourceDiameter = "<<fAlphaSourceDiameter/mm<<" mm"<<std::endl
+		<<"fAlphaSourceThickness = "<<fAlphaSourceThickness/mm<<" mm"<<std::endl
 		<<"---------- target"<<std::endl
-		<<"fTargetDiameter = "<<fTargetDiameter/CLHEP::mm<<" mm"<<std::endl
-		<<"fTargetThickness = "<<fTargetThickness/(CLHEP::mg/CLHEP::cm2)<<" mg/cm2"<<std::endl
-		<<"fGasTargetLength = "<<fGasTargetLength/CLHEP::mm<<" mm"<<std::endl
-		<<"fTargetPressure = "<<fTargetPressure*1000./CLHEP::bar<<" mbar"<<std::endl
-		<<"fTargetMaterialDensity = "<<fTargetMaterialDensity/(CLHEP::g/CLHEP::cm3)<<" g/cm3"<<std::endl
+		<<"fTargetDiameter = "<<fTargetDiameter/mm<<" mm"<<std::endl
+		<<"fTargetThickness = "<<fTargetThickness/(mg/cm2)<<" mg/cm2"<<std::endl
+		<<"fGasTargetLength = "<<fGasTargetLength/mm<<" mm"<<std::endl
+		<<"fTargetPressure = "<<fTargetPressure*1000./bar<<" mbar"<<std::endl
+		<<"fTargetMaterialDensity = "<<fTargetMaterialDensity/(g/cm3)<<" g/cm3"<<std::endl
 		<<"fTargetMaterialName = "<<fTargetMaterialName<<std::endl
 		<<"fTargetAtomicRatio = "<<fTargetAtomicRatio<<std::endl
 		<<"fTransferOrCoulexProbability = "<<fTransferOrCoulexProbability<<std::endl
@@ -174,5 +222,5 @@ G4double TRexSettings::GetTargetPhysicalLength(){
 }
 
 double TRexSettings::GetTargetThicknessMgPerCm2() { 
-	return fTargetThickness/(CLHEP::mg/CLHEP::cm2); 
+	return fTargetThickness/(mg/cm2); 
 }

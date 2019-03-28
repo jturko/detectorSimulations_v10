@@ -41,6 +41,8 @@
 
 class TRexSettings;
 
+class PrimaryGeneratorAction;
+
 class G4UIdirectory;
 class G4UIcmdWithADouble;
 class G4UIcmdWithADoubleAndUnit;
@@ -50,19 +52,22 @@ class G4UIcmdWithAString;
 class G4UIcommand;
 class G4UIcmdWithAnInteger;
 class G4UIcmdWithABool;
+class G4UIcmdWithoutParameter;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 class TRexMessenger: public G4UImessenger
 {
 public:
-    TRexMessenger();
+    TRexMessenger(PrimaryGeneratorAction* pgen);
     virtual ~TRexMessenger();
 
 public:
     void SetNewValue(G4UIcommand*, G4String);
 
 private:
+
+    PrimaryGeneratorAction*     fPrimaryGeneratorAction;
 
     G4UIcmdWithAString*         fSetPrimaryGeneratorCmd;
     G4UIcmdWithABool*           fSimulateEjectilesCmd;
@@ -105,12 +110,14 @@ private:
     G4UIcmdWithADoubleAndUnit*  fSetAlphaSourceThicknessCmd;
 
     G4UIcmdWithADoubleAndUnit*  fSetTargetDiameterCmd;
-    G4UIcmdWithADoubleAndUnit*  fSetTargetThicknessCmd;
+    G4UIcmdWithADouble*         fSetTargetThicknessCmd;
     G4UIcmdWithADoubleAndUnit*  fSetGasTargetLengthCmd;
     G4UIcmdWithADoubleAndUnit*  fSetTargetPressureCmd;
 
-    G4UIcmdWithADoubleAndUnit*  fSetTargetMaterialDensityCmd;
-    
+    G4UIcmdWithADouble*         fSetTargetMaterialDensityCmd;
+ 
+    G4UIcmdWithoutParameter*    fPrintCmd;
+   
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

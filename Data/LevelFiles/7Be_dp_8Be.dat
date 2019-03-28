@@ -1,0 +1,9 @@
+Level file for 8Be
+
+# number of levels
+3      
+0	1.	0.0	1	0
+10000	1.   	2.0 	1	1	0	1.	1	0.
+20000.	1.   	2.0  	1     	1 	0	1. 	1 	0.
+
+# E     feeding spin	parity	#decays final	prob	type	delta

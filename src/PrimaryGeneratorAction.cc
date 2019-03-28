@@ -55,6 +55,9 @@
 
 #include "TRexBaseGenerator.hh"
 #include "TRexAngularDistribution.hh"
+#include "TRexMessenger.hh"
+
+#include "TRexSettings.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -93,8 +96,9 @@
     fGPS = new G4GeneralParticleSource;
     fUseGPS = false;
 
-    SetGenerator();
+    //SetGenerator();
     fUseTRexGenerator = false;
+    fTRexMessenger = new TRexMessenger(this);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -107,6 +111,7 @@ PrimaryGeneratorAction::~PrimaryGeneratorAction()
 	delete fBeamDistribution;
 
     delete fCurrentGenerator;
+    delete fTRexMessenger;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -371,7 +376,7 @@ void PrimaryGeneratorAction::LaBrinit() {
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void PrimaryGeneratorAction::SetGenerator() {
-    std::string generatorName = "AngularDistribution"; // NEED MSGR CMD
+    std::string generatorName = TRexSettings::Get()->GetPrimaryGenerator();
     if(generatorName == "TestSource") {
         //std::cout<<std::endl<<"Using test source ....\n"<<std::endl;
         //fCurrentGenerator = new TRexTestSource;

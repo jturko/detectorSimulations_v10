@@ -52,6 +52,7 @@ class G4GeneralParticleSource;
 class G4Event;
 
 class TRexBaseGenerator;
+class TRexMessenger;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -63,7 +64,7 @@ private:
     DetectorConstruction*         fDetector;     //pointer to the geometry
     HistoManager*                 fHistoManager; //pointer to the histo manager
     PrimaryGeneratorMessenger*    fGunMessenger; //messenger of this class
-    BeamDistribution*		       fBeamDistribution;//pointer to the BeamDistribution class
+    BeamDistribution*		      fBeamDistribution; //pointer to the BeamDistribution class
 
 public:
     PrimaryGeneratorAction(HistoManager*);
@@ -89,6 +90,7 @@ public:
 
     void SetUseGPS(G4bool val) { fUseGPS = val; }
 
+    void SetGenerator();
     TRexBaseGenerator* GetCurrentGenerator() { return fCurrentGenerator; }    
 
 private:
@@ -121,8 +123,9 @@ private:
     void LaBrinit();
  
     G4bool fUseTRexGenerator;
-    void SetGenerator();
     TRexBaseGenerator* fCurrentGenerator;     
+    
+    TRexMessenger*  fTRexMessenger;
     
 };
 

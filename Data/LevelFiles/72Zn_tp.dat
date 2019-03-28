@@ -1,0 +1,10 @@
+Level file for 74Zn
+
+# number of levels
+4  
+0.	1.	0.	1	0
+610.	1.	2.  	1 	1	0	1.	1	0.
+1420.	1. 	4.  	1 	1 	1 	1. 	1 	0.
+1700.	1.  	0.  	1 	1 	1 	1. 	1 	0.
+
+# E     feeding spin	parity	#decays final	prob	type	delta

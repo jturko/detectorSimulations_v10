@@ -45,20 +45,22 @@
 #include "G4UIparameter.hh"
 #include "G4UIcmdWithAnInteger.hh"
 #include "G4UIcmdWithABool.hh"
+#include "G4UIcmdWithoutParameter.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-TRexMessenger::TRexMessenger()
+TRexMessenger::TRexMessenger(PrimaryGeneratorAction * pgen) :
+    fPrimaryGeneratorAction(pgen)
 {
     fSetPrimaryGeneratorCmd = new G4UIcmdWithAString("/DetSys/miniball/SetPrimaryGenerator",this);
     fSetPrimaryGeneratorCmd->SetGuidance("set the primary generator type (AngularDistribution, Rutherford, AlphaSource, etc...)");
     fSetPrimaryGeneratorCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
-    fSimulateEjectilesCmd = new G4UIcmdWithABool("/DetSys/miniball/SetSimulateEjectiles",this);
+    fSimulateEjectilesCmd = new G4UIcmdWithABool("/DetSys/miniball/SimulateEjectiles",this);
     fSimulateEjectilesCmd->SetGuidance("set bool for simulating ejectiles");
     fSimulateEjectilesCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
-    fSimulateGammasCmd = new G4UIcmdWithABool("/DetSys/miniball/SetSimulateGammas",this);
+    fSimulateGammasCmd = new G4UIcmdWithABool("/DetSys/miniball/SimulateGammas",this);
     fSimulateGammasCmd->SetGuidance("set bool for simulating gammas");
     fSimulateGammasCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
@@ -158,11 +160,11 @@ TRexMessenger::TRexMessenger()
     fSetTargetMaterialNameCmd->SetGuidance("set the target material name");
     fSetTargetMaterialNameCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
-    fSetTargetAtomicRatioCmd = new G4UIcmdWithADouble("/DetSys/miniball/SetTargetAtomicRatioCmd",this);
+    fSetTargetAtomicRatioCmd = new G4UIcmdWithADouble("/DetSys/miniball/SetTargetAtomicRatio",this);
     fSetTargetAtomicRatioCmd->SetGuidance("set the target atomic ratio");
     fSetTargetAtomicRatioCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
-    fSetTransferOrCoulexProbabilityCmd = new G4UIcmdWithADouble("/DetSys/miniball/SetTransferOrCoulexProbabilityCmd",this);
+    fSetTransferOrCoulexProbabilityCmd = new G4UIcmdWithADouble("/DetSys/miniball/SetTransferOrCoulexProbability",this);
     fSetTransferOrCoulexProbabilityCmd->SetGuidance("set the transfer/coulex reaction probability");
     fSetTransferOrCoulexProbabilityCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
@@ -200,26 +202,30 @@ TRexMessenger::TRexMessenger()
     fSetTargetDiameterCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
     fSetTargetDiameterCmd->SetUnitCategory("Length");
     
-    fSetTargetThicknessCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/miniball/SetTargetThickness",this);
+    fSetTargetThicknessCmd = new G4UIcmdWithADouble("/DetSys/miniball/SetTargetThickness",this);
     fSetTargetThicknessCmd->SetGuidance("set the target Thickness");
     fSetTargetThicknessCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
-    fSetTargetThicknessCmd->SetUnitCategory("Length");
     
     fSetGasTargetLengthCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/miniball/SetGasTargetLength",this);
     fSetGasTargetLengthCmd->SetGuidance("set the gas target length");
     fSetGasTargetLengthCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
     fSetGasTargetLengthCmd->SetUnitCategory("Length");
     
-    fSetTargetPressureCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/miniball/SetGasTargetLength",this);
+    fSetTargetPressureCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/miniball/SetTargetPressure",this);
     fSetTargetPressureCmd->SetGuidance("set the target pressure");
     fSetTargetPressureCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
     fSetTargetPressureCmd->SetUnitCategory("Pressure");
     
     
-    fSetTargetMaterialDensityCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/miniball/SetTargetMaterialDensity",this);
+    fSetTargetMaterialDensityCmd = new G4UIcmdWithADouble("/DetSys/miniball/SetTargetMaterialDensity",this);
     fSetTargetMaterialDensityCmd->SetGuidance("set the target material density");
     fSetTargetMaterialDensityCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
-    fSetTargetMaterialDensityCmd->SetUnitCategory("Volumic Mass"); // this might not be the right unit
+    //fSetTargetMaterialDensityCmd->SetUnitCategory("Volumic Mass"); // this might not be the right unit
+
+
+    fPrintCmd = new G4UIcmdWithoutParameter("/DetSys/miniball/Print",this);
+    fPrintCmd->SetGuidance("print values stored in TRexSettings");
+    fPrintCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -271,6 +277,8 @@ TRexMessenger::~TRexMessenger() {
     delete fSetTargetPressureCmd;
 
     delete fSetTargetMaterialDensityCmd;
+
+    delete fPrintCmd;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -322,6 +330,8 @@ void TRexMessenger::SetNewValue(G4UIcommand* command, G4String value) {
     if(command == fSetTargetPressureCmd)            TRexSettings::Get()->SetTargetPressure(fSetTargetPressureCmd->GetNewDoubleValue(value));
 
     if(command == fSetTargetMaterialDensityCmd)     TRexSettings::Get()->SetTargetMaterialDensity(fSetTargetMaterialDensityCmd->GetNewDoubleValue(value));
+
+    if(command == fPrintCmd)                        TRexSettings::Get()->Print();
 
 }   
 

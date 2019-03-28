@@ -1,0 +1,10 @@
+Level file for 133Sn
+
+# number of levels
+4      
+0	1.	3.5	-1	0
+853.7	1.   	1.5 	-1	1	0	1.	1	0.
+1363.	1.   	0.5  	-1     	1 	1	1. 	3 	0.
+2004.6	1.   	2.5    	-1     	1 	0	1. 	3 	0.
+
+# E     feeding spin	parity	#decays final	prob	type	delta

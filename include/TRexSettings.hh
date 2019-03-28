@@ -10,6 +10,8 @@
 
 #include "TEnv.h"
 
+#include "G4SystemOfUnits.hh"
+
 //#include "globals.hh"
 
 #include <string>
@@ -123,7 +125,7 @@ class TRexSettings : public TObject {
 		double GetTargetPressure() { return fTargetPressure; }
 		
         void SetTargetDiameter(double val) { fTargetDiameter =  val; }
-		void SetTargetThickness(double val) { fTargetThickness = val; }
+		void SetTargetThickness(double val) { fTargetThickness = val*(mg/cm2); }
 		void SetGasTargetLength(double val) { fGasTargetLength = val; }
 		void SetTargetPressure(double val) { fTargetPressure = val; }
 		
@@ -132,7 +134,7 @@ class TRexSettings : public TObject {
 		
         //std::string GetTargetMaterial() { return fTargetMaterial; }
 		double GetTargetMaterialDensity() { return fTargetMaterialDensity; }
-		void SetTargetMaterialDensity(double density) { fTargetMaterialDensity = density; }
+		void SetTargetMaterialDensity(double density) { fTargetMaterialDensity = density*(g/cm3); }
 		//void SetTargetThickness(double thickness) { fTargetThickness = thickness; }
 
 		//##################### Target Entrance Foil by Leila begin #####################
