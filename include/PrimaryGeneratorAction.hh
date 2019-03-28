@@ -51,6 +51,8 @@ class G4ParticleGun;
 class G4GeneralParticleSource;
 class G4Event;
 
+class TRexBaseGenerator;
+
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
@@ -86,7 +88,9 @@ public:
     void SetLayeredTargetBeamDistro(G4int layer);
 
     void SetUseGPS(G4bool val) { fUseGPS = val; }
-    
+
+    TRexBaseGenerator* GetCurrentGenerator() { return fCurrentGenerator; }    
+
 private:
     //variables
     G4int fNumberOfDecayingLaBrDetectors;
@@ -115,7 +119,10 @@ private:
 
     //functions
     void LaBrinit();
-        
+ 
+    G4bool fUseTRexGenerator;
+    void SetGenerator();
+    TRexBaseGenerator* fCurrentGenerator;     
     
 };
 

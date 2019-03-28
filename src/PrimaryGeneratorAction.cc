@@ -53,6 +53,9 @@
 #include "DetectorConstruction.hh" //for detector based information
 #include "BeamDistribution.hh"
 
+#include "TRexBaseGenerator.hh"
+#include "TRexAngularDistribution.hh"
+
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 	PrimaryGeneratorAction::PrimaryGeneratorAction(HistoManager* histoManager)
@@ -89,6 +92,9 @@
 
     fGPS = new G4GeneralParticleSource;
     fUseGPS = false;
+
+    SetGenerator();
+    fUseTRexGenerator = false;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -99,6 +105,8 @@ PrimaryGeneratorAction::~PrimaryGeneratorAction()
     delete fGPS;
 	delete fGunMessenger;
 	delete fBeamDistribution;
+
+    delete fCurrentGenerator;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -106,6 +114,7 @@ PrimaryGeneratorAction::~PrimaryGeneratorAction()
 void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 {
     if(fUseGPS) fGPS->GeneratePrimaryVertex(anEvent);
+    else if(fUseTRexGenerator) fCurrentGenerator->GeneratePrimaries(anEvent);
     else {
 	    //G4cout<<G4endl<<fParticleGun->GetParticleDefinition()->GetParticleName()<<G4endl;
 	    if(fNumberOfDecayingLaBrDetectors != 0) {
@@ -360,3 +369,26 @@ void PrimaryGeneratorAction::LaBrinit() {
 	fDetectorAnglesLaBr3[7][4] 	= 292.5*deg;
 }
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void PrimaryGeneratorAction::SetGenerator() {
+    std::string generatorName = "AngularDistribution"; // NEED MSGR CMD
+    if(generatorName == "TestSource") {
+        //std::cout<<std::endl<<"Using test source ....\n"<<std::endl;
+        //fCurrentGenerator = new TRexTestSource;
+    } else if(generatorName == "Rutherford") {
+        //std::cout<<std::endl<<"Using Rutherford scattering ....\n"<<std::endl;
+        //fCurrentGenerator = new TRexRutherford;
+    } else if(generatorName == "AngularDistribution") {
+        std::cout<<std::endl<<"Using given angular distribution ....\n"<<std::endl;
+        fCurrentGenerator = new TRexAngularDistribution;
+    } else if(generatorName == "AlphaSource") {
+        //std::cout<<std::endl<<"Using alpha source ....\n"<<std::endl;
+        //fCurrentGenerator = new TRexAlphaSource;
+    } else if(generatorName == "BeamIn") {
+        //std::cout<<std::endl<<"Using beamIn source ....\n"<<std::endl;
+        //fCurrentGenerator = new TRexBeamIn;
+    } else {
+        fCurrentGenerator = NULL;
+    }
+
+}
