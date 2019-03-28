@@ -376,6 +376,7 @@ void PrimaryGeneratorAction::LaBrinit() {
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void PrimaryGeneratorAction::SetGenerator() {
+    fUseTRexGenerator = true; fUseGPS = false;
     std::string generatorName = TRexSettings::Get()->GetPrimaryGenerator();
     if(generatorName == "TestSource") {
         //std::cout<<std::endl<<"Using test source ....\n"<<std::endl;
@@ -393,7 +394,13 @@ void PrimaryGeneratorAction::SetGenerator() {
         //std::cout<<std::endl<<"Using beamIn source ....\n"<<std::endl;
         //fCurrentGenerator = new TRexBeamIn;
     } else {
+        std::cout<<std::endl<<"Unknown generator !!!\n"<<std::endl;
         fCurrentGenerator = NULL;
     }
 
+}
+
+void PrimaryGeneratorAction::SetTree(TTree* tree) {
+    fCurrentGenerator->SetTree(tree);
+    fCurrentGenerator->CreateTreeBranches();
 }

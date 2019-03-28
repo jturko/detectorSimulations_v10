@@ -40,10 +40,11 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-RunAction::RunAction(HistoManager* histoManager)
+RunAction::RunAction(HistoManager* histoManager, PrimaryGeneratorAction* pgen)
 : G4UserRunAction()
 {
 	fHistoManager = histoManager;
+    fPrimaryGeneratorAction = pgen;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -63,6 +64,11 @@ void RunAction::BeginOfRunAction(const G4Run* aRun)
 		fHistoManager->Book();
 		fHistoManager->GetDetectorConstruction()->SetProperties();
 	}
+
+    fOutputFile = new TFile("generator_output.root","recreate");
+    fOutputFile->cd();
+    fGeneratorTree = new TTree("treeGen","the TRex primary generator tree");
+    fPrimaryGeneratorAction->SetTree(fGeneratorTree);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
