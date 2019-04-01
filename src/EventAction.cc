@@ -52,7 +52,7 @@ EventAction::EventAction(RunAction* run, HistoManager* hist)
 :G4UserEventAction(),
 	fRunAction(run),
 	fHistoManager(hist),
-	fPrintModulo(1)
+	fPrintModulo(1000)
 {
 	fNumberOfHits = 0;
 	fNumberOfSteps = 0;

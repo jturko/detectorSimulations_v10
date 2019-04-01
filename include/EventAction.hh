@@ -57,55 +57,55 @@ static const int NUMSTEPVARS    = 15;
 class EventAction : public G4UserEventAction
 {
 public:
-	EventAction(RunAction*, HistoManager*);
-	virtual ~EventAction();
-
-	virtual void  BeginOfEventAction(const G4Event*);
-	virtual void    EndOfEventAction(const G4Event*);
-
-	G4int GetEventNumber() { return fEvtNb;};
-
-	void AddHitTracker(const DetectorProperties& properties, const G4int& eventNumber, const G4int& trackID, const G4int& parentID, const G4int& stepNumber, const G4int& particleType, const G4int& processType, const G4double& depEnergy, const G4ThreeVector& pos, const G4double& time, const G4int& trackerZ);
-	void AddStepTracker(const DetectorProperties& properties, const G4int& eventNumber, const G4int& trackID, const G4int& parentID, const G4int& stepNumber, const G4int& particleType, const G4int& processType, const G4double& depEnergy, const G4ThreeVector& pos, const G4double& time, const G4int& trackerZ);
-
-
-	// Energy deposit in detection systems
-	void SpiceDet(G4double de, G4double dl, G4int det, G4int seg) { fSpiceEnergyDet[det][seg] += de; fSpiceTrackDet[det][seg] += dl;};///19/7
-
-	G4bool SpiceTest();
+    EventAction(RunAction*, HistoManager*);
+    virtual ~EventAction();
+    
+    virtual void  BeginOfEventAction(const G4Event*);
+    virtual void    EndOfEventAction(const G4Event*);
+    
+    G4int GetEventNumber() { return fEvtNb;};
+    
+    void AddHitTracker(const DetectorProperties& properties, const G4int& eventNumber, const G4int& trackID, const G4int& parentID, const G4int& stepNumber, const G4int& particleType, const G4int& processType, const G4double& depEnergy, const G4ThreeVector& pos, const G4double& time, const G4int& trackerZ);
+    void AddStepTracker(const DetectorProperties& properties, const G4int& eventNumber, const G4int& trackID, const G4int& parentID, const G4int& stepNumber, const G4int& particleType, const G4int& processType, const G4double& depEnergy, const G4ThreeVector& pos, const G4double& time, const G4int& trackerZ);
+    
+    
+    // Energy deposit in detection systems
+    void SpiceDet(G4double de, G4double dl, G4int det, G4int seg) { fSpiceEnergyDet[det][seg] += de; fSpiceTrackDet[det][seg] += dl;};///19/7
+    
+    G4bool SpiceTest();
 private:
-	RunAction*    fRunAction;
-	HistoManager* fHistoManager;
-
-	G4int     fPrintModulo;
-	G4int     fEvtNb;
-
-	void ClearVariables();
-	void FillSpice();
-
-	G4double ApplySpiceRes(G4double);
-	void SetupSpiceErfc();
-	G4double SpiceErfc();
-
-	//Applying a resolution to SPCIE energies if desired
-	G4double fAmp[10000];//Bin amp (effective y)
-	G4double fAmpx[10000];
-	G4double fAmpTot;
-
-	// Tracking info
-	G4int    fHitTrackerI[NUMSTEPVARS][MAXHITS];
-	G4double fHitTrackerD[NUMSTEPVARS][MAXHITS];
-	G4int    fNumberOfHits;
-	DetectorProperties fProperties[MAXHITS];
-
-	G4int    fStepTrackerI[NUMSTEPVARS][MAXSTEPS];
-	G4double fStepTrackerD[NUMSTEPVARS][MAXSTEPS];
-	G4int    fNumberOfSteps;
-
-	// Energy deposit in detection systems
-	G4double fSpiceEnergyDet[10][12];
-	G4double fSpiceTrackDet[10][12];
-
+    RunAction*    fRunAction;
+    HistoManager* fHistoManager;
+    
+    G4int     fPrintModulo;
+    G4int     fEvtNb;
+    
+    void ClearVariables();
+    void FillSpice();
+    
+    G4double ApplySpiceRes(G4double);
+    void SetupSpiceErfc();
+    G4double SpiceErfc();
+    
+    //Applying a resolution to SPCIE energies if desired
+    G4double fAmp[10000];//Bin amp (effective y)
+    G4double fAmpx[10000];
+    G4double fAmpTot;
+    
+    // Tracking info
+    G4int    fHitTrackerI[NUMSTEPVARS][MAXHITS];
+    G4double fHitTrackerD[NUMSTEPVARS][MAXHITS];
+    G4int    fNumberOfHits;
+    DetectorProperties fProperties[MAXHITS];
+    
+    G4int    fStepTrackerI[NUMSTEPVARS][MAXSTEPS];
+    G4double fStepTrackerD[NUMSTEPVARS][MAXSTEPS];
+    G4int    fNumberOfSteps;
+    
+    // Energy deposit in detection systems
+    G4double fSpiceEnergyDet[10][12];
+    G4double fSpiceTrackDet[10][12];
+    
     // For time remaining calculation
     clock_t fBeginTime;
     clock_t fOverallBeginTime;

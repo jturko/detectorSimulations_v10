@@ -42,9 +42,6 @@
 #include "HistoManager.hh"
 #include "PrimaryGeneratorAction.hh"
 
-#include "TFile.h"
-#include "TTree.h"
-
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 class G4Run;
@@ -52,17 +49,15 @@ class G4Run;
 class RunAction : public G4UserRunAction
 {
 public:
-	RunAction(HistoManager*, PrimaryGeneratorAction* pgen);
-	virtual ~RunAction();
-
-	virtual void BeginOfRunAction(const G4Run*);
-	virtual void   EndOfRunAction(const G4Run*);
+    RunAction(HistoManager*, PrimaryGeneratorAction* pgen);
+    virtual ~RunAction();
+    
+    virtual void BeginOfRunAction(const G4Run*);
+    virtual void   EndOfRunAction(const G4Run*);
 
 private:
-	HistoManager* fHistoManager;
-
+    HistoManager* fHistoManager;
     PrimaryGeneratorAction* fPrimaryGeneratorAction;
-    TFile* fOutputFile;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

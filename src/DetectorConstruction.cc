@@ -105,97 +105,97 @@ bool operator==(const DetectorProperties& lhs, const DetectorProperties& rhs)
 }
 
 DetectorConstruction::DetectorConstruction() :
-	fSolidWorld(nullptr),
-	fLogicWorld(nullptr),
-	fPhysiWorld(nullptr)
+    fSolidWorld(nullptr),
+    fLogicWorld(nullptr),
+    fPhysiWorld(nullptr)
 {
-	fWorldSizeX  = fWorldSizeY = fWorldSizeZ = 10.0*m;
-
-	fBoxMat = "G4_WATER";
-	fBoxThickness = 0.0*mm;
-	fBoxInnerDimensions = G4ThreeVector(0.0*mm,0.0*mm,0.0*mm);
-	fBoxColour = G4ThreeVector(0.0,0.0,1.0);
-
-	fGridMat = "G4_WATER";
-	fGridSize = 0.0*mm;
-	fGridDimensions = G4ThreeVector(0.0*mm,0.0*mm,0.0*mm);
-	fGridColour = G4ThreeVector(1.0,0.0,0.0);
-
-	// materials
-	DefineMaterials();
-
-	//  builtDetectors = false;
-
-
-	fMatWorldName = "G4_AIR";
-
-	// Generic Target Apparatus
-	fSetGenericTargetMaterial   = false;
-	fSetGenericTargetDimensions = false;
-	fSetGenericTargetPosition   = false;
-
-	// Field Box
-	fSetFieldBoxMaterial= false;//think this has been removed 17/8
-	fSetFieldBoxDimensions= false;
-	fSetFieldBoxPosition= false;
-	fSetFieldBoxMagneticField= false;
-
-	// parameters to suppress:
-
-	DefineSuppressedParameters();
-
-	// Shield Selection Default
-
-	fUseTigressPositions = false;
-
-	fDetectorShieldSelect = 1 ; // Include suppressors by default.
-	fExtensionSuppressorLocation = 0 ; // Back by default (Detector Forward)
-	fHevimetSelector = 0 ; // Chooses whether or not to include a hevimet
-
-	fCustomDetectorNumber 		= 1 ; // detNum
-	fCustomDetectorPosition  = 1 ; // posNum
-
-	// create commands for interactive definition
-
-	fDetectorMessenger = new DetectorMessenger(this);
-
-	// ensure the global field is initialized
-	//(void)GlobalField::getObject();
-
-	//expHallMagField = new MagneticField(); // Global field is set to zero
-
-	fGriffinDetectorsMapIndex = 0;
-	for(G4int i = 0; i < 16; ++i) {
-		fGriffinDetectorsMap[i] = 0;
-		for(G4int j = 0; j < 4; ++j) {
-			fGriffinDeadLayer[i][j] = -1;
-		}
-	}
-
-	fDescantColor = "white";
-	fDescantRotation.setX(M_PI);
-	fDescantRotation.setY(0.);
-	fDescantRotation.setZ(0.);
-
-	fApparatusLayeredTarget=0;
-
+    fWorldSizeX  = fWorldSizeY = fWorldSizeZ = 10.0*m;
+    
+    fBoxMat = "G4_WATER";
+    fBoxThickness = 0.0*mm;
+    fBoxInnerDimensions = G4ThreeVector(0.0*mm,0.0*mm,0.0*mm);
+    fBoxColour = G4ThreeVector(0.0,0.0,1.0);
+    
+    fGridMat = "G4_WATER";
+    fGridSize = 0.0*mm;
+    fGridDimensions = G4ThreeVector(0.0*mm,0.0*mm,0.0*mm);
+    fGridColour = G4ThreeVector(1.0,0.0,0.0);
+    
+    // materials
+    DefineMaterials();
+    
+    //  builtDetectors = false;
+    
+    
+    fMatWorldName = "G4_AIR";
+    
+    // Generic Target Apparatus
+    fSetGenericTargetMaterial   = false;
+    fSetGenericTargetDimensions = false;
+    fSetGenericTargetPosition   = false;
+    
+    // Field Box
+    fSetFieldBoxMaterial= false;//think this has been removed 17/8
+    fSetFieldBoxDimensions= false;
+    fSetFieldBoxPosition= false;
+    fSetFieldBoxMagneticField= false;
+    
+    // parameters to suppress:
+    
+    DefineSuppressedParameters();
+    
+    // Shield Selection Default
+    
+    fUseTigressPositions = false;
+    
+    fDetectorShieldSelect = 1 ; // Include suppressors by default.
+    fExtensionSuppressorLocation = 0 ; // Back by default (Detector Forward)
+    fHevimetSelector = 0 ; // Chooses whether or not to include a hevimet
+    
+    fCustomDetectorNumber 		= 1 ; // detNum
+    fCustomDetectorPosition  = 1 ; // posNum
+    
+    // create commands for interactive definition
+    
+    fDetectorMessenger = new DetectorMessenger(this);
+    
+    // ensure the global field is initialized
+    //(void)GlobalField::getObject();
+    
+    //expHallMagField = new MagneticField(); // Global field is set to zero
+    
+    fGriffinDetectorsMapIndex = 0;
+    for(G4int i = 0; i < 16; ++i) {
+    	fGriffinDetectorsMap[i] = 0;
+    	for(G4int j = 0; j < 4; ++j) {
+    		fGriffinDeadLayer[i][j] = -1;
+    	}
+    }
+    
+    fDescantColor = "white";
+    fDescantRotation.setX(M_PI);
+    fDescantRotation.setY(0.);
+    fDescantRotation.setZ(0.);
+    
+    fApparatusLayeredTarget=0;
+    
     // TI-STAR
     fTISTARSiDimensions = G4ThreeVector(0.,0.,0.);
     fTISTARDistFromBeam = 0.;
     fTISTARGapZ = 0.;
     fTISTARSiCentered = false;
-
-	fGridCell = false;
-	fGriffin  = false;
-	fLaBr     = false;
-	fAncBgo   = false;
-	fNaI      = false;
-	fSceptar  = false;
-	fEightPi  = false;
-	fSpice    = false;
-	fPaces    = false;
-	fDescant  = false;
-	fTestcan  = false;
+    
+    fGridCell = false;
+    fGriffin  = false;
+    fLaBr     = false;
+    fAncBgo   = false;
+    fNaI      = false;
+    fSceptar  = false;
+    fEightPi  = false;
+    fSpice    = false;
+    fPaces    = false;
+    fDescant  = false;
+    fTestcan  = false;
     fTISTAR   = false;
 }
 
@@ -1007,278 +1007,278 @@ bool DetectorConstruction::CheckVolumeName(G4String volumeName) {
 }
 
 DetectorProperties DetectorConstruction::ParseVolumeName(G4String volumeName) {
-	DetectorProperties result;
-	// GRIFFIN detectors have the detector and crystal number in their names
-	if(volumeName.find("germaniumBlock1") != G4String::npos) {
-		// strip "germaniumBlock1_" (16 characters) and everything before from the string
-		std::string tmpString = volumeName.substr(volumeName.find("germaniumBlock1")+16);
-		// replace all '_' with spaces so we can just use istringstream::operator>>
-		std::replace(tmpString.begin(), tmpString.end(), '_', ' ');
-		// create istringstream from the stripped and converted stream, and read detector and crystal number
-		std::istringstream is(tmpString);
-		is>>result.detectorNumber>>result.crystalNumber;
-		// converting this number to a "true" detector number isn't necessary anymore since we use the real number and not the assembly/imprint number
-		result.systemID = 1000;
-		return result;
-	}
-
-	if(volumeName.find("germaniumDlsBlock1") != G4String::npos) {
-		// strip "germaniumDlsBlock1_" (16 characters) and everything before from the string
-		std::string tmpString = volumeName.substr(volumeName.find("germaniumDlsBlock1")+19);
-		// replace all '_' with spaces so we can just use istringstream::operator>>
-		std::replace(tmpString.begin(), tmpString.end(), '_', ' ');
-		// create istringstream from the stripped and converted stream, and read detector and crystal number
-		std::istringstream is(tmpString);
-		is>>result.detectorNumber>>result.crystalNumber;
-		// converting this number to a "true" detector number isn't necessary anymore since we use the real number and not the assembly/imprint number
-		result.systemID = 1000;
-		return result;
-	}
-
-	// Spice detectors also have the number in their name
-	if(volumeName.find("SiSegmentPhys") != G4String::npos) {
-		// strip "SiSegmentPhys_" (13 characters) and everything before from the string
-		std::string tmpString = volumeName.substr(volumeName.find("SiSegmentPhys")+13);
-		// replace all '_' with spaces so we can just use istringstream::operator>>
-		std::replace(tmpString.begin(), tmpString.end(), '_', ' ');
-		// create istringstream from the stripped and converted stream, and read detector and crystal number
-		std::istringstream is(tmpString);
-		is>>result.detectorNumber>>result.crystalNumber;
-		result.systemID = 10;
-		return result;
-	}
-
-	// Trific detectors have the number in their name too
-	if(volumeName.find("TrificGasCell") != G4String::npos) {
-		// strip "TrificGasCell_" (13 characters) and everything before from the string
-		std::string tmpString = volumeName.substr(volumeName.find("TrificGasCell")+13);
-		// replace all '_' with spaces so we can just use istringstream::operator>>
-		std::replace(tmpString.begin(), tmpString.end(), '_', ' ');
-		// create istringstream from the stripped and converted stream, and read detector and crystal number
-		std::istringstream is(tmpString);
-		is>>result.detectorNumber;
-		result.systemID = 10;//?? why the same as SiSegmentPhys??
-		return result;
-	}
-
-	// for all other detectors we need to get the assembly and imprint number
-	// the name has the form av_<assembly volume number>_impr_<imprint number>_<volume name>_pv_<??? number>
-	if(volumeName.find("av_") != 0 || volumeName.find("_impr_") == G4String::npos) {
-		std::cerr<<"wrongly formed volume name '"<<volumeName<<"', should start with 'av_' and have '_impr_' in it?"<<std::endl;
-		throw std::invalid_argument("unexpected volume name");
-	}
-	// create new string that starts with the assembly number and use stringstream to read it
-	std::string tmpString = volumeName.substr(3);
-	// replace all '_' with spaces so we can just use istringstream::operator>>
-	std::replace(tmpString.begin(), tmpString.end(), '_', ' ');
-	std::istringstream is(tmpString);
-	G4int assemblyNumber;
-	is>>assemblyNumber;
-
-	// create new string that starts with the imprint number ('_' have been replace by ' ') and use stringstream to read it
-	tmpString = tmpString.substr(tmpString.find(" impr ")+6);
-	is.str(tmpString);
-	G4int imprintNumber;
-	is>>imprintNumber;
-
-	// for griffin "components" (aka suppressors) we get the detector number from the assembly volume number (av-5)/fNumberOfAssemblyVols
-	// and the crystal number is the imprint number (fNumberOfAssemblyVols was hard-coded to be 13 in the constructor)
-	result.detectorNumber = static_cast<G4int>(ceil((assemblyNumber-5.)/13.));
-	result.crystalNumber = imprintNumber;
-	if(volumeName.find("backQuarterSuppressor") != G4String::npos) {
-		result.systemID = 1050;
-		return result;
-	}
-
-	if(volumeName.find("leftSuppressorExtension") != G4String::npos) {
-		result.systemID = 1010;
-		return result;
-	}
-
-	if(volumeName.find("rightSuppressorExtension") != G4String::npos) {
-		result.systemID = 1020;
-		return result;
-	}
-
-	if(volumeName.find("leftSuppressorCasing") != G4String::npos) {
-		result.systemID = 1030;
-		return result;
-	}
-
-	if(volumeName.find("rightSuppressorCasing") != G4String::npos) {
-		result.systemID = 1040;
-		return result;
-	}
-
-	// for ancillary BGOs the detector number is the (ceiling of the) imprint number divided by 3
-	// and the crystal number is the imprint number minus 3 times the detector number minus one
-	result.detectorNumber = static_cast<G4int>(ceil(imprintNumber/3.0));
-	result.crystalNumber = imprintNumber - (result.detectorNumber-1)*3;
-	if(volumeName.find("ancillaryBgoBlock") != G4String::npos) {
-		result.systemID = 3000;
-		return result;
-	}
-
-	// for "generic" detectors the detector number is the imprint number
-	result.detectorNumber = imprintNumber;
-	result.crystalNumber = 0;
-	if(volumeName.find("lanthanumBromideCrystalBlock") != G4String::npos) {
-		result.systemID = 2000;
-		return result;
-	}
-
-	if(volumeName.find("sodiumIodideCrystalBlock") != G4String::npos) {
-		result.systemID = 4000;
-		return result;
-	}
-
-	if(volumeName.find("pacesSiliconBlockLog") != G4String::npos) {
-		result.systemID = 50;
-		return result;
-	}
-
-	if(volumeName.find("sceptarSquareScintillatorLog") != G4String::npos) {
-		// to number SCEPTAR paddles correctly:
-		switch(result.detectorNumber) {
-			case 0:
-				result.detectorNumber = 5;
-				break;
-			case 1:
-				result.detectorNumber = 9;
-				break;
-			case 2:
-				result.detectorNumber = 8;
-				break;
-			case 3:
-				result.detectorNumber = 7;
-				break;
-			case 4:
-				result.detectorNumber = 6;
-				break;
-			case 5:
-				result.detectorNumber = 13;
-				break;
-			case 6:
-				result.detectorNumber = 12;
-				break;
-			case 7:
-				result.detectorNumber = 11;
-				break;
-			case 8:
-				result.detectorNumber = 10;
-				break;
-			case 9:
-				result.detectorNumber = 14;
-				break;
-			default:
-				std::cerr<<"Unknown detector number "<<result.detectorNumber<<" for square SCEPTAR!"<<std::endl;
-				break;
-		}
-		result.systemID = 5000;
-		return result;
-	}
-
-	if(volumeName.find("sceptarAngledScintillatorLog") != G4String::npos) {
-		// to number SCEPTAR paddles correctly (1 stays 1):
-		switch(result.detectorNumber) {
-			case 0:
-				result.detectorNumber = 0;
-				break;
-			case 1:
-				result.detectorNumber = 4;
-				break;
-			case 2:
-				result.detectorNumber = 3;
-				break;
-			case 3:
-				result.detectorNumber = 2;
-				break;
-			case 4:
-				result.detectorNumber = 1;
-				break;
-			case 5:
-				result.detectorNumber = 18;
-				break;
-			case 6:
-				result.detectorNumber = 17;
-				break;
-			case 7:
-				result.detectorNumber = 16;
-				break;
-			case 8:
-				result.detectorNumber = 15;
-				break;
-			case 9:
-				result.detectorNumber = 19;
-				break;
-			default:
-				std::cerr<<"Unknown detector number "<<result.detectorNumber<<" for angled SCEPTAR!"<<std::endl;
-				break;
-		}
-		result.systemID = 5000;
-		return result;
-	}
-
-	if(volumeName.find("8piGermaniumBlockLog") != G4String::npos) {
-		result.systemID = 6000;
-		return result;
-	}
-
-	if(volumeName.find("8piInnerBGOAnnulus") != G4String::npos) {
-		result.systemID = 6010;
-		return result;
-	}
-
-	if(volumeName.find("8piOuterLowerBGOAnnulus") != G4String::npos) {
-		result.systemID = 6020;
-		return result;
-	}
-
-	if(volumeName.find("8piOuterUpperBGOAnnulus") != G4String::npos) {
-		result.systemID = 6030;
-		return result;
-	}
-
-	if(volumeName.find("gridcellLog") != G4String::npos) {
-		result.systemID = 7000;
-		return result;
-	}
-
-	if(volumeName.find("blueScintillatorVolumeLog") != G4String::npos) {
-		result.systemID = 8010;
-		return result;
-	}
-
-	if(volumeName.find("greenScintillatorVolumeLog") != G4String::npos) {
-		result.systemID = 8020;
-		return result;
-	}
-
-	if(volumeName.find("redScintillatorVolumeLog") != G4String::npos) {
-		result.systemID = 8030;
-		return result;
-	}
-
-	if(volumeName.find("whiteScintillatorVolumeLog") != G4String::npos) {
-		result.systemID = 8040;
-		return result;
-	}
-
-	if(volumeName.find("yellowScintillatorVolumeLog") != G4String::npos) {
-		result.systemID = 8050;
-		return result;
-	}
-
-	if(volumeName.find("testcanScintillatorLog") != G4String::npos) {
-		result.systemID = 8500;
-		return result;
-	}
-	
+    DetectorProperties result;
+    // GRIFFIN detectors have the detector and crystal number in their names
+    if(volumeName.find("germaniumBlock1") != G4String::npos) {
+    	// strip "germaniumBlock1_" (16 characters) and everything before from the string
+    	std::string tmpString = volumeName.substr(volumeName.find("germaniumBlock1")+16);
+    	// replace all '_' with spaces so we can just use istringstream::operator>>
+    	std::replace(tmpString.begin(), tmpString.end(), '_', ' ');
+    	// create istringstream from the stripped and converted stream, and read detector and crystal number
+    	std::istringstream is(tmpString);
+    	is>>result.detectorNumber>>result.crystalNumber;
+    	// converting this number to a "true" detector number isn't necessary anymore since we use the real number and not the assembly/imprint number
+    	result.systemID = 1000;
+    	return result;
+    }
+    
+    if(volumeName.find("germaniumDlsBlock1") != G4String::npos) {
+    	// strip "germaniumDlsBlock1_" (16 characters) and everything before from the string
+    	std::string tmpString = volumeName.substr(volumeName.find("germaniumDlsBlock1")+19);
+    	// replace all '_' with spaces so we can just use istringstream::operator>>
+    	std::replace(tmpString.begin(), tmpString.end(), '_', ' ');
+    	// create istringstream from the stripped and converted stream, and read detector and crystal number
+    	std::istringstream is(tmpString);
+    	is>>result.detectorNumber>>result.crystalNumber;
+    	// converting this number to a "true" detector number isn't necessary anymore since we use the real number and not the assembly/imprint number
+    	result.systemID = 1000;
+    	return result;
+    }
+    
+    // Spice detectors also have the number in their name
+    if(volumeName.find("SiSegmentPhys") != G4String::npos) {
+    	// strip "SiSegmentPhys_" (13 characters) and everything before from the string
+    	std::string tmpString = volumeName.substr(volumeName.find("SiSegmentPhys")+13);
+    	// replace all '_' with spaces so we can just use istringstream::operator>>
+    	std::replace(tmpString.begin(), tmpString.end(), '_', ' ');
+    	// create istringstream from the stripped and converted stream, and read detector and crystal number
+    	std::istringstream is(tmpString);
+    	is>>result.detectorNumber>>result.crystalNumber;
+    	result.systemID = 10;
+    	return result;
+    }
+    
+    // Trific detectors have the number in their name too
+    if(volumeName.find("TrificGasCell") != G4String::npos) {
+    	// strip "TrificGasCell_" (13 characters) and everything before from the string
+    	std::string tmpString = volumeName.substr(volumeName.find("TrificGasCell")+13);
+    	// replace all '_' with spaces so we can just use istringstream::operator>>
+    	std::replace(tmpString.begin(), tmpString.end(), '_', ' ');
+    	// create istringstream from the stripped and converted stream, and read detector and crystal number
+    	std::istringstream is(tmpString);
+    	is>>result.detectorNumber;
+    	result.systemID = 10;//?? why the same as SiSegmentPhys??
+    	return result;
+    }
+    
+    // for all other detectors we need to get the assembly and imprint number
+    // the name has the form av_<assembly volume number>_impr_<imprint number>_<volume name>_pv_<??? number>
+    if(volumeName.find("av_") != 0 || volumeName.find("_impr_") == G4String::npos) {
+    	std::cerr<<"wrongly formed volume name '"<<volumeName<<"', should start with 'av_' and have '_impr_' in it?"<<std::endl;
+    	throw std::invalid_argument("unexpected volume name");
+    }
+    // create new string that starts with the assembly number and use stringstream to read it
+    std::string tmpString = volumeName.substr(3);
+    // replace all '_' with spaces so we can just use istringstream::operator>>
+    std::replace(tmpString.begin(), tmpString.end(), '_', ' ');
+    std::istringstream is(tmpString);
+    G4int assemblyNumber;
+    is>>assemblyNumber;
+    
+    // create new string that starts with the imprint number ('_' have been replace by ' ') and use stringstream to read it
+    tmpString = tmpString.substr(tmpString.find(" impr ")+6);
+    is.str(tmpString);
+    G4int imprintNumber;
+    is>>imprintNumber;
+    
+    // for griffin "components" (aka suppressors) we get the detector number from the assembly volume number (av-5)/fNumberOfAssemblyVols
+    // and the crystal number is the imprint number (fNumberOfAssemblyVols was hard-coded to be 13 in the constructor)
+    result.detectorNumber = static_cast<G4int>(ceil((assemblyNumber-5.)/13.));
+    result.crystalNumber = imprintNumber;
+    if(volumeName.find("backQuarterSuppressor") != G4String::npos) {
+    	result.systemID = 1050;
+    	return result;
+    }
+    
+    if(volumeName.find("leftSuppressorExtension") != G4String::npos) {
+    	result.systemID = 1010;
+    	return result;
+    }
+    
+    if(volumeName.find("rightSuppressorExtension") != G4String::npos) {
+    	result.systemID = 1020;
+    	return result;
+    }
+    
+    if(volumeName.find("leftSuppressorCasing") != G4String::npos) {
+    	result.systemID = 1030;
+    	return result;
+    }
+    
+    if(volumeName.find("rightSuppressorCasing") != G4String::npos) {
+    	result.systemID = 1040;
+    	return result;
+    }
+    
+    // for ancillary BGOs the detector number is the (ceiling of the) imprint number divided by 3
+    // and the crystal number is the imprint number minus 3 times the detector number minus one
+    result.detectorNumber = static_cast<G4int>(ceil(imprintNumber/3.0));
+    result.crystalNumber = imprintNumber - (result.detectorNumber-1)*3;
+    if(volumeName.find("ancillaryBgoBlock") != G4String::npos) {
+    	result.systemID = 3000;
+    	return result;
+    }
+    
+    // for "generic" detectors the detector number is the imprint number
+    result.detectorNumber = imprintNumber;
+    result.crystalNumber = 0;
+    if(volumeName.find("lanthanumBromideCrystalBlock") != G4String::npos) {
+    	result.systemID = 2000;
+    	return result;
+    }
+    
+    if(volumeName.find("sodiumIodideCrystalBlock") != G4String::npos) {
+    	result.systemID = 4000;
+    	return result;
+    }
+    
+    if(volumeName.find("pacesSiliconBlockLog") != G4String::npos) {
+    	result.systemID = 50;
+    	return result;
+    }
+    
+    if(volumeName.find("sceptarSquareScintillatorLog") != G4String::npos) {
+    	// to number SCEPTAR paddles correctly:
+    	switch(result.detectorNumber) {
+    		case 0:
+    			result.detectorNumber = 5;
+    			break;
+    		case 1:
+    			result.detectorNumber = 9;
+    			break;
+    		case 2:
+    			result.detectorNumber = 8;
+    			break;
+    		case 3:
+    			result.detectorNumber = 7;
+    			break;
+    		case 4:
+    			result.detectorNumber = 6;
+    			break;
+    		case 5:
+    			result.detectorNumber = 13;
+    			break;
+    		case 6:
+    			result.detectorNumber = 12;
+    			break;
+    		case 7:
+    			result.detectorNumber = 11;
+    			break;
+    		case 8:
+    			result.detectorNumber = 10;
+    			break;
+    		case 9:
+    			result.detectorNumber = 14;
+    			break;
+    		default:
+    			std::cerr<<"Unknown detector number "<<result.detectorNumber<<" for square SCEPTAR!"<<std::endl;
+    			break;
+    	}
+    	result.systemID = 5000;
+    	return result;
+    }
+    
+    if(volumeName.find("sceptarAngledScintillatorLog") != G4String::npos) {
+    	// to number SCEPTAR paddles correctly (1 stays 1):
+    	switch(result.detectorNumber) {
+    		case 0:
+    			result.detectorNumber = 0;
+    			break;
+    		case 1:
+    			result.detectorNumber = 4;
+    			break;
+    		case 2:
+    			result.detectorNumber = 3;
+    			break;
+    		case 3:
+    			result.detectorNumber = 2;
+    			break;
+    		case 4:
+    			result.detectorNumber = 1;
+    			break;
+    		case 5:
+    			result.detectorNumber = 18;
+    			break;
+    		case 6:
+    			result.detectorNumber = 17;
+    			break;
+    		case 7:
+    			result.detectorNumber = 16;
+    			break;
+    		case 8:
+    			result.detectorNumber = 15;
+    			break;
+    		case 9:
+    			result.detectorNumber = 19;
+    			break;
+    		default:
+    			std::cerr<<"Unknown detector number "<<result.detectorNumber<<" for angled SCEPTAR!"<<std::endl;
+    			break;
+    	}
+    	result.systemID = 5000;
+    	return result;
+    }
+    
+    if(volumeName.find("8piGermaniumBlockLog") != G4String::npos) {
+    	result.systemID = 6000;
+    	return result;
+    }
+    
+    if(volumeName.find("8piInnerBGOAnnulus") != G4String::npos) {
+    	result.systemID = 6010;
+    	return result;
+    }
+    
+    if(volumeName.find("8piOuterLowerBGOAnnulus") != G4String::npos) {
+    	result.systemID = 6020;
+    	return result;
+    }
+    
+    if(volumeName.find("8piOuterUpperBGOAnnulus") != G4String::npos) {
+    	result.systemID = 6030;
+    	return result;
+    }
+    
+    if(volumeName.find("gridcellLog") != G4String::npos) {
+    	result.systemID = 7000;
+    	return result;
+    }
+    
+    if(volumeName.find("blueScintillatorVolumeLog") != G4String::npos) {
+    	result.systemID = 8010;
+    	return result;
+    }
+    
+    if(volumeName.find("greenScintillatorVolumeLog") != G4String::npos) {
+    	result.systemID = 8020;
+    	return result;
+    }
+    
+    if(volumeName.find("redScintillatorVolumeLog") != G4String::npos) {
+    	result.systemID = 8030;
+    	return result;
+    }
+    
+    if(volumeName.find("whiteScintillatorVolumeLog") != G4String::npos) {
+    	result.systemID = 8040;
+    	return result;
+    }
+    
+    if(volumeName.find("yellowScintillatorVolumeLog") != G4String::npos) {
+    	result.systemID = 8050;
+    	return result;
+    }
+    
+    if(volumeName.find("testcanScintillatorLog") != G4String::npos) {
+    	result.systemID = 8500;
+    	return result;
+    }
+    
     if(volumeName.find("TISTARSiLayer") != G4String::npos) {
-		result.systemID = 9000 + assemblyNumber*10 + imprintNumber;
-		return result;
-	}
-
+    	result.systemID = 9000 + assemblyNumber*10 + imprintNumber;
+    	return result;
+    }
+    
 	return result;
 }
 

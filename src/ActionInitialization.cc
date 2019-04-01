@@ -50,35 +50,35 @@ ActionInitialization::~ActionInitialization()
 
 void ActionInitialization::BuildForMaster() const
 {
-	// Actions
-	// the master only need a HistoManager to handle histograms, so we pass a null
-	// pointer instead of a pointer to a HistoManager unless we use SPICE
-	// That was the idea, but at this point spice hasn't been created yet, so we can't
-	// do this!!!
-	auto histManager = new HistoManager(fDetector);
-	//SetUserAction(new RunAction(histManager));
-	SetUserAction(new RunAction(histManager,new PrimaryGeneratorAction(histManager))); // this might not work for multithreaded...
+    // Actions
+    // the master only need a HistoManager to handle histograms, so we pass a null
+    // pointer instead of a pointer to a HistoManager unless we use SPICE
+    // That was the idea, but at this point spice hasn't been created yet, so we can't
+    // do this!!!
+    auto histManager = new HistoManager(fDetector);
+    //SetUserAction(new RunAction(histManager));
+    SetUserAction(new RunAction(histManager,new PrimaryGeneratorAction(histManager))); // this might not work for multithreaded...
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void ActionInitialization::Build() const
 {
-	// Actions
-	//
-	auto histManager = new HistoManager(fDetector);
+    // Actions
+    //
+    auto histManager = new HistoManager(fDetector);
     
     PrimaryGeneratorAction* primaryGen = new PrimaryGeneratorAction(histManager);
     SetUserAction(primaryGen);
-
-	RunAction* runAction = new RunAction(histManager,primaryGen);
-	SetUserAction(runAction);
-
-	EventAction* eventAction = new EventAction(runAction, histManager);
-	SetUserAction(eventAction);
-
-	SteppingAction* steppingAction = new SteppingAction(fDetector, eventAction);
-	SetUserAction(steppingAction);
+    
+    RunAction* runAction = new RunAction(histManager,primaryGen);
+    SetUserAction(runAction);
+    
+    EventAction* eventAction = new EventAction(runAction, histManager);
+    SetUserAction(eventAction);
+    
+    SteppingAction* steppingAction = new SteppingAction(fDetector, eventAction);
+    SetUserAction(steppingAction);
 }  
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
