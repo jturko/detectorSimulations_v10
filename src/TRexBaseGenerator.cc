@@ -15,10 +15,3 @@ TRexBaseGenerator::~TRexBaseGenerator() {
 	// TODO Auto-generated destructor stub
 }
 
-void TRexBaseGenerator::FillTree() {
-	fTree->Fill();
-}
-
-void TRexBaseGenerator::SetTree(TTree *tree){
-	fTree = tree;
-}

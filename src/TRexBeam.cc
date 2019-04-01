@@ -281,39 +281,7 @@ void TRexBeam::CalculateReactionEnergyInTheTarget() {
 
 }
 
-void TRexBeam::CreateTreeBranches() {
-	if(!fTree) {
-		std::cout << "\n\n\nTRexBeam: Tree doesn't exist!\n\n" << std::endl;
-	}
-	fTree->Branch("beamEnergy", &fBeamEnergy, "beamEnergy/D");
-	fTree->Branch("beamWidth", &fBeamWidth, "beamWidth/D");
-	fTree->Branch("reactionEnergy", &fReactionEnergy, "reactionEnergy/D");
-	fTree->Branch("reactionEnergyCM", &fReactionEnergyCM, "reactionEnergyCM/D");
-	fTree->Branch("reactionX", &fReactionX, "reactionX/D");
-	fTree->Branch("reactionY", &fReactionY, "reactionY/D");
-	fTree->Branch("reactionZ", &fReactionZ, "reactionZ/D");
-	fTree->Branch("thetaCM", &fThetaCM, "thetaCM/D");
-	fTree->Branch("ejectileTheta", &fEjectileTheta, "ejectileTheta/D");
-	fTree->Branch("recoilTheta", &fRecoilTheta, "recoilTheta/D");
-	fTree->Branch("ejectilePhi", &fEjectilePhi, "ejectilePhi/D");
-	fTree->Branch("recoilPhi", &fRecoilPhi, "recoilPhi/D");
-	fTree->Branch("ejectileEnergy", &fEjectileEnergy, "ejectileEnergy/D");
-	fTree->Branch("recoilEnergy", &fRecoilEnergy, "recoilEnergy/D");
-	fTree->Branch("projectileZ", &fProjectileZ, "projectileZ/I");
-	fTree->Branch("projectileA", &fProjectileA, "projectileA/I");
-	fTree->Branch("targetZ", &fTargetZ, "targetZ/I");
-	fTree->Branch("targetA", &fTargetA, "targetA/I");
-	fTree->Branch("ejectileZ", &fEjectileZ, "ejectileZ/I");
-	fTree->Branch("ejectileA", &fEjectileA, "ejectileA/I");
-	fTree->Branch("recoilZ", &fRecoilZ, "recoilZ/I");
-	fTree->Branch("recoilA", &fRecoilA, "recoilA/I");
-	fTree->Branch("scatteringProbability", &fScatteringProbability, "scatteringProbability/D");
-	fTree->Branch("reaction", &fReaction, "reaction/i");
-
-	fTree->Branch("gammaTheta", &fGammaTheta);
-	fTree->Branch("gammaPhi", &fGammaPhi);
-	fTree->Branch("gammaEnergy", &fGammaEnergy);
-
+void TRexBeam::CreateNtupleBranches() {
     // w/ Griffinv10
     G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
     fNtupleID = analysisManager->CreateNtuple("treeGen", "generator output"); 
@@ -450,9 +418,7 @@ void TRexBeam::SetGammaGun(G4Event *anEvent) {
 }
 
 // w/ Griffinv10
-void TRexBeam::FillTree() { 
-    fTree->Fill();
-
+void TRexBeam::FillNtuple() { 
     G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
     analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[0], fBeamEnergy);
     analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[1], fBeamWidth);

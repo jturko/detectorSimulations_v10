@@ -47,8 +47,6 @@
 #include "HistoManager.hh"
 #include "BeamDistribution.hh"
 
-#include "TTree.h"
-
 class G4ParticleGun;
 class G4GeneralParticleSource;
 class G4Event;
@@ -94,7 +92,7 @@ public:
 
     void SetGenerator();
     TRexBaseGenerator* GetCurrentGenerator() { return fCurrentGenerator; }    
-    void SetTree(TTree* tree);
+    void CreateNtupleBranches();
 
 private:
     //variables
@@ -127,7 +125,6 @@ private:
  
     G4bool fUseTRexGenerator;
     TRexBaseGenerator* fCurrentGenerator;     
-    
     TRexMessenger*  fTRexMessenger;
     
 };

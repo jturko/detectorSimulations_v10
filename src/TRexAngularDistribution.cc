@@ -93,8 +93,9 @@ void TRexAngularDistribution::GeneratePrimaries(G4Event *anEvent) {
 	if(TRexSettings::Get()->SimulateGammas() && fReaction < fNbOfLevels) {
 		SetGammaGun(anEvent);
 	}
-
-	FillTree();
+    
+    // w Griffinv10
+	FillNtuple();
 }
 
 void TRexAngularDistribution::SetEjectileAndRecoil() {

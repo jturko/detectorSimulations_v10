@@ -64,11 +64,7 @@ void RunAction::BeginOfRunAction(const G4Run* aRun)
 		fHistoManager->Book();
 		fHistoManager->GetDetectorConstruction()->SetProperties();
 	}
-
-    fOutputFile = new TFile("generator_output.root","recreate");
-    fOutputFile->cd();
-    fGeneratorTree = new TTree("treeGen","the TRex primary generator tree");
-    fPrimaryGeneratorAction->SetTree(fGeneratorTree);
+    fPrimaryGeneratorAction->CreateNtupleBranches();
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

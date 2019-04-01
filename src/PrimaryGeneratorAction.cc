@@ -400,7 +400,6 @@ void PrimaryGeneratorAction::SetGenerator() {
 
 }
 
-void PrimaryGeneratorAction::SetTree(TTree* tree) {
-    fCurrentGenerator->SetTree(tree);
-    fCurrentGenerator->CreateTreeBranches();
+void PrimaryGeneratorAction::CreateNtupleBranches() {
+    fCurrentGenerator->CreateNtupleBranches();
 }

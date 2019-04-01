@@ -47,8 +47,8 @@ class TRexBeam : public TRexBaseGenerator {
 		//void GeneratePrimaries(G4Event *anEvent);
 		//void CreateTreeBranches(TTree &tree);
 		//void FillTree(TTree &tree);
-		void FillTree();
-		void CreateTreeBranches();
+		void FillNtuple();
+		void CreateNtupleBranches();
 		
 	protected:
 		// shoot fReactionX, fReactionY, fReactionZ of the source

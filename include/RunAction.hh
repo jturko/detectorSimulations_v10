@@ -63,7 +63,6 @@ private:
 
     PrimaryGeneratorAction* fPrimaryGeneratorAction;
     TFile* fOutputFile;
-    TTree* fGeneratorTree;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

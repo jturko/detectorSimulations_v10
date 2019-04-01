@@ -21,13 +21,10 @@ class TRexBaseGenerator {
 		virtual void GeneratePrimaries(G4Event*) {}
 		//virtual void CreateTreeBranches(TTree &tree) {};
 		//virtual void FillTree(TTree &tree);
-		virtual void CreateTreeBranches() {}
-		virtual void FillTree();
-
-		void SetTree(TTree* tree);
+		virtual void CreateNtupleBranches() {} 
+		virtual void FillNtuple() {}
 
 	protected:
-		TTree* fTree;
 };
 
 #endif /* TREXBASEGENERATOR_HH_ */
