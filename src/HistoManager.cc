@@ -83,7 +83,7 @@ void HistoManager::Book() {
 	///////////////////////////////////////////////////////////////////
 	// Create 1 ntuple
 	if(fHitTrackerBool) {
-		analysisManager->CreateNtuple("ntuple", "HitTracker");
+	    analysisManager->CreateNtuple("ntuple", "HitTracker");
 		fNtColIdHit[0] = analysisManager->CreateNtupleIColumn("eventNumber");
 		fNtColIdHit[1] = analysisManager->CreateNtupleIColumn("trackID");
 		fNtColIdHit[2] = analysisManager->CreateNtupleIColumn("parentID");

@@ -11,6 +11,8 @@
 #include "TRexAngularDistribution.hh"
 #include "TRexSettings.hh"
 
+#include "g4root.hh"
+
 // Leila: Flat reactionX/Y/Z distributions come from TRexBeam.cc TRexBeam ::ShootReactionPosition() 
 
 TRexAngularDistribution::TRexAngularDistribution() :
@@ -657,3 +659,4 @@ void TRexAngularDistribution::FillMiniballLevels() {
 		}
 	}
 }
+
