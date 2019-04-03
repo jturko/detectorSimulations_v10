@@ -55,8 +55,12 @@
 
 #include "TRexBaseGenerator.hh"
 #include "TRexAngularDistribution.hh"
-#include "TRexMessenger.hh"
+#include "TRexTestSource.hh"
+#include "TRexAlphaSource.hh"
+#include "TRexRutherford.hh"
+#include "TRexBeamIn.hh"
 
+#include "TRexMessenger.hh"
 #include "TRexSettings.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -379,20 +383,20 @@ void PrimaryGeneratorAction::SetGenerator() {
     fUseTRexGenerator = true; fUseGPS = false;
     std::string generatorName = TRexSettings::Get()->GetPrimaryGenerator();
     if(generatorName == "TestSource") {
-        //std::cout<<std::endl<<"Using test source ....\n"<<std::endl;
-        //fCurrentGenerator = new TRexTestSource;
+        std::cout<<std::endl<<"Using test source ....\n"<<std::endl;
+        fCurrentGenerator = new TRexTestSource;
     } else if(generatorName == "Rutherford") {
-        //std::cout<<std::endl<<"Using Rutherford scattering ....\n"<<std::endl;
-        //fCurrentGenerator = new TRexRutherford;
+        std::cout<<std::endl<<"Using Rutherford scattering ....\n"<<std::endl;
+        fCurrentGenerator = new TRexRutherford;
     } else if(generatorName == "AngularDistribution") {
         std::cout<<std::endl<<"Using given angular distribution ....\n"<<std::endl;
         fCurrentGenerator = new TRexAngularDistribution;
     } else if(generatorName == "AlphaSource") {
-        //std::cout<<std::endl<<"Using alpha source ....\n"<<std::endl;
-        //fCurrentGenerator = new TRexAlphaSource;
+        std::cout<<std::endl<<"Using alpha source ....\n"<<std::endl;
+        fCurrentGenerator = new TRexAlphaSource;
     } else if(generatorName == "BeamIn") {
-        //std::cout<<std::endl<<"Using beamIn source ....\n"<<std::endl;
-        //fCurrentGenerator = new TRexBeamIn;
+        std::cout<<std::endl<<"Using beamIn source ....\n"<<std::endl;
+        fCurrentGenerator = new TRexBeamIn;
     } else {
         std::cout<<std::endl<<"Unknown generator !!!\n"<<std::endl;
         fCurrentGenerator = NULL;

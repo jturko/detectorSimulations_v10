@@ -284,7 +284,7 @@ void TRexBeam::CalculateReactionEnergyInTheTarget() {
 void TRexBeam::CreateNtupleBranches() {
     // w/ Griffinv10
     G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
-    fNtupleID = analysisManager->CreateNtuple("treeGen", "generator output"); 
+    fNtupleID = analysisManager->CreateNtuple("treeGen", "generator output from TRexBeam"); 
     fNtupleColID[0] = analysisManager->CreateNtupleDColumn(fNtupleID, "beamEnergy");
     fNtupleColID[1] = analysisManager->CreateNtupleDColumn(fNtupleID, "beamWidth");
     fNtupleColID[2] = analysisManager->CreateNtupleDColumn(fNtupleID, "reactionEnergy");

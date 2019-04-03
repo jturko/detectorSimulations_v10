@@ -12,6 +12,8 @@
 
 #include "G4Event.hh"
 
+const G4int MAX_NTUPLE_COLUMNS = 30;
+
 class TRexBaseGenerator {
 	public:
 		TRexBaseGenerator();
@@ -25,6 +27,8 @@ class TRexBaseGenerator {
 		virtual void FillNtuple() {}
 
 	protected:
+        G4int fNtupleID;
+        G4int fNtupleColID[MAX_NTUPLE_COLUMNS];
 };
 
 #endif /* TREXBASEGENERATOR_HH_ */

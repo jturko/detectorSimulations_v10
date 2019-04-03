@@ -36,8 +36,6 @@
 
 class G4ParticleGun;
 
-const G4int MAX_NTUPLE_COLUMNS = 30;
-
 class TRexBeam : public TRexBaseGenerator 
 {
 public:
@@ -140,9 +138,6 @@ protected:
     double* fYaxs;
     TRandom fRndReaction;
     int fEventCounter;
-    
-    G4int fNtupleID;
-    G4int fNtupleColID[MAX_NTUPLE_COLUMNS];
 };
 
 #endif /* TREXBEAMSOURCE_HH_ */
