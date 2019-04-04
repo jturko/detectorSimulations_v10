@@ -86,11 +86,11 @@ void TRexTestSource::CreateNtupleBranches() {
 void TRexTestSource::FillNtuple() {
     G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
     analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[0], fReactionEnergy);
-    analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[0], fReactionX);
-    analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[0], fReactionY);
-    analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[0], fReactionZ);
-    analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[0], fThetaCM);
-    analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[0], fPhi);
+    analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[1], fReactionX);
+    analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[2], fReactionY);
+    analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[3], fReactionZ);
+    analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[4], fThetaCM);
+    analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[5], fPhi);
     analysisManager->AddNtupleRow(fNtupleID);
 }
 
