@@ -30,38 +30,38 @@ TRexAlphaSource::~TRexAlphaSource() {
  ************************************************************/
 void TRexAlphaSource::GeneratePrimaries(G4Event *anEvent) {
 	//choose the emitted alpha
-	double tmp = CLHEP::RandFlat::shoot(0.,3.); 
+	double tmp = G4RandFlat::shoot(0.,3.); 
 
 	/*if(tmp < 1) { //239Pu #####
-		tmp = CLHEP::RandFlat::shoot(0., 99.82);//70.77+17.11+11.94
+		tmp = G4RandFlat::shoot(0., 99.82);//70.77+17.11+11.94
 
 		if(tmp < 70.77) {
-			fReactionEnergy = 5156.59*CLHEP::keV;
+			fReactionEnergy = 5156.59*keV;
 		} else if(tmp < 70.77+17.11) {
-			fReactionEnergy = 5144.3*CLHEP::keV;
+			fReactionEnergy = 5144.3*keV;
 		} else {
-			fReactionEnergy = 5105.5*CLHEP::keV;
+			fReactionEnergy = 5105.5*keV;
 		}
 	} else if(tmp < 2) {//241Am
-		tmp = CLHEP::RandFlat::shoot(0., 97.9);//84.8+13.1
+		tmp = G4RandFlat::shoot(0., 97.9);//84.8+13.1
 
 		if(tmp < 84.8) {
-			fReactionEnergy = 5485.56*CLHEP::keV;
+			fReactionEnergy = 5485.56*keV;
 		} else {
-			fReactionEnergy = 5442.80*CLHEP::keV;
+			fReactionEnergy = 5442.80*keV;
 		}
 	} else {//244Cm
-		tmp = CLHEP::RandFlat::shoot(0., 100.);//76.4+23.6
+		tmp = G4RandFlat::shoot(0., 100.);//76.4+23.6
 
 		if(tmp < 76.4) {
-			fReactionEnergy = 5804.77*CLHEP::keV;
+			fReactionEnergy = 5804.77*keV;
 		} else {
-			fReactionEnergy = 5762.64*CLHEP::keV;
+			fReactionEnergy = 5762.64*keV;
 		}
 	} ##### */
 	
-	fReactionEnergy = 10000.*CLHEP::keV; // leila
-	//fReactionEnergy = CLHEP::RandFlat::shoot(0.,10000.)*CLHEP::keV; // leila
+	fReactionEnergy = 10000.*keV; // leila
+	//fReactionEnergy = G4RandFlat::shoot(0.,10000.)*keV; // leila
 
 	// shoot the alpha emission point
 	ShootReactionPosition();
@@ -87,25 +87,25 @@ void TRexAlphaSource::GeneratePrimaries(G4Event *anEvent) {
 }
 
 void TRexAlphaSource::ShootReactionPosition() {
-	G4double alphaSourceDiameter = TRexSettings::Get()->GetAlphaSourceDiameter() / CLHEP::mm;
+	G4double alphaSourceDiameter = TRexSettings::Get()->GetAlphaSourceDiameter() / mm;
 	G4double alphaSourceThickness = TRexSettings::Get()->GetAlphaSourceThickness();
-	G4double BeamDiameter = TRexSettings::Get()->GetBeamWidth() / CLHEP::mm;
+	G4double BeamDiameter = TRexSettings::Get()->GetBeamWidth() / mm;
 
 	do {
-		/**fReactionX = CLHEP::RandFlat::shoot(-alphaSourceDiameter / 2., alphaSourceDiameter / 2.);
-		fReactionY = CLHEP::RandFlat::shoot(-alphaSourceDiameter / 2., alphaSourceDiameter / 2.);
+		/**fReactionX = G4RandFlat::shoot(-alphaSourceDiameter / 2., alphaSourceDiameter / 2.);
+		fReactionY = G4RandFlat::shoot(-alphaSourceDiameter / 2., alphaSourceDiameter / 2.);
 		} //while(sqrt(pow(fReactionX,2) + pow(fReactionY,2)) > alphaSourceDiameter / 2.);**/
 		
-		fReactionX = CLHEP::RandFlat::shoot(-BeamDiameter / 2., BeamDiameter / 2.);
-		fReactionY = CLHEP::RandFlat::shoot(-BeamDiameter / 2., BeamDiameter / 2.);
+		fReactionX = G4RandFlat::shoot(-BeamDiameter / 2., BeamDiameter / 2.);
+		fReactionY = G4RandFlat::shoot(-BeamDiameter / 2., BeamDiameter / 2.);
 		
 	} while(sqrt(pow(fReactionX,2) + pow(fReactionY,2)) > BeamDiameter / 2.);
 
-	fReactionX *= CLHEP::mm;
-	fReactionY *= CLHEP::mm;
+	fReactionX *= mm;
+	fReactionY *= mm;
 
 	// alpha source: only from the surface of the 'target' (i.e. the source)
-	double tmp = CLHEP::RandFlat::shoot(0.,2.);
+	double tmp = G4RandFlat::shoot(0.,2.);
 
 	/**if(tmp < 1.) {
 		fReactionZ = -alphaSourceThickness;
@@ -113,10 +113,10 @@ void TRexAlphaSource::ShootReactionPosition() {
 		fReactionZ = alphaSourceThickness;
 	}**/
 	
-	//fReactionZ = TRexSettings::Get()->GetGasTargetLength() / CLHEP::cm ; // leila
-	//fReactionZ = (fReactionZ/2.) * CLHEP::cm; // leila
+	//fReactionZ = TRexSettings::Get()->GetGasTargetLength() / cm ; // leila
+	//fReactionZ = (fReactionZ/2.) * cm; // leila
 	
-	fReactionZ = CLHEP::RandFlat::shoot(-TRexSettings::Get()->GetGasTargetLength()/2.,TRexSettings::Get()->GetGasTargetLength()/2.)*CLHEP::mm; // leila #####
+	fReactionZ = G4RandFlat::shoot(-TRexSettings::Get()->GetGasTargetLength()/2.,TRexSettings::Get()->GetGasTargetLength()/2.)*mm; // leila #####
 	
 	//fReactionZ = alphaSourceThickness;//Leila
 	
@@ -124,20 +124,20 @@ void TRexAlphaSource::ShootReactionPosition() {
 
 void TRexAlphaSource::CreateIsotropicDistribution() {
 	/**if(fReactionZ < 0) {
-		fThetaCM = CLHEP::RandFlat::shoot(-1., 0.);
+		fThetaCM = G4RandFlat::shoot(-1., 0.);
 	} else {
-		fThetaCM = CLHEP::RandFlat::shoot(0., 1.);
+		fThetaCM = G4RandFlat::shoot(0., 1.);
 	}
 	
-	fThetaCM = acos(fThetaCM)*CLHEP::radian;**/
-	//fThetaCM =(105.0*M_PI/180.)*CLHEP::radian; // leila
-	fThetaCM =CLHEP::RandFlat::shoot(-M_PI,M_PI)*CLHEP::radian;
+	fThetaCM = acos(fThetaCM)*radian;**/
+	//fThetaCM =(105.0*M_PI/180.)*radian; // leila
+	fThetaCM =G4RandFlat::shoot(-M_PI,M_PI)*radian;
 
-	//fPhi = CLHEP::RandFlat::shoot(104.*M_PI/180.,106.*M_PI/180.)*CLHEP::radian; // leila
-	//fPhi = CLHEP::RandFlat::shoot(90.*M_PI/180.)*CLHEP::radian; // leila
-	//fPhi = CLHEP::RandFlat::shoot(-M_PI,M_PI)*CLHEP::radian;
-	fPhi = CLHEP::RandFlat::shoot(0., 2.* M_PI)*CLHEP::radian;
-	//fPhi = CLHEP::RandFlat::shoot(-M_PI / 2.,M_PI + M_PI / 2.)*CLHEP::radian;
+	//fPhi = G4RandFlat::shoot(104.*M_PI/180.,106.*M_PI/180.)*radian; // leila
+	//fPhi = G4RandFlat::shoot(90.*M_PI/180.)*radian; // leila
+	//fPhi = G4RandFlat::shoot(-M_PI,M_PI)*radian;
+	fPhi = G4RandFlat::shoot(0., 2.* M_PI)*radian;
+	//fPhi = G4RandFlat::shoot(-M_PI / 2.,M_PI + M_PI / 2.)*radian;
 }
 
 void TRexAlphaSource::CreateNtupleBranches() {

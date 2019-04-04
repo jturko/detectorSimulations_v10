@@ -9,6 +9,8 @@
 #include "TRexSettings.hh"
 
 #include "G4ParticleGun.hh"
+#include "G4SystemOfUnits.hh"
+#include "Randomize.hh"
 
 #include "g4root.hh"
 
@@ -54,19 +56,19 @@ void TRexTestSource::GeneratePrimaries(G4Event *anEvent) {
 }
 
 void TRexTestSource::ShootReactionPosition() {
-	fReactionX = 0.0 * CLHEP::mm;
-	fReactionY = 0.0 * CLHEP::mm;
-	fReactionZ = 0.0 * CLHEP::mm;
+	fReactionX = 0.0 * mm;
+	fReactionY = 0.0 * mm;
+	fReactionZ = 0.0 * mm;
 }
 
 void TRexTestSource::CreateIsotropicDistribution() {
-	fThetaCM = CLHEP::RandFlat::shoot(-1., 1.);
+	fThetaCM = G4RandFlat::shoot(-1., 1.);
 
-	fThetaCM = acos(fThetaCM)*CLHEP::radian;
+	fThetaCM = acos(fThetaCM)*radian;
 
-	fPhi = CLHEP::RandFlat::shoot(-M_PI,M_PI)*CLHEP::radian;
-	//fPhi = CLHEP::RandFlat::shoot(0., 2.* M_PI)*CLHEP::radian;
-	//fPhi = CLHEP::RandFlat::shoot(-M_PI / 2.,M_PI + M_PI / 2.)*CLHEP::radian;
+	fPhi = G4RandFlat::shoot(-M_PI,M_PI)*radian;
+	//fPhi = RandFlat::shoot(0., 2.* M_PI)*radian;
+	//fPhi = RandFlat::shoot(-M_PI / 2.,M_PI + M_PI / 2.)*radian;
 }
 
 void TRexTestSource::CreateNtupleBranches() {

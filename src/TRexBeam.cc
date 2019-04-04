@@ -19,6 +19,8 @@
 #include "G4IonTable.hh"
 #include "G4UnitsTable.hh"
 
+#include "Randomize.hh"
+
 #include "g4root.hh"
 
 TRexBeam::TRexBeam() :
@@ -39,10 +41,10 @@ TRexBeam::TRexBeam() :
 		// define reaction kinematics and energy loss calculations
 		//fTargetMaterial = GetTargetMaterial();
 		//std::cout << "TargetMaterialName for energy loss calculation in the target = " << fTargetMaterial->Name() << std::endl;
-		//fKinematics = new Kinematic(&fProjectile, fTargetMaterial, TRexSettings::Get()->GetTargetThickness()/(CLHEP::mg/CLHEP::cm2));
+		//fKinematics = new Kinematic(&fProjectile, fTargetMaterial, TRexSettings::Get()->GetTargetThickness()/(mg/cm2));
 
 		// energy loss in the targe
-		//fEnergyVsTargetDepth = *(fKinematics->EnergyVsThickness(fBeamEnergy / CLHEP::MeV, TRexSettings::Get()->GetTargetThickness() / 1000 / (CLHEP::mg/CLHEP::cm2)));
+		//fEnergyVsTargetDepth = *(fKinematics->EnergyVsThickness(fBeamEnergy / MeV, TRexSettings::Get()->GetTargetThickness() / 1000 / (mg/cm2)));
 
 		//	TFile bla("bla.root", "recreate");
 		//	bla.cd();
@@ -63,18 +65,18 @@ TRexBeam::~TRexBeam() {
 void TRexBeam::ShootReactionPosition() {
 	//select random x and y position on a disk with diameter beamWidth
 	/*do {
-	  fReactionX = CLHEP::RandFlat::shoot(-fBeamWidth / 2., fBeamWidth / 2.) * CLHEP::mm;
-	  fReactionY = CLHEP::RandFlat::shoot(-fBeamWidth / 2., fBeamWidth / 2.) * CLHEP::mm;
+	  fReactionX = G4RandFlat::shoot(-fBeamWidth / 2., fBeamWidth / 2.) * mm;
+	  fReactionY = G4RandFlat::shoot(-fBeamWidth / 2., fBeamWidth / 2.) * mm;
 	  } while(sqrt(pow(fReactionX,2)+pow(fReactionY,2)) > fBeamWidth / 2.); original commented out by Leila because X/Y was not a flat distribution (gauss)*/
 
-	fReactionX = CLHEP::RandFlat::shoot(-fBeamWidth / 2., fBeamWidth / 2.) * CLHEP::mm;
-	fReactionY = CLHEP::RandFlat::shoot(-fBeamWidth / 2., fBeamWidth / 2.) * CLHEP::mm;
+	fReactionX = G4RandFlat::shoot(-fBeamWidth / 2., fBeamWidth / 2.) * mm;
+	fReactionY = G4RandFlat::shoot(-fBeamWidth / 2., fBeamWidth / 2.) * mm;
 
 	// choose z according to a flat distribution in the target
-	//fReactionZ = CLHEP::RandFlat::shoot(-TRexSettings::Get()->GetTargetThickness() / (2. * TRexSettings::Get()->GetTargetMaterialDensity()) / CLHEP::um,
-	//TRexSettings::Get()->GetTargetThickness() / (2. * TRexSettings::Get()->GetTargetMaterialDensity()) / CLHEP::um) * CLHEP::um;
-	//fReactionZ = CLHEP::RandFlat::shoot(-0.5, 0.5) * CLHEP::mm;
-	fReactionZ = CLHEP::RandFlat::shoot(-TRexSettings::Get()->GetTargetPhysicalLength()/(2*CLHEP::um), TRexSettings::Get()->GetTargetPhysicalLength()/(2*CLHEP::um))*CLHEP::um;
+	//fReactionZ = G4RandFlat::shoot(-TRexSettings::Get()->GetTargetThickness() / (2. * TRexSettings::Get()->GetTargetMaterialDensity()) / um,
+	//TRexSettings::Get()->GetTargetThickness() / (2. * TRexSettings::Get()->GetTargetMaterialDensity()) / um) * um;
+	//fReactionZ = G4RandFlat::shoot(-0.5, 0.5) * mm;
+	fReactionZ = G4RandFlat::shoot(-TRexSettings::Get()->GetTargetPhysicalLength()/(2*um), TRexSettings::Get()->GetTargetPhysicalLength()/(2*um))*um;
 	// units: although the target length is given as cm in the setting file but fReactionZ is in mm!
 	
 }
@@ -241,9 +243,9 @@ void TRexBeam::CalculateReactionEnergyInTheTarget() {
 	// *********************************** Original first reactionZ then reactionEnergy*******************************
 
 	G4double reactionPosInTarget = fReactionZ * TRexSettings::Get()->GetTargetMaterialDensity() + TRexSettings::Get()->GetTargetThickness() / 2.;
-    fReactionEnergy = fEnergyVsTargetDepth.Eval(reactionPosInTarget /(CLHEP::mg/CLHEP::cm2))*CLHEP::MeV;
+    fReactionEnergy = fEnergyVsTargetDepth.Eval(reactionPosInTarget /(mg/cm2))*MeV;
 
-	//std::cout << "fReactionZ = " << fReactionZ << " ,x = " << reactionPosInTarget /(CLHEP::mg/CLHEP::cm2) << " , E(x) = " << fReactionEnergy / CLHEP::MeV << " TargetMaterialDensity: "<<TRexSettings::Get()->GetTargetMaterialDensity()/(CLHEP::mg/CLHEP::cm3)<<std::endl; 
+	//std::cout << "fReactionZ = " << fReactionZ << " ,x = " << reactionPosInTarget /(mg/cm2) << " , E(x) = " << fReactionEnergy / MeV << " TargetMaterialDensity: "<<TRexSettings::Get()->GetTargetMaterialDensity()/(mg/cm3)<<std::endl; 
 
 	// *********************************** Vinzenz first reactionEnergy then reactionZ*******************************
 	
@@ -259,21 +261,21 @@ void TRexBeam::CalculateReactionEnergyInTheTarget() {
 	
 	if((fEventCounter-1) %1000 == 0){ 
 	
-	fReactionEnergyCM = fEbeamCmHist->GetRandom()/1000. * CLHEP::MeV; // MeV	
+	fReactionEnergyCM = fEbeamCmHist->GetRandom()/1000. * MeV; // MeV	
 
 	fReactionEnergy = fReactionEnergyCM*(fTargetRestMass+fProjectileRestMass)/fTargetRestMass;//MeV
 
-	double rangeBeam = fRangeVsBeamEnergyLeila.Eval(fBeamEnergy / CLHEP::MeV);
-	double rangeReaction = fRangeVsBeamEnergyLeila.Eval(fReactionEnergy / CLHEP::MeV);
+	double rangeBeam = fRangeVsBeamEnergyLeila.Eval(fBeamEnergy / MeV);
+	double rangeReaction = fRangeVsBeamEnergyLeila.Eval(fReactionEnergy / MeV);
 
 	fReactionZ = (rangeBeam-rangeReaction);	
-	fReactionZ = (fReactionZ * 1000. * TRexSettings::Get()->GetTargetMaterialDensity() / (CLHEP::mg/CLHEP::cm2)*10. - TRexSettings::Get()->GetTargetPhysicalLength()/2.) * CLHEP::mm;
+	fReactionZ = (fReactionZ * 1000. * TRexSettings::Get()->GetTargetMaterialDensity() / (mg/cm2)*10. - TRexSettings::Get()->GetTargetPhysicalLength()/2.) * mm;
 	
-	//std::cout<<"\n fReactionZ: "<<fReactionZ<<" fReactionZ/(CLHEP::mg/CLHEP::cm2): "<<fReactionZ/(CLHEP::mg/CLHEP::cm2)<<" fReactionZ*(CLHEP::mg/CLHEP::cm2): "<<fReactionZ*(CLHEP::mg/CLHEP::cm2)<<" reaction: "<<fReacProbA<<" eventno: "<<fEventCounter<<std::endl;
+	//std::cout<<"\n fReactionZ: "<<fReactionZ<<" fReactionZ/(mg/cm2): "<<fReactionZ/(mg/cm2)<<" fReactionZ*(mg/cm2): "<<fReactionZ*(mg/cm2)<<" reaction: "<<fReacProbA<<" eventno: "<<fEventCounter<<std::endl;
 	
-	//std::cout<<"\n TRexSettings::Get()->GetTargetMaterialDensity(): "<<TRexSettings::Get()->GetTargetMaterialDensity()<<" TRexSettings::Get()->GetTargetMaterialDensity()/(CLHEP::mg/CLHEP::cm2): "<<TRexSettings::Get()->GetTargetMaterialDensity()/(CLHEP::mg/CLHEP::cm2)<<" TRexSettings::Get()->GetTargetMaterialDensity()*(CLHEP::mg/CLHEP::cm2): "<<TRexSettings::Get()->GetTargetMaterialDensity()*(CLHEP::mg/CLHEP::cm2)<<std::endl;
+	//std::cout<<"\n TRexSettings::Get()->GetTargetMaterialDensity(): "<<TRexSettings::Get()->GetTargetMaterialDensity()<<" TRexSettings::Get()->GetTargetMaterialDensity()/(mg/cm2): "<<TRexSettings::Get()->GetTargetMaterialDensity()/(mg/cm2)<<" TRexSettings::Get()->GetTargetMaterialDensity()*(mg/cm2): "<<TRexSettings::Get()->GetTargetMaterialDensity()*(mg/cm2)<<std::endl;
 	
-	//std::cout<<"\n TRexSettings::Get()->GetTargetThickness(): "<<TRexSettings::Get()->GetTargetThickness()<<" TRexSettings::Get()->GetTargetThickness()/(CLHEP::mg/CLHEP::cm2): "<<TRexSettings::Get()->GetTargetThickness()/(CLHEP::mg/CLHEP::cm2)<<" TRexSettings::Get()->GetTargetThickness()*(CLHEP::mg/CLHEP::cm2): "<<TRexSettings::Get()->GetTargetThickness()*(CLHEP::mg/CLHEP::cm2)<<std::endl;	
+	//std::cout<<"\n TRexSettings::Get()->GetTargetThickness(): "<<TRexSettings::Get()->GetTargetThickness()<<" TRexSettings::Get()->GetTargetThickness()/(mg/cm2): "<<TRexSettings::Get()->GetTargetThickness()/(mg/cm2)<<" TRexSettings::Get()->GetTargetThickness()*(mg/cm2): "<<TRexSettings::Get()->GetTargetThickness()*(mg/cm2)<<std::endl;	
 	
     }
 
@@ -358,9 +360,9 @@ void TRexBeam::SetEjectileGun(G4Event *anEvent) {
 	}
 
 	// set variables for the tree
-	fEjectileTheta = fEjectileLab.theta() / CLHEP::radian;
-	fEjectilePhi = fEjectileLab.phi() / CLHEP::radian;
-	fEjectileEnergy = (fEjectileLab.e() - fEjectileRestMass) / CLHEP::keV;
+	fEjectileTheta = fEjectileLab.theta() / radian;
+	fEjectilePhi = fEjectileLab.phi() / radian;
+	fEjectileEnergy = (fEjectileLab.e() - fEjectileRestMass) / keV;
 }
 
 void TRexBeam::SetRecoilGun(G4Event *anEvent) {
@@ -380,9 +382,9 @@ void TRexBeam::SetRecoilGun(G4Event *anEvent) {
 	fParticleGunRecoil->GeneratePrimaryVertex(anEvent);
 
 	// set variables for the tree
-	fRecoilTheta = fRecoilLab.theta() / CLHEP::radian;
-	fRecoilPhi = fRecoilLab.phi() / CLHEP::radian;
-	fRecoilEnergy = (fRecoilLab.e() - fRecoilRestMass) / CLHEP::keV;
+	fRecoilTheta = fRecoilLab.theta() / radian;
+	fRecoilPhi = fRecoilLab.phi() / radian;
+	fRecoilEnergy = (fRecoilLab.e() - fRecoilRestMass) / keV;
 }
 
 void TRexBeam::SetGammaGun(G4Event *anEvent) {
@@ -409,9 +411,9 @@ void TRexBeam::SetGammaGun(G4Event *anEvent) {
 		fParticleGunGamma->GeneratePrimaryVertex(anEvent);
 
 		// set variables for the tree
-		fGammaTheta->push_back((*fGammaLab)[i].theta() / CLHEP::radian);
-		fGammaPhi->push_back((*fGammaLab)[i].phi() / CLHEP::radian);
-		fGammaEnergy->push_back((*fGammaLab)[i].e() / CLHEP::keV);
+		fGammaTheta->push_back((*fGammaLab)[i].theta() / radian);
+		fGammaPhi->push_back((*fGammaLab)[i].phi() / radian);
+		fGammaEnergy->push_back((*fGammaLab)[i].e() / keV);
 
 		//std::cout << "fGammaEnergy[" << i << "] = " << (*fGammaEnergy)[i] << std::endl;
 	}

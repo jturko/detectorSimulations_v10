@@ -73,7 +73,7 @@ void MiniBallSource::GenerateDecay()
   for(size_t q=0; q<nb_of_feeded_levels; q++)
     summed_prob += feeding->prob[q];
 
-  G4double decay = CLHEP::RandFlat::shoot(0., summed_prob);
+  G4double decay = G4RandFlat::shoot(0., summed_prob);
 
   summed_prob=feeding->prob[0];
   size_t q=0;
@@ -178,7 +178,7 @@ G4int MiniBallSource::DecayLevel(G4int level_id)
   for(size_t q=0; q<nb_of_decay_levels; q++)
     summed_prob += level_structure[level_id]->prob[q];
 
-  G4double decay = CLHEP::RandFlat::shoot(0., summed_prob);
+  G4double decay = G4RandFlat::shoot(0., summed_prob);
 
   if(MB_SOURCE_DL>0)
     std::cout<<"DecayLevel("<<level_id<<"): nb_of_decay_levels = "<<nb_of_decay_levels<<", decay = "<<decay<<" (0-"<<summed_prob<<")"<<std::endl;
@@ -226,7 +226,7 @@ G4int MiniBallSource::DecayLevel(G4int level_id)
   G4bool generate_gamma = true;
   if(internal_conversion>0)
     {
-      G4double conv_prob = CLHEP::RandFlat::shoot(0., 1+internal_conversion);
+      G4double conv_prob = G4RandFlat::shoot(0., 1+internal_conversion);
       if(conv_prob>1)
 	generate_gamma = false;
     }
@@ -245,12 +245,12 @@ G4int MiniBallSource::DecayLevel(G4int level_id)
       G4double phi, theta;
 
       // get random phi  
-      phi = CLHEP::RandFlat::shoot(-M_PI, M_PI);
+      phi = G4RandFlat::shoot(-M_PI, M_PI);
 
       if(!angular_distribution || gamma_transform.size()==0)
 	{
 	  //generate isotropic direction
-	  G4double cos_theta = CLHEP::RandFlat::shoot(-1., 1.);
+	  G4double cos_theta = G4RandFlat::shoot(-1., 1.);
 	  theta = acos(cos_theta);
 	}
       else
@@ -309,7 +309,7 @@ G4double MiniBallSource::GetAngularDistribution(G4int level_id,
 		 << G4endl;
 	  ang_err_msg=true;
 	}
-      G4double cos_theta = CLHEP::RandFlat::shoot(-1., 1.);
+      G4double cos_theta = G4RandFlat::shoot(-1., 1.);
       G4double theta = acos(cos_theta);
       return(theta);
     }
@@ -317,7 +317,7 @@ G4double MiniBallSource::GetAngularDistribution(G4int level_id,
   if(decay_type == UNKNOWN || decay_type_history[history_last] == UNKNOWN
      || decay_type_history[history_last] == INT_CONV)
     {
-      G4double cos_theta = CLHEP::RandFlat::shoot(-1., 1.);
+      G4double cos_theta = G4RandFlat::shoot(-1., 1.);
       G4double theta = acos(cos_theta);
       return(theta);
     }      
@@ -408,7 +408,7 @@ G4double MiniBallSource::GetAngularDistribution(G4int level_id,
   for(size_t branch_nb=0; branch_nb<branches.size(); branch_nb++)
     summed_prob += branches[branch_nb].prob;
 
-  G4double rand_prob = CLHEP::RandFlat::shoot(0., summed_prob);
+  G4double rand_prob = G4RandFlat::shoot(0., summed_prob);
 
   summed_prob=branches[0].prob;
   size_t q=0;
@@ -435,7 +435,7 @@ G4int MiniBallSource::GetDecayType(G4int decay_type, G4double delta)
 {
   if(decay_type == M1_E2)
     {
-      G4double prob = CLHEP::RandFlat::shoot(0., 1.);
+      G4double prob = G4RandFlat::shoot(0., 1.);
       if( prob < delta*delta/(delta*delta+1) )
 	return(E2);
       else
@@ -500,9 +500,9 @@ G4double MiniBallSource::RandTheta(G4int l, G4int m)
 
   do
     {
-      theta = CLHEP::RandFlat::shoot(0.,THETA_MAX);
+      theta = G4RandFlat::shoot(0.,THETA_MAX);
       func_theta = GetF(l, m, theta)*sin(theta);
-      func_rand = CLHEP::RandFlat::shoot(0., func_max);
+      func_rand = G4RandFlat::shoot(0., func_max);
     }
   while(func_rand > func_theta);
 

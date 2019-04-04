@@ -4,6 +4,7 @@
  * 
 ************************************************************************/
 
+
 #include "MiniBallRootGenerator.hh"
 
 #include "TFile.h"
@@ -11,6 +12,8 @@
 #include <string>
 
 #include <stdio.h>
+
+#include "G4SystemOfUnits.hh"
 
 MiniBallRootHistogram::MiniBallRootHistogram(G4String histo_name, G4int bin,
 					     G4double low, G4double high)
