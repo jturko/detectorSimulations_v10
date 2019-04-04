@@ -2051,7 +2051,7 @@ double gen_theta();
  ***********************************************/
 double dot(double* x,double* y) {
 	/*     double *x,*y; */
-	register int i;
+	int i;
 	double retval=0.0;
 
 	for(i=0;i<3;i++) {
@@ -2136,7 +2136,7 @@ void velocity(double* v,double* p,double m) {
 	  returns v in units of c
 	 *************************************************************************/
 	double mag_p,mag_v;
-	register int i;
+	int i;
 
 	mag_p = norm(p);
 	mag_v = speed(mag_p,m);
@@ -2160,7 +2160,7 @@ void boost(double* v,double* b) {
 	  v is replaced by boosted velocity
 	 ********************************************************/
 	double vp,vt,vp_prime,vt_prime,dummy,dvb,bmag;
-	register int i;
+	int i;
 
 
 	bmag=norm(b);
@@ -2331,7 +2331,7 @@ int scatter(double* p2,double* p3,
 
 	double v,b[3],v2[3],v3[3],p,m3,m2;
 	double dummy;
-	register int i;
+	int i;
 
 	m2 = particle[2]->Mass()+ex2;
 	m3 = particle[3]->Mass()+ex3;
@@ -2362,7 +2362,7 @@ int scatter(double* p2,double* p3,
 void v_to_p(double* v,double* p,double m) {
 	/*     double *v,*p,m;  */
 	double mag_v,mag_p;
-	register int i;
+	int i;
 	mag_v = norm(v);
 	mag_p = mom_from_speed(mag_v,m);
 	if(mag_v == 0.0) {
@@ -2397,7 +2397,7 @@ double gen_event(double* p2,double* p3,double Ebeam,double ex2,double ex3,Elemen
 
 	double v,b[3],v2[3],v3[3],p,m3,m2,cm_unit[3],bmag;
 	double dummy;
-	register int i;
+    int i;
 	double theta,phi;
 
 	m2 = particle[2]->Mass()+ex2;
@@ -2469,7 +2469,7 @@ double gasdev() {
 	static int iset = 0;
 	static double gset;
 	double fac,r,v1,v2;
-	double ran1();
+	//double ran1();
 
 	if (iset == 0) {
 		do {
