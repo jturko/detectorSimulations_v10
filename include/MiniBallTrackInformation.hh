@@ -9,7 +9,7 @@
  ************************************************************************/
 
 #ifndef MiniBallTrackInformation_h
-#define MiniBallInformation_h 
+#define MiniBallTrackInformation_h 
 
 #include "globals.hh"
 #include "G4ThreeVector.hh"
