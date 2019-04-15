@@ -55,10 +55,6 @@
 #include "G4UIExecutive.hh"
 #endif
 
-#include "MiniBallHistoManager.hh"
-#include "MiniBallHistoGenerator.hh"
-#include "MiniBallRootGenerator.hh"
-
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 int main(int argc, char** argv)
@@ -82,12 +78,6 @@ int main(int argc, char** argv)
 	 G4cout<<"NOT RUNNING MULTITHREADED"<<G4endl;
 	 G4RunManager* runManager = new G4RunManager;
 #endif
-
-    // initalize Miniball
-    MiniBallRootGenerator* miniballHistoGen = new MiniBallRootGenerator("my_output.root", 5);
-    MiniBallHistoManager* miniballHistoManager = new MiniBallHistoManager(miniballHistoGen);
-    miniballHistoManager->SetMBTupleType(EVENT);
-    miniballHistoManager->SetEnergyUnit(CLHEP::keV);
 
 	 // Set mandatory initialization classes
 	 DetectorConstruction* detector = new DetectorConstruction;
