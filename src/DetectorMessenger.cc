@@ -383,6 +383,10 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction* Det)
     fSetTISTARSiCenteredCmd = new G4UIcmdWithABool("/DetSys/det/setTISTARSiCentered",this);
     fSetTISTARSiCenteredCmd->SetGuidance("Set 1 for si-centered layers, 0 for detector-centered layers");
     fSetTISTARSiCenteredCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    
+    fAddTISTARGasTargetCmd = new G4UIcmdWithoutParameter("/DetSys/det/addTISTARGasTarget",this);
+    fAddTISTARGasTargetCmd->SetGuidance("Add the TI-STAR gas target");
+    fAddTISTARGasTargetCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -478,6 +482,8 @@ DetectorMessenger::~DetectorMessenger()
     delete fSetTISTARDistFromBeamCmd;
     delete fSetTISTARGapZCmd;
     delete fSetTISTARSiCenteredCmd;
+
+    delete fAddTISTARGasTargetCmd;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -720,6 +726,10 @@ void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
     }   
     if(command == fSetTISTARSiCenteredCmd) {
         fDetector->SetTISTARSiCentered(fSetTISTARSiCenteredCmd->GetNewBoolValue(newValue));
+    }
+
+    if(command == fAddTISTARGasTargetCmd) {
+       fDetector->AddTISTARGasTarget();
     }
 }
 

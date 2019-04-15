@@ -193,7 +193,9 @@ public:
     void SetTISTARDistFromBeam(G4double dist)   { fTISTARDistFromBeam = dist; }
     void SetTISTARGapZ(G4double gap)            { fTISTARGapZ = gap; }
     void SetTISTARSiCentered(G4bool val)        { fTISTARSiCentered = val; }
-    
+
+    void AddTISTARGasTarget(); 
+   
     G4bool   GridCell()   { return fGridCell;   }
     G4bool   Griffin()    { return fGriffin;    }
     G4bool   LaBr()       { return fLaBr;       }

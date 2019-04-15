@@ -4,6 +4,7 @@
 #include "G4Material.hh"
 
 #include "G4Box.hh"
+#include "G4Tubs.hh"
 #include "G4LogicalVolume.hh"
 #include "G4PVPlacement.hh"
 
@@ -18,6 +19,7 @@
 #include "G4Colour.hh"
 
 #include "DetectionSystemTISTAR.hh"
+#include "TRexSettings.hh"
 
 #include "G4SystemOfUnits.hh"
 
@@ -27,6 +29,7 @@ DetectionSystemTISTAR::DetectionSystemTISTAR() :
     fAssemblyLayer(NULL),
     fLogicalSiLayer(NULL),
     fLogicalPCBLayer(NULL),
+    fLogicalGasTarget(NULL),
     fSiDimensionsSet(false),
     fPCBDimensionsSet(false)
 {
@@ -36,6 +39,12 @@ DetectionSystemTISTAR::DetectionSystemTISTAR() :
     fSiDimensions = G4ThreeVector(0.,0.,0.);
     fPCBDimensions = G4ThreeVector(0.,0.,0.);
     fOffset = G4ThreeVector(0.,0.,0.);
+
+    fGasTargetRadius = TRexSettings::Get()->GetTargetDiameter()/2.;
+    fGasTargetLength = TRexSettings::Get()->GetGasTargetLength();
+    fGasTargetDensity = TRexSettings::Get()->GetTargetMaterialDensity();
+    fGasTargetPressure = TRexSettings::Get()->GetTargetPressure();
+    fGasTargetMaterialName = TRexSettings::Get()->GetTargetMaterialName();
 
 }
 
@@ -76,7 +85,6 @@ G4int DetectionSystemTISTAR::PlaceDetector(G4ThreeVector move, G4ThreeVector rot
 
 G4int DetectionSystemTISTAR::BuildLayer() 
 {
-
     if(!fSiDimensionsSet) { G4cout << " ---> Silicon dimensions not set!" << G4endl; return 0; }
 
     G4String name;
@@ -232,3 +240,30 @@ G4int DetectionSystemTISTAR::Add4StripLayer(G4double dist_from_beam, G4double ga
 
     return 1;
 }
+
+G4int DetectionSystemTISTAR::AddGasTarget(G4LogicalVolume* expHallLog)
+{
+    // Make the deuterium gas material
+    G4Material * deuterium_gas_material = new G4Material("Deuterium_Gas", 1, 2.014*g/mole, fGasTargetDensity, kStateGas, 293.15*kelvin, fGasTargetPressure);
+    
+    // Set up colours and other vis. attributes
+    G4VisAttributes * gas_vis_att = new G4VisAttributes(G4Colour::Yellow());
+    gas_vis_att->SetVisibility(true);
+    
+    // Build the object volume
+    G4Tubs * gas_target = new G4Tubs("Gas_target", 0.*cm, fGasTargetRadius, fGasTargetLength/2., 0., 2.*M_PI);
+    
+    // Logical volumes
+    if(fLogicalGasTarget == NULL) {
+        fLogicalGasTarget = new G4LogicalVolume(gas_target,deuterium_gas_material,"Gas_target_LV",0,0,0);
+        fLogicalGasTarget->SetVisAttributes(gas_vis_att);
+    }
+
+    // Placement
+    G4ThreeVector move = G4ThreeVector(0.,0.,0.);
+    G4RotationMatrix * rotate = new G4RotationMatrix;
+    G4VPhysicalVolume * gas_target_PV = new G4PVPlacement(rotate, move, fLogicalGasTarget, "Gas_target_PV", expHallLog, 0, 0, 0);
+
+    return 1;
+}
+

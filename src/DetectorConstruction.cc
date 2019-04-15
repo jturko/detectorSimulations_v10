@@ -941,6 +941,14 @@ void DetectorConstruction::AddTISTAR4StripLayer() {
 
 }
 
+void DetectorConstruction::AddTISTARGasTarget() {
+    if(fLogicWorld == NULL) {
+        Construct();
+    }
+    DetectionSystemTISTAR * pTISTAR = new DetectionSystemTISTAR();
+    pTISTAR->AddGasTarget(fLogicWorld);
+}
+
 void DetectorConstruction::SetProperties() {
 	// loop over all existing daughters of the world volume
 	// check if their properties are set and if not, set them

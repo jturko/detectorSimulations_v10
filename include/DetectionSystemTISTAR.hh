@@ -59,6 +59,8 @@ public:
 
     G4int Add2StripLayer(G4double dist_from_beam, G4bool si_centered, G4LogicalVolume* expHallLog);
     G4int Add4StripLayer(G4double dist_from_beam, G4double gap_z, G4LogicalVolume* expHallLog);
+    
+    G4int AddGasTarget(G4LogicalVolume* expHallLog);
 
 private:
     // Assembly volumes
@@ -78,6 +80,14 @@ private:
     G4ThreeVector fOffset;
     G4bool fSiDimensionsSet; 
     G4bool fPCBDimensionsSet; 
+        
+    // Gas target
+    G4LogicalVolume* fLogicalGasTarget;
+    G4double fGasTargetRadius;
+    G4double fGasTargetLength;
+    G4double fGasTargetDensity;
+    G4double fGasTargetPressure;
+    G4String fGasTargetMaterialName;
 
 };
 

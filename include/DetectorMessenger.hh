@@ -167,6 +167,8 @@ private:
     G4UIcmdWithADoubleAndUnit*  fSetTISTARGapZCmd;
     G4UIcmdWithABool*           fSetTISTARSiCenteredCmd;
 
+    G4UIcmdWithoutParameter*    fAddTISTARGasTargetCmd;
+
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
