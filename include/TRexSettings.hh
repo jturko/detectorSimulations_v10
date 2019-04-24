@@ -22,10 +22,6 @@ public:
     static TRexSettings* Get();
     virtual ~TRexSettings();
     
-    void SetSettingsFile(std::string settingsFile) { fSettingsFile = settingsFile; }  //SetSettingsFile
-    void ReadSettingsFile(std::string settingsFile);
-    std::string GetSettingsFile() { return fSettingsFile; }  //GetSettingsFile
-    
     std::string GetPrimaryGenerator() { return fPrimaryGenerator; }
     void SetPrimaryGenerator(std::string pgen) { fPrimaryGenerator = pgen; }
     
