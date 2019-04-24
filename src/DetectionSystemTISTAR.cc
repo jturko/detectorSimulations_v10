@@ -30,6 +30,8 @@ DetectionSystemTISTAR::DetectionSystemTISTAR() :
     fLogicalSiLayer(NULL),
     fLogicalPCBLayer(NULL),
     fLogicalGasTarget(NULL),
+    fLogicalGasTargetMylar(NULL),
+    fLogicalGasTargetBeWindow(NULL),
     fSiDimensionsSet(false),
     fPCBDimensionsSet(false)
 {
@@ -45,6 +47,12 @@ DetectionSystemTISTAR::DetectionSystemTISTAR() :
     fGasTargetDensity = TRexSettings::Get()->GetTargetMaterialDensity();
     fGasTargetPressure = TRexSettings::Get()->GetTargetPressure();
     fGasTargetMaterialName = TRexSettings::Get()->GetTargetMaterialName();
+
+    fGasTargetMylarThickness = 2.*um;
+    fGasTargetMylarMaterialName = "Mylar";
+
+    fGasTargetBeWindowThickness = 8.*um;
+    fGasTargetBeWindowMaterialName = "Beryllium";
 
 }
 
@@ -243,26 +251,66 @@ G4int DetectionSystemTISTAR::Add4StripLayer(G4double dist_from_beam, G4double ga
 
 G4int DetectionSystemTISTAR::AddGasTarget(G4LogicalVolume* expHallLog)
 {
-    // Make the deuterium gas material
+    G4ThreeVector move;
+    G4RotationMatrix * rotate = NULL;
+
+    // Make the target materials
     G4Material * deuterium_gas_material = new G4Material("Deuterium_Gas", 1, 2.014*g/mole, fGasTargetDensity, kStateGas, 293.15*kelvin, fGasTargetPressure);
-    
+    G4Material * mylar_material = G4Material::GetMaterial(fGasTargetMylarMaterialName);    
+    G4Material * be_material = G4Material::GetMaterial(fGasTargetBeWindowMaterialName);    
+
     // Set up colours and other vis. attributes
     G4VisAttributes * gas_vis_att = new G4VisAttributes(G4Colour::Yellow());
     gas_vis_att->SetVisibility(true);
-    
+
+    G4VisAttributes * mylar_vis_att = new G4VisAttributes(G4Colour::Magenta());
+    mylar_vis_att->SetVisibility(true);
+
+    G4VisAttributes * be_vis_att = new G4VisAttributes(G4Colour::Blue());
+    be_vis_att->SetVisibility(true);
+ 
+    // Gas    
     // Build the object volume
     G4Tubs * gas_target = new G4Tubs("Gas_target", 0.*cm, fGasTargetRadius, fGasTargetLength/2., 0., 2.*M_PI);
-    
     // Logical volumes
     if(fLogicalGasTarget == NULL) {
         fLogicalGasTarget = new G4LogicalVolume(gas_target,deuterium_gas_material,"Gas_target_LV",0,0,0);
         fLogicalGasTarget->SetVisAttributes(gas_vis_att);
     }
-
     // Placement
-    G4ThreeVector move = G4ThreeVector(0.,0.,0.);
-    G4RotationMatrix * rotate = new G4RotationMatrix;
+    move = G4ThreeVector(0.,0.,0.);
+    rotate = new G4RotationMatrix;
     G4VPhysicalVolume * gas_target_PV = new G4PVPlacement(rotate, move, fLogicalGasTarget, "Gas_target_PV", expHallLog, 0, 0, 0);
+
+    // Mylar foil
+    // Build the object volume
+    G4Tubs * mylar = new G4Tubs("Gas_target_mylar", fGasTargetRadius, fGasTargetRadius+fGasTargetMylarThickness, fGasTargetLength/2., 0., 2.*M_PI);
+    // Logical volumes
+    if(fLogicalGasTargetMylar == NULL) {
+        fLogicalGasTargetMylar = new G4LogicalVolume(mylar,mylar_material,"Gas_target_mylar_LV",0,0,0);
+        fLogicalGasTargetMylar->SetVisAttributes(mylar_vis_att);
+    }
+    // Placement
+    move = G4ThreeVector(0.,0.,0.);
+    rotate = new G4RotationMatrix;
+    G4VPhysicalVolume * gas_target_mylar_PV = new G4PVPlacement(rotate, move, fLogicalGasTargetMylar, "Gas_target_mylar_PV", expHallLog, 0, 0, 0);
+
+    // Be window
+    G4Tubs * be_window = new G4Tubs("Gas_target_Be_window", 0.*cm, fGasTargetRadius+fGasTargetMylarThickness, fGasTargetBeWindowThickness/2., 0., 2.*M_PI);
+    // Logical volumes
+    if(fLogicalGasTargetBeWindow == NULL) {
+        fLogicalGasTargetBeWindow = new G4LogicalVolume(be_window, be_material,"Gas_target_Be_Window_LV",0,0,0);
+        fLogicalGasTargetBeWindow->SetVisAttributes(be_vis_att);
+    }
+    // Placement
+    // front
+    move = G4ThreeVector(0., 0., +fGasTargetBeWindowThickness/2.+fGasTargetLength/2.);
+    rotate = new G4RotationMatrix;
+    G4VPhysicalVolume * gas_target_mylar_PV1 = new G4PVPlacement(rotate, move, fLogicalGasTargetBeWindow, "Gas_target_mylar_PV1", expHallLog, 0, 0, 0);
+    // back
+    move = G4ThreeVector(0., 0., -fGasTargetBeWindowThickness/2.-fGasTargetLength/2.);
+    rotate = new G4RotationMatrix;
+    G4VPhysicalVolume * gas_target_mylar_PV2 = new G4PVPlacement(rotate, move, fLogicalGasTargetBeWindow, "Gas_target_mylar_PV2", expHallLog, 0, 0, 0);
 
     return 1;
 }

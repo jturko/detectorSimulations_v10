@@ -89,6 +89,15 @@ private:
     G4double fGasTargetPressure;
     G4String fGasTargetMaterialName;
 
+    G4LogicalVolume* fLogicalGasTargetMylar;
+    G4double fGasTargetMylarThickness;
+    G4String fGasTargetMylarMaterialName;
+
+    G4LogicalVolume* fLogicalGasTargetBeWindow;
+    G4double fGasTargetBeWindowThickness;
+    G4String fGasTargetBeWindowMaterialName;
+
+    
 };
 
 #endif
