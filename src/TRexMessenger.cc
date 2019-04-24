@@ -222,6 +222,13 @@ TRexMessenger::TRexMessenger(PrimaryGeneratorAction * pgen) :
     fSetTargetMaterialDensityCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
     //fSetTargetMaterialDensityCmd->SetUnitCategory("Volumic Mass"); // this might not be the right unit
 
+    fSetTargetMylarThicknessCmd = new  G4UIcmdWithADoubleAndUnit("/DetSys/miniball/SetTargetMylarThickness",this);   
+    fSetTargetMylarThicknessCmd->SetGuidance("set the thickness of the mylar foil surrounding the gas target");
+    fSetTargetMylarThicknessCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+    fSetTargetBeWindowThicknessCmd = new  G4UIcmdWithADoubleAndUnit("/DetSys/miniball/SetTargetBeWindowThickness",this);   
+    fSetTargetBeWindowThicknessCmd->SetGuidance("set the thickness of the Be window at the entrance/exit of the gas target");
+    fSetTargetBeWindowThicknessCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
     fPrintCmd = new G4UIcmdWithoutParameter("/DetSys/miniball/Print",this);
     fPrintCmd->SetGuidance("print values stored in TRexSettings");
@@ -278,6 +285,9 @@ TRexMessenger::~TRexMessenger() {
 
     delete fSetTargetMaterialDensityCmd;
 
+    delete fSetTargetMylarThicknessCmd;
+    delete fSetTargetBeWindowThicknessCmd;
+
     delete fPrintCmd;
 }
 
@@ -330,6 +340,9 @@ void TRexMessenger::SetNewValue(G4UIcommand* command, G4String value) {
     if(command == fSetTargetPressureCmd)            TRexSettings::Get()->SetTargetPressure(fSetTargetPressureCmd->GetNewDoubleValue(value));
 
     if(command == fSetTargetMaterialDensityCmd)     TRexSettings::Get()->SetTargetMaterialDensity(fSetTargetMaterialDensityCmd->GetNewDoubleValue(value));
+
+    if(command == fSetTargetMylarThicknessCmd)      TRexSettings::Get()->SetTargetMylarThickness(fSetTargetMylarThicknessCmd->GetNewDoubleValue(value));
+    if(command == fSetTargetBeWindowThicknessCmd)   TRexSettings::Get()->SetTargetBeWindowThickness(fSetTargetBeWindowThicknessCmd->GetNewDoubleValue(value));
 
     if(command == fPrintCmd)                        TRexSettings::Get()->Print();
 

@@ -48,10 +48,10 @@ DetectionSystemTISTAR::DetectionSystemTISTAR() :
     fGasTargetPressure = TRexSettings::Get()->GetTargetPressure();
     fGasTargetMaterialName = TRexSettings::Get()->GetTargetMaterialName();
 
-    fGasTargetMylarThickness = 2.*um;
+    fGasTargetMylarThickness = TRexSettings::Get()->GetTargetMylarThickness();
     fGasTargetMylarMaterialName = "Mylar";
 
-    fGasTargetBeWindowThickness = 8.*um;
+    fGasTargetBeWindowThickness = TRexSettings::Get()->GetTargetBeWindowThickness();
     fGasTargetBeWindowMaterialName = "Beryllium";
 
 }

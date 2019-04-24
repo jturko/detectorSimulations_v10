@@ -73,6 +73,9 @@ TRexSettings::TRexSettings()
 	fTargetMaterialName = "dummy";
 	fTargetAtomicRatio = 1.5;
 	fTransferOrCoulexProbability = 1.0;
+
+    fTargetMylarThickness = 2.*um;
+    fTargetBeWindowThickness = 8.*um;
 }
 
 TRexSettings::~TRexSettings() {
@@ -208,6 +211,8 @@ void TRexSettings::Print(Option_t* opt) const {
 		<<"fTargetMaterialDensity = "<<fTargetMaterialDensity/(g/cm3)<<" g/cm3"<<std::endl
 		<<"fTargetMaterialName = "<<fTargetMaterialName<<std::endl
 		<<"fTargetAtomicRatio = "<<fTargetAtomicRatio<<std::endl
+        <<"fTargetMylarThickness = "<<fTargetMylarThickness/um<<" um"<<std::endl
+        <<"fTargetBeWindowThickness = "<<fTargetBeWindowThickness/um<<" um"<<std::endl
 		<<"fTransferOrCoulexProbability = "<<fTransferOrCoulexProbability<<std::endl
 		<<std::endl;
 }

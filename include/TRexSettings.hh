@@ -138,16 +138,13 @@ public:
     void SetTargetMaterialDensity(double density) { fTargetMaterialDensity = density*(g/cm3); }
     //void SetTargetThickness(double thickness) { fTargetThickness = thickness; }
     
-    //##################### Target Entrance Foil by Leila begin #####################
-    
-    /*std::vector<double> GetTargetEntranceFoilPosZ() { return fTargetEntranceFoilPosZ; }		
-    std::vector<double> GetTargetEntranceFoilStartAngle() { return fTargetEntranceFoilStartAngle; }
-    std::vector<double> GetTargetEntranceFoilThickness() { return fTargetEntranceFoilThickness; }		
-    double GetTargetEntranceFoilLengthX() { return fTargetEntranceFoilLengthX; }
-    double GetTargetEntranceFoilLengthY() { return fTargetEntranceFoilLengthY; }	*/
-    	
-    //##################### Target Entrance Foil by Leila  end  #####################
-    
+    // target foils
+    double GetTargetMylarThickness() { return fTargetMylarThickness; }
+    void SetTargetMylarThickness(double thickness) { fTargetMylarThickness = thickness; }
+
+    double GetTargetBeWindowThickness() { return fTargetBeWindowThickness; }
+    void SetTargetBeWindowThickness(double thickness) { fTargetBeWindowThickness = thickness; }
+
     // this constructor has to be public to be able to
     // write the class to file, but it should never be used!
     TRexSettings();
@@ -195,12 +192,9 @@ private:
     //std::string fTargetMaterial;
     double fTargetMaterialDensity;
     
-    // target entrance foil by Leila
-    /*std::vector<double> fTargetEntranceFoilPosZ;
-    std::vector<double> fTargetEntranceFoilStartAngle;
-    std::vector<double> fTargetEntranceFoilThickness;
-    double fTargetEntranceFoilLengthX;
-    double fTargetEntranceFoilLengthY;*/
+    double fTargetMylarThickness;
+    double fTargetBeWindowThickness;
+
 };
 
 #endif /* TREXSETTINGS_HH_ */

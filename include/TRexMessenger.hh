@@ -116,6 +116,9 @@ private:
 
     G4UIcmdWithADouble*         fSetTargetMaterialDensityCmd;
  
+    G4UIcmdWithADoubleAndUnit*  fSetTargetMylarThicknessCmd;
+    G4UIcmdWithADoubleAndUnit*  fSetTargetBeWindowThicknessCmd;
+
     G4UIcmdWithoutParameter*    fPrintCmd;
    
 };
