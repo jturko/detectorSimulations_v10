@@ -405,5 +405,5 @@ void PrimaryGeneratorAction::SetGenerator() {
 }
 
 void PrimaryGeneratorAction::CreateNtupleBranches() {
-    fCurrentGenerator->CreateNtupleBranches();
+    if(fCurrentGenerator) fCurrentGenerator->CreateNtupleBranches();
 }
