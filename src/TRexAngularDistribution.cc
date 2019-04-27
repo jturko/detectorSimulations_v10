@@ -331,13 +331,6 @@ void TRexAngularDistribution::FillAngularDistributionGraphs() {
 
 	file.close();
 
-			/*TFile testFile("angDist.root", "recreate");
-			testFile.cd();
-	
-			for(int i = 0; i < fNbOfLevels; i++) {
-				fGraphsSin[i].SetName(Form("Graph_%i", i));
-				fGraphsSin[i].Write();
-			}*/
 }
 
 void TRexAngularDistribution::FillAngularDistributionHistos() {
@@ -370,13 +363,6 @@ void TRexAngularDistribution::FillAngularDistributionHistos() {
 			}
 		}
 	}
-
-			/*TFile testFile("angDistHisto.root", "recreate");
-			testFile.cd();
-	
-			for(size_t i = 0; i < fNbOfLevels; i++) {
-				fHistos[i].Write();
-			}*/
 }
 
 /*void TRexAngularDistribution::FillCrossSectionGraph() {

@@ -46,15 +46,10 @@ TRexBeam::TRexBeam() :
 		// energy loss in the targe
 		//fEnergyVsTargetDepth = *(fKinematics->EnergyVsThickness(fBeamEnergy / MeV, TRexSettings::Get()->GetTargetThickness() / 1000 / (mg/cm2)));
 
-		//	TFile bla("bla.root", "recreate");
-		//	bla.cd();
-		//	fEnergyVsTargetDepth.Write();
-		//	bla.Close();
-
 		// set minimal thetaCM
 		fThetaCM_min = TRexSettings::Get()->GetThetaCmMin();
 
-		fEbeamCmHist = nullptr;
+		//fEbeamCmHist = nullptr;
 		
 	}
 
@@ -250,9 +245,11 @@ void TRexBeam::CalculateReactionEnergyInTheTarget() {
 	// *********************************** Vinzenz first reactionEnergy then reactionZ*******************************
 	
 	/*fRndReaction.SetSeed(0);
-	double fReacProbA = fRndReaction.Rndm();
-	double fReacProbB = fRndReaction.Rndm();
-	
+	//double fReacProbA = fRndReaction.Rndm(); // so we can get rid of ROOT, G4RandFlat was added
+	//double fReacProbB = fRndReaction.Rndm();
+    double fReacProbA = G4RandFlat::shoot(0,1);	
+    double fReacProbB = G4RandFlat::shoot(0,1);	
+
 	double fSigmaTotalBarnStdr = 2.24; // barn (32029.12/180*12.57)
 	
 	double fReacProb = fSigmaTotalBarnStdr * 2.81865e-3 * 0.6022 / 4.; // bar * gr/cm2 (target areal density.81865 mg/cm2)

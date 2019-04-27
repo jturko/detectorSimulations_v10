@@ -28,11 +28,10 @@
 
 #include "math.h"
 
-#include "TFile.h"
 #include "TSpline.h"
-#include "TRandom.h"
-#include "TRandom1.h"
-#include "TH1F.h"
+//#include "TRandom.h"
+//#include "TRandom1.h"
+//#include "TH1F.h"
 
 class G4ParticleGun;
 
@@ -133,10 +132,10 @@ protected:
     std::vector<TGraph> fGraphCrossSection;// Leila 
     G4double fSigmaVsEbeamCmMax;//Leila
     TGraph* fGrp;
-    TH1F* fEbeamCmHist;
+    //TH1F* fEbeamCmHist;
     int fNumberOfPointsGraph;
     double* fYaxs;
-    TRandom fRndReaction;
+    //TRandom fRndReaction;
     int fEventCounter;
 };
 
