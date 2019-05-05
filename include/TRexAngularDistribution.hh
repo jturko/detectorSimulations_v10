@@ -49,7 +49,7 @@ class TRexAngularDistribution : public TRexBeam, public MiniBallSource {
 		void SetEjectileAndRecoil();
 		void ShootThetaCm(int levelNb);
 		void ShootReactionTypeAndExcitationEnergy();
-		//void ShootReactionPosition();
+		//void ShootReactionPosition(); // in TRexBeam
 		void FillCrossSectionGraph(); // Leila
 
 

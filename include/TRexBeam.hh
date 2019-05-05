@@ -51,6 +51,7 @@ public:
 protected:
     // shoot fReactionX, fReactionY, fReactionZ of the source
     void ShootReactionPosition();
+    void ShootReactionPositionSpread(); // w/ the xy-radius varying as a function of z
     
     // define nuclei
     void DefineNuclei();

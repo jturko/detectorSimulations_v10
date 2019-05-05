@@ -64,7 +64,8 @@ void TRexAngularDistribution::GeneratePrimaries(G4Event *anEvent) {
 	fGammaEnergy->resize(0);
 	
 	// shoot the emission point
-	ShootReactionPosition();
+	//ShootReactionPosition();
+	ShootReactionPositionSpread();
 	
 	//fEventCounter = fEventCounter +1; ##########
 

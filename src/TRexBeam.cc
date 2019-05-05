@@ -76,6 +76,25 @@ void TRexBeam::ShootReactionPosition() {
 	
 }
 
+void TRexBeam::ShootReactionPositionSpread() {
+    // calculate z position the same as above, but now this is done first as it serves as an input for the x-y position calculation
+    fReactionZ = G4RandFlat::shoot(-TRexSettings::Get()->GetTargetPhysicalLength()/(2*um), TRexSettings::Get()->GetTargetPhysicalLength()/(2*um))*um;
+
+    // calculate the radius 
+    const int n = 3;
+    double z[n] = { -80.*mm,    0.*mm,  80.*mm };
+    double r[n] = { 1.*mm,      2.*mm,  3.*mm };   
+    
+    TSpline3 spline("reactionZ_vs_radius", z, r, n);
+    double max_radius = spline.Eval(fReactionZ);
+
+    double theta = 2. * M_PI * G4UniformRand();
+    double radius = max_radius * sqrt( G4UniformRand() );
+
+    fReactionX = radius * cos(theta);
+    fReactionY = radius * sin(theta);
+}
+
 void TRexBeam::DefineNuclei() {
 	fProjectileZ = TRexSettings::Get()->GetProjectileZ();
 	fProjectileA = TRexSettings::Get()->GetProjectileA();
