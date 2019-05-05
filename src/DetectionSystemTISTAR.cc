@@ -41,6 +41,7 @@ DetectionSystemTISTAR::DetectionSystemTISTAR() :
     fSiDimensions = G4ThreeVector(0.,0.,0.);
     fPCBDimensions = G4ThreeVector(0.,0.,0.);
     fOffset = G4ThreeVector(0.,0.,0.);
+    fPositionOffset = G4ThreeVector(0.,0.,0.);
 
     fGasTargetRadius = TRexSettings::Get()->GetTargetDiameter()/2.;
     fGasTargetLength = TRexSettings::Get()->GetGasTargetLength();
@@ -209,10 +210,13 @@ G4int DetectionSystemTISTAR::Add4StripLayer(G4double dist_from_beam, G4double ga
     G4ThreeVector move;
     G4ThreeVector rotate;
 
+    fPositionOffset = G4ThreeVector(0., 10.0*mm*(-5.0*mm -100.0/2.*mm +140.0/2.*mm)/(30.0*mm), 0.);
+
     // first strip
     move = G4ThreeVector(   +dist_from_beam,                // x
                             0.,                             // y
                             +fSiDimensions.z()/2. +gap_z);  // z
+    move += fPositionOffset;
     rotate = G4ThreeVector( 0.,                     // x-rotation
                             0.,                     // y-rotation
                             +90.);                  // z-rotation
@@ -222,6 +226,7 @@ G4int DetectionSystemTISTAR::Add4StripLayer(G4double dist_from_beam, G4double ga
     move = G4ThreeVector(   +dist_from_beam,                // x
                             0.,                             // y
                             -fSiDimensions.z()/2. -gap_z);  // z
+    move += fPositionOffset;
     rotate = G4ThreeVector( 0,                      // x-rotation
                             +180.,                  // y-rotation
                             +90.);                  // z-rotation
@@ -231,6 +236,7 @@ G4int DetectionSystemTISTAR::Add4StripLayer(G4double dist_from_beam, G4double ga
     move = G4ThreeVector(   -dist_from_beam,                // x
                             0.,                             // y
                             +fSiDimensions.z()/2. +gap_z);  // z
+    move -= fPositionOffset;
     rotate = G4ThreeVector( 0.,                     // x-rotation
                             0.,                     // y-rotation
                             -90.);                  // z-rotation
@@ -240,6 +246,7 @@ G4int DetectionSystemTISTAR::Add4StripLayer(G4double dist_from_beam, G4double ga
     move = G4ThreeVector(   -dist_from_beam,                // x
                             0.,                             // y
                             -fSiDimensions.z()/2. -gap_z);  // z
+    move -= fPositionOffset;
     rotate = G4ThreeVector( 0,                      // x-rotation
                             +180.,                  // y-rotation
                             -90.);                  // z-rotation

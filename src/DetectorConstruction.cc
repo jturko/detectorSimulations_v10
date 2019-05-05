@@ -935,7 +935,8 @@ void DetectorConstruction::AddTISTAR4StripLayer() {
        fTISTARPCBDimensions.y() > 0. &&
        fTISTARPCBDimensions.z() > 0. ) pTISTAR->SetPCBDimensions(fTISTARPCBDimensions);
     pTISTAR->SetOffset(fTISTAROffset);
-
+    pTISTAR->SetPositionOffset(fTISTARPositionOffset);
+    
     pTISTAR->Build();
     pTISTAR->Add4StripLayer(fTISTARDistFromBeam, fTISTARGapZ, fLogicWorld);    
 
