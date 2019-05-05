@@ -7,7 +7,7 @@
 
 #/tracking/verbose 1
 
-#####################################################
+######################################################
 /DetSys/world/material Vacuum
 
 # first layer
@@ -22,7 +22,7 @@
 /DetSys/det/setTISTARSiDimensions 100 0.150 100 mm  
 /DetSys/det/setTISTARPCBDimensions 140 1.67 140 mm
 /DetSys/det/setTISTAROffset 5 0 0 mm         
-/DetSys/det/setTISTARSiCentered false
+/DetSys/det/setTISTARSiCentered 1
 /DetSys/det/setTISTARDistFromBeam 30 mm
 /DetSys/det/addTISTAR2StripLayer
 
@@ -30,9 +30,27 @@
 /DetSys/det/setTISTARSiDimensions 100 2 100 mm  
 /DetSys/det/setTISTARPCBDimensions 140 1.67 140 mm
 /DetSys/det/setTISTAROffset 5 0 0 mm         
-/DetSys/det/setTISTARSiCentered false
+/DetSys/det/setTISTARSiCentered 1
 /DetSys/det/setTISTARDistFromBeam 33 mm
 /DetSys/det/addTISTAR2StripLayer
+
+## GRIFFIN
+#/DetSys/det/addGriffinBackDetector 1
+#/DetSys/det/addGriffinBackDetector 2
+#/DetSys/det/addGriffinBackDetector 3
+#/DetSys/det/addGriffinBackDetector 4
+#/DetSys/det/addGriffinBackDetector 5
+#/DetSys/det/addGriffinBackDetector 6
+#/DetSys/det/addGriffinBackDetector 7
+#/DetSys/det/addGriffinBackDetector 8
+#/DetSys/det/addGriffinBackDetector 9
+#/DetSys/det/addGriffinBackDetector 10
+#/DetSys/det/addGriffinBackDetector 11
+#/DetSys/det/addGriffinBackDetector 12
+#/DetSys/det/addGriffinBackDetector 13
+#/DetSys/det/addGriffinBackDetector 14
+#/DetSys/det/addGriffinBackDetector 15
+#/DetSys/det/addGriffinBackDetector 16
 
 #####################################################
 /DetSys/miniball/SetPrimaryGenerator            AngularDistribution
@@ -75,25 +93,31 @@
 
 /DetSys/miniball/Print
 
-/DetSys/gun/useTRexGenerator true
+/DetSys/gun/useTRexGenerator false
+
+# target
+/DetSys/miniball/SetTargetMylarThickness 2 um
+/DetSys/miniball/SetTargetBeWindowThickness 8 um
+
+/DetSys/det/addTISTARGasTarget
 
 #####################################################
-#/DetSys/gun/useGPS true
-#
-#/gps/particle proton
-#
-#/gps/position 0 0 0 m
-#/gps/pos/type Point
-#/gps/pos/centre 0 0 0 m
-#
-#/gps/ang/type iso
-#
-##/gps/ene/type Lin
-##/gps/ene/min 2 MeV
-##/gps/ene/max 5 MeV
-##/gps/ene/gradient 0
-##/gps/ene/intercept 1
-#/gps/energy 5 MeV
+/DetSys/gun/useGPS true
+
+/gps/particle proton
+
+/gps/position 0 0 0 m
+/gps/pos/type Point
+/gps/pos/centre 0 0 0 m
+
+/gps/ang/type iso
+
+#/gps/ene/type Lin
+#/gps/ene/min 2 MeV
+#/gps/ene/max 5 MeV
+#/gps/ene/gradient 0
+#/gps/ene/intercept 1
+/gps/energy 5 MeV
 
 #####################################################
-/run/beamOn 1000
+/run/beamOn 1

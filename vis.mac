@@ -1,86 +1,128 @@
-#
-# Macro file for the initialization phase of "radioActiv.cc"
-#
-# Sets some default verbose
-# and initializes the graphic.
-#
-/control/verbose 2
-/run/verbose 2
-#
-/run/initialize
-#
-# Use this open statement to create an OpenGL view:
-/vis/open OGL 600x600-0+0
-#
-# Use this open statement to create a .prim file suitable for
-# viewing in DAWN:
-#/vis/open DAWNFILE
-#
-# Use this open statement to create a .heprep file suitable for
-# viewing in HepRApp:
-#/vis/open HepRepFile
-#
-# Use this open statement to create a .wrl file suitable for
-# viewing in a VRML viewer:
+# Set verbose level
+/run/verbose 0
+
+#################################################
+# Visualization of detector geometry with 
+# the VRML2FILE driver.
+#################################################
+
+# Invoke the VRML2FILE driver
 #/vis/open VRML2FILE
-#
-# Disable auto refresh and quieten vis messages whilst scene and
-# trajectories are established:
-/vis/viewer/set/autoRefresh false
-/vis/verbose errors
-#
-# Draw geometry:
-/vis/drawVolume
-#
-# Specify view angle:
-#/vis/viewer/set/viewpointThetaPhi 90. 0.
-#
-# Specify zoom value:
-/vis/viewer/zoom 1.5
-#
-# Specify style (surface or wireframe):
+
+# Visualize of the whole detector geometry
+#/vis/viewer/set/style surface
+#/vis/drawVolume
+#/vis/viewer/update
+
+#################################################
+# Visualization of detector geometry and events 
+# with the VRML2FILE driver.
+#################################################
+
+# Invoke the VRML2FILE driver
+/vis/open VRML2FILE
+
+# Set viewer rendering style
+# "wireframe" means  "half-transparent" in VRML2FILE driver 
+/vis/viewer/set/style surface
 #/vis/viewer/set/style wireframe
-#
-# Draw coordinate axes:
-#/vis/scene/add/axes 0 0 0 1 m
-#
-# Draw smooth trajectories at end of event, showing trajectory points
-# as markers 2 pixels wide:
+
+# Compund command: creates scene, adds volume, attaches scene handler
+# and refreshes viewer
+/vis/drawVolume
+
+# Create a new scene 
+/vis/scene/create
+
+# Attach the current scene handler to the current scene
+/vis/sceneHandler/attach 
+
+# Add the world volume to the current scene
+/vis/scene/add/volume
+
+# Visualize one event added to the current scene
+# * Command "/vis/scene/notifyHandlers" is written in 
+#   XrayTelRunAction::BeginOfRunAction()
+# * Command "/vis/viewer/update" is written in 
+#   XrayTelRunAction::EndOfRunAction()
+
+############# Don't Work ##############################################
+# Store particle trajactories for visualization
+#/tracking/storeTrajectory 1
+
+# Set to draw tracks of positively charged particles
+#/event/drawTracks charged
+#######################################################################
+
+# Add coordinate axes at origin
+# red color for x-axis
+# green color for y-axis
+# blue color for z-axis
+/vis/scene/add/axes 0 0 0 500 mm
+
+# Add trajectories to the visualization.
 /vis/scene/add/trajectories smooth
+
+# Add hits to scene
+/vis/scene/add/hits
+
+# Accumulate multiple events in one picture.
+/vis/scene/endOfEventAction accumulate
+
+# ----------------
+# Trajectory Colouring Scheme
+# ----------------
 #/vis/modeling/trajectories/create/drawByCharge
 #/vis/modeling/trajectories/drawByCharge-0/default/setDrawStepPts true
-#/vis/modeling/trajectories/drawByCharge-0/default/setStepPtsSize 2
-# (if too many tracks cause core dump => /tracking/storeTrajectory 0)
-#
-# Draw hits at end of event:
-#/vis/scene/add/hits
-#
-# To draw only gammas:
-#/vis/filtering/trajectories/create/particleFilter
-#/vis/filtering/trajectories/particleFilter-0/add gamma
-#
-# To invert the above, drawing all particles except gammas,
-# keep the above two lines but also add:
-#/vis/filtering/trajectories/particleFilter-0/invert true
-#
-# Many other options are available with /vis/modeling and /vis/filtering.
-# For example, to select colour by particle ID:
-/vis/modeling/trajectories/create/drawByParticleID
-/vis/modeling/trajectories/drawByParticleID-0/set e- red
-/vis/modeling/trajectories/drawByParticleID-0/set e+ blue
-/vis/modeling/trajectories/drawByParticleID-0/set nu_e white
-/vis/modeling/trajectories/drawByParticleID-0/set anti_nu_e white
-/vis/modeling/trajectories/drawByParticleID-0/set geantino white
-/vis/modeling/trajectories/drawByParticleID-0/set gamma green
-/vis/modeling/trajectories/drawByParticleID-0/set alpha yellow
-/vis/modeling/trajectories/drawByParticleID-0/set GenericIon grey
-#
-# To superimpose all of the events from a given run:
-/vis/scene/endOfEventAction accumulate
-#
-# Re-establish auto refreshing and verbosity:
-/vis/viewer/set/autoRefresh true
-/vis/verbose warnings
-#
-# For file-based drivers, use this to create an empty detector view:
-#/vis/viewer/flush
+#/vis/modeling/trajectories/drawByCharge-0/set -1 blue
+#/vis/modeling/trajectories/drawByCharge-0/set 1 blue
+#/vis/modeling/trajectories/drawByCharge-0/set 0 green
+
+#/vis/modeling/trajectories/create/drawByParticleID
+#/vis/modeling/trajectories/drawByParticleID-0/set e- magenta
+#/vis/modeling/trajectories/drawByParticleID-0/set proton magenta
+#/vis/modeling/trajectories/drawByParticleID-0/set gamma green
+#/vis/modeling/trajectories/drawByParticleID-0/set neutron yellow
+
+# Disable visualization
+#/vis/disable
+
+# ----------------
+# Beam Characteristics
+# ----------------
+# Change primary particle
+#/gun/particle gamma
+#/gun/particle e-
+#/gun/particle proton
+#/gun/particle neutron
+#/gun/particle geantino
+
+# Set General Particle Source options
+#/gps/particle proton
+#/gps/pos/type Plane
+#/gps/pos/shape Annulus
+#/gps/pos/rot1 0. 0. 1.
+#/gps/pos/rot2 0. 1. 0.
+#/gps/pos/radius 35.5 cm
+#/gps/pos/inner_radius 30.5 cm
+#/gps/pos/centre 780.1 0. 0. cm
+#/gps/ang/type cos
+#/gps/ang/rot1 0. 0. 1.
+#/gps/ang/rot2 0. 1. 0.
+#/gps/ang/maxtheta 1. deg
+#/gps/ene/type Mono
+#/gps/ene/mono 0.5 MeV
+
+# Set number of particles and start
+#/run/beamOn 1
+
+
+
+
+
+
+
+
+
+
+
