@@ -52,7 +52,8 @@ protected:
     // shoot fReactionX, fReactionY, fReactionZ of the source
     void ShootReactionPosition();
     void ShootReactionPositionSpread(); // w/ the xy-radius varying as a function of z
-    
+    void BuildSplineReactionZvsRadius();
+
     // define nuclei
     void DefineNuclei();
     
@@ -138,6 +139,8 @@ protected:
     double* fYaxs;
     //TRandom fRndReaction;
     int fEventCounter;
+
+    TSpline3 * fSplineReactionZvsRadius;
 };
 
 #endif /* TREXBEAMSOURCE_HH_ */

@@ -50,6 +50,7 @@ TRexBeam::TRexBeam() :
 		fThetaCM_min = TRexSettings::Get()->GetThetaCmMin();
 
 		//fEbeamCmHist = nullptr;
+        fSplineReactionZvsRadius = NULL;
 		
 	}
 
@@ -81,18 +82,40 @@ void TRexBeam::ShootReactionPositionSpread() {
     fReactionZ = G4RandFlat::shoot(-TRexSettings::Get()->GetTargetPhysicalLength()/(2*um), TRexSettings::Get()->GetTargetPhysicalLength()/(2*um))*um;
 
     // calculate the radius 
-    const int n = 3;
-    double z[n] = { -80.*mm,    0.*mm,  80.*mm };
-    double r[n] = { 1.*mm,      2.*mm,  3.*mm };   
-    
-    TSpline3 spline("reactionZ_vs_radius", z, r, n);
-    double max_radius = spline.Eval(fReactionZ);
+    double max_radius = fSplineReactionZvsRadius->Eval(fReactionZ/mm)*mm;
 
     double theta = 2. * M_PI * G4UniformRand();
     double radius = max_radius * sqrt( G4UniformRand() );
 
     fReactionX = radius * cos(theta);
     fReactionY = radius * sin(theta);
+}
+
+void TRexBeam::BuildSplineReactionZvsRadius() {
+    std::ifstream file(TRexSettings::Get()->GetBeamSpreadFile().c_str());
+    if(file.bad()) {
+        std::cerr << "Unable to open beam spread distribution file" << TRexSettings::Get()->GetBeamSpreadFile() << "!\nexiting ... \n";
+        exit(2);
+    } else {
+        std::cout << "\nReading beam spread distribution file " << TRexSettings::Get()->GetBeamSpreadFile() << " ... \n"<< std::endl;
+    }    
+
+    int nbPoints;
+    file >> nbPoints;
+    std::cout << "nbPoints = " << nbPoints << " ...\n" << std::endl;
+    
+    // build arrays 
+    double * reactionZArray = new double[(const int)nbPoints];
+    double * radiusArray = new double[(const int)nbPoints];
+
+    // fill with the data
+    for(int i=0; i<nbPoints; i++) {
+        file >> reactionZArray[i] >> radiusArray[i];
+    }
+
+    fSplineReactionZvsRadius = new TSpline3("fSplineReactionZvsRadius", reactionZArray, radiusArray, nbPoints);
+
+    file.close();
 }
 
 void TRexBeam::DefineNuclei() {

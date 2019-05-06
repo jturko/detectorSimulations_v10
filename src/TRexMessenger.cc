@@ -184,6 +184,10 @@ TRexMessenger::TRexMessenger(PrimaryGeneratorAction * pgen) :
     fSetCrossSectionFileCmd = new G4UIcmdWithAString("/DetSys/miniball/SetCrossSectionFile",this);
     fSetCrossSectionFileCmd->SetGuidance("set the location/name of the CrossSection file");
     fSetCrossSectionFileCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    
+    fSetBeamSpreadFileCmd = new G4UIcmdWithAString("/DetSys/miniball/SetBeamSpreadFile",this);
+    fSetBeamSpreadFileCmd->SetGuidance("set the location/name of the beam spread file");
+    fSetBeamSpreadFileCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
  
 
     fSetAlphaSourceDiameterCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/miniball/SetAlphaSourceDiameter",this);
@@ -274,6 +278,7 @@ TRexMessenger::~TRexMessenger() {
     delete fSetAngularDistributionFileCmd;
     delete fSetMassFileCmd;
     delete fSetCrossSectionFileCmd;
+    delete fSetBeamSpreadFileCmd;
 
     delete fSetAlphaSourceDiameterCmd;
     delete fSetAlphaSourceThicknessCmd;
@@ -330,6 +335,7 @@ void TRexMessenger::SetNewValue(G4UIcommand* command, G4String value) {
     if(command == fSetAngularDistributionFileCmd)   TRexSettings::Get()->SetAngularDistributionFile(value);
     if(command == fSetMassFileCmd)                  TRexSettings::Get()->SetMassFile(value);
     if(command == fSetCrossSectionFileCmd)          TRexSettings::Get()->SetCrossSectionFile(value);
+    if(command == fSetBeamSpreadFileCmd)            TRexSettings::Get()->SetBeamSpreadFile(value);
 
     if(command == fSetAlphaSourceDiameterCmd)       TRexSettings::Get()->SetAlphaSourceDiameter(fSetAlphaSourceDiameterCmd->GetNewDoubleValue(value));
     if(command == fSetAlphaSourceThicknessCmd)      TRexSettings::Get()->SetAlphaSourceThickness(fSetAlphaSourceThicknessCmd->GetNewDoubleValue(value));

@@ -30,6 +30,9 @@ TRexAngularDistribution::TRexAngularDistribution() :
 	FillAngularDistributionHistos();
 	//FillCrossSectionGraph(); // Leila #######
 	
+    // build the reactionZ vs radius spline
+    BuildSplineReactionZvsRadius();
+
 	//fEventCounter;
 }
 

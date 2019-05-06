@@ -105,6 +105,7 @@ private:
     G4UIcmdWithAString*     fSetAngularDistributionFileCmd;
     G4UIcmdWithAString*     fSetMassFileCmd;
     G4UIcmdWithAString*     fSetCrossSectionFileCmd;
+    G4UIcmdWithAString*     fSetBeamSpreadFileCmd;
 
     G4UIcmdWithADoubleAndUnit*  fSetAlphaSourceDiameterCmd;
     G4UIcmdWithADoubleAndUnit*  fSetAlphaSourceThicknessCmd;
