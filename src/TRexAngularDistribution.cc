@@ -29,10 +29,10 @@ TRexAngularDistribution::TRexAngularDistribution() :
 	FillAngularDistributionGraphs();
 	FillAngularDistributionHistos();
 	//FillCrossSectionGraph(); // Leila #######
+    
+    // build the reactionZ vs radius spline if file has been set
+    if(TRexSettings::Get()->GetSplineReactionZvsRadiusFileBool()) BuildSplineReactionZvsRadius();
 	
-    // build the reactionZ vs radius spline
-    BuildSplineReactionZvsRadius();
-
 	//fEventCounter;
 }
 
@@ -67,8 +67,7 @@ void TRexAngularDistribution::GeneratePrimaries(G4Event *anEvent) {
 	fGammaEnergy->resize(0);
 	
 	// shoot the emission point
-	//ShootReactionPosition();
-	ShootReactionPositionSpread();
+	ShootReactionPosition();
 	
 	//fEventCounter = fEventCounter +1; ##########
 

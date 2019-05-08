@@ -60,7 +60,7 @@ TRexSettings::TRexSettings()
     fAngularDistributionFile = "";
     fCrossSectionFile = "";
     fMassFile = "";
-    fBeamSpreadFile = "";
+    fSplineReactionZvsRadiusFile = "";
 	
     fAlphaSourceDiameter = 3. * mm; // original 3 mm //last value: 2
 	fAlphaSourceThickness = 3. * mm;// original 3 mm //last value 40 
@@ -77,6 +77,8 @@ TRexSettings::TRexSettings()
 
     fTargetMylarThickness = 2.*um;
     fTargetBeWindowThickness = 8.*um;
+
+    fSplineReactionZvsRadiusFileBool = false;
 }
 
 TRexSettings::~TRexSettings() {
@@ -116,7 +118,8 @@ void TRexSettings::Print(Option_t* opt) const {
 		<<"fAngularDistributionFile = "<<fAngularDistributionFile<<std::endl
 		<<"fCrossSectionFile = "<<fCrossSectionFile<<std::endl
 		<<"fMassFile = "<<fMassFile<<std::endl
-		<<"fBeamSpreadFile = "<<fBeamSpreadFile<<std::endl
+		<<"fSplineReactionZvsRadiusFile = "<<fSplineReactionZvsRadiusFile<<std::endl
+		<<"fSplineReactionZvsRadiusFileBool = "<<fSplineReactionZvsRadiusFileBool<<std::endl
 		<<"---------- alpha source"<<std::endl
 		<<"fAlphaSourceDiameter = "<<fAlphaSourceDiameter/mm<<" mm"<<std::endl
 		<<"fAlphaSourceThickness = "<<fAlphaSourceThickness/mm<<" mm"<<std::endl

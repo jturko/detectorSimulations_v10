@@ -3,7 +3,7 @@
 
 /DetSys/phys/SelectPhysics QGSP_BIC
 
-/control/execute vis.mac
+#/control/execute vis.mac
 
 #/tracking/verbose 1
 
@@ -22,7 +22,7 @@
 /DetSys/det/setTISTARSiDimensions 100 0.150 100 mm  
 /DetSys/det/setTISTARPCBDimensions 140 1.67 140 mm
 /DetSys/det/setTISTAROffset 5 0 0 mm         
-/DetSys/det/setTISTARSiCentered 1
+/DetSys/det/setTISTARSiCentered 0
 /DetSys/det/setTISTARDistFromBeam 30 mm
 /DetSys/det/addTISTAR2StripLayer
 
@@ -30,7 +30,7 @@
 /DetSys/det/setTISTARSiDimensions 100 2 100 mm  
 /DetSys/det/setTISTARPCBDimensions 140 1.67 140 mm
 /DetSys/det/setTISTAROffset 5 0 0 mm         
-/DetSys/det/setTISTARSiCentered 1
+/DetSys/det/setTISTARSiCentered 0
 /DetSys/det/setTISTARDistFromBeam 33 mm
 /DetSys/det/addTISTAR2StripLayer
 
@@ -53,10 +53,11 @@
 #/DetSys/det/addGriffinBackDetector 16
 
 #####################################################
-/DetSys/miniball/SetPrimaryGenerator            AngularDistribution
-/DetSys/miniball/SetLevelFile                   ../Data/LevelFiles/132Sn_dp.dat
-/DetSys/miniball/SetAngularDistributionFile     ../Data/AngularDistributionFiles/132Sn_dp.dat
-/DetSys/miniball/SetMassFile                    ../Data/MassFile.dat
+/DetSys/miniball/SetPrimaryGenerator                AngularDistribution
+/DetSys/miniball/SetLevelFile                       ../Data/LevelFiles/132Sn_dp.dat
+/DetSys/miniball/SetAngularDistributionFile         ../Data/AngularDistributionFiles/132Sn_dp.dat
+/DetSys/miniball/SetMassFile                        ../Data/MassFile.dat
+/DetSys/miniball/SetSplineReactionZvsRadiusFile     ../Data/SplineReactionZvsRadiusFile.dat
 
 /DetSys/miniball/SetBeamEnergy 792.0 MeV
 /DetSys/miniball/SetBeamWidth 1.0 mm
@@ -87,37 +88,37 @@
 
 /DetSys/miniball/SetTransferOrCoulexProbability 1.0
 
-/DetSys/miniball/SimulateGammas true
+/DetSys/miniball/SimulateGammas false
 /DetSys/miniball/IncludeEnergyResolution 1
-/DetSys/miniball/SimulateEjectiles true
+/DetSys/miniball/SimulateEjectiles false
 
 /DetSys/miniball/Print
 
-/DetSys/gun/useTRexGenerator false
+/DetSys/gun/useTRexGenerator true
 
 # target
 /DetSys/miniball/SetTargetMylarThickness 2 um
 /DetSys/miniball/SetTargetBeWindowThickness 8 um
-
 /DetSys/det/addTISTARGasTarget
 
 #####################################################
-/DetSys/gun/useGPS true
-
-/gps/particle proton
-
-/gps/position 0 0 0 m
-/gps/pos/type Point
-/gps/pos/centre 0 0 0 m
-
-/gps/ang/type iso
+#/DetSys/gun/useGPS false
+#
+#/gps/particle proton
+#
+#/gps/position 0 0 0 m
+#/gps/pos/type Point
+#/gps/pos/centre 0 0 0 m
+#
+#/gps/ang/type iso
 
 #/gps/ene/type Lin
 #/gps/ene/min 2 MeV
 #/gps/ene/max 5 MeV
 #/gps/ene/gradient 0
 #/gps/ene/intercept 1
-/gps/energy 5 MeV
+
+#/gps/energy 5 MeV
 
 #####################################################
-/run/beamOn 1
+/run/beamOn 10000

@@ -142,9 +142,10 @@ public:
     void SetTargetBeWindowThickness(double thickness) { fTargetBeWindowThickness = thickness; }
 
     // for beam spreading (beam radius) as a function of z
-    std::string GetBeamSpreadFile() { return fBeamSpreadFile; }
-    void SetBeamSpreadFile(std::string name) { fBeamSpreadFile = name; }
-
+    std::string GetSplineReactionZvsRadiusFile() { return fSplineReactionZvsRadiusFile; }
+    void SetSplineReactionZvsRadiusFile(std::string name) { fSplineReactionZvsRadiusFileBool = true; fSplineReactionZvsRadiusFile = name; }
+    bool GetSplineReactionZvsRadiusFileBool() { return fSplineReactionZvsRadiusFileBool; }
+    
     // this constructor has to be public to be able to
     // write the class to file, but it should never be used!
     TRexSettings();
@@ -181,7 +182,7 @@ private:
     std::string fAngularDistributionFile;
     std::string fMassFile;
     std::string fCrossSectionFile; // Leila
-    std::string fBeamSpreadFile;    
+    std::string fSplineReactionZvsRadiusFile;    
 
     double fAlphaSourceDiameter;
     double fAlphaSourceThickness;
@@ -195,6 +196,8 @@ private:
     
     double fTargetMylarThickness;
     double fTargetBeWindowThickness;
+
+    bool fSplineReactionZvsRadiusFileBool;
 
 };
 

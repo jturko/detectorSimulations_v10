@@ -51,7 +51,8 @@ public:
 protected:
     // shoot fReactionX, fReactionY, fReactionZ of the source
     void ShootReactionPosition();
-    void ShootReactionPositionSpread(); // w/ the xy-radius varying as a function of z
+    
+    // build a spline that defines the reaction x-y radius as a function of z, the depth in the target
     void BuildSplineReactionZvsRadius();
 
     // define nuclei

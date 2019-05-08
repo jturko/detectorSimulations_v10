@@ -50,6 +50,7 @@ TRexBeam::TRexBeam() :
 		fThetaCM_min = TRexSettings::Get()->GetThetaCmMin();
 
 		//fEbeamCmHist = nullptr;
+        
         fSplineReactionZvsRadius = NULL;
 		
 	}
@@ -59,45 +60,50 @@ TRexBeam::~TRexBeam() {
 }
 
 void TRexBeam::ShootReactionPosition() {
-	//select random x and y position on a disk with diameter beamWidth
-	/*do {
-	  fReactionX = G4RandFlat::shoot(-fBeamWidth / 2., fBeamWidth / 2.) * mm;
-	  fReactionY = G4RandFlat::shoot(-fBeamWidth / 2., fBeamWidth / 2.) * mm;
-	  } while(sqrt(pow(fReactionX,2)+pow(fReactionY,2)) > fBeamWidth / 2.); original commented out by Leila because X/Y was not a flat distribution (gauss)*/
-
-	fReactionX = G4RandFlat::shoot(-fBeamWidth / 2., fBeamWidth / 2.) * mm;
-	fReactionY = G4RandFlat::shoot(-fBeamWidth / 2., fBeamWidth / 2.) * mm;
-
 	// choose z according to a flat distribution in the target
-	//fReactionZ = G4RandFlat::shoot(-TRexSettings::Get()->GetTargetThickness() / (2. * TRexSettings::Get()->GetTargetMaterialDensity()) / um,
-	//TRexSettings::Get()->GetTargetThickness() / (2. * TRexSettings::Get()->GetTargetMaterialDensity()) / um) * um;
-	//fReactionZ = G4RandFlat::shoot(-0.5, 0.5) * mm;
-	fReactionZ = G4RandFlat::shoot(-TRexSettings::Get()->GetTargetPhysicalLength()/(2*um), TRexSettings::Get()->GetTargetPhysicalLength()/(2*um))*um;
-	// units: although the target length is given as cm in the setting file but fReactionZ is in mm!
-	
-}
-
-void TRexBeam::ShootReactionPositionSpread() {
-    // calculate z position the same as above, but now this is done first as it serves as an input for the x-y position calculation
     fReactionZ = G4RandFlat::shoot(-TRexSettings::Get()->GetTargetPhysicalLength()/(2*um), TRexSettings::Get()->GetTargetPhysicalLength()/(2*um))*um;
+    
+    // if the beam spread file has been set, use the spline to get the x-y reaction coords
+	if(TRexSettings::Get()->GetSplineReactionZvsRadiusFileBool()) {
+        // calculate the radius 
+        double max_radius = fSplineReactionZvsRadius->Eval(fReactionZ/mm)*mm;
 
-    // calculate the radius 
-    double max_radius = fSplineReactionZvsRadius->Eval(fReactionZ/mm)*mm;
+        double theta = 2. * M_PI * G4UniformRand();
+        double radius = max_radius * sqrt( G4UniformRand() );
 
-    double theta = 2. * M_PI * G4UniformRand();
-    double radius = max_radius * sqrt( G4UniformRand() );
+        fReactionX = radius * cos(theta);
+        fReactionY = radius * sin(theta);
+    } 
+    else {
+        //select random x and y position on a disk with diameter beamWidth
+	    /*do {
+	      fReactionX = G4RandFlat::shoot(-fBeamWidth / 2., fBeamWidth / 2.) * mm;
+	      fReactionY = G4RandFlat::shoot(-fBeamWidth / 2., fBeamWidth / 2.) * mm;
+	      } while(sqrt(pow(fReactionX,2)+pow(fReactionY,2)) > fBeamWidth / 2.); original commented out by Leila because X/Y was not a flat distribution (gauss)*/
 
-    fReactionX = radius * cos(theta);
-    fReactionY = radius * sin(theta);
+	    fReactionX = G4RandFlat::shoot(-fBeamWidth / 2., fBeamWidth / 2.) * mm;
+	    fReactionY = G4RandFlat::shoot(-fBeamWidth / 2., fBeamWidth / 2.) * mm;
+
+	    // choose z according to a flat distribution in the target
+	    //fReactionZ = G4RandFlat::shoot(-TRexSettings::Get()->GetTargetThickness() / (2. * TRexSettings::Get()->GetTargetMaterialDensity()) / um,
+	    //TRexSettings::Get()->GetTargetThickness() / (2. * TRexSettings::Get()->GetTargetMaterialDensity()) / um) * um;
+	    //fReactionZ = G4RandFlat::shoot(-0.5, 0.5) * mm;
+	    //fReactionZ = G4RandFlat::shoot(-TRexSettings::Get()->GetTargetPhysicalLength()/(2*um), TRexSettings::Get()->GetTargetPhysicalLength()/(2*um))*um;
+	    // units: although the target length is given as cm in the setting file but fReactionZ is in mm!
+    }	
+
 }
 
 void TRexBeam::BuildSplineReactionZvsRadius() {
-    std::ifstream file(TRexSettings::Get()->GetBeamSpreadFile().c_str());
-    if(file.bad()) {
-        std::cerr << "Unable to open beam spread distribution file" << TRexSettings::Get()->GetBeamSpreadFile() << "!\nexiting ... \n";
+    std::ifstream file(TRexSettings::Get()->GetSplineReactionZvsRadiusFile().c_str());
+    if(!TRexSettings::Get()->GetSplineReactionZvsRadiusFileBool()) {
+        std::cout<<"No beam spread file set, fSplineReactionZvsRadius could not be built!\nexiting ... \n";
+        exit(2);
+    } else if(file.bad()) {
+        std::cerr << "Unable to open beam spread distribution file" << TRexSettings::Get()->GetSplineReactionZvsRadiusFile() << "!\nexiting ... \n";
         exit(2);
     } else {
-        std::cout << "\nReading beam spread distribution file " << TRexSettings::Get()->GetBeamSpreadFile() << " ... \n"<< std::endl;
+        std::cout << "\nReading beam spread distribution file " << TRexSettings::Get()->GetSplineReactionZvsRadiusFile() << " ... \n"<< std::endl;
     }    
 
     int nbPoints;
