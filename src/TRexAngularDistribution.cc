@@ -33,6 +33,12 @@ TRexAngularDistribution::TRexAngularDistribution() :
     // build the reactionZ vs radius spline if file has been set
     if(TRexSettings::Get()->GetSplineReactionZvsRadiusFileBool()) BuildSplineReactionZvsRadius();
 	
+    // build the reactionZ distributon graph/histo if file has been set
+    if(TRexSettings::Get()->GetReactionZDistributionFileBool()) {
+        FillReactionZDistributionGraph();
+        FillReactionZDistributionHisto();
+    }
+
 	//fEventCounter;
 }
 
@@ -294,7 +300,7 @@ void TRexAngularDistribution::FillAngularDistributionGraphs() {
 		std::cerr << "Unable to open angular distribution file" << TRexSettings::Get()->GetAngularDistributionFile() << "!\nexiting ... \n";
 		exit(2);
 	} else {
-		std::cout << "\nReading angular distribution file " << TRexSettings::Get()->GetAngularDistributionFile() << " ... \n"<< std::endl;
+		std::cout << "\nReading angular distribution file " << TRexSettings::Get()->GetAngularDistributionFile() << " ... "<< std::endl;
 	}
 
 
@@ -304,7 +310,7 @@ void TRexAngularDistribution::FillAngularDistributionGraphs() {
 	for(size_t i = 0; i < fNbOfLevels; i++) {
 		file >> nbOfThetaAngles;
 	}
-	std::cout << "nfOfThetaAngles = " << nbOfThetaAngles << std::endl;
+	std::cout << "nfOfThetaAngles = " << nbOfThetaAngles << std::endl << std::endl;
 
 	std::vector<TVectorF> theta    = std::vector<TVectorF>(fNbOfLevels, TVectorF(nbOfThetaAngles));
 	std::vector<TVectorF> sigma    = std::vector<TVectorF>(fNbOfLevels, TVectorF(nbOfThetaAngles));

@@ -31,7 +31,7 @@
 #include "TSpline.h"
 //#include "TRandom.h"
 //#include "TRandom1.h"
-//#include "TH1F.h"
+#include "TH1F.h"
 
 class G4ParticleGun;
 
@@ -54,6 +54,10 @@ protected:
     
     // build a spline that defines the reaction x-y radius as a function of z, the depth in the target
     void BuildSplineReactionZvsRadius();
+
+    // fill 
+    void FillReactionZDistributionHisto();
+    void FillReactionZDistributionGraph();
 
     // define nuclei
     void DefineNuclei();
@@ -142,6 +146,10 @@ protected:
     int fEventCounter;
 
     TSpline3 * fSplineReactionZvsRadius;
+
+    TGraph * fReactionZDistributionGraph;
+    TH1F * fReactionZDistributionHisto;
+    TSpline3 * fReactionZDistributionSpline;
 };
 
 #endif /* TREXBEAMSOURCE_HH_ */

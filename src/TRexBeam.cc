@@ -53,15 +53,24 @@ TRexBeam::TRexBeam() :
         
         fSplineReactionZvsRadius = NULL;
 		
-	}
+        fReactionZDistributionHisto = NULL;
+        fReactionZDistributionGraph = NULL;
+        fReactionZDistributionSpline = NULL;
+}
 
 TRexBeam::~TRexBeam() {
 	// TODO Auto-generated destructor stub
 }
 
 void TRexBeam::ShootReactionPosition() {
-	// choose z according to a flat distribution in the target
-    fReactionZ = G4RandFlat::shoot(-TRexSettings::Get()->GetTargetPhysicalLength()/(2*um), TRexSettings::Get()->GetTargetPhysicalLength()/(2*um))*um;
+    // if the reactionZ distribution file has been set, sample from it
+    if(TRexSettings::Get()->GetReactionZDistributionFileBool()) {
+        fReactionZ = fReactionZDistributionHisto->GetRandom()*mm;
+    } 
+	// otherwise, choose z according to a flat distribution in the target
+    else {
+        fReactionZ = G4RandFlat::shoot(-TRexSettings::Get()->GetTargetPhysicalLength()/(2*um), TRexSettings::Get()->GetTargetPhysicalLength()/(2*um))*um;
+    }
     
     // if the beam spread file has been set, use the spline to get the x-y reaction coords
 	if(TRexSettings::Get()->GetSplineReactionZvsRadiusFileBool()) {
@@ -74,6 +83,7 @@ void TRexBeam::ShootReactionPosition() {
         fReactionX = radius * cos(theta);
         fReactionY = radius * sin(theta);
     } 
+    // otherwise, use the default way (randomly in a square w/ side lengths of fBeamWith
     else {
         //select random x and y position on a disk with diameter beamWidth
 	    /*do {
@@ -94,8 +104,68 @@ void TRexBeam::ShootReactionPosition() {
 
 }
 
+void TRexBeam::FillReactionZDistributionGraph() {
+    std::ifstream file(TRexSettings::Get()->GetReactionZDistributionFile().c_str());
+    
+    if(!TRexSettings::Get()->GetReactionZDistributionFileBool()) {
+        std::cout<<"No reactionZ distribution file set, fReactionZDistributionGraph could not be built!\nexiting ... \n";
+        exit(2);
+    } else if(file.bad()) {
+        std::cerr << "Unable to open reactionZ distribution file" << TRexSettings::Get()->GetReactionZDistributionFile() << "!\nexiting ... \n";
+        exit(2);
+    } else {
+        std::cout << "\nReading reactionZ distribution file " << TRexSettings::Get()->GetReactionZDistributionFile() << " ... "<< std::endl;
+    }
+    
+    int nbPoints;
+    file >> nbPoints;
+    std::cout << "nbPoints = " << nbPoints << std::endl << std::endl;
+ 
+    double * reactionZArray = new double[(const int)nbPoints];
+    double * reactionProbArray = new double[(const int)nbPoints];           
+
+    for(int i=0; i<nbPoints; i++) {
+        file >> reactionZArray[i] >> reactionProbArray[i];
+    }
+
+    fReactionZDistributionGraph = new TGraph(nbPoints, reactionZArray, reactionProbArray);
+    fReactionZDistributionSpline = new TSpline3("fReactionZDistributionSpline", reactionZArray, reactionProbArray, nbPoints);
+}
+
+void TRexBeam::FillReactionZDistributionHisto() {
+    int nbPoints = fReactionZDistributionGraph->GetN();
+    int nbBins = 10*nbPoints;    
+
+    double reactionZMin, reactionProbMin;
+    fReactionZDistributionGraph->GetPoint(0, reactionZMin, reactionProbMin);
+    
+    double reactionZMax, reactionProbMax;
+    fReactionZDistributionGraph->GetPoint(nbPoints-1, reactionZMax, reactionProbMax);
+    
+    double binWidth = (reactionZMax - reactionZMin) / nbBins;
+
+    //fReactionZDistributionHisto = new TH1F("ReactionZDistributionHisto","ReactionZDistributionHisto", nbBins+, reactionZMin-binWidth/2., reactionZMax+binWidth/2.);
+    fReactionZDistributionHisto = new TH1F("ReactionZDistributionHisto","ReactionZDistributionHisto", nbBins, reactionZMin, reactionZMax);
+    double prob;
+    for(double zz=reactionZMin; zz<reactionZMax+binWidth; zz+=binWidth) {
+        //prob = fReactionZDistributionGraph->Eval(zz);
+        prob = fReactionZDistributionSpline->Eval(zz);
+        fReactionZDistributionHisto->SetBinContent(fReactionZDistributionHisto->FindBin(zz),prob);
+    }
+    std::cout << "fReactionZDistributionGraph:"
+              << " reactionZMin = " << reactionZMin 
+              << " reactionZMax = " << reactionZMax 
+              << std::endl
+              << "fReactionZDistributionHisto:" 
+              << " GetLowEdge(1) = " << fReactionZDistributionHisto->GetBinLowEdge(1) 
+              << " GetLowEdge(nbBins+1) = " << fReactionZDistributionHisto->GetBinLowEdge(nbBins+1) 
+              << std::endl;
+
+}
+
 void TRexBeam::BuildSplineReactionZvsRadius() {
     std::ifstream file(TRexSettings::Get()->GetSplineReactionZvsRadiusFile().c_str());
+
     if(!TRexSettings::Get()->GetSplineReactionZvsRadiusFileBool()) {
         std::cout<<"No beam spread file set, fSplineReactionZvsRadius could not be built!\nexiting ... \n";
         exit(2);
@@ -103,12 +173,12 @@ void TRexBeam::BuildSplineReactionZvsRadius() {
         std::cerr << "Unable to open beam spread distribution file" << TRexSettings::Get()->GetSplineReactionZvsRadiusFile() << "!\nexiting ... \n";
         exit(2);
     } else {
-        std::cout << "\nReading beam spread distribution file " << TRexSettings::Get()->GetSplineReactionZvsRadiusFile() << " ... \n"<< std::endl;
+        std::cout << "\nReading beam spread distribution file " << TRexSettings::Get()->GetSplineReactionZvsRadiusFile() << " ... "<< std::endl;
     }    
 
     int nbPoints;
     file >> nbPoints;
-    std::cout << "nbPoints = " << nbPoints << " ...\n" << std::endl;
+    std::cout << "nbPoints = " << nbPoints << std::endl << std::endl;
     
     // build arrays 
     double * reactionZArray = new double[(const int)nbPoints];

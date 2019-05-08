@@ -146,6 +146,10 @@ public:
     void SetSplineReactionZvsRadiusFile(std::string name) { fSplineReactionZvsRadiusFileBool = true; fSplineReactionZvsRadiusFile = name; }
     bool GetSplineReactionZvsRadiusFileBool() { return fSplineReactionZvsRadiusFileBool; }
     
+    std::string GetReactionZDistributionFile() { return fReactionZDistributionFile; }
+    void SetReactionZDistributionFile(std::string name) { fReactionZDistributionFileBool = true; fReactionZDistributionFile = name; }
+    bool GetReactionZDistributionFileBool() { return fReactionZDistributionFileBool; }
+
     // this constructor has to be public to be able to
     // write the class to file, but it should never be used!
     TRexSettings();
@@ -183,6 +187,7 @@ private:
     std::string fMassFile;
     std::string fCrossSectionFile; // Leila
     std::string fSplineReactionZvsRadiusFile;    
+    std::string fReactionZDistributionFile;
 
     double fAlphaSourceDiameter;
     double fAlphaSourceThickness;
@@ -198,6 +203,9 @@ private:
     double fTargetBeWindowThickness;
 
     bool fSplineReactionZvsRadiusFileBool;
+
+    bool fReactionZDistributionFileBool;
+    
 
 };
 

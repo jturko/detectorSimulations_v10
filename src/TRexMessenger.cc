@@ -188,6 +188,10 @@ TRexMessenger::TRexMessenger(PrimaryGeneratorAction * pgen) :
     fSetSplineReactionZvsRadiusFileCmd = new G4UIcmdWithAString("/DetSys/miniball/SetSplineReactionZvsRadiusFile",this);
     fSetSplineReactionZvsRadiusFileCmd->SetGuidance("set the location/name of the beam spread file");
     fSetSplineReactionZvsRadiusFileCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    
+    fSetReactionZDistributionFileCmd = new G4UIcmdWithAString("/DetSys/miniball/SetReactionZDistributionFile",this);
+    fSetReactionZDistributionFileCmd->SetGuidance("set the location/name of the reactionZ distribution file");
+    fSetReactionZDistributionFileCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
  
 
     fSetAlphaSourceDiameterCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/miniball/SetAlphaSourceDiameter",this);
@@ -279,6 +283,7 @@ TRexMessenger::~TRexMessenger() {
     delete fSetMassFileCmd;
     delete fSetCrossSectionFileCmd;
     delete fSetSplineReactionZvsRadiusFileCmd;
+    delete fSetReactionZDistributionFileCmd;
 
     delete fSetAlphaSourceDiameterCmd;
     delete fSetAlphaSourceThicknessCmd;
@@ -336,6 +341,7 @@ void TRexMessenger::SetNewValue(G4UIcommand* command, G4String value) {
     if(command == fSetMassFileCmd)                      TRexSettings::Get()->SetMassFile(value);
     if(command == fSetCrossSectionFileCmd)              TRexSettings::Get()->SetCrossSectionFile(value);
     if(command == fSetSplineReactionZvsRadiusFileCmd)   TRexSettings::Get()->SetSplineReactionZvsRadiusFile(value);
+    if(command == fSetReactionZDistributionFileCmd)     TRexSettings::Get()->SetReactionZDistributionFile(value);
 
     if(command == fSetAlphaSourceDiameterCmd)       TRexSettings::Get()->SetAlphaSourceDiameter(fSetAlphaSourceDiameterCmd->GetNewDoubleValue(value));
     if(command == fSetAlphaSourceThicknessCmd)      TRexSettings::Get()->SetAlphaSourceThickness(fSetAlphaSourceThicknessCmd->GetNewDoubleValue(value));
