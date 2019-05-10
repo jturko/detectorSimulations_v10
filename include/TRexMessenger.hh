@@ -105,7 +105,7 @@ private:
     G4UIcmdWithAString*     fSetAngularDistributionFileCmd;
     G4UIcmdWithAString*     fSetMassFileCmd;
     G4UIcmdWithAString*     fSetCrossSectionFileCmd;
-    G4UIcmdWithAString*     fSetSplineReactionZvsRadiusFileCmd;
+    G4UIcmdWithAString*     fSetReactionZvsRadiusFileCmd;
     G4UIcmdWithAString*     fSetReactionZDistributionFileCmd;
 
     G4UIcmdWithADoubleAndUnit*  fSetAlphaSourceDiameterCmd;

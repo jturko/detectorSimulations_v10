@@ -10,29 +10,29 @@
 ######################################################
 /DetSys/world/material Vacuum
 
-# first layer
-/DetSys/det/setTISTARSiDimensions 40 0.02 50 mm  
-/DetSys/det/setTISTARPCBDimensions 80 1.67 75 mm
-/DetSys/det/setTISTAROffset 5 0 0 mm         
-/DetSys/det/setTISTARDistFromBeam 10 mm
-/DetSys/det/setTISTARGapZ 4 mm
-/DetSys/det/addTISTAR4StripLayer
-
-# second layer
-/DetSys/det/setTISTARSiDimensions 100 0.150 100 mm  
-/DetSys/det/setTISTARPCBDimensions 140 1.67 140 mm
-/DetSys/det/setTISTAROffset 5 0 0 mm         
-/DetSys/det/setTISTARSiCentered 0
-/DetSys/det/setTISTARDistFromBeam 30 mm
-/DetSys/det/addTISTAR2StripLayer
-
-# third layer
-/DetSys/det/setTISTARSiDimensions 100 2 100 mm  
-/DetSys/det/setTISTARPCBDimensions 140 1.67 140 mm
-/DetSys/det/setTISTAROffset 5 0 0 mm         
-/DetSys/det/setTISTARSiCentered 0
-/DetSys/det/setTISTARDistFromBeam 33 mm
-/DetSys/det/addTISTAR2StripLayer
+## first layer
+#/DetSys/det/setTISTARSiDimensions 40 0.02 50 mm  
+#/DetSys/det/setTISTARPCBDimensions 80 1.67 75 mm
+#/DetSys/det/setTISTAROffset 5 0 0 mm         
+#/DetSys/det/setTISTARDistFromBeam 10 mm
+#/DetSys/det/setTISTARGapZ 4 mm
+#/DetSys/det/addTISTAR4StripLayer
+#
+## second layer
+#/DetSys/det/setTISTARSiDimensions 100 0.150 100 mm  
+#/DetSys/det/setTISTARPCBDimensions 140 1.67 140 mm
+#/DetSys/det/setTISTAROffset 5 0 0 mm         
+#/DetSys/det/setTISTARSiCentered 0
+#/DetSys/det/setTISTARDistFromBeam 30 mm
+#/DetSys/det/addTISTAR2StripLayer
+#
+## third layer
+#/DetSys/det/setTISTARSiDimensions 100 2 100 mm  
+#/DetSys/det/setTISTARPCBDimensions 140 1.67 140 mm
+#/DetSys/det/setTISTAROffset 5 0 0 mm         
+#/DetSys/det/setTISTARSiCentered 0
+#/DetSys/det/setTISTARDistFromBeam 33 mm
+#/DetSys/det/addTISTAR2StripLayer
 
 ## GRIFFIN
 #/DetSys/det/addGriffinBackDetector 1
@@ -57,7 +57,8 @@
 /DetSys/miniball/SetLevelFile                       ../Data/LevelFiles/132Sn_dp.dat
 /DetSys/miniball/SetAngularDistributionFile         ../Data/AngularDistributionFiles/132Sn_dp.dat
 /DetSys/miniball/SetMassFile                        ../Data/MassFile.dat
-/DetSys/miniball/SetSplineReactionZvsRadiusFile     ../Data/SplineReactionZvsRadiusFile.dat
+/DetSys/miniball/SetReactionZvsRadiusFile           ../Data/ReactionZvsRadiusFile.dat
+/DetSys/miniball/SetReactionZDistributionFile       ../Data/ReactionZDistributionFile.dat
 
 /DetSys/miniball/SetBeamEnergy 792.0 MeV
 /DetSys/miniball/SetBeamWidth 1.0 mm
@@ -121,4 +122,4 @@
 #/gps/energy 5 MeV
 
 #####################################################
-/run/beamOn 10000
+/run/beamOn 1000000

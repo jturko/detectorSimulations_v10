@@ -142,9 +142,9 @@ public:
     void SetTargetBeWindowThickness(double thickness) { fTargetBeWindowThickness = thickness; }
 
     // for beam spreading (beam radius) as a function of z
-    std::string GetSplineReactionZvsRadiusFile() { return fSplineReactionZvsRadiusFile; }
-    void SetSplineReactionZvsRadiusFile(std::string name) { fSplineReactionZvsRadiusFileBool = true; fSplineReactionZvsRadiusFile = name; }
-    bool GetSplineReactionZvsRadiusFileBool() { return fSplineReactionZvsRadiusFileBool; }
+    std::string GetReactionZvsRadiusFile() { return fReactionZvsRadiusFile; }
+    void SetReactionZvsRadiusFile(std::string name) { fReactionZvsRadiusFileBool = true; fReactionZvsRadiusFile = name; }
+    bool GetReactionZvsRadiusFileBool() { return fReactionZvsRadiusFileBool; }
     
     std::string GetReactionZDistributionFile() { return fReactionZDistributionFile; }
     void SetReactionZDistributionFile(std::string name) { fReactionZDistributionFileBool = true; fReactionZDistributionFile = name; }
@@ -186,7 +186,7 @@ private:
     std::string fAngularDistributionFile;
     std::string fMassFile;
     std::string fCrossSectionFile; // Leila
-    std::string fSplineReactionZvsRadiusFile;    
+    std::string fReactionZvsRadiusFile;    
     std::string fReactionZDistributionFile;
 
     double fAlphaSourceDiameter;
@@ -202,7 +202,7 @@ private:
     double fTargetMylarThickness;
     double fTargetBeWindowThickness;
 
-    bool fSplineReactionZvsRadiusFileBool;
+    bool fReactionZvsRadiusFileBool;
 
     bool fReactionZDistributionFileBool;
     

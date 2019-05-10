@@ -185,9 +185,9 @@ TRexMessenger::TRexMessenger(PrimaryGeneratorAction * pgen) :
     fSetCrossSectionFileCmd->SetGuidance("set the location/name of the CrossSection file");
     fSetCrossSectionFileCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
     
-    fSetSplineReactionZvsRadiusFileCmd = new G4UIcmdWithAString("/DetSys/miniball/SetSplineReactionZvsRadiusFile",this);
-    fSetSplineReactionZvsRadiusFileCmd->SetGuidance("set the location/name of the beam spread file");
-    fSetSplineReactionZvsRadiusFileCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    fSetReactionZvsRadiusFileCmd = new G4UIcmdWithAString("/DetSys/miniball/SetReactionZvsRadiusFile",this);
+    fSetReactionZvsRadiusFileCmd->SetGuidance("set the location/name of the beam spread file");
+    fSetReactionZvsRadiusFileCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
     
     fSetReactionZDistributionFileCmd = new G4UIcmdWithAString("/DetSys/miniball/SetReactionZDistributionFile",this);
     fSetReactionZDistributionFileCmd->SetGuidance("set the location/name of the reactionZ distribution file");
@@ -282,7 +282,7 @@ TRexMessenger::~TRexMessenger() {
     delete fSetAngularDistributionFileCmd;
     delete fSetMassFileCmd;
     delete fSetCrossSectionFileCmd;
-    delete fSetSplineReactionZvsRadiusFileCmd;
+    delete fSetReactionZvsRadiusFileCmd;
     delete fSetReactionZDistributionFileCmd;
 
     delete fSetAlphaSourceDiameterCmd;
@@ -340,7 +340,7 @@ void TRexMessenger::SetNewValue(G4UIcommand* command, G4String value) {
     if(command == fSetAngularDistributionFileCmd)       TRexSettings::Get()->SetAngularDistributionFile(value);
     if(command == fSetMassFileCmd)                      TRexSettings::Get()->SetMassFile(value);
     if(command == fSetCrossSectionFileCmd)              TRexSettings::Get()->SetCrossSectionFile(value);
-    if(command == fSetSplineReactionZvsRadiusFileCmd)   TRexSettings::Get()->SetSplineReactionZvsRadiusFile(value);
+    if(command == fSetReactionZvsRadiusFileCmd)         TRexSettings::Get()->SetReactionZvsRadiusFile(value);
     if(command == fSetReactionZDistributionFileCmd)     TRexSettings::Get()->SetReactionZDistributionFile(value);
 
     if(command == fSetAlphaSourceDiameterCmd)       TRexSettings::Get()->SetAlphaSourceDiameter(fSetAlphaSourceDiameterCmd->GetNewDoubleValue(value));

@@ -53,7 +53,7 @@ TRexBeam::TRexBeam() :
 
 		//fEbeamCmHist = nullptr;
         
-        fSplineReactionZvsRadius = NULL;
+        fReactionZvsRadiusSpline = NULL;
 		
         fReactionZDistributionHisto = NULL;
         fReactionZDistributionGraph = NULL;
@@ -75,9 +75,9 @@ void TRexBeam::ShootReactionPosition() {
     }
     
     // if the beam spread file has been set, use the spline to get the x-y reaction coords
-	if(TRexSettings::Get()->GetSplineReactionZvsRadiusFileBool()) {
+	if(TRexSettings::Get()->GetReactionZvsRadiusFileBool()) {
         // calculate the radius 
-        double max_radius = fSplineReactionZvsRadius->Eval(fReactionZ/mm)*mm;
+        double max_radius = fReactionZvsRadiusSpline->Eval(fReactionZ/mm)*mm;
 
         double theta = 2. * M_PI * G4UniformRand();
         double radius = max_radius * sqrt( G4UniformRand() );
@@ -164,17 +164,17 @@ void TRexBeam::FillReactionZDistributionHisto() {
 
 }
 
-void TRexBeam::BuildSplineReactionZvsRadius() {
-    std::ifstream file(TRexSettings::Get()->GetSplineReactionZvsRadiusFile().c_str());
+void TRexBeam::BuildReactionZvsRadiusSpline() {
+    std::ifstream file(TRexSettings::Get()->GetReactionZvsRadiusFile().c_str());
 
-    if(!TRexSettings::Get()->GetSplineReactionZvsRadiusFileBool()) {
-        std::cout<<"No beam spread file set, fSplineReactionZvsRadius could not be built!\nexiting ... \n";
+    if(!TRexSettings::Get()->GetReactionZvsRadiusFileBool()) {
+        std::cout<<"No beam spread file set, fReactionZvsRadiusSpline could not be built!\nexiting ... \n";
         exit(2);
     } else if(file.bad()) {
-        std::cerr << "Unable to open beam spread distribution file" << TRexSettings::Get()->GetSplineReactionZvsRadiusFile() << "!\nexiting ... \n";
+        std::cerr << "Unable to open beam spread distribution file" << TRexSettings::Get()->GetReactionZvsRadiusFile() << "!\nexiting ... \n";
         exit(2);
     } else {
-        std::cout << "\nReading beam spread distribution file " << TRexSettings::Get()->GetSplineReactionZvsRadiusFile() << " ... "<< std::endl;
+        std::cout << "\nReading beam spread distribution file " << TRexSettings::Get()->GetReactionZvsRadiusFile() << " ... "<< std::endl;
     }    
 
     int nbPoints;
@@ -190,7 +190,7 @@ void TRexBeam::BuildSplineReactionZvsRadius() {
         file >> reactionZArray[i] >> radiusArray[i];
     }
 
-    fSplineReactionZvsRadius = new TSpline3("fSplineReactionZvsRadius", reactionZArray, radiusArray, nbPoints);
+    fReactionZvsRadiusSpline = new TSpline3("fReactionZvsRadiusSpline", reactionZArray, radiusArray, nbPoints);
 
     file.close();
 }

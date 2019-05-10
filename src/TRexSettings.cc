@@ -60,7 +60,7 @@ TRexSettings::TRexSettings()
     fAngularDistributionFile = "";
     fCrossSectionFile = "";
     fMassFile = "";
-    fSplineReactionZvsRadiusFile = "";
+    fReactionZvsRadiusFile = "";
     fReactionZDistributionFile = "";	
 
     fAlphaSourceDiameter = 3. * mm; // original 3 mm //last value: 2
@@ -79,7 +79,7 @@ TRexSettings::TRexSettings()
     fTargetMylarThickness = 2.*um;
     fTargetBeWindowThickness = 8.*um;
 
-    fSplineReactionZvsRadiusFileBool = false;
+    fReactionZvsRadiusFileBool = false;
     fReactionZDistributionFileBool = false;
 }
 
@@ -120,10 +120,10 @@ void TRexSettings::Print(Option_t* opt) const {
 		<<"fAngularDistributionFile = "<<fAngularDistributionFile<<std::endl
 		<<"fCrossSectionFile = "<<fCrossSectionFile<<std::endl
 		<<"fMassFile = "<<fMassFile<<std::endl
-		<<"fSplineReactionZvsRadiusFile = "<<fSplineReactionZvsRadiusFile<<std::endl
+		<<"fReactionZvsRadiusFile = "<<fReactionZvsRadiusFile<<std::endl
 		<<"fReactionZDistributionFile = "<<fReactionZDistributionFile<<std::endl
 		<<"---------- file booleans"<<std::endl
-		<<"fSplineReactionZvsRadiusFileBool = "<<fSplineReactionZvsRadiusFileBool<<std::endl
+		<<"fReactionZvsRadiusFileBool = "<<fReactionZvsRadiusFileBool<<std::endl
 		<<"fReactionZDistributionFileBool = "<<fReactionZDistributionFileBool<<std::endl
 		<<"---------- alpha source"<<std::endl
 		<<"fAlphaSourceDiameter = "<<fAlphaSourceDiameter/mm<<" mm"<<std::endl

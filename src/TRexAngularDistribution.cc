@@ -31,7 +31,7 @@ TRexAngularDistribution::TRexAngularDistribution() :
 	//FillCrossSectionGraph(); // Leila #######
     
     // build the reactionZ vs radius spline if file has been set
-    if(TRexSettings::Get()->GetSplineReactionZvsRadiusFileBool()) BuildSplineReactionZvsRadius();
+    if(TRexSettings::Get()->GetReactionZvsRadiusFileBool()) BuildReactionZvsRadiusSpline();
 	
     // build the reactionZ distributon graph/histo if file has been set
     if(TRexSettings::Get()->GetReactionZDistributionFileBool()) {

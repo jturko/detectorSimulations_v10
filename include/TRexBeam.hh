@@ -53,7 +53,7 @@ protected:
     void ShootReactionPosition();
     
     // build a spline that defines the reaction x-y radius as a function of z, the depth in the target
-    void BuildSplineReactionZvsRadius();
+    void BuildReactionZvsRadiusSpline();
 
     // fill 
     void FillReactionZDistributionHisto();
@@ -145,7 +145,7 @@ protected:
     //TRandom fRndReaction;
     int fEventCounter;
 
-    TSpline3 * fSplineReactionZvsRadius;
+    TSpline3 * fReactionZvsRadiusSpline;
 
     TGraph * fReactionZDistributionGraph;
     TH1F * fReactionZDistributionHisto;
