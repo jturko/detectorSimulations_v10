@@ -19,6 +19,8 @@
 #include "G4IonTable.hh"
 #include "G4UnitsTable.hh"
 
+#include "TFile.h"
+
 #include "Randomize.hh"
 
 #include "g4root.hh"
@@ -134,7 +136,7 @@ void TRexBeam::FillReactionZDistributionGraph() {
 
 void TRexBeam::FillReactionZDistributionHisto() {
     int nbPoints = fReactionZDistributionGraph->GetN();
-    int nbBins = 10*nbPoints;    
+    int nbBins = 100*nbPoints;    
 
     double reactionZMin, reactionProbMin;
     fReactionZDistributionGraph->GetPoint(0, reactionZMin, reactionProbMin);
@@ -144,22 +146,21 @@ void TRexBeam::FillReactionZDistributionHisto() {
     
     double binWidth = (reactionZMax - reactionZMin) / nbBins;
 
-    //fReactionZDistributionHisto = new TH1F("ReactionZDistributionHisto","ReactionZDistributionHisto", nbBins+, reactionZMin-binWidth/2., reactionZMax+binWidth/2.);
     fReactionZDistributionHisto = new TH1F("ReactionZDistributionHisto","ReactionZDistributionHisto", nbBins, reactionZMin, reactionZMax);
     double prob;
-    for(double zz=reactionZMin; zz<reactionZMax+binWidth; zz+=binWidth) {
+    for(double zz=reactionZMin-binWidth/2.; zz<reactionZMax+binWidth/2.; zz+=binWidth) {
         //prob = fReactionZDistributionGraph->Eval(zz);
         prob = fReactionZDistributionSpline->Eval(zz);
         fReactionZDistributionHisto->SetBinContent(fReactionZDistributionHisto->FindBin(zz),prob);
     }
-    std::cout << "fReactionZDistributionGraph:"
-              << " reactionZMin = " << reactionZMin 
-              << " reactionZMax = " << reactionZMax 
-              << std::endl
-              << "fReactionZDistributionHisto:" 
-              << " GetLowEdge(1) = " << fReactionZDistributionHisto->GetBinLowEdge(1) 
-              << " GetLowEdge(nbBins+1) = " << fReactionZDistributionHisto->GetBinLowEdge(nbBins+1) 
-              << std::endl;
+
+    // save the histogram to a new root file
+    TFile * outputFile = new TFile("g4out_extras.root","RECREATE");
+    outputFile->cd();
+    fReactionZDistributionHisto->Write("fReactionZDistributionHisto");
+    fReactionZDistributionGraph->Write("fReactionZDistributionGraph");
+    fReactionZDistributionSpline->Write("fReactionZDistributionSpline");
+    outputFile->Close();
 
 }
 
