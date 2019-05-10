@@ -179,7 +179,7 @@ void TRexBeam::BuildReactionZvsRadiusSpline() {
 
     int nbPoints;
     file >> nbPoints;
-    std::cout << "nbPoints = " << nbPoints << std::endl << std::endl;
+    std::cout << "nbPoints = " << nbPoints << std::endl;
     
     // build arrays 
     double * reactionZArray = new double[(const int)nbPoints];

@@ -182,7 +182,7 @@ void PrimaryGeneratorMessenger::SetNewValue(G4UIcommand* command, G4String newVa
         fAction->SetUseGPS(fUseGPSCmd->GetNewBoolValue(newValue));
     }
     if(command == fUseTRexGeneratorCmd) {
-        fAction->SetGenerator();
+        fAction->SetUseTRexGenerator(fUseTRexGeneratorCmd->GetNewBoolValue(newValue));
     }
 
 }

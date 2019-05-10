@@ -88,11 +88,17 @@ public:
     void PrepareBeamFile(G4String);
     void SetLayeredTargetBeamDistro(G4int layer);
 
-    void SetUseGPS(G4bool val) { fUseGPS = val; }
+    void SetUseGPS(G4bool val) { 
+        if(val) fGenTypeNum = 1;
+        else if(!val && fGenTypeNum == 1) fGenTypeNum = 0;  
+    }
+    void SetUseTRexGenerator(G4bool val) {
+        if(val) fGenTypeNum = 2;
+        else if(!val && fGenTypeNum == 2) fGenTypeNum = 0;  
+    }    
 
     void SetGenerator();
     TRexBaseGenerator* GetCurrentGenerator() { return fCurrentGenerator; }    
-    void CreateNtupleBranches();
 
 private:
     //variables
@@ -127,6 +133,8 @@ private:
     TRexBaseGenerator* fCurrentGenerator;     
     TRexMessenger*  fTRexMessenger;
     
+    G4int fGenTypeNum;
+
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

@@ -100,9 +100,10 @@
     fGPS = new G4GeneralParticleSource;
     fUseGPS = false;
 
-    //SetGenerator();
-    fUseTRexGenerator = false;
     fTRexMessenger = new TRexMessenger(this);
+    fUseTRexGenerator = false;
+
+    fGenTypeNum = 0;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -114,7 +115,7 @@ PrimaryGeneratorAction::~PrimaryGeneratorAction()
 	delete fGunMessenger;
 	delete fBeamDistribution;
 
-    delete fCurrentGenerator;
+    if(fCurrentGenerator) delete fCurrentGenerator;
     delete fTRexMessenger;
 }
 
@@ -122,9 +123,21 @@ PrimaryGeneratorAction::~PrimaryGeneratorAction()
 
 void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 {
-    if(fUseGPS) fGPS->GeneratePrimaryVertex(anEvent);
-    else if(fUseTRexGenerator) fCurrentGenerator->GeneratePrimaries(anEvent);
+
+    int evtID = anEvent->GetEventID();
+    if(fGenTypeNum == 1) {
+        if(evtID==0) { std::cout<<"---> Using the GPS primary generator!"<<std::endl; }
+        fGPS->GeneratePrimaryVertex(anEvent);
+    } 
+    else if(fGenTypeNum == 2) {
+        if(evtID==0) { 
+            std::cout<<"---> Using the TRex primary generator!"<<std::endl; 
+            SetGenerator();
+        }
+        fCurrentGenerator->GeneratePrimaries(anEvent);
+    } 
     else {
+        if(evtID==0) { std::cout<<"---> Using the default generator (G4ParticleGun)"<<std::endl; }
 	    //G4cout<<G4endl<<fParticleGun->GetParticleDefinition()->GetParticleName()<<G4endl;
 	    if(fNumberOfDecayingLaBrDetectors != 0) {
 	    	G4double crystalRadius    = 2.54*cm;
@@ -296,8 +309,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	    		fHistoManager->BeamTheta(acos(effdirection.z()/effdirection.mag()));
 	    		fHistoManager->BeamPhi(atan2(effdirection.y(),effdirection.x()));
 	    	}
-	    }
-
+	    } 
 
 	    // Set Optional Polarization
 	    if(fEffPolarization) {
@@ -380,30 +392,25 @@ void PrimaryGeneratorAction::LaBrinit() {
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void PrimaryGeneratorAction::SetGenerator() {
-    fUseTRexGenerator = true; fUseGPS = false;
-    std::string generatorName = TRexSettings::Get()->GetPrimaryGenerator();
-    if(generatorName == "TestSource") {
-        std::cout<<std::endl<<"Using test source ....\n"<<std::endl;
-        fCurrentGenerator = new TRexTestSource;
-    } else if(generatorName == "Rutherford") {
-        std::cout<<std::endl<<"Using Rutherford scattering ....\n"<<std::endl;
-        fCurrentGenerator = new TRexRutherford;
-    } else if(generatorName == "AngularDistribution") {
-        std::cout<<std::endl<<"Using given angular distribution ....\n"<<std::endl;
-        fCurrentGenerator = new TRexAngularDistribution;
-    } else if(generatorName == "AlphaSource") {
-        std::cout<<std::endl<<"Using alpha source ....\n"<<std::endl;
-        fCurrentGenerator = new TRexAlphaSource;
-    } else if(generatorName == "BeamIn") {
-        std::cout<<std::endl<<"Using beamIn source ....\n"<<std::endl;
-        fCurrentGenerator = new TRexBeamIn;
-    } else {
-        std::cout<<std::endl<<"Unknown generator !!!\n"<<std::endl;
-        fCurrentGenerator = NULL;
-    }
-
-}
-
-void PrimaryGeneratorAction::CreateNtupleBranches() {
-    if(fCurrentGenerator) fCurrentGenerator->CreateNtupleBranches();
+        std::string generatorName = TRexSettings::Get()->GetPrimaryGenerator();
+        if(generatorName == "TestSource") {
+            std::cout<<std::endl<<"Using test source ....\n"<<std::endl;
+            fCurrentGenerator = new TRexTestSource;
+        } else if(generatorName == "Rutherford") {
+            std::cout<<std::endl<<"Using Rutherford scattering ....\n"<<std::endl;
+            fCurrentGenerator = new TRexRutherford;
+        } else if(generatorName == "AngularDistribution") {
+            std::cout<<std::endl<<"Using given angular distribution ....\n"<<std::endl;
+            fCurrentGenerator = new TRexAngularDistribution;
+        } else if(generatorName == "AlphaSource") {
+            std::cout<<std::endl<<"Using alpha source ....\n"<<std::endl;
+            fCurrentGenerator = new TRexAlphaSource;
+        } else if(generatorName == "BeamIn") {
+            std::cout<<std::endl<<"Using beamIn source ....\n"<<std::endl;
+            fCurrentGenerator = new TRexBeamIn;
+        } else {
+            std::cout<<std::endl<<"Unknown generator !!!\n"<<std::endl;
+            fCurrentGenerator = NULL;
+        }
+        if(fCurrentGenerator) fCurrentGenerator->CreateNtupleBranches();
 }

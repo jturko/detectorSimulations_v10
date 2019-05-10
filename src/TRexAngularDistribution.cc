@@ -310,7 +310,7 @@ void TRexAngularDistribution::FillAngularDistributionGraphs() {
 	for(size_t i = 0; i < fNbOfLevels; i++) {
 		file >> nbOfThetaAngles;
 	}
-	std::cout << "nfOfThetaAngles = " << nbOfThetaAngles << std::endl << std::endl;
+	std::cout << "nfOfThetaAngles = " << nbOfThetaAngles << std::endl;
 
 	std::vector<TVectorF> theta    = std::vector<TVectorF>(fNbOfLevels, TVectorF(nbOfThetaAngles));
 	std::vector<TVectorF> sigma    = std::vector<TVectorF>(fNbOfLevels, TVectorF(nbOfThetaAngles));

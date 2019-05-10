@@ -64,7 +64,6 @@ void RunAction::BeginOfRunAction(const G4Run* aRun)
 		fHistoManager->Book();
 		fHistoManager->GetDetectorConstruction()->SetProperties();
 	}
-    fPrimaryGeneratorAction->CreateNtupleBranches();
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
