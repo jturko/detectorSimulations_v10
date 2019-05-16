@@ -210,7 +210,7 @@ G4int DetectionSystemTISTAR::Add4StripLayer(G4double dist_from_beam, G4double ga
     G4ThreeVector move;
     G4ThreeVector rotate;
 
-    fPositionOffset = G4ThreeVector(0., 10.0*mm*(-5.0*mm -100.0/2.*mm +140.0/2.*mm)/(30.0*mm), 0.);
+    //fPositionOffset = G4ThreeVector(0., 10.0*mm*(-5.0*mm -100.0/2.*mm +140.0/2.*mm)/(30.0*mm), 0.);
 
     // first strip
     move = G4ThreeVector(   +dist_from_beam,                // x

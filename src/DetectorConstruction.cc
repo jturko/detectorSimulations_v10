@@ -184,7 +184,8 @@ DetectorConstruction::DetectorConstruction() :
     fTISTARDistFromBeam = 0.;
     fTISTARGapZ = 0.;
     fTISTARSiCentered = false;
-    
+    fTISTARPositionOffset = G4ThreeVector(0.,0.,0.);    
+
     fGridCell = false;
     fGriffin  = false;
     fLaBr     = false;

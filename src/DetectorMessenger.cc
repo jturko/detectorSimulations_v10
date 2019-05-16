@@ -359,6 +359,10 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction* Det)
     fSetTISTARPositionCmd = new G4UIcmdWith3VectorAndUnit("/DetSys/det/setTISTARPosition",this);
     fSetTISTARPositionCmd->SetGuidance("Set the TI-STAR layer position");
     fSetTISTARPositionCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    
+    fSetTISTARPositionOffsetCmd = new G4UIcmdWith3VectorAndUnit("/DetSys/det/setTISTARPositionOffset",this);
+    fSetTISTARPositionOffsetCmd->SetGuidance("Set the TI-STAR layer position offset (for aligning the inner layer)");
+    fSetTISTARPositionOffsetCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
     fSetTISTARRotationCmd = new G4UIcmdWith3Vector("/DetSys/det/setTISTARRotation",this);
     fSetTISTARRotationCmd->SetGuidance("Set the TI-STAR layer rotation (rotate by the x, y, then z axes - units in deg)");
@@ -478,6 +482,7 @@ DetectorMessenger::~DetectorMessenger()
     delete fSetTISTARPCBDimensionsCmd;
     delete fSetTISTAROffsetCmd;
     delete fSetTISTARPositionCmd;
+    delete fSetTISTARPositionOffsetCmd;
     delete fSetTISTARRotationCmd;
     delete fSetTISTARDistFromBeamCmd;
     delete fSetTISTARGapZCmd;
@@ -705,6 +710,9 @@ void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
     }
     if(command == fSetTISTAROffsetCmd) {
         fDetector->SetTISTAROffset(fSetTISTAROffsetCmd->GetNew3VectorValue(newValue));
+    }
+    if(command == fSetTISTARPositionOffsetCmd) {
+        fDetector->SetTISTARPositionOffset(fSetTISTARPositionOffsetCmd->GetNew3VectorValue(newValue));
     }
     if(command == fSetTISTARPositionCmd) {
         fDetector->SetTISTARPosition(fSetTISTARPositionCmd->GetNew3VectorValue(newValue));

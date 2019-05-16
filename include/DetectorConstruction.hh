@@ -190,10 +190,10 @@ public:
     void SetTISTAROffset(G4ThreeVector offset)      { fTISTAROffset = offset; } 
     void SetTISTARRotation(G4ThreeVector rotate)    { fTISTARRotation = rotate; }
     void SetTISTARPosition(G4ThreeVector move)      { fTISTARPosition = move; }
+    void SetTISTARPositionOffset(G4ThreeVector move){ fTISTARPositionOffset = move; }
     void SetTISTARDistFromBeam(G4double dist)   { fTISTARDistFromBeam = dist; }
     void SetTISTARGapZ(G4double gap)            { fTISTARGapZ = gap; }
     void SetTISTARSiCentered(G4bool val)        { fTISTARSiCentered = val; }
-    void SetTISTARPositionOffset(G4ThreeVector val) { fTISTARPositionOffset = val; }
 
     void AddTISTARGasTarget(); 
    
@@ -299,10 +299,10 @@ private:
     G4ThreeVector fTISTAROffset;
     G4ThreeVector fTISTARRotation;
     G4ThreeVector fTISTARPosition;
+    G4ThreeVector fTISTARPositionOffset;    
     G4double fTISTARDistFromBeam;
     G4double fTISTARGapZ;
     G4bool fTISTARSiCentered;
-    G4ThreeVector fTISTARPositionOffset;    
 
     //booleans which control which histograms are created (these are set by the detector construction)
     G4bool fGridCell;
