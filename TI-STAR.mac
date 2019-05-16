@@ -13,7 +13,7 @@
 # first layer
 /DetSys/det/setTISTARSiDimensions 40 0.02 50 mm  
 /DetSys/det/setTISTARPCBDimensions 80 1.67 75 mm
-/DetSys/det/setTISTAROffset 5 0 0 mm         
+/DetSys/det/setTISTARSiOffsetInPCB 5 0 0 mm         
 /DetSys/det/setTISTARDistFromBeam 10 mm
 /DetSys/det/setTISTARGapZ 4 mm
 # for shifting the inner layer so that it lines up with the outer layers
@@ -25,7 +25,7 @@
 # second layer
 /DetSys/det/setTISTARSiDimensions 100 0.150 100 mm  
 /DetSys/det/setTISTARPCBDimensions 140 1.67 140 mm
-/DetSys/det/setTISTAROffset 5 0 0 mm         
+/DetSys/det/setTISTARSiOffsetInPCB 5 0 0 mm         
 /DetSys/det/setTISTARSiCentered 0
 /DetSys/det/setTISTARDistFromBeam 30 mm
 /DetSys/det/addTISTAR2StripLayer
@@ -33,7 +33,7 @@
 # third layer
 /DetSys/det/setTISTARSiDimensions 100 2 100 mm  
 /DetSys/det/setTISTARPCBDimensions 140 1.67 140 mm
-/DetSys/det/setTISTAROffset 5 0 0 mm         
+/DetSys/det/setTISTARSiOffsetInPCB 5 0 0 mm         
 /DetSys/det/setTISTARSiCentered 0
 /DetSys/det/setTISTARDistFromBeam 33 mm
 /DetSys/det/addTISTAR2StripLayer
