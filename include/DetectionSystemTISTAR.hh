@@ -53,7 +53,7 @@ public:
 
     void SetSiDimensions(G4ThreeVector dim) { fSiDimensions = dim; fSiDimensionsSet = true; }
     void SetPCBDimensions(G4ThreeVector dim) { fPCBDimensions = dim; fPCBDimensionsSet = true; }
-    void SetOffset(G4ThreeVector offset) { fOffset = offset; } // this is the offset of the Si layer within the PCB, probably should be re-named at some point...
+    void SetSiOffsetInPCB(G4ThreeVector offset) { fSiOffsetInPCB = offset; } // this is the offset of the Si layer within the PCB, probably should be re-named at some point...
     void SetPositionOffset(G4ThreeVector offset) { fPositionOffset = offset; }
 
     G4int BuildLayer();
@@ -78,7 +78,7 @@ private:
     // Dimensions
     G4ThreeVector fSiDimensions;
     G4ThreeVector fPCBDimensions;
-    G4ThreeVector fOffset;
+    G4ThreeVector fSiOffsetInPCB;
     G4ThreeVector fPositionOffset;
     G4bool fSiDimensionsSet; 
     G4bool fPCBDimensionsSet; 

@@ -160,7 +160,7 @@ private:
     G4UIcmdWithoutParameter*    fAddTISTAR4StripLayerCmd;
     G4UIcmdWith3VectorAndUnit*  fSetTISTARSiDimensionsCmd;
     G4UIcmdWith3VectorAndUnit*  fSetTISTARPCBDimensionsCmd;
-    G4UIcmdWith3VectorAndUnit*  fSetTISTAROffsetCmd;
+    G4UIcmdWith3VectorAndUnit*  fSetTISTARSiOffsetInPCBCmd;
     G4UIcmdWith3VectorAndUnit*  fSetTISTARPositionOffsetCmd;
     G4UIcmdWith3VectorAndUnit*  fSetTISTARPositionCmd;
     G4UIcmdWith3Vector*         fSetTISTARRotationCmd;

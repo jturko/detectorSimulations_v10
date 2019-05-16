@@ -187,7 +187,7 @@ public:
     void AddTISTAR4StripLayer();
     void SetTISTARSiDimensions(G4ThreeVector dim)   { fTISTARSiDimensions = dim; } 
     void SetTISTARPCBDimensions(G4ThreeVector dim)  { fTISTARPCBDimensions = dim; } 
-    void SetTISTAROffset(G4ThreeVector offset)      { fTISTAROffset = offset; } 
+    void SetTISTARSiOffsetInPCB(G4ThreeVector offset)      { fTISTARSiOffsetInPCB = offset; } 
     void SetTISTARRotation(G4ThreeVector rotate)    { fTISTARRotation = rotate; }
     void SetTISTARPosition(G4ThreeVector move)      { fTISTARPosition = move; }
     void SetTISTARPositionOffset(G4ThreeVector move){ fTISTARPositionOffset = move; }
@@ -296,7 +296,7 @@ private:
     // TI-STAR Dimensions
     G4ThreeVector fTISTARSiDimensions;
     G4ThreeVector fTISTARPCBDimensions;
-    G4ThreeVector fTISTAROffset;
+    G4ThreeVector fTISTARSiOffsetInPCB;
     G4ThreeVector fTISTARRotation;
     G4ThreeVector fTISTARPosition;
     G4ThreeVector fTISTARPositionOffset;    

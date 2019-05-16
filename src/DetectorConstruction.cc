@@ -900,7 +900,7 @@ void DetectorConstruction::AddTISTARLayer() {
     if(fTISTARPCBDimensions.x() > 0. &&
        fTISTARPCBDimensions.y() > 0. &&
        fTISTARPCBDimensions.z() > 0. ) pTISTAR->SetPCBDimensions(fTISTARPCBDimensions);
-    pTISTAR->SetOffset(fTISTAROffset);
+    pTISTAR->SetSiOffsetInPCB(fTISTARSiOffsetInPCB);
 
     pTISTAR->Build();
     pTISTAR->PlaceDetector(fTISTARPosition, fTISTARRotation, fLogicWorld);
@@ -917,7 +917,7 @@ void DetectorConstruction::AddTISTAR2StripLayer() {
     if(fTISTARPCBDimensions.x() > 0. &&
        fTISTARPCBDimensions.y() > 0. &&
        fTISTARPCBDimensions.z() > 0. ) pTISTAR->SetPCBDimensions(fTISTARPCBDimensions);
-    pTISTAR->SetOffset(fTISTAROffset);
+    pTISTAR->SetSiOffsetInPCB(fTISTARSiOffsetInPCB);
 
     pTISTAR->Build();
     pTISTAR->Add2StripLayer(fTISTARDistFromBeam, fTISTARSiCentered, fLogicWorld);    
@@ -935,7 +935,7 @@ void DetectorConstruction::AddTISTAR4StripLayer() {
     if(fTISTARPCBDimensions.x() > 0. &&
        fTISTARPCBDimensions.y() > 0. &&
        fTISTARPCBDimensions.z() > 0. ) pTISTAR->SetPCBDimensions(fTISTARPCBDimensions);
-    pTISTAR->SetOffset(fTISTAROffset);
+    pTISTAR->SetSiOffsetInPCB(fTISTARSiOffsetInPCB);
     pTISTAR->SetPositionOffset(fTISTARPositionOffset);
     
     pTISTAR->Build();

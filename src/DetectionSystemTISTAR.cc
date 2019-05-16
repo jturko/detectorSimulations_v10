@@ -40,7 +40,7 @@ DetectionSystemTISTAR::DetectionSystemTISTAR() :
 
     fSiDimensions = G4ThreeVector(0.,0.,0.);
     fPCBDimensions = G4ThreeVector(0.,0.,0.);
-    fOffset = G4ThreeVector(0.,0.,0.);
+    fSiOffsetInPCB = G4ThreeVector(0.,0.,0.);
     fPositionOffset = G4ThreeVector(0.,0.,0.);
 
     fGasTargetRadius = TRexSettings::Get()->GetTargetDiameter()/2.;
@@ -115,7 +115,7 @@ G4int DetectionSystemTISTAR::BuildLayer()
     // Get/calculate dimensions
     G4ThreeVector si_dim = fSiDimensions;
     G4ThreeVector pcb_dim = fPCBDimensions;
-    G4ThreeVector offset = fOffset; // offset of Si layer from top left corner of PCB layer
+    G4ThreeVector offset = fSiOffsetInPCB; // offset of Si layer from top left corner of PCB layer
 
     G4ThreeVector cut_extra = G4ThreeVector(0.,1.*m,0.);
     if(offset.x()<=0.) cut_extra += G4ThreeVector(1.*m,0.,0.);
@@ -186,7 +186,7 @@ G4int DetectionSystemTISTAR::Add2StripLayer(G4double dist_from_beam, G4bool si_c
     move = G4ThreeVector(   +dist_from_beam,        // x
                             0.,                     // y
                             0.);                    // z
-    if(fPCBDimensionsSet && !si_centered) move += G4ThreeVector(0., -fOffset.x() -fSiDimensions.x()/2. +fPCBDimensions.x()/2., 0.);
+    if(fPCBDimensionsSet && !si_centered) move += G4ThreeVector(0., -fSiOffsetInPCB.x() -fSiDimensions.x()/2. +fPCBDimensions.x()/2., 0.);
     rotate = G4ThreeVector( 0.,                     // x-rotation
                             0.,                     // y-rotation
                             +90.);                  // z-rotation
@@ -196,7 +196,7 @@ G4int DetectionSystemTISTAR::Add2StripLayer(G4double dist_from_beam, G4bool si_c
     move = G4ThreeVector(   -dist_from_beam,        // x
                             0.,                     // y
                             0.);                    // z
-    if(fPCBDimensionsSet && !si_centered) move += G4ThreeVector(0., +fOffset.x() +fSiDimensions.x()/2. -fPCBDimensions.x()/2., 0.);
+    if(fPCBDimensionsSet && !si_centered) move += G4ThreeVector(0., +fSiOffsetInPCB.x() +fSiDimensions.x()/2. -fPCBDimensions.x()/2., 0.);
     rotate = G4ThreeVector( 0,                      // x-rotation
                             +180.,                  // y-rotation
                             +90.);                  // z-rotation
