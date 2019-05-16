@@ -384,7 +384,7 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction* Det)
     fSetTISTARSiCenteredCmd->SetGuidance("Set 1 for si-centered layers, 0 for detector-centered layers");
     fSetTISTARSiCenteredCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
     
-    fAddTISTARGasTargetCmd = new G4UIcmdWithoutParameter("/DetSys/det/addTISTARGasTarget",this);
+    fAddTISTARGasTargetCmd = new G4UIcmdWithoutParameter("/DetSys/app/addTISTARGasTarget",this);
     fAddTISTARGasTargetCmd->SetGuidance("Add the TI-STAR gas target");
     fAddTISTARGasTargetCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 }
