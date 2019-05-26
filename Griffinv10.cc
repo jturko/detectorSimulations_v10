@@ -55,6 +55,8 @@
 #include "G4UIExecutive.hh"
 #endif
 
+#include "my_QGSP_BIC.hh"
+
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 int main(int argc, char** argv)
@@ -82,8 +84,11 @@ int main(int argc, char** argv)
 	 // Set mandatory initialization classes
 	 DetectorConstruction* detector = new DetectorConstruction;
 	 runManager->SetUserInitialization(detector);
-	 runManager->SetUserInitialization(new PhysicsList);
-	 runManager->SetUserInitialization(new ActionInitialization(detector));
+	 
+     runManager->SetUserInitialization(new myQGSP_BIC());
+	 //runManager->SetUserInitialization(new PhysicsList);
+	
+     runManager->SetUserInitialization(new ActionInitialization(detector));
 
 	 // We don't initialize the G4 kernel at run time so the physics list can be changed!
 
