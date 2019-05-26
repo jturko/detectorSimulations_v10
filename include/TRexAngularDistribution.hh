@@ -14,7 +14,6 @@
 
 #include "TRexBeam.hh"
 
-#include "MBglobals.hh"
 #include "MiniBallSource.hh"
 
 #include "G4ParticleGun.hh"
