@@ -22,6 +22,7 @@
 #include "TRexSettings.hh"
 
 #include "G4SystemOfUnits.hh"
+#include "G4UnitsTable.hh"
 
 #include <string>
 
@@ -265,6 +266,7 @@ G4int DetectionSystemTISTAR::AddGasTarget(G4LogicalVolume* expHallLog)
     G4Material * deuterium_gas_material = new G4Material("Deuterium_Gas", 1, 2.014*g/mole, fGasTargetDensity, kStateGas, 293.15*kelvin, fGasTargetPressure);
     G4Material * mylar_material = G4Material::GetMaterial(fGasTargetMylarMaterialName);    
     G4Material * be_material = G4Material::GetMaterial(fGasTargetBeWindowMaterialName);    
+    std::cout<<"TI-STAR gas target built w/ density = "<<G4BestUnit(fGasTargetDensity,"Volumic Mass")<<" and pressure = "<<G4BestUnit(fGasTargetPressure,"Pressure")<<std::endl;
 
     // Set up colours and other vis. attributes
     G4VisAttributes * gas_vis_att = new G4VisAttributes(G4Colour::Yellow());
