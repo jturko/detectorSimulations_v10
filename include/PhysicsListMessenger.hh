@@ -69,6 +69,8 @@ private:
     G4UIcmdWithABool*          fConstructOpCmd;
     G4UIcmdWithABool*          fSpiceStepperCmd;
 
+    G4UIcmdWithADoubleAndUnit* fConstructScreenedNuclearRecoilsCmd;
+
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

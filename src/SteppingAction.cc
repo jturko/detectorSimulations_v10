@@ -96,8 +96,17 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 		else if(processName == "msc")              processType = 3;
 		else if(processName == "Scintillation")    processType = 4;
 		else if(processName == "Cerenkov")         processType = 5;
+        else if(processName == "ScreenedElastic")  processType = 6;
 		else                                       processType = 0;
+    
+        if(processName == "ScreenedElastic") {
+            std::cout << " ScreenedElastic" << std::endl
+                      << " particle name: " << aStep->GetTrack()->GetParticleDefinition()->GetParticleName() << std::endl
+                      << " volume: " << volume->GetName() << std::endl
+                      << std::endl;
+        }
 	}
+
 
 	evntNb =  fEventAction->GetEventNumber();
 

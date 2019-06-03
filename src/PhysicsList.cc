@@ -76,6 +76,11 @@
 #include "G4OpRayleigh.hh"
 #include "G4Scintillation.hh"
 
+// for screened nuclear recoils
+#include "G4hMultipleScattering.hh"
+#include "G4UrbanMscModel.hh"
+#include "G4ScreenedNuclearRecoil.hh"
+
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 PhysicsList::PhysicsList() :
@@ -111,6 +116,8 @@ PhysicsList::PhysicsList() :
 	fScintProcess->SetScintillationYieldFactor(1.);
 	fScintProcess->SetTrackSecondariesFirst(true);
 
+    fScreenedNuclearRecoilsEnergyLimit = -1.;
+
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -139,7 +146,10 @@ void PhysicsList::ConstructParticle()
 
 void PhysicsList::ConstructProcess()
 {
-	AddTransportation();
+    // screened nuclear recoil
+    if(fScreenedNuclearRecoilsEnergyLimit>0.) ConstructScreenedNuclearRecoils();
+	// transport
+    AddTransportation();
 	// em
 	fEmPhysicsList->ConstructProcess();
 	// decays
@@ -152,8 +162,7 @@ void PhysicsList::ConstructProcess()
 		}
 	}
 	if(fHadPhysicsList) fHadPhysicsList->ConstructProcess();
-	G4cout<<"### PhysicsList::ConstructProcess is done"<<G4endl;
-
+    G4cout<<G4endl<<"### PhysicsList::ConstructProcess is done"<<G4endl;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -352,3 +361,56 @@ void PhysicsList::SetDetectorCut(G4double cut)
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void PhysicsList::ConstructScreenedNuclearRecoils() 
+{
+    // trying to add screened nuclear recoils
+    G4cout<<G4endl<<" ---> Constructing Screened Nuclear Recoils w/ upper energy limit "<<fScreenedNuclearRecoilsEnergyLimit/MeV<<" MeV"<<G4endl<<G4endl;
+    G4hMultipleScattering* ihmsc = new G4hMultipleScattering("ionmsc");
+    G4UrbanMscModel* ihmscmodel = new G4UrbanMscModel();
+    ihmscmodel->SetActivationLowEnergyLimit(fScreenedNuclearRecoilsEnergyLimit);
+    ihmsc->SetEmModel(ihmscmodel, 1);
+    G4ScreenedNuclearRecoil* nucr = new G4ScreenedNuclearRecoil();
+    nucr->SetMaxEnergyForScattering(fScreenedNuclearRecoilsEnergyLimit);
+    G4PhysicsListHelper* ph = G4PhysicsListHelper::GetPhysicsListHelper();
+    auto myParticleIterator=GetParticleIterator();
+    myParticleIterator->reset();
+    while( (*myParticleIterator)() ){
+        G4ParticleDefinition* particle = myParticleIterator->value();
+        G4String particleName = particle->GetParticleName();	
+        if (    particleName == "GenericIon" ||
+                particleName == "B+" ||
+                particleName == "B-" ||
+                particleName == "D+" ||
+                particleName == "D-" ||
+                particleName == "Ds+" ||
+                particleName == "Ds-" ||
+                particleName == "anti_He3" ||
+                particleName == "anti_alpha" ||
+                particleName == "anti_deuteron" ||
+                particleName == "anti_lambda_c+" ||
+                particleName == "anti_omega-" ||
+                particleName == "anti_sigma_c+" ||
+                particleName == "anti_sigma_c++" ||
+                particleName == "anti_sigma+" ||
+                particleName == "anti_sigma-" ||
+                particleName == "anti_triton" ||
+                particleName == "anti_xi_c+" ||
+                particleName == "anti_xi-" ||
+                particleName == "deuteron" ||
+                particleName == "lambda_c+" ||
+                particleName == "omega-" ||
+                particleName == "sigma_c+" ||
+                particleName == "sigma_c++" ||
+                particleName == "sigma+" ||
+                particleName == "sigma-" ||
+                particleName == "tau+" ||
+                particleName == "tau-" ||
+                particleName == "triton" ||
+                particleName == "xi_c+" ||
+                particleName == "xi-" ) {
+            //ph->RegisterProcess(ihmsc, particle);
+            ph->RegisterProcess(nucr, particle);
+        }
+    }
+}   

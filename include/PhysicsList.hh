@@ -68,6 +68,9 @@ public:
     void SetTargetCut(G4double val);
     void SetDetectorCut(G4double val);
 
+    void SetScreenedNuclearRecoilsEnergyLimit(G4double energy_limit) { fScreenedNuclearRecoilsEnergyLimit = energy_limit; }
+    void ConstructScreenedNuclearRecoils();
+
 private:
 
     void AddExtraBuilders(G4bool flagHP);
@@ -93,6 +96,8 @@ private:
     G4ProductionCuts* fTargetCuts;
 
     G4Scintillation* fScintProcess;
+
+    G4double fScreenedNuclearRecoilsEnergyLimit;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

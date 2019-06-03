@@ -85,8 +85,8 @@ int main(int argc, char** argv)
 	 DetectorConstruction* detector = new DetectorConstruction;
 	 runManager->SetUserInitialization(detector);
 	 
-     runManager->SetUserInitialization(new myQGSP_BIC());
-	 //runManager->SetUserInitialization(new PhysicsList);
+     //runManager->SetUserInitialization(new myQGSP_BIC());
+	 runManager->SetUserInitialization(new PhysicsList);
 	
      runManager->SetUserInitialization(new ActionInitialization(detector));
 
