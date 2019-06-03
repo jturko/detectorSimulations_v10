@@ -192,3 +192,9 @@ Requires all four commands to build
 | ```  ``` |  |  |
 | ```  ``` |  |  |
 | ```  ``` |  |  |
+
+#### Miniball / TRex commands (testing)
+| Command | Brief Description | Default |
+| :------ | :---------------- | :------ |
+| ``` /DetSys/miniball/SetPrimaryGenerator generator_name``` | Set which TRexBaseGenerator-derived generator to use. The choices are: TestSource, Rutherford, AngularDistribution, AlphaSource, or BeamIn. | |
+
