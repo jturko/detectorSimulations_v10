@@ -40,16 +40,13 @@ Keep in mind that cmake does not regenerate all the files it uses every time it 
 
 - Yes, you need both the secret suppressed files AND their unsuppressed equivalents, not just either / or.
 
+# TI-STAR Branch
 
-# Usage
+The following commands/details are specific to this branch and are related to the TI-STAR simulation.
 
-The following might be out of date with the change to geant4.10, we haven't had time yet to verify the information below.
+## Usage 
 
-### TI-STAR Branch
-
-The following commands are specific to this branch and are related to the TI-STAR simulation
-
-#### TI-STAR Geometry
+### TI-STAR Geometry
 
 These commands cover the physical TI-STAR and gas target geometry
 
@@ -69,7 +66,7 @@ These commands cover the physical TI-STAR and gas target geometry
 | ``` /DetSys/det/setTISTARSiCentered bool``` | Set boolean to build the TI-STAR layer silicon-centered (true) or entire chip [silicon + PCB] (false). Mainly used to center the outer 2-strip layers of the current TI-STAR design. |
 | ``` /DetSys/app/addTISTARGasTarget ``` | build the TI-STAR gas target | 
 
-#### Miniball/TRex Commands
+### Miniball/TRex Commands
 
 These commands are all related to the code copied over from [TI-STAR/TRex](https://github.com/VinzenzBildstein/TI-STAR) and [Miniball](https://github.com/VinzenzBildstein/Miniball).
 
@@ -118,13 +115,17 @@ These commands are all related to the code copied over from [TI-STAR/TRex](https
 | ``` /DetSys/miniball/SetTargetBeWindowThickness thickness unit``` | Set the thickness of the target Be window |
 | ``` /DetSys/miniball/Print``` | Print the values stored in ```TRexSettings``` |
 
-#### Physics Lists
+### Physics Lists
 
 For TI-STAR, we typically use the QGSP_BIC physics list, but we have also added the physics list PhysListEmStandardNR from the example TestEm7 which includes G4ScreenedNuclearRecoil.
 
 | Command | Brief Description |
 | :------ | :---------------- |
 | ``` /DetSys/phys/SelectPhysics physics_list ``` | Select a physics list - for TI-STAR we recommend ```QGSP_BIC``` by default, or ```standardNR``` for the G4ScreenedNuclearRecoil process  | 
+
+# Usage
+
+The following might be out of date with the change to geant4.10, we haven't had time yet to verify the information below.
 
 ### Particle Emission
 
