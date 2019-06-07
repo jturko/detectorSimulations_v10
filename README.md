@@ -45,6 +45,87 @@ Keep in mind that cmake does not regenerate all the files it uses every time it 
 
 The following might be out of date with the change to geant4.10, we haven't had time yet to verify the information below.
 
+### TI-STAR Branch
+
+The following commands are specific to this branch and are related to the TI-STAR simulation
+
+#### TI-STAR Geometry
+
+These commands cover the physical TI-STAR and gas target geometry
+
+| Command | Brief Description |
+| :------ | :---------------- |
+| ``` /DetSys/det/addTISTARLayer ``` | Add a single TI-STAR layer | 
+| ``` /DetSys/det/setTISTARSiDimensions x y z unit ``` | Set the silicon dimensions of the TI-STAR layer | 
+| ``` /DetSys/det/setTISTARPCBDimensions x y z unit ``` | Set the PCB dimensions of the TI-STAR layer | 
+| ``` /DetSys/det/setTISTARSiOffsetInPCB x y z unit ``` | Set the offset of the silicon layer within the PCB of the TI-STAR layer |
+| ``` /DetSys/det/setTISTARPosition x y z unit ``` | Set the position of a single TI-STAR layer (built w/ ```/DetSys/det/addTISTARLayer```) | 
+| ``` /DetSys/det/setTISTARPositionOffset x y z unit ``` | Set the position offset of the 4-strip TI-STAR layer, used to line up the inner 4-strip layer with the outer 2-strip layers  | 
+| ``` /DetSys/det/setTISTARRotation x y z ``` | Set the rotation of a single TI-STAR layer - rotate by the x, y, then z axes - units in deg (built w/ ```/DetSys/det/addTISTARLayer```) | 
+| ``` /DetSys/det/addTISTAR2StripLayer ``` | Add a 2-strip TI-STAR layer | 
+| ``` /DetSys/det/addTISTAR4StripLayer ``` | Add a 4-strip TI-STAR layer |  
+| ``` /DetSys/det/setTISTARDistFromBeam distance unit ``` | Set the distance from the beam axis - used by ```/DetSys/det/addTISTAR2StripLayer``` and ```/DetSys/det/addTISTAR4StripLayer``` | 
+| ``` /DetSys/det/setTISTARGapZ distance unit``` | Set the distance between the two strips on either side of the beam axis (z) - used by ```/DetSys/det/addTISTAR4StripLayer``` | 
+| ``` /DetSys/det/setTISTARSiCentered bool``` | Set boolean to build the TI-STAR layer silicon-centered (true) or entire chip [silicon + PCB] (false). Mainly used to center the outer 2-strip layers of the current TI-STAR design. |
+| ``` /DetSys/app/addTISTARGasTarget ``` | build the TI-STAR gas target | 
+
+#### Miniball/TRex Commands
+
+These commands are all related to the code copied over from [TI-STAR/TRex](https://github.com/VinzenzBildstein/TI-STAR) and [Miniball](https://github.com/VinzenzBildstein/Miniball).
+
+| Command | Brief Description |
+| :------ | :---------------- |
+| ``` /DetSys/miniball/SetPrimaryGenerator generator_name``` | Set which TRexBaseGenerator-derived generator to use. The choices are: ```TestSource```, ```Rutherford```, ```AngularDistribution```, ```AlphaSource```, or ```BeamIn```. |
+| ``` /DetSys/miniball/SimulateEjectiles bool``` | Set bool for simulating ejectiles |
+| ``` /DetSys/miniball/SimulateGammas bool``` | Set bool for simulating gamma rays |
+| ``` /DetSys/miniball/IncludeEnergyResolution bool``` | Set bool for including an energy resolution - NOT CURRENTLY USED |
+| ``` /DetSys/miniball/IncludeVacuumChamber bool``` | Set bool for including the vacuum chamber - NOT CURRENTLY USED |
+| ``` /DetSys/miniball/SetVacuumChamberType name``` | Set the the vacuum chamber type - NOT CURRENTLY USED |
+| ``` /DetSys/miniball/SetVacuumChamberGas name``` | Set name of the the vacuum chamber gas - NOT CURRENTLY USED |
+| ``` /DetSys/miniball/SetTestSourceEnergy energy unit``` | Set the energy for the test source - used by  ```TRexTestSource``` |
+| ``` /DetSys/miniball/SetBeamEnergy energy unit``` | Set beam energy - used by ```TRexBeam``` derived sources |
+| ``` /DetSys/miniball/SetBeamWidth length unit``` | Set beam width (unless reactionZ vs beam radius has been set via /DetSys/miniball/SetReactionZvsRadiusFile) - used by ```TRexBeam``` derived sources |
+| ``` /DetSys/miniball/SetThetaCmMin theta``` | Set the minimum theta value, value in radians - used by ```TRexRutherford``` and ```TRexAngularDistribution``` |
+| ``` /DetSys/miniball/SetProjectileName name```| Set the name of the Projectile (e.g. 132Sn) |
+| ``` /DetSys/miniball/SetProjectileZ Z``` | Set Z for the Projectile |
+| ``` /DetSys/miniball/SetProjectileA A``` | Set A for the Projectile |
+| ``` /DetSys/miniball/SetTargetName name```| Set the name of the Target (e.g. 2H) |
+| ``` /DetSys/miniball/SetTargetZ Z``` | Set Z for the Target |
+| ``` /DetSys/miniball/SetTargetA A``` | Set A for the Target |
+| ``` /DetSys/miniball/SetEjectileName name```| Set the name of the Ejectile (e.g. 133Sn) |
+| ``` /DetSys/miniball/SetEjectileZ Z``` | Set Z for the Ejectile |
+| ``` /DetSys/miniball/SetEjectileA A``` | Set A for the Ejectile |
+| ``` /DetSys/miniball/SetRecoilName name```| Set the name of the Recoil (e.g. 1H) |
+| ``` /DetSys/miniball/SetRecoilZ Z``` | Set Z for the Recoil |
+| ``` /DetSys/miniball/SetRecoilA A``` | Set A for the Recoil |
+| ``` /DetSys/miniball/SetTargetMaterialName name``` | Set the target material name (e.g. 2H) |
+| ``` /DetSys/miniball/SetTargetAtomicRatio ratio``` | Set the target atomic ratio - NOT CURRENTLY USED |
+| ``` /DetSys/miniball/SetTransferOrCoulexProbability prob``` | Set the transfer/coulex probability |
+| ``` /DetSys/miniball/SetLevelFile filename``` | Set the name/location of the level file |
+| ``` /DetSys/miniball/SetAngularDistributionFile filename``` | Set the name/location of the angular distribution file |
+| ``` /DetSys/miniball/SetMassFile filename``` | Set the name/location of the mass file |
+| ``` /DetSys/miniball/SetCrossSectionFile filename``` | Set the name/location of the cross-section file |
+| ``` /DetSys/miniball/SetReactionZvsRadiusFile filename``` | Set the name/location of the reactionZ vs. beam radius file |
+| ``` /DetSys/miniball/SetReactionZDistributionFile filename``` | Set the name/location of the reactionZ probability distribution file |
+| ``` /DetSys/miniball/SetAlphaSourceDiameter diameter unit``` | Set the diameter of the alpha source - used by ```TRexAlphaSource``` |
+| ``` /DetSys/miniball/SetAlphaSourceThickness thickness unit``` | Set the thickness of the alpha source - used by ```TRexAlphaSource``` |
+| ``` /DetSys/miniball/SetTargetDiameter diameter unit``` | Set the diameter of the target |
+| ``` /DetSys/miniball/SetTargetThickness thickness ``` | Set the thickness of the target (in mg/cm2) |
+| ``` /DetSys/miniball/SetGasTargetLength length unit``` | Set the length of the gas target |
+| ``` /DetSys/miniball/SetTargetPressure pressure unit``` | Set the gas target pressure |
+| ``` /DetSys/miniball/SetTargetMaterialDensity density``` | Set the gas target material density (in mg/cm3) |
+| ``` /DetSys/miniball/SetTargetMylarThickness thickness unit``` | Set the thickness of the target mylar foil |
+| ``` /DetSys/miniball/SetTargetBeWindowThickness thickness unit``` | Set the thickness of the target Be window |
+| ``` /DetSys/miniball/Print``` | Print the values stored in ```TRexSettings``` |
+
+#### Physics Lists
+
+For TI-STAR, we typically use the QGSP_BIC physics list, but we have also added the physics list PhysListEmStandardNR from the example TestEm7 which includes G4ScreenedNuclearRecoil.
+
+| Command | Brief Description |
+| :------ | :---------------- |
+| ``` /DetSys/phys/SelectPhysics physics_list ``` | Select a physics list - for TI-STAR we recommend ```QGSP_BIC``` by default, or ```standardNR``` for the G4ScreenedNuclearRecoil process  | 
+
 ### Particle Emission
 
 #### General
@@ -185,72 +266,6 @@ Requires all four commands to build
 
 
 *Used for SPICE: these files are 50Mb each and are different for each lens so until a better solution comes along they will be kept on the network at TRIUMF (email Mohamad, Lee, or Michael for precise location)
-
-### TI-STAR Branch
-
-#### TI-STAR and Target Geometry
-| Command | Brief Description |
-| :------ | :---------------- |
-| ``` /DetSys/det/addTISTARLayer ``` | Add a single TI-STAR layer | 
-| ``` /DetSys/det/setTISTARSiDimensions x y z unit ``` | Set the silicon dimensions of the TI-STAR layer | 
-| ``` /DetSys/det/setTISTARPCBDimensions x y z unit ``` | Set the PCB dimensions of the TI-STAR layer | 
-| ``` /DetSys/det/setTISTARSiOffsetInPCB x y z unit ``` | Set the offset of the silicon layer within the PCB of the TI-STAR layer |
-| ``` /DetSys/det/setTISTARPosition x y z unit ``` | Set the position of a single TI-STAR layer (built w/ ```/DetSys/det/addTISTARLayer```) | 
-| ``` /DetSys/det/setTISTARPositionOffset x y z unit ``` | Set the position offset of the 4-strip TI-STAR layer, used to line up the inner 4-strip layer with the outer 2-strip layers  | 
-| ``` /DetSys/det/setTISTARRotation x y z ``` | Set the rotation of a single TI-STAR layer - rotate by the x, y, then z axes - units in deg (built w/ ```/DetSys/det/addTISTARLayer```) | 
-| ``` /DetSys/det/addTISTAR2StripLayer ``` | Add a 2-strip TI-STAR layer | 
-| ``` /DetSys/det/addTISTAR4StripLayer ``` | Add a 4-strip TI-STAR layer |  
-| ``` /DetSys/det/setTISTARDistFromBeam distance unit ``` | Set the distance from the beam axis - used by ```/DetSys/det/addTISTAR2StripLayer``` and ```/DetSys/det/addTISTAR4StripLayer``` | 
-| ``` /DetSys/det/setTISTARGapZ distance unit``` | Set the distance between the two strips on either side of the beam axis (z) - used by ```/DetSys/det/addTISTAR4StripLayer``` | 
-| ``` /DetSys/det/setTISTARSiCentered bool``` | Set boolean to build the TI-STAR layer silicon-centered (true) or entire chip [silicon + PCB] (false). Mainly used to center the outer 2-strip layers of the current TI-STAR design. |
-| ``` /DetSys/app/addTISTARGasTarget ``` | build the TI-STAR gas target | 
-
-
-#### Miniball/TRex Commands
-| Command | Brief Description |
-| :------ | :---------------- |
-| ``` /DetSys/miniball/SetPrimaryGenerator generator_name``` | Set which TRexBaseGenerator-derived generator to use. The choices are: ```TestSource```, ```Rutherford```, ```AngularDistribution```, ```AlphaSource```, or ```BeamIn```. |
-| ``` /DetSys/miniball/SimulateEjectiles bool``` | Set bool for simulating ejectiles |
-| ``` /DetSys/miniball/SimulateGammas bool``` | Set bool for simulating gamma rays |
-| ``` /DetSys/miniball/IncludeEnergyResolution bool``` | Set bool for including an energy resolution - NOT CURRENTLY USED |
-| ``` /DetSys/miniball/IncludeVacuumChamber bool``` | Set bool for including the vacuum chamber - NOT CURRENTLY USED |
-| ``` /DetSys/miniball/SetVacuumChamberType name``` | Set the the vacuum chamber type - NOT CURRENTLY USED |
-| ``` /DetSys/miniball/SetVacuumChamberGas name``` | Set name of the the vacuum chamber gas - NOT CURRENTLY USED |
-| ``` /DetSys/miniball/SetTestSourceEnergy energy unit``` | Set the energy for the test source - used by  ```TRexTestSource``` |
-| ``` /DetSys/miniball/SetBeamEnergy energy unit``` | Set beam energy - used by ```TRexBeam``` derived sources |
-| ``` /DetSys/miniball/SetBeamWidth length unit``` | Set beam width (unless reactionZ vs beam radius has been set via /DetSys/miniball/SetReactionZvsRadiusFile) - used by ```TRexBeam``` derived sources |
-| ``` /DetSys/miniball/SetThetaCmMin theta``` | Set the minimum theta value, value in radians - used by ```TRexRutherford``` and ```TRexAngularDistribution``` |
-| ``` /DetSys/miniball/SetProjectileName name```| Set the name of the Projectile (e.g. 132Sn) |
-| ``` /DetSys/miniball/SetProjectileZ Z``` | Set Z for the Projectile |
-| ``` /DetSys/miniball/SetProjectileA A``` | Set A for the Projectile |
-| ``` /DetSys/miniball/SetTargetName name```| Set the name of the Target (e.g. 2H) |
-| ``` /DetSys/miniball/SetTargetZ Z``` | Set Z for the Target |
-| ``` /DetSys/miniball/SetTargetA A``` | Set A for the Target |
-| ``` /DetSys/miniball/SetEjectileName name```| Set the name of the Ejectile (e.g. 133Sn) |
-| ``` /DetSys/miniball/SetEjectileZ Z``` | Set Z for the Ejectile |
-| ``` /DetSys/miniball/SetEjectileA A``` | Set A for the Ejectile |
-| ``` /DetSys/miniball/SetRecoilName name```| Set the name of the Recoil (e.g. 1H) |
-| ``` /DetSys/miniball/SetRecoilZ Z``` | Set Z for the Recoil |
-| ``` /DetSys/miniball/SetRecoilA A``` | Set A for the Recoil |
-| ``` /DetSys/miniball/SetTargetMaterialName name``` | Set the target material name (e.g. 2H) |
-| ``` /DetSys/miniball/SetTargetAtomicRatio ratio``` | Set the target atomic ratio - NOT CURRENTLY USED |
-| ``` /DetSys/miniball/SetTransferOrCoulexProbability prob``` | Set the transfer/coulex probability |
-| ``` /DetSys/miniball/SetLevelFile filename``` | Set the name/location of the level file |
-| ``` /DetSys/miniball/SetAngularDistributionFile filename``` | Set the name/location of the angular distribution file |
-| ``` /DetSys/miniball/SetMassFile filename``` | Set the name/location of the mass file |
-| ``` /DetSys/miniball/SetCrossSectionFile filename``` | Set the name/location of the cross-section file |
-| ``` /DetSys/miniball/SetReactionZvsRadiusFile filename``` | Set the name/location of the reactionZ vs. beam radius file |
-| ``` /DetSys/miniball/SetReactionZDistributionFile filename``` | Set the name/location of the reactionZ probability distribution file |
-| ``` /DetSys/miniball/SetAlphaSourceDiameter diameter unit``` | Set the diameter of the alpha source - used by ```TRexAlphaSource``` |
-| ``` /DetSys/miniball/SetAlphaSourceThickness thickness unit``` | Set the thickness of the alpha source - used by ```TRexAlphaSource``` |
-| ``` /DetSys/miniball/SetTargetDiameter diameter unit``` | Set the diameter of the target |
-| ``` /DetSys/miniball/SetTargetThickness thickness ``` | Set the thickness of the target (in mg/cm2) |
-| ``` /DetSys/miniball/SetGasTargetLength length unit``` | Set the length of the gas target |
-| ``` /DetSys/miniball/SetTargetPressure pressure unit``` | Set the gas target pressure |
-| ``` /DetSys/miniball/SetTargetMaterialDensity density``` | Set the gas target material density (in mg/cm3) |
-| ``` /DetSys/miniball/SetTargetMylarThickness thickness unit``` | Set the thickness of the target mylar foil |
-| ``` /DetSys/miniball/SetTargetBeWindowThickness thickness unit``` | Set the thickness of the target Be window |
-| ``` /DetSys/miniball/Print``` | Print the values stored in ```TRexSettings``` |
 
 
 | Command | Brief Description | Default |

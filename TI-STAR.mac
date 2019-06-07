@@ -1,7 +1,10 @@
 #####################################################
-/run/initialize
+## must set the physics lists before /run/initialize
+/DetSys/phys/SelectPhysics QGSP_BIC
+/DetSys/phys/SelectPhysics standardNR # from TestEm7, w/ G4ScreenedNuclearRecoil
 
-/DetSys/phys/SelectPhysics QGSP_BIC_HP
+#####################################################
+/run/initialize
 
 /control/execute vis.mac
 
@@ -10,7 +13,7 @@
 ######################################################
 /DetSys/world/material Vacuum
 
-# first layer
+## first layer
 /DetSys/det/setTISTARSiDimensions 40 0.02 50 mm  
 /DetSys/det/setTISTARPCBDimensions 80 1.67 75 mm
 /DetSys/det/setTISTARSiOffsetInPCB 5 0 0 mm         
@@ -22,7 +25,7 @@
 /DetSys/det/setTISTARPositionOffset 0 5 0 mm
 /DetSys/det/addTISTAR4StripLayer
 
-# second layer
+## second layer
 /DetSys/det/setTISTARSiDimensions 100 0.150 100 mm  
 /DetSys/det/setTISTARPCBDimensions 140 1.67 140 mm
 /DetSys/det/setTISTARSiOffsetInPCB 5 0 0 mm         
@@ -30,13 +33,24 @@
 /DetSys/det/setTISTARDistFromBeam 30 mm
 /DetSys/det/addTISTAR2StripLayer
 
-# third layer
+## third layer
 /DetSys/det/setTISTARSiDimensions 100 2 100 mm  
 /DetSys/det/setTISTARPCBDimensions 140 1.67 140 mm
 /DetSys/det/setTISTARSiOffsetInPCB 5 0 0 mm         
 /DetSys/det/setTISTARSiCentered 0
 /DetSys/det/setTISTARDistFromBeam 33 mm
 /DetSys/det/addTISTAR2StripLayer
+
+## target
+/DetSys/miniball/SetTargetMaterialName 2H
+/DetSys/miniball/SetTargetDiameter 10.0 mm
+/DetSys/miniball/SetTargetThickness 2.582e-1        # in mg/cm2 (50: 1.292e-1 , 100:2.582e-1)
+/DetSys/miniball/SetTargetMaterialDensity 1.614e-5  # in g/cm3 (50: 8.072e-6 , 100:1.614e-5)
+/DetSys/miniball/SetGasTargetLength 16.0 cm
+/DetSys/miniball/SetTargetPressure 0.100 bar
+/DetSys/miniball/SetTargetMylarThickness 2 um
+/DetSys/miniball/SetTargetBeWindowThickness 8 um
+/DetSys/app/addTISTARGasTarget
 
 ## GRIFFIN
 #/DetSys/det/addGriffinBackDetector 1
@@ -83,14 +97,6 @@
 /DetSys/miniball/SetRecoilZ 1
 /DetSys/miniball/SetRecoilA 1
 
-/DetSys/miniball/SetTargetMaterialName 2H
-/DetSys/miniball/SetTargetDiameter 10.0 mm
-
-/DetSys/miniball/SetTargetThickness 2.582e-1 # in mg/cm2 (50: 1.292e-1 , 100:2.582e-1)
-/DetSys/miniball/SetTargetMaterialDensity 1.614e-5 # in g/cm3 (50: 8.072e-6 , 100:1.614e-5)
-/DetSys/miniball/SetGasTargetLength 16.0 cm
-/DetSys/miniball/SetTargetPressure 0.100 bar
-
 /DetSys/miniball/SetTransferOrCoulexProbability 1.0
 
 /DetSys/miniball/SimulateGammas false
@@ -101,16 +107,9 @@
 
 /DetSys/gun/useTRexGenerator false
 
-# target
-/DetSys/miniball/SetTargetMylarThickness 2 um
-/DetSys/miniball/SetTargetBeWindowThickness 8 um
-/DetSys/app/addTISTARGasTarget
-
 #####################################################
-/DetSys/gun/useGPS true
-
-/gps/particle proton
-#/gps/ion 50 132 0 0 
+#/gps/particle proton
+/gps/ion 50 132 0 0 
 
 /gps/position 0 0 -100 mm
 /gps/pos/type Plane
@@ -120,5 +119,7 @@
 
 /gps/energy 792 MeV
 
+/DetSys/gun/useGPS true
+
 #####################################################
-/run/beamOn 1
+/run/beamOn 1000000
