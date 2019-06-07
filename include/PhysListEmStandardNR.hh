@@ -23,78 +23,46 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-// $Id: PhysicsList.hh 68007 2013-03-13 11:28:03Z gcosmo $
+/// \file electromagnetic/TestEm7/include/PhysListEmStandardNR.hh
+/// \brief Definition of the PhysListEmStandardNR class
 //
-/// \file radioactivedecay/rdecay02/include/PhysicsList.hh
-/// \brief Definition of the PhysicsList class
+// $Id: PhysListEmStandardNR.hh 66241 2012-12-13 18:34:42Z gunter $
 //
-
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-#ifndef PHYSICSLIST_HH
-#define PHYSICSLIST_HH
+#ifndef PhysListEmStandardNR_h
+#define PhysListEmStandardNR_h 1
 
-#include "G4VModularPhysicsList.hh"
+#include "G4VPhysicsConstructor.hh"
 #include "globals.hh"
-#include <vector>
-
-class G4VPhysicsConstructor;
-class PhysicsListMessenger;
-class G4ProductionCuts;
-class G4Scintillation;
-class G4StepLimiter;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-class PhysicsList: public G4VModularPhysicsList
+class PhysListEmStandardNR : public G4VPhysicsConstructor
 {
-public:
-    PhysicsList();
-    virtual ~PhysicsList();
+public: 
+  PhysListEmStandardNR(const G4String& name = "standardNR");
+ ~PhysListEmStandardNR();
 
-    virtual void ConstructParticle();
-
-    virtual void SetCuts();
-    void SetCutForGamma(G4double);
-    void SetCutForElectron(G4double);
-    void SetCutForPositron(G4double);
-
-    void SelectPhysicsList(const G4String& name);
-    virtual void ConstructProcess();
-
-    void ConstructOp(G4bool);
-    void SpiceStepper(G4bool);
-
-    void SetTargetCut(G4double val);
-    void SetDetectorCut(G4double val);
-
-private:
-
-    void AddExtraBuilders(G4bool flagHP);
-
-    // hide assignment operator
-    PhysicsList & operator=(const PhysicsList &right);
-    PhysicsList(const PhysicsList&);
-
-    G4double fCutForGamma;
-    G4double fCutForElectron;
-    G4double fCutForPositron;
-
-    G4VPhysicsConstructor*  fEmPhysicsList;
-    G4VPhysicsConstructor*  fRaddecayList;
-    G4VPhysicsConstructor*  fParticleList;
-    G4VPhysicsConstructor*  fHadPhysicsList;
-
-    std::vector<G4VPhysicsConstructor*>  fHadronPhys;
-    G4int fNhadcomp;
-
-    PhysicsListMessenger* fPMessenger;
-    G4ProductionCuts* fDetectorCuts;
-    G4ProductionCuts* fTargetCuts;
-
-    G4Scintillation* fScintProcess;
+public: 
+  // This method is dummy for physics
+  virtual void ConstructParticle() {};
+ 
+  // This method will be invoked in the Construct() method.
+  // each physics process will be instantiated and
+  // registered to the process manager of each particle type 
+  virtual void ConstructProcess();
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 #endif
+
+
+
+
+
+
+
+

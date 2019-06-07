@@ -117,11 +117,6 @@ PhysicsListMessenger::PhysicsListMessenger(PhysicsList* pPhys)
 	fSpiceStepperCmd->SetGuidance("Choose to invoke SPICE stepper");
 	fSpiceStepperCmd->SetDefaultValue(false);
 	fSpiceStepperCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
-
-    fConstructScreenedNuclearRecoilsCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/phys/ConstructScreenedNuclearRecoils",this);
-    fConstructScreenedNuclearRecoilsCmd->SetGuidance("construct screened nuclear recoils for rutherford scattering (implementation from dhymers). arg is upper limit");
-    fConstructScreenedNuclearRecoilsCmd->SetDefaultValue(100.*MeV);
-    fConstructScreenedNuclearRecoilsCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -138,7 +133,6 @@ PhysicsListMessenger::~PhysicsListMessenger()
 	delete fMCutCmd;
 	delete fConstructOpCmd;
 	delete fSpiceStepperCmd;
-    delete fConstructScreenedNuclearRecoilsCmd;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -194,10 +188,6 @@ void PhysicsListMessenger::SetNewValue(G4UIcommand* command,
 		fPPhysicsList->SpiceStepper(fSpiceStepperCmd->GetNewBoolValue(newValue));
 	}
     
-    if(command == fConstructScreenedNuclearRecoilsCmd) 
-    {
-        fPPhysicsList->SetScreenedNuclearRecoilsEnergyLimit(fConstructScreenedNuclearRecoilsCmd->GetNewDoubleValue(newValue));
-    }
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

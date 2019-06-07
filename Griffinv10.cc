@@ -56,6 +56,7 @@
 #endif
 
 #include "my_QGSP_BIC.hh"
+#include "G4RadioactiveDecayPhysics.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -84,8 +85,12 @@ int main(int argc, char** argv)
 	 // Set mandatory initialization classes
 	 DetectorConstruction* detector = new DetectorConstruction;
 	 runManager->SetUserInitialization(detector);
-	 
-     //runManager->SetUserInitialization(new myQGSP_BIC());
+    	
+  // from dhymers 
+     //myQGSP_BIC * physics = new myQGSP_BIC();
+     //physics->RegisterPhysics(new G4RadioactiveDecayPhysics()); // added by jturko
+     //runManager->SetUserInitialization(physics);
+  // the default
 	 runManager->SetUserInitialization(new PhysicsList);
 	
      runManager->SetUserInitialization(new ActionInitialization(detector));
