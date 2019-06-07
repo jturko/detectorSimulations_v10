@@ -186,15 +186,42 @@ Requires all four commands to build
 
 *Used for SPICE: these files are 50Mb each and are different for each lens so until a better solution comes along they will be kept on the network at TRIUMF (email Mohamad, Lee, or Michael for precise location)
 
-| Command | Brief Description | Default |
-| :------ | :---------------- | :------ |
-| ```  ``` |  |  |
-| ```  ``` |  |  |
-| ```  ``` |  |  |
-| ```  ``` |  |  |
+### TI-STAR Branch
 
-#### Miniball / TRex commands (testing)
+#### Miniball / TRex commands
+| Command | Brief Description |
+| :------ | :---------------- |
+| ``` /DetSys/miniball/SetPrimaryGenerator generator_name``` | Set which TRexBaseGenerator-derived generator to use. The choices are: ```TestSource```, ```Rutherford```, ```AngularDistribution```, ```AlphaSource```, or ```BeamIn```. |
+| ``` /DetSys/miniball/SimulateEjectiles bool``` | Set bool for simulating ejectiles |
+| ``` /DetSys/miniball/SimulateGammas bool``` | Set bool for simulating gamma rays |
+| ``` /DetSys/miniball/IncludeEnergyResolution bool``` | Set bool for including an energy resolution - NOT CURRENTLY USED |
+| ``` /DetSys/miniball/IncludeVacuumChamber bool``` | Set bool for including the vacuum chamber - NOT CURRENTLY USED |
+| ``` /DetSys/miniball/SetVacuumChamberType name``` | Set the the vacuum chamber type - NOT CURRENTLY USED |
+| ``` /DetSys/miniball/SetVacuumChamberGas name``` | Set name of the the vacuum chamber gas - NOT CURRENTLY USED |
+| ``` /DetSys/miniball/SetTestSourceEnergy energy unit``` | Set the energy for the ```TRexTestSource``` |
+| ``` /DetSys/miniball/SetBeamEnergy energy unit``` | Set beam energy - for ```TRexBeam```-derived sources |
+| ``` /DetSys/miniball/SetBeamWidth length unit``` | Set beam width (unless reactionZ vs beam radius has been set via /DetSys/miniball/SetReactionZvsRadiusFile) - for ```TRexBeam```-derived sources |
+| ``` /DetSys/miniball/SetThetaCmMin theta``` | Set the minimum theta value (used by ```TRexRutherford``` and ```TRexAngularDistribution```, value in radians |
+| ``` /DetSys/miniball/SetProjectileName name```| Set the name of the Projectile (e.g. 132Sn) - for ```TRexBeam```-derived sources |
+| ``` /DetSys/miniball/SetProjectileZ Z``` | Set Z for the Projectile |
+| ``` /DetSys/miniball/SetProjectileA A``` | Set A for the Projectile |
+| ``` /DetSys/miniball/SetTargetName name```| Set the name of the Target (e.g. 132Sn) |
+| ``` /DetSys/miniball/SetTargetZ Z``` | Set Z for the Target |
+| ``` /DetSys/miniball/SetTargetA A``` | Set A for the Target |
+| ``` /DetSys/miniball/SetEjectileName name```| Set the name of the Ejectile (e.g. 132Sn) |
+| ``` /DetSys/miniball/SetEjectileZ Z``` | Set Z for the Ejectile |
+| ``` /DetSys/miniball/SetEjectileA A``` | Set A for the Ejectile |
+| ``` /DetSys/miniball/SetRecoilName name```| Set the name of the Recoil (e.g. 132Sn) |
+| ``` /DetSys/miniball/SetRecoilZ Z``` | Set Z for the Recoil |
+| ``` /DetSys/miniball/SetRecoilA A``` | Set A for the Recoil |
+| ``` /DetSys/miniball/SetTargetMaterialName name``` | Set the target material name (e.g. 2H) |
+| ``` /DetSys/miniball/SetTargetAtomicRatio ratio``` | Set the target atomic ratio - NOT CURRENTLY USED |
+
+
 | Command | Brief Description | Default |
 | :------ | :---------------- | :------ |
-| ``` /DetSys/miniball/SetPrimaryGenerator generator_name``` | Set which TRexBaseGenerator-derived generator to use. The choices are: ```TestSource```, ```Rutherford```, ```AngularDistribution```, ```AlphaSource```, or ```BeamIn```. | |
+| ```  ``` |  |  |
+| ```  ``` |  |  |
+| ```  ``` |  |  |
+| ```  ``` |  |  |
 
