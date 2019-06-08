@@ -40,7 +40,6 @@
 #include "G4UserRunAction.hh"
 #include "globals.hh"
 #include "HistoManager.hh"
-#include "PrimaryGeneratorAction.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -49,7 +48,7 @@ class G4Run;
 class RunAction : public G4UserRunAction
 {
 public:
-    RunAction(HistoManager*, PrimaryGeneratorAction* pgen);
+    RunAction(HistoManager*);
     virtual ~RunAction();
     
     virtual void BeginOfRunAction(const G4Run*);
@@ -57,7 +56,6 @@ public:
 
 private:
     HistoManager* fHistoManager;
-    PrimaryGeneratorAction* fPrimaryGeneratorAction;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

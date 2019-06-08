@@ -1,19 +1,29 @@
 #####################################################
-## must set the physics lists before /run/initialize
+# Select the physics
+# Must be before /run/initialize
+#
+
 /DetSys/phys/SelectPhysics QGSP_BIC
-/DetSys/phys/SelectPhysics standardNR # from TestEm7, w/ G4ScreenedNuclearRecoil
+#/DetSys/phys/SelectPhysics standardNR # from TestEm7, w/ G4ScreenedNuclearRecoil
 
 #####################################################
+# Initialize the run
+#
+
 /run/initialize
-
-/control/execute vis.mac
-
+#/control/execute vis.mac
 /tracking/verbose 0
 
 ######################################################
+# Geometry
+#
+
+## the world
+#
 /DetSys/world/material Vacuum
 
 ## first layer
+#
 /DetSys/det/setTISTARSiDimensions 40 0.02 50 mm  
 /DetSys/det/setTISTARPCBDimensions 80 1.67 75 mm
 /DetSys/det/setTISTARSiOffsetInPCB 5 0 0 mm         
@@ -26,6 +36,7 @@
 /DetSys/det/addTISTAR4StripLayer
 
 ## second layer
+#
 /DetSys/det/setTISTARSiDimensions 100 0.150 100 mm  
 /DetSys/det/setTISTARPCBDimensions 140 1.67 140 mm
 /DetSys/det/setTISTARSiOffsetInPCB 5 0 0 mm         
@@ -34,6 +45,7 @@
 /DetSys/det/addTISTAR2StripLayer
 
 ## third layer
+#
 /DetSys/det/setTISTARSiDimensions 100 2 100 mm  
 /DetSys/det/setTISTARPCBDimensions 140 1.67 140 mm
 /DetSys/det/setTISTARSiOffsetInPCB 5 0 0 mm         
@@ -42,6 +54,7 @@
 /DetSys/det/addTISTAR2StripLayer
 
 ## target
+#
 /DetSys/miniball/SetTargetMaterialName 2H
 /DetSys/miniball/SetTargetDiameter 10.0 mm
 /DetSys/miniball/SetTargetThickness 2.582e-1        # in mg/cm2 (50: 1.292e-1 , 100:2.582e-1)
@@ -53,6 +66,7 @@
 /DetSys/app/addTISTARGasTarget
 
 ## GRIFFIN
+#
 #/DetSys/det/addGriffinBackDetector 1
 #/DetSys/det/addGriffinBackDetector 2
 #/DetSys/det/addGriffinBackDetector 3
@@ -71,6 +85,9 @@
 #/DetSys/det/addGriffinBackDetector 16
 
 #####################################################
+# TRex/Miniball generator commands
+#
+
 /DetSys/miniball/SetPrimaryGenerator                AngularDistribution
 /DetSys/miniball/SetLevelFile                       ../Data/LevelFiles/132Sn_dp.dat
 /DetSys/miniball/SetAngularDistributionFile         ../Data/AngularDistributionFiles/132Sn_dp.dat
@@ -105,10 +122,14 @@
 
 /DetSys/miniball/Print
 
-/DetSys/gun/useTRexGenerator false
+/DetSys/gun/useTRexGenerator true
 
 #####################################################
+# GPS commands
+#
+
 #/gps/particle proton
+/gps/particle ion
 /gps/ion 50 132 0 0 
 
 /gps/position 0 0 -100 mm
@@ -119,7 +140,11 @@
 
 /gps/energy 792 MeV
 
-/DetSys/gun/useGPS true
+/DetSys/gun/useGPS false
 
 #####################################################
-/run/beamOn 1000000
+# Start the run
+#
+
+/run/beamOn 10000
+

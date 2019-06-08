@@ -40,11 +40,10 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-RunAction::RunAction(HistoManager* histoManager, PrimaryGeneratorAction* pgen)
+RunAction::RunAction(HistoManager* histoManager)
 : G4UserRunAction()
 {
 	fHistoManager = histoManager;
-    fPrimaryGeneratorAction = pgen;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

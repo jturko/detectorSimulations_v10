@@ -56,8 +56,7 @@ void ActionInitialization::BuildForMaster() const
     // That was the idea, but at this point spice hasn't been created yet, so we can't
     // do this!!!
     auto histManager = new HistoManager(fDetector);
-    //SetUserAction(new RunAction(histManager));
-    SetUserAction(new RunAction(histManager,new PrimaryGeneratorAction(histManager))); // this might not work for multithreaded...
+    SetUserAction(new RunAction(histManager));
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -71,9 +70,9 @@ void ActionInitialization::Build() const
     PrimaryGeneratorAction* primaryGen = new PrimaryGeneratorAction(histManager);
     SetUserAction(primaryGen);
     
-    RunAction* runAction = new RunAction(histManager,primaryGen);
+    RunAction* runAction = new RunAction(histManager);
     SetUserAction(runAction);
-    
+
     EventAction* eventAction = new EventAction(runAction, histManager);
     SetUserAction(eventAction);
     
