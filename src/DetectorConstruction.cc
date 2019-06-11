@@ -894,6 +894,7 @@ void DetectorConstruction::AddTISTARLayer() {
         Construct();
     }
     DetectionSystemTISTAR * pTISTAR = new DetectionSystemTISTAR();
+    pTISTAR->SetDetectorNumber(fTISTARDetectorNumber);
     if(fTISTARSiDimensions.x() > 0. &&
        fTISTARSiDimensions.y() > 0. &&
        fTISTARSiDimensions.z() > 0. ) pTISTAR->SetSiDimensions(fTISTARSiDimensions);
@@ -911,6 +912,7 @@ void DetectorConstruction::AddTISTAR2StripLayer() {
         Construct();
     }
     DetectionSystemTISTAR * pTISTAR = new DetectionSystemTISTAR();
+    pTISTAR->SetDetectorNumber(fTISTARDetectorNumber);
     if(fTISTARSiDimensions.x() > 0. &&
        fTISTARSiDimensions.y() > 0. &&
        fTISTARSiDimensions.z() > 0. ) pTISTAR->SetSiDimensions(fTISTARSiDimensions);
@@ -929,6 +931,7 @@ void DetectorConstruction::AddTISTAR4StripLayer() {
         Construct();
     }
     DetectionSystemTISTAR * pTISTAR = new DetectionSystemTISTAR();
+    pTISTAR->SetDetectorNumber(fTISTARDetectorNumber);
     if(fTISTARSiDimensions.x() > 0. &&
        fTISTARSiDimensions.y() > 0. &&
        fTISTARSiDimensions.z() > 0. ) pTISTAR->SetSiDimensions(fTISTARSiDimensions);
@@ -963,6 +966,7 @@ void DetectorConstruction::SetProperties() {
 	for(int i = 0; i < fLogicWorld->GetNoDaughters(); ++i) {
 		if(!HasProperties(fLogicWorld->GetDaughter(i)) && CheckVolumeName(fLogicWorld->GetDaughter(i)->GetName())) {
 			fPropertiesMap[fLogicWorld->GetDaughter(i)] = ParseVolumeName(fLogicWorld->GetDaughter(i)->GetName());
+            G4cout << " det " << i << "; " << fLogicWorld->GetDaughter(i)->GetName() << G4endl;
 		}
 	}
 }
@@ -1285,7 +1289,10 @@ DetectorProperties DetectorConstruction::ParseVolumeName(G4String volumeName) {
     }
     
     if(volumeName.find("TISTARSiLayer") != G4String::npos) {
-    	result.systemID = 9000 + assemblyNumber*10 + imprintNumber;
+        size_t loc = volumeName.find("TISTARSiLayer");
+        G4String detNumberString = volumeName.substr(loc+16,2);
+        result.systemID = 9000 + std::atoi(detNumberString);
+        G4cout << "detector ID: " << result.systemID << G4endl;
     	return result;
     }
     

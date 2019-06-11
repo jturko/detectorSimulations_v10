@@ -194,6 +194,7 @@ public:
     void SetTISTARDistFromBeam(G4double dist)   { fTISTARDistFromBeam = dist; }
     void SetTISTARGapZ(G4double gap)            { fTISTARGapZ = gap; }
     void SetTISTARSiCentered(G4bool val)        { fTISTARSiCentered = val; }
+    void SetTISTARDetectorNumber(G4int num)     { fTISTARDetectorNumber = num; }
 
     void AddTISTARGasTarget(); 
    
@@ -303,6 +304,7 @@ private:
     G4double fTISTARDistFromBeam;
     G4double fTISTARGapZ;
     G4bool fTISTARSiCentered;
+    G4int fTISTARDetectorNumber;
 
     //booleans which control which histograms are created (these are set by the detector construction)
     G4bool fGridCell;

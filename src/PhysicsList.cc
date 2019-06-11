@@ -82,6 +82,7 @@
 #include "G4ScreenedNuclearRecoil.hh"
 // from TestEm7
 #include "PhysListEmStandardNR.hh"
+#include "G4EmStandardPhysicsSS.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -205,6 +206,9 @@ void PhysicsList::SelectPhysicsList(const G4String& name)
     } else if(name == "standardNR") { // from TestEm7, for G4ScreenedNuclearRecoil 
         delete fEmPhysicsList;
         fEmPhysicsList = new PhysListEmStandardNR(name);
+    } else if(name == "standardSS") { // used by TestEm7 for single scattering
+        delete fEmPhysicsList;
+        fEmPhysicsList = new G4EmStandardPhysicsSS(verboseLevel);
     } else {
 		G4cout<<"PhysicsList WARNING wrong or unknown <"
 			<< name<<"> Physics "<<G4endl;

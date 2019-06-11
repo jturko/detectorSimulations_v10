@@ -97,8 +97,19 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 		else if(processName == "Scintillation")    processType = 4;
 		else if(processName == "Cerenkov")         processType = 5;
 		else                                       processType = 0;
+    
+        //if(theTrack->GetCreatorProcess()->GetProcessName() == "ScreenedElastic") {
+        //    G4cout << " ScreenedElastic, " 
+        //           << " particle: " << aStep->GetTrack()->GetParticleDefinition()->GetParticleName()
+        //           << " edep: " << edep/keV << " keV" 
+        //           << " ekin: " << ekin/keV << " keV"
+        //           << " targetZ: " << targetZ 
+        //           << G4endl;            
+        //}
 	}
 
+    // try killing electrons for faster simulation
+    //if(aStep->GetTrack()->GetParticleDefinition()->GetParticleName() == "e-") theTrack->SetTrackStatus(fStopAndKill);
 
 	evntNb =  fEventAction->GetEventNumber();
 

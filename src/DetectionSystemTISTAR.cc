@@ -55,7 +55,8 @@ DetectionSystemTISTAR::DetectionSystemTISTAR() :
 
     fGasTargetBeWindowThickness = TRexSettings::Get()->GetTargetBeWindowThickness();
     fGasTargetBeWindowMaterialName = "Beryllium";
-
+    
+    fDetectorNumber = 10;
 }
 
 DetectionSystemTISTAR::~DetectionSystemTISTAR() 
@@ -183,6 +184,8 @@ G4int DetectionSystemTISTAR::Add2StripLayer(G4double dist_from_beam, G4bool si_c
     G4ThreeVector move;
     G4ThreeVector rotate;
 
+    G4String name;
+
     // first strip
     move = G4ThreeVector(   +dist_from_beam,        // x
                             0.,                     // y
@@ -191,6 +194,8 @@ G4int DetectionSystemTISTAR::Add2StripLayer(G4double dist_from_beam, G4bool si_c
     rotate = G4ThreeVector( 0.,                     // x-rotation
                             0.,                     // y-rotation
                             +90.);                  // z-rotation
+    name = "TISTARSiLayerLV_" + std::to_string(fDetectorNumber);
+    fLogicalSiLayer->SetName(name);
     PlaceDetector(move, rotate, expHallLog);
 
     // second strip
@@ -201,6 +206,8 @@ G4int DetectionSystemTISTAR::Add2StripLayer(G4double dist_from_beam, G4bool si_c
     rotate = G4ThreeVector( 0,                      // x-rotation
                             +180.,                  // y-rotation
                             +90.);                  // z-rotation
+    name = "TISTARSiLayerLV_" + std::to_string(fDetectorNumber+1);
+    fLogicalSiLayer->SetName(name);
     PlaceDetector(move, rotate, expHallLog);
 
     return 1;
@@ -210,6 +217,8 @@ G4int DetectionSystemTISTAR::Add4StripLayer(G4double dist_from_beam, G4double ga
 {
     G4ThreeVector move;
     G4ThreeVector rotate;
+
+    G4String name;
 
     //fPositionOffset = G4ThreeVector(0., 10.0*mm*(-5.0*mm -100.0/2.*mm +140.0/2.*mm)/(30.0*mm), 0.);
 
@@ -221,6 +230,8 @@ G4int DetectionSystemTISTAR::Add4StripLayer(G4double dist_from_beam, G4double ga
     rotate = G4ThreeVector( 0.,                     // x-rotation
                             0.,                     // y-rotation
                             +90.);                  // z-rotation
+    name = "TISTARSiLayerLV_" + std::to_string(fDetectorNumber);
+    fLogicalSiLayer->SetName(name);
     PlaceDetector(move, rotate, expHallLog);
 
     // second strip
@@ -231,6 +242,8 @@ G4int DetectionSystemTISTAR::Add4StripLayer(G4double dist_from_beam, G4double ga
     rotate = G4ThreeVector( 0,                      // x-rotation
                             +180.,                  // y-rotation
                             +90.);                  // z-rotation
+    name = "TISTARSiLayerLV_" + std::to_string(fDetectorNumber+1);
+    fLogicalSiLayer->SetName(name);
     PlaceDetector(move, rotate, expHallLog);
 
     // third strip
@@ -241,6 +254,8 @@ G4int DetectionSystemTISTAR::Add4StripLayer(G4double dist_from_beam, G4double ga
     rotate = G4ThreeVector( 0.,                     // x-rotation
                             0.,                     // y-rotation
                             -90.);                  // z-rotation
+    name = "TISTARSiLayerLV_" + std::to_string(fDetectorNumber+2);
+    fLogicalSiLayer->SetName(name);
     PlaceDetector(move, rotate, expHallLog);
 
     // fourth strip
@@ -251,6 +266,8 @@ G4int DetectionSystemTISTAR::Add4StripLayer(G4double dist_from_beam, G4double ga
     rotate = G4ThreeVector( 0,                      // x-rotation
                             +180.,                  // y-rotation
                             -90.);                  // z-rotation
+    name = "TISTARSiLayerLV_" + std::to_string(fDetectorNumber+3);
+    fLogicalSiLayer->SetName(name);
     PlaceDetector(move, rotate, expHallLog);
 
 

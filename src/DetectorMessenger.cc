@@ -387,7 +387,11 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction* Det)
     fSetTISTARSiCenteredCmd = new G4UIcmdWithABool("/DetSys/det/setTISTARSiCentered",this);
     fSetTISTARSiCenteredCmd->SetGuidance("Set 1 for si-centered layers, 0 for detector-centered layers");
     fSetTISTARSiCenteredCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
-    
+ 
+    fSetTISTARDetectorNumberCmd = new G4UIcmdWithAnInteger("/DetSys/det/setTISTARDetectorNumber",this);
+    fSetTISTARDetectorNumberCmd->SetGuidance("Set the TI-STAR detector number (to be added to 9000), used as number for 1st strip when creating 2-strip and 4-strip layers, w/ subsequent layers incremeted by 1");
+    fSetTISTARDetectorNumberCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+   
     fAddTISTARGasTargetCmd = new G4UIcmdWithoutParameter("/DetSys/app/addTISTARGasTarget",this);
     fAddTISTARGasTargetCmd->SetGuidance("Add the TI-STAR gas target");
     fAddTISTARGasTargetCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
@@ -487,6 +491,7 @@ DetectorMessenger::~DetectorMessenger()
     delete fSetTISTARDistFromBeamCmd;
     delete fSetTISTARGapZCmd;
     delete fSetTISTARSiCenteredCmd;
+    delete fSetTISTARDetectorNumberCmd;
 
     delete fAddTISTARGasTargetCmd;
 }
@@ -734,6 +739,9 @@ void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
     }   
     if(command == fSetTISTARSiCenteredCmd) {
         fDetector->SetTISTARSiCentered(fSetTISTARSiCenteredCmd->GetNewBoolValue(newValue));
+    }
+    if(command == fSetTISTARDetectorNumberCmd) {
+        fDetector->SetTISTARDetectorNumber(fSetTISTARDetectorNumberCmd->GetNewIntValue(newValue));
     }
 
     if(command == fAddTISTARGasTargetCmd) {

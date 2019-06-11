@@ -167,6 +167,7 @@ private:
     G4UIcmdWithADoubleAndUnit*  fSetTISTARDistFromBeamCmd;
     G4UIcmdWithADoubleAndUnit*  fSetTISTARGapZCmd;
     G4UIcmdWithABool*           fSetTISTARSiCenteredCmd;
+    G4UIcmdWithAnInteger*       fSetTISTARDetectorNumberCmd;
 
     G4UIcmdWithoutParameter*    fAddTISTARGasTargetCmd;
 

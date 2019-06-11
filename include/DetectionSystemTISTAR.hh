@@ -63,6 +63,8 @@ public:
     
     G4int AddGasTarget(G4LogicalVolume* expHallLog);
 
+    void SetDetectorNumber(G4int detNum) { fDetectorNumber = detNum; }
+
 private:
     // Assembly volumes
     G4AssemblyVolume* fAssemblyLayer;
@@ -99,7 +101,8 @@ private:
     G4double fGasTargetBeWindowThickness;
     G4String fGasTargetBeWindowMaterialName;
 
-    
+    G4int fDetectorNumber;
+           
 };
 
 #endif
