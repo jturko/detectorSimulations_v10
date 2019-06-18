@@ -64,9 +64,7 @@
 //#include "DetectionSystemGammaTracking.hh"
 #include "DetectionSystem8pi.hh"
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #include "DetectionSystemDescant.hh"
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #include "ApparatusDescantStructure.hh"
 
 #include "DetectionSystemTestcan.hh"
@@ -185,6 +183,13 @@ DetectorConstruction::DetectorConstruction() :
     fTISTARGapZ = 0.;
     fTISTARSiCentered = false;
     fTISTARPositionOffset = G4ThreeVector(0.,0.,0.);    
+
+    // TI-STAR vacuum chamber
+    fTISTARVacuumChamberShape = "";
+    fTISTARVacuumChamberMaterialName = "";
+    fTISTARVacuumChamberBoxDimensions = G4ThreeVector(0.,0.,0.);
+    fTISTARVacuumChamberCylinderRadius = 0.;
+    fTISTARVacuumChamberCylinderZ = 0.;
 
     fGridCell = false;
     fGriffin  = false;
@@ -952,6 +957,20 @@ void DetectorConstruction::AddTISTARGasTarget() {
     }
     DetectionSystemTISTAR * pTISTAR = new DetectionSystemTISTAR();
     pTISTAR->AddGasTarget(fLogicWorld);
+}
+
+void DetectorConstruction::AddTISTARVacuumChamber() {
+    if(fLogicWorld == NULL) {
+        Construct();
+    }
+    DetectionSystemTISTAR * pTISTAR = new DetectionSystemTISTAR();
+    if(fTISTARVacuumChamberShape!="")               pTISTAR->SetVacuumChamberShape(fTISTARVacuumChamberShape);
+    if(fTISTARVacuumChamberMaterialName!="")        pTISTAR->SetVacuumChamberMaterialName(fTISTARVacuumChamberMaterialName);
+    if(fTISTARVacuumChamberBoxDimensions.mag()>0.)  pTISTAR->SetVacuumChamberBoxDimensions(fTISTARVacuumChamberBoxDimensions);
+    if(fTISTARVacuumChamberCylinderRadius>0.)       pTISTAR->SetVacuumChamberCylinderRadius(fTISTARVacuumChamberCylinderRadius);
+    if(fTISTARVacuumChamberCylinderZ>0.)            pTISTAR->SetVacuumChamberCylinderZ(fTISTARVacuumChamberCylinderZ);
+    
+    pTISTAR->AddVacuumChamber(fLogicWorld);   
 }
 
 void DetectorConstruction::SetProperties() {

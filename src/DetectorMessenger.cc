@@ -391,10 +391,36 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction* Det)
     fSetTISTARDetectorNumberCmd = new G4UIcmdWithAnInteger("/DetSys/det/setTISTARDetectorNumber",this);
     fSetTISTARDetectorNumberCmd->SetGuidance("Set the TI-STAR detector number (to be added to 9000), used as number for 1st strip when creating 2-strip and 4-strip layers, w/ subsequent layers incremeted by 1");
     fSetTISTARDetectorNumberCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
-   
+
+    // TI-STAR gas target   
     fAddTISTARGasTargetCmd = new G4UIcmdWithoutParameter("/DetSys/app/addTISTARGasTarget",this);
     fAddTISTARGasTargetCmd->SetGuidance("Add the TI-STAR gas target");
     fAddTISTARGasTargetCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+    // TI-STAR vacuum chamber
+    fAddTISTARVacuumChamberCmd = new G4UIcmdWithoutParameter("/DetSys/app/addTISTARVacuumChamber",this);
+    fAddTISTARVacuumChamberCmd->SetGuidance("Add the TI-STAR vacuum chamber");
+    fAddTISTARVacuumChamberCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+    fSetTISTARVacuumChamberShapeCmd = new G4UIcmdWithAString("/DetSys/app/setTISTARVacuumChamberShape",this);
+    fSetTISTARVacuumChamberShapeCmd->SetGuidance("Set the TI-STAR vacuum chamber shape (box or cylinder)");
+    fSetTISTARVacuumChamberShapeCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    
+    fSetTISTARVacuumChamberMaterialNameCmd = new G4UIcmdWithAString("/DetSys/app/setTISTARVacuumChamberMaterial",this);
+    fSetTISTARVacuumChamberMaterialNameCmd->SetGuidance("Set the TI-STAR vacuum chamber material");
+    fSetTISTARVacuumChamberMaterialNameCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    
+    fSetTISTARVacuumChamberBoxDimensionsCmd = new G4UIcmdWith3VectorAndUnit("/DetSys/app/setTISTARVacuumChamberBoxDimensions",this);
+    fSetTISTARVacuumChamberBoxDimensionsCmd->SetGuidance("Set the TI-STAR vacuum chamber dimensions (if shape = \"box\"");
+    fSetTISTARVacuumChamberBoxDimensionsCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    
+    fSetTISTARVacuumChamberCylinderRadiusCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/app/setTISTARVacuumChamberCylinderRadius",this);
+    fSetTISTARVacuumChamberCylinderRadiusCmd->SetGuidance("Set the TI-STAR vacuum chamber radius (if shape = \"cylinder\")"); 
+    fSetTISTARVacuumChamberCylinderRadiusCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+    fSetTISTARVacuumChamberCylinderZCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/app/setTISTARVacuumChamberCylinderZ",this);
+    fSetTISTARVacuumChamberCylinderZCmd->SetGuidance("Set the TI-STAR vacuum chamber z-dimensions (if shape = \"cylinder\")");
+    fSetTISTARVacuumChamberCylinderZCmd->AvailableForStates(G4State_PreInit,G4State_Idle);   
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -494,6 +520,13 @@ DetectorMessenger::~DetectorMessenger()
     delete fSetTISTARDetectorNumberCmd;
 
     delete fAddTISTARGasTargetCmd;
+
+    delete fAddTISTARVacuumChamberCmd;
+    delete fSetTISTARVacuumChamberShapeCmd;
+    delete fSetTISTARVacuumChamberMaterialNameCmd;
+    delete fSetTISTARVacuumChamberBoxDimensionsCmd;
+    delete fSetTISTARVacuumChamberCylinderRadiusCmd;
+    delete fSetTISTARVacuumChamberCylinderZCmd;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -746,6 +779,25 @@ void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
 
     if(command == fAddTISTARGasTargetCmd) {
        fDetector->AddTISTARGasTarget();
+    }
+
+    if(command == fAddTISTARVacuumChamberCmd) {
+        fDetector->AddTISTARVacuumChamber();
+    }
+    if(command == fSetTISTARVacuumChamberShapeCmd) {
+        fDetector->SetTISTARVacuumChamberShape(newValue);
+    }
+    if(command == fSetTISTARVacuumChamberMaterialNameCmd) {
+        fDetector->SetTISTARVacuumChamberMaterialName(newValue);
+    }
+    if(command == fSetTISTARVacuumChamberBoxDimensionsCmd) {
+        fDetector->SetTISTARVacuumChamberBoxDimensions(fSetTISTARVacuumChamberBoxDimensionsCmd->GetNew3VectorValue(newValue));
+    }
+    if(command == fSetTISTARVacuumChamberCylinderRadiusCmd) {
+        fDetector->SetTISTARVacuumChamberCylinderRadius(fSetTISTARVacuumChamberCylinderRadiusCmd->GetNewDoubleValue(newValue));
+    }
+    if(command == fSetTISTARVacuumChamberCylinderZCmd) {
+        fDetector->SetTISTARVacuumChamberCylinderZ(fSetTISTARVacuumChamberCylinderZCmd->GetNewDoubleValue(newValue));
     }
 }
 

@@ -65,7 +65,20 @@ public:
 
     void SetDetectorNumber(G4int detNum) { fDetectorNumber = detNum; }
 
+    // Vacuum chamber
+    void SetVacuumChamberShape(G4String shape);
+    void SetVacuumChamberMaterialName(G4String material) { fVacuumChamberMaterialName = material; }
+    void SetVacuumChamberBoxDimensions(G4ThreeVector dims) { fVacuumChamberBoxDimensions = dims; }
+    void SetVacuumChamberCylinderRadius(G4double radius) { fVacuumChamberCylinderRadius = radius; }
+    void SetVacuumChamberCylinderZ(G4double zz) { fVacuumChamberCylinderZ = zz; }
+    
+    G4int AddVacuumChamber(G4LogicalVolume* expHallLog);
+    void AddVacuumChamberBox(G4LogicalVolume* expHallLog);
+    void AddVacuumChamberCylinder(G4LogicalVolume* expHallLog);
+
 private:
+    G4int fDetectorNumber;
+    
     // Assembly volumes
     G4AssemblyVolume* fAssemblyLayer;
 
@@ -101,7 +114,12 @@ private:
     G4double fGasTargetBeWindowThickness;
     G4String fGasTargetBeWindowMaterialName;
 
-    G4int fDetectorNumber;
+    // Vacuum chamber
+    G4String fVacuumChamberShape;
+    G4String fVacuumChamberMaterialName;
+    G4ThreeVector fVacuumChamberBoxDimensions;
+    G4double fVacuumChamberCylinderRadius;
+    G4double fVacuumChamberCylinderZ;
            
 };
 

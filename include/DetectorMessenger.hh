@@ -171,6 +171,12 @@ private:
 
     G4UIcmdWithoutParameter*    fAddTISTARGasTargetCmd;
 
+    G4UIcmdWithoutParameter*    fAddTISTARVacuumChamberCmd;
+    G4UIcmdWithAString*         fSetTISTARVacuumChamberShapeCmd;
+    G4UIcmdWithAString*         fSetTISTARVacuumChamberMaterialNameCmd;
+    G4UIcmdWith3VectorAndUnit*  fSetTISTARVacuumChamberBoxDimensionsCmd;
+    G4UIcmdWithADoubleAndUnit*  fSetTISTARVacuumChamberCylinderRadiusCmd;
+    G4UIcmdWithADoubleAndUnit*  fSetTISTARVacuumChamberCylinderZCmd;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

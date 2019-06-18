@@ -197,7 +197,14 @@ public:
     void SetTISTARDetectorNumber(G4int num)     { fTISTARDetectorNumber = num; }
 
     void AddTISTARGasTarget(); 
-   
+    
+    void AddTISTARVacuumChamber();
+    void SetTISTARVacuumChamberShape(G4String shape) { fTISTARVacuumChamberShape = shape; }
+    void SetTISTARVacuumChamberMaterialName(G4String material) { fTISTARVacuumChamberMaterialName = material; }
+    void SetTISTARVacuumChamberBoxDimensions(G4ThreeVector dims) { fTISTARVacuumChamberBoxDimensions = dims; }
+    void SetTISTARVacuumChamberCylinderRadius(G4double radius) { fTISTARVacuumChamberCylinderRadius = radius; }
+    void SetTISTARVacuumChamberCylinderZ(G4double zz) { fTISTARVacuumChamberCylinderZ = zz; }
+
     G4bool   GridCell()   { return fGridCell;   }
     G4bool   Griffin()    { return fGriffin;    }
     G4bool   LaBr()       { return fLaBr;       }
@@ -305,6 +312,12 @@ private:
     G4double fTISTARGapZ;
     G4bool fTISTARSiCentered;
     G4int fTISTARDetectorNumber;
+    
+    G4String        fTISTARVacuumChamberShape;
+    G4String        fTISTARVacuumChamberMaterialName;
+    G4ThreeVector   fTISTARVacuumChamberBoxDimensions;
+    G4double        fTISTARVacuumChamberCylinderRadius;
+    G4double        fTISTARVacuumChamberCylinderZ;
 
     //booleans which control which histograms are created (these are set by the detector construction)
     G4bool fGridCell;
