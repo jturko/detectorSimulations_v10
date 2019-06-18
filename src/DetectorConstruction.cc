@@ -966,7 +966,7 @@ void DetectorConstruction::SetProperties() {
 	for(int i = 0; i < fLogicWorld->GetNoDaughters(); ++i) {
 		if(!HasProperties(fLogicWorld->GetDaughter(i)) && CheckVolumeName(fLogicWorld->GetDaughter(i)->GetName())) {
 			fPropertiesMap[fLogicWorld->GetDaughter(i)] = ParseVolumeName(fLogicWorld->GetDaughter(i)->GetName());
-            G4cout << " det " << i << "; " << fLogicWorld->GetDaughter(i)->GetName() << G4endl;
+            //G4cout << " det " << i << "; " << fLogicWorld->GetDaughter(i)->GetName() << G4endl;
 		}
 	}
 }

@@ -170,10 +170,9 @@ void PhysicsList::ConstructProcess()
 
 void PhysicsList::SelectPhysicsList(const G4String& name)
 {
-	if(verboseLevel>1) {
-		G4cout<<"PhysicsList::SelectPhysicsList: <"<<name<<">"<<G4endl;
-	}
-	// default  Had physics
+    G4cout<<"PhysicsList::SelectPhysicsList: <"<<name<<">"<<G4endl;
+	
+    // default  Had physics
 	if(name == "Hadron" && !fHadPhysicsList) {
 		fHadPhysicsList = new PhysListHadron("hadron");
 	} else if(name == "QGSP_BERT") {

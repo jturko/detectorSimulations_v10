@@ -96,8 +96,6 @@ PhysListEmStandardNR::~PhysListEmStandardNR()
 
 void PhysListEmStandardNR::ConstructProcess()
 {
-  G4cout << " ---> PhysListEmStandardNR::ConstructProcess() " << G4endl;
-
   G4PhysicsListHelper* ph = G4PhysicsListHelper::GetPhysicsListHelper();
 
   // muon & hadron bremsstrahlung and pair production
