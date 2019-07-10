@@ -63,6 +63,7 @@ void RunAction::BeginOfRunAction(const G4Run* aRun)
 		fHistoManager->Book();
 		fHistoManager->GetDetectorConstruction()->SetProperties();
 	}
+    
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

@@ -353,71 +353,39 @@ void DetectionSystemTISTAR::SetVacuumChamberShape(G4String shape)
     }
 }
 
-G4int DetectionSystemTISTAR::AddVacuumChamber(G4LogicalVolume* expHallLog) 
+G4int DetectionSystemTISTAR::AddVacuumChamber(G4LogicalVolume* expHallLog, G4LogicalVolume *& vacuumChamberLog) 
 {
+    G4ThreeVector move;
+    G4RotationMatrix * rotate = NULL;
+
+    // Make the target materials
+    G4Material * vacuum_material = G4Material::GetMaterial(fVacuumChamberMaterialName);
+
+    // Set up colours and other vis. attributes
+    G4VisAttributes * vacuum_vis_att = new G4VisAttributes(G4Colour::Red());
+    vacuum_vis_att->SetForceWireframe(true);
+    vacuum_vis_att->SetVisibility(true);
+
+    // Build the object solid volume
+    G4VSolid * vacuum_chamber_SV = NULL;
     if(fVacuumChamberShape == "box") {
-        AddVacuumChamberBox(expHallLog);
+        vacuum_chamber_SV = new G4Box("vacuum_chamber_solid", fVacuumChamberBoxDimensions.x(), fVacuumChamberBoxDimensions.y(), fVacuumChamberBoxDimensions.z());
     } else if(fVacuumChamberShape == "cylinder") {
-        AddVacuumChamberCylinder(expHallLog);
+        vacuum_chamber_SV = new G4Tubs("vacuum_chamber_solid", 0., fVacuumChamberCylinderRadius, fVacuumChamberCylinderZ/2., 0, 2.*M_PI);
     } else {
         G4cout << " ---> Unknown vacuum chamber shape \"" << fVacuumChamberShape << "\", cannot build!" << G4endl;
         return 2;
-    } 
+    }
+    
+    // Logical volumes
+    vacuumChamberLog = new G4LogicalVolume(vacuum_chamber_SV, vacuum_material, "vacuum_chamber_LV", 0, 0, 0);
+    vacuumChamberLog->SetVisAttributes(vacuum_vis_att);
+
+    // Placement
+    move = G4ThreeVector(0.,0.,0.);
+    rotate = new G4RotationMatrix;
+    G4VPhysicalVolume * vacuum_chamber_PV = new G4PVPlacement(rotate, move, vacuumChamberLog, "vacuum_chamber_PV", expHallLog, 0, 0, 0);    
 
     return 1;
-}
-
-void DetectionSystemTISTAR::AddVacuumChamberBox(G4LogicalVolume * expHallLog)
-{
-    G4ThreeVector move;
-    G4RotationMatrix * rotate = NULL;
-
-    // Make the target materials
-    G4Material * vacuum_material = G4Material::GetMaterial(fVacuumChamberMaterialName);
-
-    // Set up colours and other vis. attributes
-    G4VisAttributes * vacuum_vis_att = new G4VisAttributes(G4Colour::Red());
-    vacuum_vis_att->SetForceWireframe(true);
-    vacuum_vis_att->SetVisibility(true);
-
-    // Build the object solid volume
-    G4Box * vacuum_chamber_SV = new G4Box("vacuum_chamber_solid", fVacuumChamberBoxDimensions.x(), fVacuumChamberBoxDimensions.y(), fVacuumChamberBoxDimensions.z());
-
-    // Logical volumes
-    G4LogicalVolume * vacuum_chamber_LV = new G4LogicalVolume(vacuum_chamber_SV, vacuum_material, "vacuum_chamber_LV", 0, 0, 0);
-    vacuum_chamber_LV->SetVisAttributes(vacuum_vis_att);
-
-    // Placement
-    move = G4ThreeVector(0.,0.,0.);
-    rotate = new G4RotationMatrix;
-    G4VPhysicalVolume * vacuum_chamber_PV = new G4PVPlacement(rotate, move, vacuum_chamber_LV, "vacuum_chamber_PV", expHallLog, 0, 0, 0);    
-}
-
-void DetectionSystemTISTAR::AddVacuumChamberCylinder(G4LogicalVolume * expHallLog)
-{
-    G4cout<<" ---> vacuum chamber cylinder: radius= "<<fVacuumChamberCylinderRadius/cm<<"cm, z= "<<fVacuumChamberCylinderZ/cm<<"cm"<<G4endl; 
-    
-    G4ThreeVector move;
-    G4RotationMatrix * rotate = NULL;
-
-    // Make the target materials
-    G4Material * vacuum_material = G4Material::GetMaterial(fVacuumChamberMaterialName);
-
-    // Set up colours and other vis. attributes
-    G4VisAttributes * vacuum_vis_att = new G4VisAttributes(G4Colour::Red());
-    vacuum_vis_att->SetForceWireframe(true);
-    vacuum_vis_att->SetVisibility(true);
-
-    // Build the object solid volume
-    G4Tubs * vacuum_chamber_SV = new G4Tubs("vacuum_chamber_solid", 0., fVacuumChamberCylinderRadius, fVacuumChamberCylinderZ/2., 0, 2.*M_PI); 
-
-    // Logical volumes
-    G4LogicalVolume * vacuum_chamber_LV = new G4LogicalVolume(vacuum_chamber_SV, vacuum_material, "vacuum_chamber_LV", 0, 0, 0);
-    vacuum_chamber_LV->SetVisAttributes(vacuum_vis_att);
-
-    // Placement
-    move = G4ThreeVector(0.,0.,0.);
-    rotate = new G4RotationMatrix;
-    G4VPhysicalVolume * vacuum_chamber_PV = new G4PVPlacement(rotate, move, vacuum_chamber_LV, "vacuum_chamber_PV", expHallLog, 0, 0, 0);    
 }
 

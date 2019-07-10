@@ -227,6 +227,7 @@ public:
     void SetProperties();
     
     void Print();
+    G4LogicalVolume * fLogicVC;
 
 private:
     bool CheckVolumeName(G4String volumeName);

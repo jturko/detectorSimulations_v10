@@ -72,9 +72,7 @@ public:
     void SetVacuumChamberCylinderRadius(G4double radius) { fVacuumChamberCylinderRadius = radius; }
     void SetVacuumChamberCylinderZ(G4double zz) { fVacuumChamberCylinderZ = zz; }
     
-    G4int AddVacuumChamber(G4LogicalVolume* expHallLog);
-    void AddVacuumChamberBox(G4LogicalVolume* expHallLog);
-    void AddVacuumChamberCylinder(G4LogicalVolume* expHallLog);
+    G4int AddVacuumChamber(G4LogicalVolume* expHallLog, G4LogicalVolume *& vaccumChamberLog);
 
 private:
     G4int fDetectorNumber;

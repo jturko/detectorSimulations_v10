@@ -191,6 +191,8 @@ DetectorConstruction::DetectorConstruction() :
     fTISTARVacuumChamberCylinderRadius = 0.;
     fTISTARVacuumChamberCylinderZ = 0.;
 
+    fLogicVC = nullptr;
+
     fGridCell = false;
     fGriffin  = false;
     fLaBr     = false;
@@ -956,7 +958,13 @@ void DetectorConstruction::AddTISTARGasTarget() {
         Construct();
     }
     DetectionSystemTISTAR * pTISTAR = new DetectionSystemTISTAR();
-    pTISTAR->AddGasTarget(fLogicWorld);
+    if(fLogicVC != NULL) {
+        G4cout << " ---> There is a vacuum chamber, building inside..." << G4endl;
+        pTISTAR->AddGasTarget(fLogicVC);
+    } else {
+        G4cout << " ---> There is NO vacuum chamber, building in world volume..." << G4endl;
+        pTISTAR->AddGasTarget(fLogicWorld);
+    }
 }
 
 void DetectorConstruction::AddTISTARVacuumChamber() {
@@ -970,7 +978,7 @@ void DetectorConstruction::AddTISTARVacuumChamber() {
     if(fTISTARVacuumChamberCylinderRadius>0.)       pTISTAR->SetVacuumChamberCylinderRadius(fTISTARVacuumChamberCylinderRadius);
     if(fTISTARVacuumChamberCylinderZ>0.)            pTISTAR->SetVacuumChamberCylinderZ(fTISTARVacuumChamberCylinderZ);
     
-    pTISTAR->AddVacuumChamber(fLogicWorld);   
+    pTISTAR->AddVacuumChamber(fLogicWorld,fLogicVC);   
 }
 
 void DetectorConstruction::SetProperties() {
