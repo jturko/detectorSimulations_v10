@@ -929,8 +929,15 @@ void DetectorConstruction::AddTISTAR2StripLayer() {
     pTISTAR->SetSiOffsetInPCB(fTISTARSiOffsetInPCB);
 
     pTISTAR->Build();
-    pTISTAR->Add2StripLayer(fTISTARDistFromBeam, fTISTARSiCentered, fLogicWorld);    
+    //pTISTAR->Add2StripLayer(fTISTARDistFromBeam, fTISTARSiCentered, fLogicWorld);    
 
+    if(fLogicVC != NULL) {
+        G4cout << " ---> There is a vacuum chamber, building inside..." << G4endl;
+        pTISTAR->Add2StripLayer(fTISTARDistFromBeam, fTISTARSiCentered, fLogicVC);   
+    } else {
+        G4cout << " ---> There is NO vacuum chamber, building in world volume..." << G4endl;
+        pTISTAR->Add2StripLayer(fTISTARDistFromBeam, fTISTARSiCentered, fLogicWorld);
+    }
 }
 
 void DetectorConstruction::AddTISTAR4StripLayer() {
@@ -949,7 +956,15 @@ void DetectorConstruction::AddTISTAR4StripLayer() {
     pTISTAR->SetPositionOffset(fTISTARPositionOffset);
     
     pTISTAR->Build();
-    pTISTAR->Add4StripLayer(fTISTARDistFromBeam, fTISTARGapZ, fLogicWorld);    
+    //pTISTAR->Add4StripLayer(fTISTARDistFromBeam, fTISTARGapZ, fLogicWorld);    
+    
+    if(fLogicVC != NULL) {
+        G4cout << " ---> There is a vacuum chamber, building inside..." << G4endl;
+        pTISTAR->Add4StripLayer(fTISTARDistFromBeam, fTISTARGapZ, fLogicVC);    
+    } else {
+        G4cout << " ---> There is NO vacuum chamber, building in world volume..." << G4endl;
+        pTISTAR->Add4StripLayer(fTISTARDistFromBeam, fTISTARGapZ, fLogicWorld); 
+    }
 
 }
 
@@ -988,7 +1003,10 @@ void DetectorConstruction::SetProperties() {
 	// thread id is -1 for master, -2 in sequential mode
 	// so this only outputs the number of volumes once
 	if(G4Threading::G4GetThreadId() < 0) {
-		G4cout<<fLogicWorld->GetNoDaughters()<<" daughter volumes"<<std::endl;
+		G4cout<<fLogicWorld->GetNoDaughters()<<" daughter volumes in the world volume"<<std::endl;
+	}
+	if(G4Threading::G4GetThreadId() < 0 && fLogicVC != NULL) {
+		G4cout<<fLogicVC->GetNoDaughters()<<" daughter volumes in the vacuum chamber"<<std::endl;
 	}
 	for(int i = 0; i < fLogicWorld->GetNoDaughters(); ++i) {
 		if(!HasProperties(fLogicWorld->GetDaughter(i)) && CheckVolumeName(fLogicWorld->GetDaughter(i)->GetName())) {

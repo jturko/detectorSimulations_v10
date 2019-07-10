@@ -60,6 +60,9 @@ DetectionSystemTISTAR::DetectionSystemTISTAR() :
 
     fVacuumChamberShape = "cylinder";
     fVacuumChamberMaterialName = "Vacuum";
+
+    fVacuumChamberExteriorMaterialName = "G4_Al";
+    fVacuumChamberExteriorThickness = 1.0*mm;
 }
 
 DetectionSystemTISTAR::~DetectionSystemTISTAR() 
@@ -360,19 +363,48 @@ G4int DetectionSystemTISTAR::AddVacuumChamber(G4LogicalVolume* expHallLog, G4Log
 
     // Make the target materials
     G4Material * vacuum_material = G4Material::GetMaterial(fVacuumChamberMaterialName);
+    G4Material * exterior_material = G4Material::GetMaterial(fVacuumChamberExteriorMaterialName);
 
     // Set up colours and other vis. attributes
     G4VisAttributes * vacuum_vis_att = new G4VisAttributes(G4Colour::Red());
     vacuum_vis_att->SetForceWireframe(true);
     vacuum_vis_att->SetVisibility(true);
 
+    G4VisAttributes * exterior_vis_att = new G4VisAttributes(G4Colour::Grey());
+    exterior_vis_att->SetVisibility(true);
+    
     // Build the object solid volume
     G4VSolid * vacuum_chamber_SV = NULL;
+    G4VSolid * vacuum_chamber_exterior_cut_SV = NULL;
+    G4VSolid * vacuum_chamber_exterior_SV = NULL;
+
     if(fVacuumChamberShape == "box") {
-        vacuum_chamber_SV = new G4Box("vacuum_chamber_solid", fVacuumChamberBoxDimensions.x(), fVacuumChamberBoxDimensions.y(), fVacuumChamberBoxDimensions.z());
-    } else if(fVacuumChamberShape == "cylinder") {
-        vacuum_chamber_SV = new G4Tubs("vacuum_chamber_solid", 0., fVacuumChamberCylinderRadius, fVacuumChamberCylinderZ/2., 0, 2.*M_PI);
-    } else {
+        vacuum_chamber_SV = new G4Box("vacuum_chamber_solid", 
+                                      fVacuumChamberBoxDimensions.x()/2.,  // x
+                                      fVacuumChamberBoxDimensions.y()/2.,  // y
+                                      fVacuumChamberBoxDimensions.z()/2.); // z
+        vacuum_chamber_exterior_cut_SV = new G4Box("vacuum_chamber_exterior_cut_solid", 
+                                      fVacuumChamberBoxDimensions.x()/2.+fVacuumChamberExteriorThickness,  // x
+                                      fVacuumChamberBoxDimensions.y()/2.+fVacuumChamberExteriorThickness,  // y
+                                      fVacuumChamberBoxDimensions.z()/2.+fVacuumChamberExteriorThickness); // z
+        vacuum_chamber_exterior_SV = new G4SubtractionSolid("vacuum_chamber_exterior_solid", vacuum_chamber_exterior_cut_SV, vacuum_chamber_SV); // cutting the hollow box
+    } 
+    else if(fVacuumChamberShape == "cylinder") {
+        vacuum_chamber_SV = new G4Tubs("vacuum_chamber_solid", 
+                                        0., // inner radius  
+                                        fVacuumChamberCylinderRadius, // outer radius 
+                                        fVacuumChamberCylinderZ/2., // z distance  
+                                        0, // phi start
+                                        2.*M_PI); // phi end
+        vacuum_chamber_exterior_cut_SV = new G4Tubs("vacuum_chamber_exterior_solid", 
+                                        0., // inner radius
+                                        fVacuumChamberCylinderRadius+fVacuumChamberExteriorThickness, // outer radius 
+                                        fVacuumChamberCylinderZ/2.+fVacuumChamberExteriorThickness, // z distance
+                                        0, // phi start
+                                        2.*M_PI); // phi end
+        vacuum_chamber_exterior_SV = new G4SubtractionSolid("vacuum_chamber_exterior_solid", vacuum_chamber_exterior_cut_SV, vacuum_chamber_SV); // cutting the hollow box
+    } 
+    else {
         G4cout << " ---> Unknown vacuum chamber shape \"" << fVacuumChamberShape << "\", cannot build!" << G4endl;
         return 2;
     }
@@ -381,11 +413,16 @@ G4int DetectionSystemTISTAR::AddVacuumChamber(G4LogicalVolume* expHallLog, G4Log
     vacuumChamberLog = new G4LogicalVolume(vacuum_chamber_SV, vacuum_material, "vacuum_chamber_LV", 0, 0, 0);
     vacuumChamberLog->SetVisAttributes(vacuum_vis_att);
 
+    G4LogicalVolume * vacuumChamberExteriorLog = new G4LogicalVolume(vacuum_chamber_exterior_SV, exterior_material, "vacuum_chamber_exterior_LV", 0, 0, 0);
+    vacuumChamberExteriorLog->SetVisAttributes(exterior_vis_att);
+
     // Placement
     move = G4ThreeVector(0.,0.,0.);
     rotate = new G4RotationMatrix;
     G4VPhysicalVolume * vacuum_chamber_PV = new G4PVPlacement(rotate, move, vacuumChamberLog, "vacuum_chamber_PV", expHallLog, 0, 0, 0);    
+    G4VPhysicalVolume * exterior_chamber_PV = new G4PVPlacement(rotate, move, vacuumChamberExteriorLog, "vacuum_chamber_exterior_PV", expHallLog, 0, 0, 0);
 
     return 1;
 }
+
 
