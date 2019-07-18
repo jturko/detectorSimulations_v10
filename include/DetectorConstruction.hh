@@ -205,6 +205,9 @@ public:
     void SetTISTARVacuumChamberCylinderRadius(G4double radius) { fTISTARVacuumChamberCylinderRadius = radius; }
     void SetTISTARVacuumChamberCylinderZ(G4double zz) { fTISTARVacuumChamberCylinderZ = zz; }
 
+    void SetTISTARVacuumChamberExteriorMaterialName(G4String name) { fTISTARVacuumChamberExteriorMaterialName = name; }
+    void SetTISTARVacuumChamberExteriorThickness(G4double thickness) { fTISTARVacuumChamberExteriorThickness = thickness; }
+
     G4bool   GridCell()   { return fGridCell;   }
     G4bool   Griffin()    { return fGriffin;    }
     G4bool   LaBr()       { return fLaBr;       }
@@ -303,22 +306,25 @@ private:
     G4ThreeVector fDetEffPosition;
     
     // TI-STAR Dimensions
-    G4ThreeVector fTISTARSiDimensions;
-    G4ThreeVector fTISTARPCBDimensions;
-    G4ThreeVector fTISTARSiOffsetInPCB;
-    G4ThreeVector fTISTARRotation;
-    G4ThreeVector fTISTARPosition;
-    G4ThreeVector fTISTARPositionOffset;    
-    G4double fTISTARDistFromBeam;
-    G4double fTISTARGapZ;
-    G4bool fTISTARSiCentered;
-    G4int fTISTARDetectorNumber;
+    G4ThreeVector   fTISTARSiDimensions;
+    G4ThreeVector   fTISTARPCBDimensions;
+    G4ThreeVector   fTISTARSiOffsetInPCB;
+    G4ThreeVector   fTISTARRotation;
+    G4ThreeVector   fTISTARPosition;
+    G4ThreeVector   fTISTARPositionOffset;    
+    G4double        fTISTARDistFromBeam;
+    G4double        fTISTARGapZ;
+    G4bool          fTISTARSiCentered;
+    G4int           fTISTARDetectorNumber;
     
     G4String        fTISTARVacuumChamberShape;
     G4String        fTISTARVacuumChamberMaterialName;
     G4ThreeVector   fTISTARVacuumChamberBoxDimensions;
     G4double        fTISTARVacuumChamberCylinderRadius;
     G4double        fTISTARVacuumChamberCylinderZ;
+
+    G4String fTISTARVacuumChamberExteriorMaterialName;
+    G4double fTISTARVacuumChamberExteriorThickness;
 
     //booleans which control which histograms are created (these are set by the detector construction)
     G4bool fGridCell;

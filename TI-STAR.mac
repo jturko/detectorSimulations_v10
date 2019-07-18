@@ -4,14 +4,15 @@
 #
 
 /DetSys/phys/SelectPhysics QGSP_BIC
-#/DetSys/phys/SelectPhysics standardNR # from TestEm7, w/ G4ScreenedNuclearRecoil
+/DetSys/phys/SelectPhysics standardNR # from TestEm7, w/ G4ScreenedNuclearRecoil
+#/DetSys/phys/SelectPhysics standardSS # from TestEm7, single scattering
 
 #####################################################
 # Initialize the run
 #
 
 /run/initialize
-#/control/execute vis.mac
+/control/execute vis.mac
 /tracking/verbose 0
 
 ######################################################
@@ -20,10 +21,22 @@
 
 ## the world
 #
-/DetSys/world/material Vacuum
+#/DetSys/world/material Vacuum
+
+## vacuum chamber
+#
+/DetSys/app/setTISTARVacuumChamberShape box
+/DetSys/app/setTISTARVacuumChamberMaterial Vacuum
+/DetSys/app/setTISTARVacuumChamberBoxDimensions 15 15 20 cm
+/DetSys/app/setTISTARVacuumChamberCylinderRadius 8 cm
+/DetSys/app/setTISTARVacuumChamberCylinderZ 20 cm
+/DetSys/app/setTISTARVacuumChamberExteriorMaterial G4_Al
+/DetSys/app/setTISTARVacuumChamberExteriorThickness 1 mm
+/DetSys/app/addTISTARVacuumChamber
 
 ## first layer
 #
+/DetSys/det/setTISTARDetectorNumber 10
 /DetSys/det/setTISTARSiDimensions 40 0.02 50 mm  
 /DetSys/det/setTISTARPCBDimensions 80 1.67 75 mm
 /DetSys/det/setTISTARSiOffsetInPCB 5 0 0 mm         
@@ -37,6 +50,7 @@
 
 ## second layer
 #
+/DetSys/det/setTISTARDetectorNumber 20
 /DetSys/det/setTISTARSiDimensions 100 0.150 100 mm  
 /DetSys/det/setTISTARPCBDimensions 140 1.67 140 mm
 /DetSys/det/setTISTARSiOffsetInPCB 5 0 0 mm         
@@ -46,6 +60,7 @@
 
 ## third layer
 #
+/DetSys/det/setTISTARDetectorNumber 30
 /DetSys/det/setTISTARSiDimensions 100 2 100 mm  
 /DetSys/det/setTISTARPCBDimensions 140 1.67 140 mm
 /DetSys/det/setTISTARSiOffsetInPCB 5 0 0 mm         
@@ -83,6 +98,10 @@
 #/DetSys/det/addGriffinBackDetector 14
 #/DetSys/det/addGriffinBackDetector 15
 #/DetSys/det/addGriffinBackDetector 16
+
+## GRIFFIN structure
+#
+#/DetSys/app/addGriffinStructure 0
 
 #####################################################
 # TRex/Miniball generator commands
@@ -122,15 +141,15 @@
 
 /DetSys/miniball/Print
 
-/DetSys/gun/useTRexGenerator true
+/DetSys/gun/useTRexGenerator false
 
 #####################################################
 # GPS commands
 #
 
-#/gps/particle proton
-/gps/particle ion
-/gps/ion 50 132 0 0 
+/gps/particle proton
+#/gps/particle ion
+#/gps/ion 50 132 0 0 
 
 /gps/position 0 0 -100 mm
 /gps/pos/type Plane
@@ -140,11 +159,11 @@
 
 /gps/energy 792 MeV
 
-/DetSys/gun/useGPS false
+/DetSys/gun/useGPS true
 
 #####################################################
 # Start the run
 #
 
-/run/beamOn 10000
+/run/beamOn 1
 

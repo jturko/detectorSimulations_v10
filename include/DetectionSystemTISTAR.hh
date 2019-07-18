@@ -72,7 +72,7 @@ public:
     void SetVacuumChamberCylinderRadius(G4double radius) { fVacuumChamberCylinderRadius = radius; }
     void SetVacuumChamberCylinderZ(G4double zz) { fVacuumChamberCylinderZ = zz; }
     
-    void SetVacuumChamberExteriorMaterial(G4String material) { fVacuumChamberExteriorMaterialName = material; }
+    void SetVacuumChamberExteriorMaterialName(G4String material) { fVacuumChamberExteriorMaterialName = material; }
     void SetVacuumChamberExteriorThickness(G4double thickness) { fVacuumChamberExteriorThickness = thickness; }    
 
     G4int AddVacuumChamber(G4LogicalVolume* expHallLog, G4LogicalVolume *& vaccumChamberLog);

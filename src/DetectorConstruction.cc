@@ -188,8 +188,10 @@ DetectorConstruction::DetectorConstruction() :
     fTISTARVacuumChamberShape = "";
     fTISTARVacuumChamberMaterialName = "";
     fTISTARVacuumChamberBoxDimensions = G4ThreeVector(0.,0.,0.);
-    fTISTARVacuumChamberCylinderRadius = 0.;
-    fTISTARVacuumChamberCylinderZ = 0.;
+    fTISTARVacuumChamberCylinderRadius = -1;
+    fTISTARVacuumChamberCylinderZ = -1;
+    fTISTARVacuumChamberExteriorMaterialName = "";
+    fTISTARVacuumChamberExteriorThickness = -1;
 
     fLogicVC = nullptr;
 
@@ -912,6 +914,8 @@ void DetectorConstruction::AddTISTARLayer() {
 
     pTISTAR->Build();
     pTISTAR->PlaceDetector(fTISTARPosition, fTISTARRotation, fLogicWorld);
+
+    fTISTAR = true;
 }
 
 void DetectorConstruction::AddTISTAR2StripLayer() {
@@ -938,6 +942,8 @@ void DetectorConstruction::AddTISTAR2StripLayer() {
         G4cout << " ---> There is NO vacuum chamber, building in world volume..." << G4endl;
         pTISTAR->Add2StripLayer(fTISTARDistFromBeam, fTISTARSiCentered, fLogicWorld);
     }
+
+    fTISTAR = true;
 }
 
 void DetectorConstruction::AddTISTAR4StripLayer() {
@@ -966,6 +972,7 @@ void DetectorConstruction::AddTISTAR4StripLayer() {
         pTISTAR->Add4StripLayer(fTISTARDistFromBeam, fTISTARGapZ, fLogicWorld); 
     }
 
+    fTISTAR = true;
 }
 
 void DetectorConstruction::AddTISTARGasTarget() {
@@ -993,6 +1000,9 @@ void DetectorConstruction::AddTISTARVacuumChamber() {
     if(fTISTARVacuumChamberCylinderRadius>0.)       pTISTAR->SetVacuumChamberCylinderRadius(fTISTARVacuumChamberCylinderRadius);
     if(fTISTARVacuumChamberCylinderZ>0.)            pTISTAR->SetVacuumChamberCylinderZ(fTISTARVacuumChamberCylinderZ);
     
+    if(fTISTARVacuumChamberExteriorMaterialName != "") pTISTAR->SetVacuumChamberExteriorMaterialName(fTISTARVacuumChamberExteriorMaterialName);
+    if(fTISTARVacuumChamberExteriorThickness>0.)       pTISTAR->SetVacuumChamberExteriorThickness(fTISTARVacuumChamberExteriorThickness);
+
     pTISTAR->AddVacuumChamber(fLogicWorld,fLogicVC);   
 }
 

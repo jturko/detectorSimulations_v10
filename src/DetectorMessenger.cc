@@ -389,7 +389,8 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction* Det)
     fSetTISTARSiCenteredCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
  
     fSetTISTARDetectorNumberCmd = new G4UIcmdWithAnInteger("/DetSys/det/setTISTARDetectorNumber",this);
-    fSetTISTARDetectorNumberCmd->SetGuidance("Set the TI-STAR detector number (to be added to 9000), used as number for 1st strip when creating 2-strip and 4-strip layers, w/ subsequent layers incremeted by 1");
+    fSetTISTARDetectorNumberCmd->SetGuidance("Set the TI-STAR detector number (to be added to 9000)");
+    fSetTISTARDetectorNumberCmd->SetGuidance("used as number for 1st strip when creating 2-strip and 4-strip layers, w/ subsequent layers incremeted by 1");
     fSetTISTARDetectorNumberCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
     // TI-STAR gas target   
@@ -421,6 +422,14 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction* Det)
     fSetTISTARVacuumChamberCylinderZCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/app/setTISTARVacuumChamberCylinderZ",this);
     fSetTISTARVacuumChamberCylinderZCmd->SetGuidance("Set the TI-STAR vacuum chamber z-dimensions (if shape = \"cylinder\")");
     fSetTISTARVacuumChamberCylinderZCmd->AvailableForStates(G4State_PreInit,G4State_Idle);   
+
+    fSetTISTARVacuumChamberExteriorMaterialNameCmd = new G4UIcmdWithAString("/DetSys/app/setTISTARVacuumChamberExteriorMaterial",this);
+    fSetTISTARVacuumChamberExteriorMaterialNameCmd->SetGuidance("Set the TI-STAR vacuum chamber exterior material");
+    fSetTISTARVacuumChamberExteriorMaterialNameCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+    fSetTISTARVacuumChamberExteriorThicknessCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/app/setTISTARVacuumChamberExteriorThickness",this);
+    fSetTISTARVacuumChamberExteriorThicknessCmd->SetGuidance("Set the TI-STAR vacuum chamber exterior layer thickness");
+    fSetTISTARVacuumChamberExteriorThicknessCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -527,6 +536,8 @@ DetectorMessenger::~DetectorMessenger()
     delete fSetTISTARVacuumChamberBoxDimensionsCmd;
     delete fSetTISTARVacuumChamberCylinderRadiusCmd;
     delete fSetTISTARVacuumChamberCylinderZCmd;
+    delete fSetTISTARVacuumChamberExteriorMaterialNameCmd;
+    delete fSetTISTARVacuumChamberExteriorThicknessCmd;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -798,6 +809,12 @@ void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
     }
     if(command == fSetTISTARVacuumChamberCylinderZCmd) {
         fDetector->SetTISTARVacuumChamberCylinderZ(fSetTISTARVacuumChamberCylinderZCmd->GetNewDoubleValue(newValue));
+    }
+    if(command == fSetTISTARVacuumChamberExteriorMaterialNameCmd) {
+        fDetector->SetTISTARVacuumChamberExteriorMaterialName(newValue);
+    }
+    if(command == fSetTISTARVacuumChamberExteriorThicknessCmd) {
+        fDetector->SetTISTARVacuumChamberExteriorThickness(fSetTISTARVacuumChamberExteriorThicknessCmd->GetNewDoubleValue(newValue));
     }
 }
 
