@@ -50,6 +50,7 @@ The following commands/details are specific to this branch and are related to th
 
 These commands cover the physical TI-STAR and gas target geometry
 
+TI-STAR detector
 | Command | Brief Description |
 | :------ | :---------------- |
 | ``` /DetSys/det/addTISTARLayer ``` | Add a single TI-STAR layer | 
@@ -64,7 +65,24 @@ These commands cover the physical TI-STAR and gas target geometry
 | ``` /DetSys/det/setTISTARDistFromBeam distance unit ``` | Set the distance from the beam axis - used by ```/DetSys/det/addTISTAR2StripLayer``` and ```/DetSys/det/addTISTAR4StripLayer``` | 
 | ``` /DetSys/det/setTISTARGapZ distance unit``` | Set the distance between the two strips on either side of the beam axis (z) - used by ```/DetSys/det/addTISTAR4StripLayer``` | 
 | ``` /DetSys/det/setTISTARSiCentered bool``` | Set boolean to build the TI-STAR layer silicon-centered (true) or entire chip [silicon + PCB] (false). Mainly used to center the outer 2-strip layers of the current TI-STAR design. |
-| ``` /DetSys/app/addTISTARGasTarget ``` | build the TI-STAR gas target | 
+
+Gas target
+| Command | Brief Description |
+| :------ | :---------------- |
+| ``` /DetSys/app/addTISTARGasTarget ``` | build the TI-STAR gas target - parameters currently set via commands in ```/DetSys/det/miniball/``` directory | 
+
+Vacuum chamber
+| Command | Brief Description |
+| :------ | :---------------- |
+| ``` /DetSys/app/addTISTARVacuumChamber ``` | Add the TI-STAR vacuum chamber |
+| ``` /DetSys/app/setTISTARVacuumChamberShape ``` | Set the TI-STAR vacuum chamber shape (box or cylinder) |
+| ``` /DetSys/app/setTISTARVacuumChamberMaterial ``` | Set the TI-STAR vacuum chamber material |
+| ``` /DetSys/app/setTISTARVacuumChamberBoxDimensions ``` | Set the TI-STAR vacuum chamber dimensions (if shape = "box") |
+| ``` /DetSys/app/setTISTARVacuumChamberCylinderRadius ``` | Set the TI-STAR vacuum chamber radius (if shape = "cylinder") |
+| ``` /DetSys/app/setTISTARVacuumChamberCylinderZ ``` | Set the TI-STAR vacuum chamber z-dimensions (if shape = "cylinder") |
+| ``` /DetSys/app/setTISTARVacuumChamberExteriorMaterial ``` | Set the TI-STAR vacuum chamber exterior material |
+| ``` /DetSys/app/setTISTARVacuumChamberExteriorThickness ``` | Set the TI-STAR vacuum chamber exterior layer thickness |
+
 
 ### Miniball/TRex Commands
 
