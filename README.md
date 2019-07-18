@@ -51,6 +51,7 @@ The following commands/details are specific to this branch and are related to th
 These commands cover the physical TI-STAR and gas target geometry
 
 TI-STAR detector
+
 | Command | Brief Description |
 | :------ | :---------------- |
 | ``` /DetSys/det/addTISTARLayer ``` | Add a single TI-STAR layer | 
@@ -67,11 +68,13 @@ TI-STAR detector
 | ``` /DetSys/det/setTISTARSiCentered bool``` | Set boolean to build the TI-STAR layer silicon-centered (true) or entire chip [silicon + PCB] (false). Mainly used to center the outer 2-strip layers of the current TI-STAR design. |
 
 Gas target
+
 | Command | Brief Description |
 | :------ | :---------------- |
 | ``` /DetSys/app/addTISTARGasTarget ``` | build the TI-STAR gas target - parameters currently set via commands in ```/DetSys/det/miniball/``` directory | 
 
 Vacuum chamber
+
 | Command | Brief Description |
 | :------ | :---------------- |
 | ``` /DetSys/app/addTISTARVacuumChamber ``` | Add the TI-STAR vacuum chamber |
