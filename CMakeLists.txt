@@ -39,7 +39,7 @@ include(${ROOT_USE_FILE})
 # unsure if we need the MODULE CustomClasses part here, from https://root-forum.cern.ch/t/cmake-root-generate-dictionary-rootmap/24382/6
 ROOT_GENERATE_DICTIONARY(CustomClassesDict ${PROJECT_SOURCE_DIR}/include/TRexSettings.hh LINKDEF RootLinkDef.h MODULE CustomClasses) 
 add_library(CustomClasses SHARED ${PROJECT_SOURCE_DIR}/src/TRexSettings.cc CustomClassesDict) 
-target_link_libraries(CustomClasses ${ROOT_LIBRARIES} ${Geant4_LIBRARIES})
+target_link_libraries(CustomClasses ${ROOT_LIBRARIES})
 
 include_directories(include ${ROOT_INCLUDE_DIRS})
 
@@ -102,6 +102,7 @@ endif()
 add_executable(Griffinv10 Griffinv10.cc ${sources} ${headers} ${TOOLS_FORTRAN_OBJECTS})
 target_link_libraries(Griffinv10 ${Geant4_LIBRARIES} ${HBOOK_LIBRARIES})
 target_link_libraries(Griffinv10 ${ROOT_LIBRARIES}) # jturko 27/3/2019
+target_link_libraries(Griffinv10 CustomClasses) # jturko 14/8/2019; for adding TRexSettings lib
 
 #----------------------------------------------------------------------------
 # Copy all scripts to the build directory, i.e. the directory in which we
