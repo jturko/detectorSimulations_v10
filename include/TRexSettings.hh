@@ -205,7 +205,8 @@ private:
     bool fReactionZvsRadiusFileBool;
 
     bool fReactionZDistributionFileBool;
-    
+ 
+    ClassDef(TRexSettings, 1);
 
 };
 

@@ -21,6 +21,9 @@ endif()
 #
 list(APPEND CMAKE_PREFIX_PATH $ENV{ROOTSYS})
 find_package(ROOT REQUIRED COMPONENTS Graf3d Graf Gpad MathCore RIO Hist Tree Net Thread)
+include(${ROOT_USE_FILE})
+include(RootLinkDef.h)
+ROOT_GENERATE_DICTIONARY(LINKDEF RootLinkDef.h)
 include_directories(include ${ROOT_INCLUDE_DIRS})
 
 #----------------------------------------------------------------------------
@@ -34,7 +37,7 @@ include(${Geant4_USE_FILE})
 include_directories(${PROJECT_SOURCE_DIR}/include 
                     ${Geant4_INCLUDE_DIR})
 file(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cc)
-file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
+file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh RootLinkDef.h)
 
 #----------------------------------------------------------------------------
 # Get examples sources from common and shared

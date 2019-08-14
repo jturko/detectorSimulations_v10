@@ -14,6 +14,8 @@
 
 #include <algorithm>
 
+ClassImp(TRexSettings)
+
 TRexSettings* TRexSettings::fSettings = NULL;
 
 TRexSettings* TRexSettings::Get() {
