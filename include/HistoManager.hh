@@ -118,6 +118,8 @@ public:
 	G4double BeamTheta() { return fBeamTheta; }
 	G4double BeamPhi() { return fBeamPhi; }
 
+    G4String GetFileName() { return fFileName[0]; }
+
 private:
 	void BookSpiceHistograms();
 	void MakeHistogram(G4AnalysisManager* analysisManager, G4String filename,  G4String title, G4double xmin, G4double xmax, G4int nbins);

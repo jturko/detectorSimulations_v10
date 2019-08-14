@@ -16,6 +16,13 @@ else()
 endif()
 
 #----------------------------------------------------------------------------
+# Resolve cmake error that arrises from including the TRexSettings class
+#
+if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+set(CMAKE_MACOSX_RPATH 1)
+endif()
+
+#----------------------------------------------------------------------------
 # Setup Geant4 include directories and compile definitions
 #
 include(${Geant4_USE_FILE})
@@ -29,19 +36,21 @@ file(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cc)
 file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 
 #----------------------------------------------------------------------------
-# Try to find ROOT; trying to build a dict w/ custom TRexSettings class so we can save it in the output ROOT file
-# jturko 27/3/2019; jturko 14/8/2019
+# Try to find ROOT; 
+# jturko 27/3/2019; 
 #
 list(APPEND CMAKE_PREFIX_PATH $ENV{ROOTSYS})
 find_package(ROOT REQUIRED COMPONENTS Graf3d Graf Gpad MathCore RIO Hist Tree Net Thread)
+include_directories(include ${ROOT_INCLUDE_DIRS})
 
+#----------------------------------------------------------------------------
+# trying to build a dict w/ custom TRexSettings class so we can save it in the output ROOT file
+# jturko 14/8/2019
+#
 include(${ROOT_USE_FILE})
-# unsure if we need the MODULE CustomClasses part here, from https://root-forum.cern.ch/t/cmake-root-generate-dictionary-rootmap/24382/6
-ROOT_GENERATE_DICTIONARY(CustomClassesDict ${PROJECT_SOURCE_DIR}/include/TRexSettings.hh LINKDEF RootLinkDef.h MODULE CustomClasses) 
+ROOT_GENERATE_DICTIONARY(CustomClassesDict ${PROJECT_SOURCE_DIR}/include/TRexSettings.hh LINKDEF RootLinkDef.h) 
 add_library(CustomClasses SHARED ${PROJECT_SOURCE_DIR}/src/TRexSettings.cc CustomClassesDict) 
 target_link_libraries(CustomClasses ${ROOT_LIBRARIES})
-
-include_directories(include ${ROOT_INCLUDE_DIRS})
 
 #----------------------------------------------------------------------------
 # Get examples sources from common and shared

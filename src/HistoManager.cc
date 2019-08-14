@@ -36,6 +36,11 @@
 #include "G4UnitsTable.hh"
 #include "G4SystemOfUnits.hh"
 #include "Randomize.hh"
+
+#include "TFile.h"
+#include "TObject.h"
+#include "TRexSettings.hh"
+
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 HistoManager::HistoManager(DetectorConstruction* detectorConstruction) {
@@ -142,6 +147,13 @@ void HistoManager::Save() {
         delete G4AnalysisManager::Instance();
         fFactoryOn = false;
     }
+    
+    // Adding TRexSettings class to ROOT file
+    G4String name = fFileName[0] + ".root";
+    TFile outfile(name.c_str(),"UPDATE");
+    outfile.cd();
+    TRexSettings::Get()->Write("settings",TObject::kOverwrite);
+    outfile.Close();
 }
 
 void HistoManager::FillHitNtuple(G4int eventNumber, G4int trackID, G4int parentID, G4int stepNumber, G4int particleType, G4int processType, G4int systemID, G4int cryNumber, G4int detNumber, G4double depEnergy, G4double posx, G4double posy, G4double posz, G4double time, G4int targetZ) {
