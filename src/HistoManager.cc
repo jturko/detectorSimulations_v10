@@ -148,12 +148,14 @@ void HistoManager::Save() {
         fFactoryOn = false;
     }
     
-    // Adding TRexSettings class to ROOT file
-    G4String name = fFileName[0] + ".root";
-    TFile outfile(name.c_str(),"UPDATE");
-    outfile.cd();
-    TRexSettings::Get()->Write("settings",TObject::kOverwrite);
-    outfile.Close();
+    // Adding TRexSettings class to ROOT file if a TRex-derived generator was used
+    if(TRexSettings::Get()->SaveMe()) {
+        G4String name = fFileName[0] + ".root";
+        TFile outfile(name.c_str(),"UPDATE");
+        outfile.cd();
+        TRexSettings::Get()->Write("settings",TObject::kOverwrite);
+        outfile.Close();
+    }
 }
 
 void HistoManager::FillHitNtuple(G4int eventNumber, G4int trackID, G4int parentID, G4int stepNumber, G4int particleType, G4int processType, G4int systemID, G4int cryNumber, G4int detNumber, G4double depEnergy, G4double posx, G4double posy, G4double posz, G4double time, G4int targetZ) {

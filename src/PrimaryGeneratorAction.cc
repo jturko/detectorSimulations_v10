@@ -392,6 +392,7 @@ void PrimaryGeneratorAction::LaBrinit() {
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void PrimaryGeneratorAction::SetGenerator() {
+        TRexSettings::Get()->SaveMe(true); // with this set, the TRexSettings file will be saved to the output ROOT file
         std::string generatorName = TRexSettings::Get()->GetPrimaryGenerator();
         if(generatorName == "TestSource") {
             std::cout<<std::endl<<"Using test source ....\n"<<std::endl;

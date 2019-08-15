@@ -119,7 +119,7 @@ target_link_libraries(Griffinv10 CustomClasses) # jturko 14/8/2019; for adding T
 # relies on these scripts being in the current working directory.
 #
 set(Griffinv10_SCRIPTS
-    Griffinv10.in run.mac vis.mac
+    Griffinv10.in run.mac vis.mac TI-STAR.mac
   )
 
 foreach(_script ${Griffinv10_SCRIPTS})

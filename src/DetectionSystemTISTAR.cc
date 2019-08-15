@@ -280,6 +280,8 @@ G4int DetectionSystemTISTAR::Add4StripLayer(G4double dist_from_beam, G4double ga
     return 1;
 }
 
+// ---------------------------- Gas target ----------------------------
+
 G4int DetectionSystemTISTAR::AddGasTarget(G4LogicalVolume* expHallLog)
 {
     G4ThreeVector move;
@@ -347,23 +349,35 @@ G4int DetectionSystemTISTAR::AddGasTarget(G4LogicalVolume* expHallLog)
     return 1;
 }
 
+//----------------------------- Vacuum Chamber -------------------------------
+
 void DetectionSystemTISTAR::SetVacuumChamberShape(G4String shape) 
 {
     if(shape=="box" || shape=="cylinder") {
         fVacuumChamberShape = shape;
+        TRexSettings::Get()->SetVacuumChamberType(shape);
     } else {
         G4cout << " ---> TI-STAR vacuum chamber shape \"" << shape << "\" unknown!" << G4endl;
     }
 }
 
+void DetectionSystemTISTAR::SetVacuumChamberMaterialName(G4String material) { 
+    fVacuumChamberMaterialName = material; 
+    TRexSettings::Get()->SetVacuumChamberGas(material);
+}
+
+
 G4int DetectionSystemTISTAR::AddVacuumChamber(G4LogicalVolume* expHallLog, G4LogicalVolume *& vacuumChamberLog) 
 {
+    TRexSettings::Get()->IncludeVacuumChamber(1);
+
     G4ThreeVector move;
     G4RotationMatrix * rotate = NULL;
 
     // Make the target materials
     G4Material * vacuum_material = G4Material::GetMaterial(fVacuumChamberMaterialName);
     G4Material * exterior_material = G4Material::GetMaterial(fVacuumChamberExteriorMaterialName);
+    TRexSettings::Get()->SetVacuumChamberGasPressure(vacuum_material->GetPressure());
 
     // Set up colours and other vis. attributes
     G4VisAttributes * vacuum_vis_att = new G4VisAttributes(G4Colour::Red());

@@ -153,6 +153,9 @@ public:
     // this constructor has to be public to be able to
     // write the class to file, but it should never be used!
     TRexSettings();
+    
+    void SaveMe(bool val) { fSaveMe = val; }
+    bool SaveMe() { return fSaveMe; }
 
 private:
     static TRexSettings* fSettings;
@@ -206,6 +209,8 @@ private:
 
     bool fReactionZDistributionFileBool;
  
+    bool fSaveMe;
+
     ClassDef(TRexSettings, 1);
 
 };

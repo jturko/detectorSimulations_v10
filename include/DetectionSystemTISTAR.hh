@@ -39,6 +39,8 @@
 #include "G4VUserDetectorConstruction.hh"
 #include "globals.hh"
 
+#include "TRexSettings.hh"
+
 class G4AssemblyVolume;
 
 class DetectionSystemTISTAR
@@ -67,7 +69,7 @@ public:
 
     // Vacuum chamber
     void SetVacuumChamberShape(G4String shape);
-    void SetVacuumChamberMaterialName(G4String material) { fVacuumChamberMaterialName = material; }
+    void SetVacuumChamberMaterialName(G4String material); 
     void SetVacuumChamberBoxDimensions(G4ThreeVector dims) { fVacuumChamberBoxDimensions = dims; }
     void SetVacuumChamberCylinderRadius(G4double radius) { fVacuumChamberCylinderRadius = radius; }
     void SetVacuumChamberCylinderZ(G4double zz) { fVacuumChamberCylinderZ = zz; }

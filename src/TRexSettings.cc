@@ -28,16 +28,18 @@ TRexSettings* TRexSettings::Get() {
 
 TRexSettings::TRexSettings() 
 {
+    fSaveMe = false;
+
     fPrimaryGenerator = "beam";
     
     fSimulateEjectiles = false;
     fSimulateGammas = false;
     fIncludeEnergyResolution = 0;
 
-    fIncludeVacuumChamber = 1;
-    fVacuumChamberType = "cylinder";
-    fVacuumChamberGas = "helium";
-    fVacuumChamberGasPressure = 1.0;
+    fIncludeVacuumChamber = 0;
+    fVacuumChamberType = "";
+    fVacuumChamberGas = "";
+    fVacuumChamberGasPressure = -9999.0;
 
     fTestSourceEnergy = 5000.*keV;
     
