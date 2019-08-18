@@ -38,6 +38,7 @@
 #include "Randomize.hh"
 
 #include "TFile.h"
+#include "TTree.h"
 #include "TObject.h"
 #include "TRexSettings.hh"
 
@@ -84,7 +85,7 @@ void HistoManager::Book() {
         G4cout<<"---> HistoManager::book(): cannot open "<<fFileName[1]<<G4endl;
         return;
     }
-
+    
     ///////////////////////////////////////////////////////////////////
     // Create 1 ntuple
     if(fHitTrackerBool) {
@@ -147,14 +148,22 @@ void HistoManager::Save() {
         delete G4AnalysisManager::Instance();
         fFactoryOn = false;
     }
-    
+
     // Adding TRexSettings class to ROOT file if a TRex-derived generator was used
     if(TRexSettings::Get()->SaveMe()) {
-        G4String name = fFileName[0] + ".root";
-        TFile outfile(name.c_str(),"UPDATE");
-        outfile.cd();
+        // open original file
+        TFile * infile = new TFile(fFileName[1].c_str());
+        // get trees from original file
+        TTree * infile_ntuple =  (TTree*)infile->Get("ntuple");
+        TTree * infile_treeGen = (TTree*)infile->Get("treeGen");
+        // open new file
+        std::string new_filename = fFileName[0] + "_TRexSettings.root";
+        TFile * outfile = new TFile(new_filename.c_str(),"RECREATE");
+        outfile->cd();
         TRexSettings::Get()->Write("settings",TObject::kOverwrite);
-        outfile.Close();
+        infile_ntuple->CloneTree()->Write("ntuple");
+        infile_treeGen->CloneTree()->Write("treeGen");
+        outfile->Close();
     }
 }
 
