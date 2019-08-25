@@ -12,7 +12,7 @@
 #
 
 /run/initialize
-/control/execute vis.mac
+#/control/execute vis.mac
 /tracking/verbose 0
 
 ######################################################
@@ -36,7 +36,7 @@
 
 ## first layer
 #
-/DetSys/det/setTISTARDetectorNumber 10
+/DetSys/det/setTISTARDetectorNumber 11
 /DetSys/det/setTISTARSiDimensions 40 0.02 50 mm  
 /DetSys/det/setTISTARPCBDimensions 80 1.67 75 mm
 /DetSys/det/setTISTARSiOffsetInPCB 5 0 0 mm         
@@ -50,7 +50,7 @@
 
 ## second layer
 #
-/DetSys/det/setTISTARDetectorNumber 20
+/DetSys/det/setTISTARDetectorNumber 21
 /DetSys/det/setTISTARSiDimensions 100 0.150 100 mm  
 /DetSys/det/setTISTARPCBDimensions 140 1.67 140 mm
 /DetSys/det/setTISTARSiOffsetInPCB 5 0 0 mm         
@@ -60,7 +60,7 @@
 
 ## third layer
 #
-/DetSys/det/setTISTARDetectorNumber 30
+/DetSys/det/setTISTARDetectorNumber 31
 /DetSys/det/setTISTARSiDimensions 100 2 100 mm  
 /DetSys/det/setTISTARPCBDimensions 140 1.67 140 mm
 /DetSys/det/setTISTARSiOffsetInPCB 5 0 0 mm         
@@ -82,26 +82,26 @@
 
 ## GRIFFIN
 #
-#/DetSys/det/addGriffinBackDetector 1
-#/DetSys/det/addGriffinBackDetector 2
-#/DetSys/det/addGriffinBackDetector 3
-#/DetSys/det/addGriffinBackDetector 4
-#/DetSys/det/addGriffinBackDetector 5
-#/DetSys/det/addGriffinBackDetector 6
-#/DetSys/det/addGriffinBackDetector 7
-#/DetSys/det/addGriffinBackDetector 8
-#/DetSys/det/addGriffinBackDetector 9
-#/DetSys/det/addGriffinBackDetector 10
-#/DetSys/det/addGriffinBackDetector 11
-#/DetSys/det/addGriffinBackDetector 12
-#/DetSys/det/addGriffinBackDetector 13
-#/DetSys/det/addGriffinBackDetector 14
-#/DetSys/det/addGriffinBackDetector 15
-#/DetSys/det/addGriffinBackDetector 16
+/DetSys/det/addGriffinBackDetector 1
+/DetSys/det/addGriffinBackDetector 2
+/DetSys/det/addGriffinBackDetector 3
+/DetSys/det/addGriffinBackDetector 4
+/DetSys/det/addGriffinBackDetector 5
+/DetSys/det/addGriffinBackDetector 6
+/DetSys/det/addGriffinBackDetector 7
+/DetSys/det/addGriffinBackDetector 8
+/DetSys/det/addGriffinBackDetector 9
+/DetSys/det/addGriffinBackDetector 10
+/DetSys/det/addGriffinBackDetector 11
+/DetSys/det/addGriffinBackDetector 12
+/DetSys/det/addGriffinBackDetector 13
+/DetSys/det/addGriffinBackDetector 14
+/DetSys/det/addGriffinBackDetector 15
+/DetSys/det/addGriffinBackDetector 16
 
 ## GRIFFIN structure
 #
-#/DetSys/app/addGriffinStructure 0
+/DetSys/app/addGriffinStructure 0
 
 #####################################################
 # TRex/Miniball generator commands
@@ -135,21 +135,19 @@
 
 /DetSys/miniball/SetTransferOrCoulexProbability 1.0
 
-/DetSys/miniball/SimulateGammas false
+/DetSys/miniball/SimulateGammas true
 /DetSys/miniball/IncludeEnergyResolution 1
 /DetSys/miniball/SimulateEjectiles false
 
-/DetSys/miniball/Print
-
-/DetSys/gun/useTRexGenerator false
+/DetSys/gun/useTRexGenerator true
 
 #####################################################
 # GPS commands
 #
 
-/gps/particle proton
-#/gps/particle ion
-#/gps/ion 50 132 0 0 
+#/gps/particle proton
+/gps/particle ion
+/gps/ion 50 132 0 0 
 
 /gps/position 0 0 -100 mm
 /gps/pos/type Plane
@@ -159,11 +157,11 @@
 
 /gps/energy 792 MeV
 
-/DetSys/gun/useGPS true
+/DetSys/gun/useGPS false
 
 #####################################################
 # Start the run
 #
 
-/run/beamOn 1
+/run/beamOn 1000
 

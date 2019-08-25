@@ -157,6 +157,9 @@ public:
     void SaveMe(bool val) { fSaveMe = val; }
     bool SaveMe() { return fSaveMe; }
 
+    void Nevents(Int_t n) { fNevents = n; }
+    Int_t Nevents() { return fNevents; }
+
 private:
     static TRexSettings* fSettings;
     
@@ -210,6 +213,7 @@ private:
     bool fReactionZDistributionFileBool;
  
     bool fSaveMe;
+    Int_t fNevents;
 
     ClassDef(TRexSettings, 1);
 

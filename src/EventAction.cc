@@ -46,13 +46,15 @@
 #include "G4Run.hh"
 #include "G4RunManager.hh"
 
+#include "TRexSettings.hh"
+
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 EventAction::EventAction(RunAction* run, HistoManager* hist)
 :G4UserEventAction(),
 	fRunAction(run),
 	fHistoManager(hist),
-	fPrintModulo(1000)
+	fPrintModulo(10)
 {
 	fNumberOfHits = 0;
 	fNumberOfSteps = 0;

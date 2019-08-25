@@ -1350,9 +1350,12 @@ DetectorProperties DetectorConstruction::ParseVolumeName(G4String volumeName) {
     
     if(volumeName.find("TISTARSiLayer") != G4String::npos) {
         size_t loc = volumeName.find("TISTARSiLayer");
-        G4String detNumberString = volumeName.substr(loc+16,2);
-        result.systemID = 9000 + std::atoi(detNumberString);
-        G4cout << "detector ID: " << result.systemID << G4endl;
+        G4String detNumberString = volumeName.substr(loc+16,1);
+        G4String cryNumberString = volumeName.substr(loc+17,1);
+        result.systemID = 9500;
+        result.detectorNumber = std::atoi(detNumberString);
+        result.crystalNumber = std::atoi(cryNumberString);
+        G4cout<<"volumeName: "<<volumeName<<", systemID: "<<result.systemID<<", detectorID: "<<result.detectorNumber<<", crystalID: "<<result.crystalNumber<<G4endl;        
     	return result;
     }
     

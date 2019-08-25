@@ -38,6 +38,8 @@
 #include "G4RunManager.hh"
 #include "G4UnitsTable.hh"
 
+#include "TRexSettings.hh"
+
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 RunAction::RunAction(HistoManager* histoManager)
@@ -63,7 +65,8 @@ void RunAction::BeginOfRunAction(const G4Run* aRun)
 		fHistoManager->Book();
 		fHistoManager->GetDetectorConstruction()->SetProperties();
 	}
-    
+    TRexSettings::Get()->Nevents(G4RunManager::GetRunManager()->GetCurrentRun()->GetNumberOfEventToBeProcessed());
+       
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

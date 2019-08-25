@@ -85,6 +85,8 @@ TRexSettings::TRexSettings()
 
     fReactionZvsRadiusFileBool = false;
     fReactionZDistributionFileBool = false;
+
+    fNevents = -1;
 }
 
 TRexSettings::~TRexSettings() {
@@ -143,6 +145,8 @@ void TRexSettings::Print(Option_t* opt) const {
         <<"fTargetMylarThickness = "<<fTargetMylarThickness/um<<" um"<<std::endl
         <<"fTargetBeWindowThickness = "<<fTargetBeWindowThickness/um<<" um"<<std::endl
 		<<"fTransferOrCoulexProbability = "<<fTransferOrCoulexProbability<<std::endl
+        <<"------------- extra"<<std::endl
+        <<"fNevents = "<<fNevents<<std::endl
 		<<std::endl;
 }
 
