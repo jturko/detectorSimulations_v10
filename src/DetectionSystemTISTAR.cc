@@ -228,10 +228,10 @@ G4int DetectionSystemTISTAR::Add4StripLayer(G4double dist_from_beam, G4double ga
 
     //fPositionOffset = G4ThreeVector(0., 10.0*mm*(-5.0*mm -100.0/2.*mm +140.0/2.*mm)/(30.0*mm), 0.);
 
-    // first strip
+    // first forward strip
     move = G4ThreeVector(   +dist_from_beam,                // x
                             0.,                             // y
-                            +fSiDimensions.z()/2. +gap_z);  // z
+                            +fSiDimensions.z()/2. +gap_z/2.);  // z
     move += fPositionOffset;
     rotate = G4ThreeVector( 0.,                     // x-rotation
                             0.,                     // y-rotation
@@ -240,34 +240,34 @@ G4int DetectionSystemTISTAR::Add4StripLayer(G4double dist_from_beam, G4double ga
     fLogicalSiLayer->SetName(name);
     PlaceDetector(move, rotate, expHallLog);
 
-    // second strip
-    move = G4ThreeVector(   +dist_from_beam,                // x
-                            0.,                             // y
-                            -fSiDimensions.z()/2. -gap_z);  // z
-    move += fPositionOffset;
-    rotate = G4ThreeVector( 0,                      // x-rotation
-                            +180.,                  // y-rotation
-                            +90.);                  // z-rotation
-    name = "TISTARSiLayerLV_" + std::to_string(fDetectorNumber+1);
-    fLogicalSiLayer->SetName(name);
-    PlaceDetector(move, rotate, expHallLog);
-
-    // third strip
+    // second forward strip
     move = G4ThreeVector(   -dist_from_beam,                // x
                             0.,                             // y
-                            +fSiDimensions.z()/2. +gap_z);  // z
+                            +fSiDimensions.z()/2. +gap_z/2.);  // z
     move -= fPositionOffset;
     rotate = G4ThreeVector( 0.,                     // x-rotation
                             0.,                     // y-rotation
                             -90.);                  // z-rotation
+    name = "TISTARSiLayerLV_" + std::to_string(fDetectorNumber+1);
+    fLogicalSiLayer->SetName(name);
+    PlaceDetector(move, rotate, expHallLog);
+    
+    // first backward strip
+    move = G4ThreeVector(   +dist_from_beam,                // x
+                            0.,                             // y
+                            -fSiDimensions.z()/2. -gap_z/2.);  // z
+    move += fPositionOffset;
+    rotate = G4ThreeVector( 0,                      // x-rotation
+                            +180.,                  // y-rotation
+                            +90.);                  // z-rotation
     name = "TISTARSiLayerLV_" + std::to_string(fDetectorNumber+2);
     fLogicalSiLayer->SetName(name);
     PlaceDetector(move, rotate, expHallLog);
 
-    // fourth strip
+    // second backward strip
     move = G4ThreeVector(   -dist_from_beam,                // x
                             0.,                             // y
-                            -fSiDimensions.z()/2. -gap_z);  // z
+                            -fSiDimensions.z()/2. -gap_z/2.);  // z
     move -= fPositionOffset;
     rotate = G4ThreeVector( 0,                      // x-rotation
                             +180.,                  // y-rotation

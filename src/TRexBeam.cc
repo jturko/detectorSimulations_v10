@@ -155,12 +155,12 @@ void TRexBeam::FillReactionZDistributionHisto() {
     }
 
     // save the histogram to a new root file
-    TFile * outputFile = new TFile("g4out_extras.root","RECREATE");
-    outputFile->cd();
-    fReactionZDistributionHisto->Write("fReactionZDistributionHisto");
-    fReactionZDistributionGraph->Write("fReactionZDistributionGraph");
-    fReactionZDistributionSpline->Write("fReactionZDistributionSpline");
-    outputFile->Close();
+    //TFile * outputFile = new TFile("g4out_extras.root","RECREATE");
+    //outputFile->cd();
+    //fReactionZDistributionHisto->Write("fReactionZDistributionHisto");
+    //fReactionZDistributionGraph->Write("fReactionZDistributionGraph");
+    //fReactionZDistributionSpline->Write("fReactionZDistributionSpline");
+    //outputFile->Close();
 
 }
 

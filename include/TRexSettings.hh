@@ -14,6 +14,8 @@
 
 //#include "globals.hh"
 
+#include <iostream>
+
 #include <string>
 
 class TRexSettings : public TObject 
@@ -150,6 +152,17 @@ public:
     void SetReactionZDistributionFile(std::string name) { fReactionZDistributionFileBool = true; fReactionZDistributionFile = name; }
     bool GetReactionZDistributionFileBool() { return fReactionZDistributionFileBool; }
 
+    // detectors
+    std::vector<double> GetLayerPositionZ(int layerN) { return fLayerPositionZ[layerN]; }
+    std::vector<double> GetLayerDistToBeam(int layerN) { return fLayerDistToBeam[layerN]; }
+    double GetLayerDimensionsX(int layerN) { return fLayerDimensionsX[layerN]; }
+    double GetLayerDimensionsY(int layerN) { return fLayerDimensionsY[layerN]; }
+    
+    void SetLayerPositionZ(int layerN, std::vector<double> pos) { fLayerPositionZ.resize(layerN+1); fLayerPositionZ[layerN] = pos; }
+    void SetLayerDistToBeam(int layerN, std::vector<double> dist) { fLayerDistToBeam.resize(layerN+1); fLayerDistToBeam[layerN] = dist; }
+    void SetLayerDimensionsX(int layerN, double dimX) { fLayerDimensionsX.resize(layerN+1); fLayerDimensionsX[layerN] = dimX; }
+    void SetLayerDimensionsY(int layerN, double dimY) { fLayerDimensionsY.resize(layerN+1); fLayerDimensionsY[layerN] = dimY; }
+
     // this constructor has to be public to be able to
     // write the class to file, but it should never be used!
     TRexSettings();
@@ -212,6 +225,13 @@ private:
 
     bool fReactionZDistributionFileBool;
  
+    // detectors
+    std::vector<std::vector<double>> fLayerPositionZ;
+    std::vector<std::vector<double>> fLayerDistToBeam;
+    std::vector<double> fLayerDimensionsX;
+    std::vector<double> fLayerDimensionsY;
+
+    // extra
     bool fSaveMe;
     Int_t fNevents;
 

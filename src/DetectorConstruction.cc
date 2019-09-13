@@ -94,6 +94,7 @@
 #include "DetectionSystemAncillaryBGO.hh"
 
 #include "DetectionSystemTISTAR.hh"
+#include "TRexSettings.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -944,6 +945,15 @@ void DetectorConstruction::AddTISTAR2StripLayer() {
     }
 
     fTISTAR = true;
+
+    int layerN = fTISTARDetectorNumber/10 % 10 - 1;
+    TRexSettings * sett = TRexSettings::Get();
+    std::vector<double> posZ = { 0., 0. };
+    std::vector<double> dist = { +fTISTARDistFromBeam, -fTISTARDistFromBeam };
+    sett->SetLayerPositionZ(layerN, posZ);
+    sett->SetLayerDistToBeam(layerN, dist);
+    sett->SetLayerDimensionsX(layerN, fTISTARSiDimensions.x());
+    sett->SetLayerDimensionsY(layerN, fTISTARSiDimensions.z());
 }
 
 void DetectorConstruction::AddTISTAR4StripLayer() {
@@ -973,6 +983,16 @@ void DetectorConstruction::AddTISTAR4StripLayer() {
     }
 
     fTISTAR = true;
+    
+    int layerN = fTISTARDetectorNumber/10 % 10 - 1;
+    TRexSettings * sett = TRexSettings::Get();
+    double pos = fTISTARGapZ/2. + fTISTARSiDimensions.z()/2.;
+    std::vector<double> posZ = { +pos, +pos, -pos, -pos };
+    std::vector<double> dist = { +fTISTARDistFromBeam, -fTISTARDistFromBeam, +fTISTARDistFromBeam, -fTISTARDistFromBeam };
+    sett->SetLayerPositionZ(layerN, posZ);
+    sett->SetLayerDistToBeam(layerN, dist);
+    sett->SetLayerDimensionsX(layerN, fTISTARSiDimensions.x());
+    sett->SetLayerDimensionsY(layerN, fTISTARSiDimensions.z());
 }
 
 void DetectorConstruction::AddTISTARGasTarget() {
