@@ -25,48 +25,48 @@
 
 ## vacuum chamber
 #
-/DetSys/app/setTISTARVacuumChamberShape box
-/DetSys/app/setTISTARVacuumChamberMaterial Vacuum
-/DetSys/app/setTISTARVacuumChamberBoxDimensions 15 15 20 cm
-/DetSys/app/setTISTARVacuumChamberCylinderRadius 8 cm
-/DetSys/app/setTISTARVacuumChamberCylinderZ 20 cm
-/DetSys/app/setTISTARVacuumChamberExteriorMaterial G4_Al
-/DetSys/app/setTISTARVacuumChamberExteriorThickness 1 mm
-/DetSys/app/addTISTARVacuumChamber
+/DetSys/app/setTistarVacuumChamberShape box
+/DetSys/app/setTistarVacuumChamberMaterial Vacuum
+/DetSys/app/setTistarVacuumChamberBoxDimensions 15 15 20 cm
+/DetSys/app/setTistarVacuumChamberCylinderRadius 8 cm
+/DetSys/app/setTistarVacuumChamberCylinderZ 20 cm
+/DetSys/app/setTistarVacuumChamberExteriorMaterial G4_Al
+/DetSys/app/setTistarVacuumChamberExteriorThickness 1 mm
+/DetSys/app/addTistarVacuumChamber
 
 ## first layer
 #
-/DetSys/det/setTISTARDetectorNumber 11
-/DetSys/det/setTISTARSiDimensions 40 0.02 50 mm  
-/DetSys/det/setTISTARPCBDimensions 80 1.67 75 mm
-/DetSys/det/setTISTARSiOffsetInPCB 5 0 0 mm         
-/DetSys/det/setTISTARDistFromBeam 10 mm
-/DetSys/det/setTISTARGapZ 4 mm
+/DetSys/det/setTistarDetectorNumber 11
+/DetSys/det/setTistarSiDimensions 40 0.02 50 mm  
+/DetSys/det/setTistarPCBDimensions 80 1.67 75 mm
+/DetSys/det/setTistarSiOffsetInPCB 5 0 0 mm         
+/DetSys/det/setTistarDistFromBeam 10 mm
+/DetSys/det/setTistarGapZ 4 mm
 # for shifting the inner layer so that it lines up with the outer layers
 # y shift = (inner layer dist from beam) * (y-shift of the outer layer) / (outer [second] layer dist from beam)
 # fPositionOffset = G4ThreeVector(0., 10.0*mm*(-5.0*mm -100.0/2.*mm +140.0/2.*mm)/(30.0*mm), 0.); 
-/DetSys/det/setTISTARPositionOffset 0 5 0 mm
-/DetSys/det/addTISTAR4StripLayer
+/DetSys/det/setTistarPositionOffset 0 5 0 mm
+/DetSys/det/addTistar4StripLayer
 
 ## second layer
 #
-/DetSys/det/setTISTARDetectorNumber 21
-/DetSys/det/setTISTARSiDimensions 100 0.150 100 mm  
-/DetSys/det/setTISTARPCBDimensions 140 1.67 140 mm
-/DetSys/det/setTISTARSiOffsetInPCB 5 0 0 mm         
-/DetSys/det/setTISTARSiCentered 0
-/DetSys/det/setTISTARDistFromBeam 30 mm
-/DetSys/det/addTISTAR2StripLayer
+/DetSys/det/setTistarDetectorNumber 21
+/DetSys/det/setTistarSiDimensions 100 0.150 100 mm  
+/DetSys/det/setTistarPCBDimensions 140 1.67 140 mm
+/DetSys/det/setTistarSiOffsetInPCB 5 0 0 mm         
+/DetSys/det/setTistarSiCentered 0
+/DetSys/det/setTistarDistFromBeam 30 mm
+/DetSys/det/addTistar2StripLayer
 
 ## third layer
 #
-/DetSys/det/setTISTARDetectorNumber 31
-/DetSys/det/setTISTARSiDimensions 100 2 100 mm  
-/DetSys/det/setTISTARPCBDimensions 140 1.67 140 mm
-/DetSys/det/setTISTARSiOffsetInPCB 5 0 0 mm         
-/DetSys/det/setTISTARSiCentered 0
-/DetSys/det/setTISTARDistFromBeam 33 mm
-/DetSys/det/addTISTAR2StripLayer
+/DetSys/det/setTistarDetectorNumber 31
+/DetSys/det/setTistarSiDimensions 100 2 100 mm  
+/DetSys/det/setTistarPCBDimensions 140 1.67 140 mm
+/DetSys/det/setTistarSiOffsetInPCB 5 0 0 mm         
+/DetSys/det/setTistarSiCentered 0
+/DetSys/det/setTistarDistFromBeam 33 mm
+/DetSys/det/addTistar2StripLayer
 
 ## target
 #
@@ -78,7 +78,7 @@
 /DetSys/miniball/SetTargetPressure 0.100 bar
 /DetSys/miniball/SetTargetMylarThickness 2 um
 /DetSys/miniball/SetTargetBeWindowThickness 8 um
-/DetSys/app/addTISTARGasTarget
+/DetSys/app/addTistarGasTarget
 
 ## GRIFFIN
 #
