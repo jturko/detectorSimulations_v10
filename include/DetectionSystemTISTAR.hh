@@ -32,18 +32,19 @@
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-#ifndef DETECTIONSYSTEMTistar_HH
-#define DETECTIONSYSTEMTistar_HH
+#ifndef DETECTIONSYSTEMTISTAR_HH
+#define DETECTIONSYSTEMTISTAR_HH
 
 #include "G4SystemOfUnits.hh" // new version geant4.10 requires units
 #include "G4VUserDetectorConstruction.hh"
 #include "globals.hh"
 
 #include "TRexSettings.hh"
+#include "TRexBaseDetector.hh"
 
 class G4AssemblyVolume;
 
-class DetectionSystemTistar
+class DetectionSystemTistar: public TRexBaseDetector
 {
 public:
     DetectionSystemTistar();
@@ -52,6 +53,8 @@ public:
     G4int Build();
     G4int PlaceDetector(G4LogicalVolume* expHallLog);
     G4int PlaceDetector(G4ThreeVector move, G4ThreeVector rotate, G4LogicalVolume* expHallLog);
+
+    std::vector<ParticleMC>* GetParticleMCvector();
 
     void SetSiDimensions(G4ThreeVector dim) { fSiDimensions = dim; fSiDimensionsSet = true; }
     void SetPCBDimensions(G4ThreeVector dim) { fPCBDimensions = dim; fPCBDimensionsSet = true; }

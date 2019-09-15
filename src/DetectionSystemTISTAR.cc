@@ -439,4 +439,8 @@ G4int DetectionSystemTistar::AddVacuumChamber(G4LogicalVolume* expHallLog, G4Log
     return 1;
 }
 
-
+std::vector<ParticleMC>* DetectionSystemTistar::GetParticleMCvector() {
+    std::vector<ParticleMC>* particleMCvector = new std::vector<ParticleMC>;
+    //particleMCvector->push_back(*fBarrelErestSingleSensitiveDetector->GetParticleMC()); // THIS IS WHERE A LOT OF WORK NEEDS TO BE DONE...
+    return particleMCvector;
+}
