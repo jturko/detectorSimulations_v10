@@ -163,6 +163,7 @@ void HistoManager::Save() {
         TRexSettings::Get()->Write("settings",TObject::kOverwrite);
         infile_ntuple->CloneTree()->Write("ntuple");
         infile_treeGen->CloneTree()->Write("treeGen");
+        fTISTARDetTree->CloneTree()->Write("treeDet");
         outfile->Close();
     }
 }
@@ -585,4 +586,15 @@ void HistoManager::Fill2DHistogram(G4int ih, G4double xbin, G4double ybin, G4dou
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void HistoManager::BookTISTAR() {
+    fTISTARDetTree = new TTree("treeDet", "Detector tree");
+    fDataOfDetectors = std::vector<std::vector<ParticleMC>*>(fDetectorConstruction->GetPropertiesMap().size());
+    int detNum = 0;
+    for(auto prop : fDetectorConstruction->GetPropertiesMap()) {
+            //std::cout<<" ---> Creating branch for detector: "<<prop.second.detectorName<<std::endl;
+            fTISTARDetTree->Branch((prop.second.detectorName + "_MC").c_str(), &(fDataOfDetectors[detNum]));
+            ++detNum;
+    }
+}
 

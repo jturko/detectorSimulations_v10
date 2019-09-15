@@ -40,6 +40,7 @@
 #include "G4UserRunAction.hh"
 #include "globals.hh"
 #include "HistoManager.hh"
+#include "EventAction.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -48,6 +49,7 @@ class G4Run;
 class RunAction : public G4UserRunAction
 {
 public:
+    RunAction(HistoManager*, EventAction*);
     RunAction(HistoManager*);
     virtual ~RunAction();
     
@@ -56,6 +58,7 @@ public:
 
 private:
     HistoManager* fHistoManager;
+    EventAction* fEventAction;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

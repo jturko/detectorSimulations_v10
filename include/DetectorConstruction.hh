@@ -72,6 +72,7 @@ class DetectionSystemTISTAR;
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 struct DetectorProperties {
+    G4String detectorName;
 	G4int systemID;
 	G4int detectorNumber;
 	G4int crystalNumber;
@@ -227,10 +228,13 @@ public:
     
     bool HasProperties(G4VPhysicalVolume* vol) { return fPropertiesMap.find(vol) != fPropertiesMap.end(); }
     DetectorProperties GetProperties(G4VPhysicalVolume* vol) { return fPropertiesMap.at(vol); }
+    std::unordered_map<G4VPhysicalVolume*, DetectorProperties> GetPropertiesMap() { return fPropertiesMap; }
     void SetProperties();
     
     void Print();
     G4LogicalVolume * fLogicVC;
+
+    G4LogicalVolume * GetLogicWorld() { return fLogicWorld; }
 
 private:
     bool CheckVolumeName(G4String volumeName);

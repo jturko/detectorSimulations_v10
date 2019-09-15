@@ -1059,10 +1059,21 @@ void DetectorConstruction::Print() {
 
 	SetProperties();
 
+    std::cout<<" ---> in fLogicWorld:"<<std::endl;
 	for(int i = 0; i < fLogicWorld->GetNoDaughters(); ++i) {
 		std::cout<<i<<": "<<fLogicWorld->GetDaughter(i)<<" - "<<fLogicWorld->GetDaughter(i)->GetName();
 		if(HasProperties(fLogicWorld->GetDaughter(i))) {
 			auto prop = GetProperties(fLogicWorld->GetDaughter(i));
+			std::cout<<" - "<<prop.detectorNumber<<", "<<prop.crystalNumber<<", "<<prop.systemID;
+		}
+		std::cout<<std::endl;
+	}
+    
+    std::cout<<" ---> in fLogicVC (vaccum chamber):"<<std::endl;
+	for(int i = 0; i < fLogicVC->GetNoDaughters(); ++i) {
+		std::cout<<i<<": "<<fLogicVC->GetDaughter(i)<<" - "<<fLogicVC->GetDaughter(i)->GetName();
+		if(HasProperties(fLogicVC->GetDaughter(i))) {
+			auto prop = GetProperties(fLogicVC->GetDaughter(i));
 			std::cout<<" - "<<prop.detectorNumber<<", "<<prop.crystalNumber<<", "<<prop.systemID;
 		}
 		std::cout<<std::endl;
@@ -1102,6 +1113,7 @@ bool DetectorConstruction::CheckVolumeName(G4String volumeName) {
 
 DetectorProperties DetectorConstruction::ParseVolumeName(G4String volumeName) {
     DetectorProperties result;
+    result.detectorName = volumeName;
     // GRIFFIN detectors have the detector and crystal number in their names
     if(volumeName.find("germaniumBlock1") != G4String::npos) {
     	// strip "germaniumBlock1_" (16 characters) and everything before from the string

@@ -47,6 +47,9 @@
 #include "G4UIparameter.hh"
 #include "G4UIcmdWithAnInteger.hh"
 #include "G4UIcmdWithABool.hh"
+
+#include "TRexSettings.hh"
+
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 PrimaryGeneratorMessenger::PrimaryGeneratorMessenger(PrimaryGeneratorAction* Gun)
@@ -183,6 +186,7 @@ void PrimaryGeneratorMessenger::SetNewValue(G4UIcommand* command, G4String newVa
     }
     if(command == fUseTRexGeneratorCmd) {
         fAction->SetUseTRexGenerator(fUseTRexGeneratorCmd->GetNewBoolValue(newValue));
+        TRexSettings::Get()->SaveMe(true);
     }
 
 }

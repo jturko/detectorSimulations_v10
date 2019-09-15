@@ -43,6 +43,9 @@
 
 #include "DetectorConstruction.hh" // for DetectorProperties
 
+#include "ParticleMC.hh"
+#include "TTree.h"
+
 #include <time.h>
 
 class RunAction;
@@ -57,7 +60,7 @@ static const int NUMSTEPVARS    = 15;
 class EventAction : public G4UserEventAction
 {
 public:
-    EventAction(RunAction*, HistoManager*);
+    EventAction(HistoManager*, DetectorConstruction*);
     virtual ~EventAction();
     
     virtual void  BeginOfEventAction(const G4Event*);
@@ -71,12 +74,16 @@ public:
     
     // Energy deposit in detection systems
     void SpiceDet(G4double de, G4double dl, G4int det, G4int seg) { fSpiceEnergyDet[det][seg] += de; fSpiceTrackDet[det][seg] += dl;};///19/7
-    
     G4bool SpiceTest();
+
+    // for TISTAR
+    //void SetTISTARDetTree(TTree * tree);
+    //void CreateTISTARDetTreeBranches();
+
 private:
-    RunAction*    fRunAction;
     HistoManager* fHistoManager;
-    
+    DetectorConstruction* fDetCon;    
+
     G4int     fPrintModulo;
     G4int     fEvtNb;
     
@@ -112,6 +119,10 @@ private:
     double fTimeDiff;
     double fTimeRemaining;
     double fEventsPerSecond;
+
+    // for TISTAR treeDet, done as in TRex/Miniball sim
+    //std::vector< std::vector<ParticleMC>* > fDataOfDetectors;
+    //TTree * fTISTARDetTree;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

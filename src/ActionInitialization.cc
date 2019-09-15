@@ -70,11 +70,11 @@ void ActionInitialization::Build() const
     PrimaryGeneratorAction* primaryGen = new PrimaryGeneratorAction(histManager);
     SetUserAction(primaryGen);
     
-    RunAction* runAction = new RunAction(histManager);
-    SetUserAction(runAction);
-
-    EventAction* eventAction = new EventAction(runAction, histManager);
+    EventAction* eventAction = new EventAction(histManager, fDetector);
     SetUserAction(eventAction);
+    
+    RunAction* runAction = new RunAction(histManager, eventAction);
+    SetUserAction(runAction);
     
     SteppingAction* steppingAction = new SteppingAction(fDetector, eventAction);
     SetUserAction(steppingAction);
