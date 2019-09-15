@@ -32,8 +32,8 @@
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-#ifndef DETECTIONSYSTEMTISTAR_HH
-#define DETECTIONSYSTEMTISTAR_HH
+#ifndef DETECTIONSYSTEMTistar_HH
+#define DETECTIONSYSTEMTistar_HH
 
 #include "G4SystemOfUnits.hh" // new version geant4.10 requires units
 #include "G4VUserDetectorConstruction.hh"
@@ -43,11 +43,11 @@
 
 class G4AssemblyVolume;
 
-class DetectionSystemTISTAR
+class DetectionSystemTistar
 {
 public:
-    DetectionSystemTISTAR();
-    ~DetectionSystemTISTAR();
+    DetectionSystemTistar();
+    ~DetectionSystemTistar();
 
     G4int Build();
     G4int PlaceDetector(G4LogicalVolume* expHallLog);

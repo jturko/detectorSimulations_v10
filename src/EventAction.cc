@@ -55,7 +55,6 @@ EventAction::EventAction(HistoManager* hist, DetectorConstruction* detcon)
 	fHistoManager(hist),
     fDetCon(detcon),
 	fPrintModulo(10)
-    //fTISTARDetTree(NULL)
 {
 	fNumberOfHits = 0;
 	fNumberOfSteps = 0;
@@ -338,23 +337,4 @@ G4double EventAction::SpiceErfc() {
 
 	return 0.;
 }
-
-//void EventAction::SetTISTARDetTree(TTree * tree) {
-//    fTISTARDetTree = tree;
-//}
-//
-//void EventAction::CreateTISTARDetTreeBranches() {
-//    std::cout<<"\n\nPrinting DetectorConstruction...\n\n";
-//    fDetCon->Print();
-//    std::cout<<"\n\n";
-//    
-//    fDataOfDetectors = std::vector<std::vector<ParticleMC>*>(fDetCon->GetPropertiesMap().size());
-//    int detNum = 0;
-//    for(auto prop : fDetCon->GetPropertiesMap()) {
-//            std::cout<<" ---> Creating branch for detector: "<<prop.second.detectorName<<std::endl;
-//            fTISTARDetTree->Branch((prop.second.detectorName + "MC").c_str(), &(fDataOfDetectors[detNum]));
-//            ++detNum;
-//    }
-//    fTISTARDetTree->Print();
-//}
 

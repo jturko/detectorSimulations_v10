@@ -93,7 +93,7 @@
 
 #include "DetectionSystemAncillaryBGO.hh"
 
-#include "DetectionSystemTISTAR.hh"
+#include "DetectionSystemTistar.hh"
 #include "TRexSettings.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -179,20 +179,20 @@ DetectorConstruction::DetectorConstruction() :
     fApparatusLayeredTarget=0;
     
     // TI-STAR
-    fTISTARSiDimensions = G4ThreeVector(0.,0.,0.);
-    fTISTARDistFromBeam = 0.;
-    fTISTARGapZ = 0.;
-    fTISTARSiCentered = false;
-    fTISTARPositionOffset = G4ThreeVector(0.,0.,0.);    
+    fTistarSiDimensions = G4ThreeVector(0.,0.,0.);
+    fTistarDistFromBeam = 0.;
+    fTistarGapZ = 0.;
+    fTistarSiCentered = false;
+    fTistarPositionOffset = G4ThreeVector(0.,0.,0.);    
 
     // TI-STAR vacuum chamber
-    fTISTARVacuumChamberShape = "";
-    fTISTARVacuumChamberMaterialName = "";
-    fTISTARVacuumChamberBoxDimensions = G4ThreeVector(0.,0.,0.);
-    fTISTARVacuumChamberCylinderRadius = -1;
-    fTISTARVacuumChamberCylinderZ = -1;
-    fTISTARVacuumChamberExteriorMaterialName = "";
-    fTISTARVacuumChamberExteriorThickness = -1;
+    fTistarVacuumChamberShape = "";
+    fTistarVacuumChamberMaterialName = "";
+    fTistarVacuumChamberBoxDimensions = G4ThreeVector(0.,0.,0.);
+    fTistarVacuumChamberCylinderRadius = -1;
+    fTistarVacuumChamberCylinderZ = -1;
+    fTistarVacuumChamberExteriorMaterialName = "";
+    fTistarVacuumChamberExteriorThickness = -1;
 
     fLogicVC = nullptr;
 
@@ -207,7 +207,7 @@ DetectorConstruction::DetectorConstruction() :
     fPaces    = false;
     fDescant  = false;
     fTestcan  = false;
-    fTISTAR   = false;
+    fTistar   = false;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -899,131 +899,131 @@ void DetectorConstruction::AddDetectionSystemPaces(G4int ndet) {
 	fPaces = true;
 }
 
-void DetectorConstruction::AddTISTARLayer() {
+void DetectorConstruction::AddTistarLayer() {
     if(fLogicWorld == NULL) {
         Construct();
     }
-    DetectionSystemTISTAR * pTISTAR = new DetectionSystemTISTAR();
-    pTISTAR->SetDetectorNumber(fTISTARDetectorNumber);
-    if(fTISTARSiDimensions.x() > 0. &&
-       fTISTARSiDimensions.y() > 0. &&
-       fTISTARSiDimensions.z() > 0. ) pTISTAR->SetSiDimensions(fTISTARSiDimensions);
-    if(fTISTARPCBDimensions.x() > 0. &&
-       fTISTARPCBDimensions.y() > 0. &&
-       fTISTARPCBDimensions.z() > 0. ) pTISTAR->SetPCBDimensions(fTISTARPCBDimensions);
-    pTISTAR->SetSiOffsetInPCB(fTISTARSiOffsetInPCB);
+    DetectionSystemTistar * pTistar = new DetectionSystemTistar();
+    pTistar->SetDetectorNumber(fTistarDetectorNumber);
+    if(fTistarSiDimensions.x() > 0. &&
+       fTistarSiDimensions.y() > 0. &&
+       fTistarSiDimensions.z() > 0. ) pTistar->SetSiDimensions(fTistarSiDimensions);
+    if(fTistarPCBDimensions.x() > 0. &&
+       fTistarPCBDimensions.y() > 0. &&
+       fTistarPCBDimensions.z() > 0. ) pTistar->SetPCBDimensions(fTistarPCBDimensions);
+    pTistar->SetSiOffsetInPCB(fTistarSiOffsetInPCB);
 
-    pTISTAR->Build();
-    pTISTAR->PlaceDetector(fTISTARPosition, fTISTARRotation, fLogicWorld);
+    pTistar->Build();
+    pTistar->PlaceDetector(fTistarPosition, fTistarRotation, fLogicWorld);
 
-    fTISTAR = true;
+    fTistar = true;
 }
 
-void DetectorConstruction::AddTISTAR2StripLayer() {
+void DetectorConstruction::AddTistar2StripLayer() {
     if(fLogicWorld == NULL) {
         Construct();
     }
-    DetectionSystemTISTAR * pTISTAR = new DetectionSystemTISTAR();
-    pTISTAR->SetDetectorNumber(fTISTARDetectorNumber);
-    if(fTISTARSiDimensions.x() > 0. &&
-       fTISTARSiDimensions.y() > 0. &&
-       fTISTARSiDimensions.z() > 0. ) pTISTAR->SetSiDimensions(fTISTARSiDimensions);
-    if(fTISTARPCBDimensions.x() > 0. &&
-       fTISTARPCBDimensions.y() > 0. &&
-       fTISTARPCBDimensions.z() > 0. ) pTISTAR->SetPCBDimensions(fTISTARPCBDimensions);
-    pTISTAR->SetSiOffsetInPCB(fTISTARSiOffsetInPCB);
+    DetectionSystemTistar * pTistar = new DetectionSystemTistar();
+    pTistar->SetDetectorNumber(fTistarDetectorNumber);
+    if(fTistarSiDimensions.x() > 0. &&
+       fTistarSiDimensions.y() > 0. &&
+       fTistarSiDimensions.z() > 0. ) pTistar->SetSiDimensions(fTistarSiDimensions);
+    if(fTistarPCBDimensions.x() > 0. &&
+       fTistarPCBDimensions.y() > 0. &&
+       fTistarPCBDimensions.z() > 0. ) pTistar->SetPCBDimensions(fTistarPCBDimensions);
+    pTistar->SetSiOffsetInPCB(fTistarSiOffsetInPCB);
 
-    pTISTAR->Build();
-    //pTISTAR->Add2StripLayer(fTISTARDistFromBeam, fTISTARSiCentered, fLogicWorld);    
+    pTistar->Build();
+    //pTistar->Add2StripLayer(fTistarDistFromBeam, fTistarSiCentered, fLogicWorld);    
 
     if(fLogicVC != NULL) {
         G4cout << " ---> There is a vacuum chamber, building inside..." << G4endl;
-        pTISTAR->Add2StripLayer(fTISTARDistFromBeam, fTISTARSiCentered, fLogicVC);   
+        pTistar->Add2StripLayer(fTistarDistFromBeam, fTistarSiCentered, fLogicVC);   
     } else {
         G4cout << " ---> There is NO vacuum chamber, building in world volume..." << G4endl;
-        pTISTAR->Add2StripLayer(fTISTARDistFromBeam, fTISTARSiCentered, fLogicWorld);
+        pTistar->Add2StripLayer(fTistarDistFromBeam, fTistarSiCentered, fLogicWorld);
     }
 
-    fTISTAR = true;
+    fTistar = true;
 
-    int layerN = fTISTARDetectorNumber/10 % 10 - 1;
+    int layerN = fTistarDetectorNumber/10 % 10 - 1;
     TRexSettings * sett = TRexSettings::Get();
     std::vector<double> posZ = { 0., 0. };
-    std::vector<double> dist = { +fTISTARDistFromBeam, -fTISTARDistFromBeam };
+    std::vector<double> dist = { +fTistarDistFromBeam, -fTistarDistFromBeam };
     sett->SetLayerPositionZ(layerN, posZ);
     sett->SetLayerDistToBeam(layerN, dist);
-    sett->SetLayerDimensionsX(layerN, fTISTARSiDimensions.x());
-    sett->SetLayerDimensionsY(layerN, fTISTARSiDimensions.z());
+    sett->SetLayerDimensionsX(layerN, fTistarSiDimensions.x());
+    sett->SetLayerDimensionsY(layerN, fTistarSiDimensions.z());
 }
 
-void DetectorConstruction::AddTISTAR4StripLayer() {
+void DetectorConstruction::AddTistar4StripLayer() {
     if(fLogicWorld == NULL) {
         Construct();
     }
-    DetectionSystemTISTAR * pTISTAR = new DetectionSystemTISTAR();
-    pTISTAR->SetDetectorNumber(fTISTARDetectorNumber);
-    if(fTISTARSiDimensions.x() > 0. &&
-       fTISTARSiDimensions.y() > 0. &&
-       fTISTARSiDimensions.z() > 0. ) pTISTAR->SetSiDimensions(fTISTARSiDimensions);
-    if(fTISTARPCBDimensions.x() > 0. &&
-       fTISTARPCBDimensions.y() > 0. &&
-       fTISTARPCBDimensions.z() > 0. ) pTISTAR->SetPCBDimensions(fTISTARPCBDimensions);
-    pTISTAR->SetSiOffsetInPCB(fTISTARSiOffsetInPCB);
-    pTISTAR->SetPositionOffset(fTISTARPositionOffset);
+    DetectionSystemTistar * pTistar = new DetectionSystemTistar();
+    pTistar->SetDetectorNumber(fTistarDetectorNumber);
+    if(fTistarSiDimensions.x() > 0. &&
+       fTistarSiDimensions.y() > 0. &&
+       fTistarSiDimensions.z() > 0. ) pTistar->SetSiDimensions(fTistarSiDimensions);
+    if(fTistarPCBDimensions.x() > 0. &&
+       fTistarPCBDimensions.y() > 0. &&
+       fTistarPCBDimensions.z() > 0. ) pTistar->SetPCBDimensions(fTistarPCBDimensions);
+    pTistar->SetSiOffsetInPCB(fTistarSiOffsetInPCB);
+    pTistar->SetPositionOffset(fTistarPositionOffset);
     
-    pTISTAR->Build();
-    //pTISTAR->Add4StripLayer(fTISTARDistFromBeam, fTISTARGapZ, fLogicWorld);    
+    pTistar->Build();
+    //pTistar->Add4StripLayer(fTistarDistFromBeam, fTistarGapZ, fLogicWorld);    
     
     if(fLogicVC != NULL) {
         G4cout << " ---> There is a vacuum chamber, building inside..." << G4endl;
-        pTISTAR->Add4StripLayer(fTISTARDistFromBeam, fTISTARGapZ, fLogicVC);    
+        pTistar->Add4StripLayer(fTistarDistFromBeam, fTistarGapZ, fLogicVC);    
     } else {
         G4cout << " ---> There is NO vacuum chamber, building in world volume..." << G4endl;
-        pTISTAR->Add4StripLayer(fTISTARDistFromBeam, fTISTARGapZ, fLogicWorld); 
+        pTistar->Add4StripLayer(fTistarDistFromBeam, fTistarGapZ, fLogicWorld); 
     }
 
-    fTISTAR = true;
+    fTistar = true;
     
-    int layerN = fTISTARDetectorNumber/10 % 10 - 1;
+    int layerN = fTistarDetectorNumber/10 % 10 - 1;
     TRexSettings * sett = TRexSettings::Get();
-    double pos = fTISTARGapZ/2. + fTISTARSiDimensions.z()/2.;
+    double pos = fTistarGapZ/2. + fTistarSiDimensions.z()/2.;
     std::vector<double> posZ = { +pos, +pos, -pos, -pos };
-    std::vector<double> dist = { +fTISTARDistFromBeam, -fTISTARDistFromBeam, +fTISTARDistFromBeam, -fTISTARDistFromBeam };
+    std::vector<double> dist = { +fTistarDistFromBeam, -fTistarDistFromBeam, +fTistarDistFromBeam, -fTistarDistFromBeam };
     sett->SetLayerPositionZ(layerN, posZ);
     sett->SetLayerDistToBeam(layerN, dist);
-    sett->SetLayerDimensionsX(layerN, fTISTARSiDimensions.x());
-    sett->SetLayerDimensionsY(layerN, fTISTARSiDimensions.z());
+    sett->SetLayerDimensionsX(layerN, fTistarSiDimensions.x());
+    sett->SetLayerDimensionsY(layerN, fTistarSiDimensions.z());
 }
 
-void DetectorConstruction::AddTISTARGasTarget() {
+void DetectorConstruction::AddTistarGasTarget() {
     if(fLogicWorld == NULL) {
         Construct();
     }
-    DetectionSystemTISTAR * pTISTAR = new DetectionSystemTISTAR();
+    DetectionSystemTistar * pTistar = new DetectionSystemTistar();
     if(fLogicVC != NULL) {
         G4cout << " ---> There is a vacuum chamber, building inside..." << G4endl;
-        pTISTAR->AddGasTarget(fLogicVC);
+        pTistar->AddGasTarget(fLogicVC);
     } else {
         G4cout << " ---> There is NO vacuum chamber, building in world volume..." << G4endl;
-        pTISTAR->AddGasTarget(fLogicWorld);
+        pTistar->AddGasTarget(fLogicWorld);
     }
 }
 
-void DetectorConstruction::AddTISTARVacuumChamber() {
+void DetectorConstruction::AddTistarVacuumChamber() {
     if(fLogicWorld == NULL) {
         Construct();
     }
-    DetectionSystemTISTAR * pTISTAR = new DetectionSystemTISTAR();
-    if(fTISTARVacuumChamberShape!="")               pTISTAR->SetVacuumChamberShape(fTISTARVacuumChamberShape);
-    if(fTISTARVacuumChamberMaterialName!="")        pTISTAR->SetVacuumChamberMaterialName(fTISTARVacuumChamberMaterialName);
-    if(fTISTARVacuumChamberBoxDimensions.mag()>0.)  pTISTAR->SetVacuumChamberBoxDimensions(fTISTARVacuumChamberBoxDimensions);
-    if(fTISTARVacuumChamberCylinderRadius>0.)       pTISTAR->SetVacuumChamberCylinderRadius(fTISTARVacuumChamberCylinderRadius);
-    if(fTISTARVacuumChamberCylinderZ>0.)            pTISTAR->SetVacuumChamberCylinderZ(fTISTARVacuumChamberCylinderZ);
+    DetectionSystemTistar * pTistar = new DetectionSystemTistar();
+    if(fTistarVacuumChamberShape!="")               pTistar->SetVacuumChamberShape(fTistarVacuumChamberShape);
+    if(fTistarVacuumChamberMaterialName!="")        pTistar->SetVacuumChamberMaterialName(fTistarVacuumChamberMaterialName);
+    if(fTistarVacuumChamberBoxDimensions.mag()>0.)  pTistar->SetVacuumChamberBoxDimensions(fTistarVacuumChamberBoxDimensions);
+    if(fTistarVacuumChamberCylinderRadius>0.)       pTistar->SetVacuumChamberCylinderRadius(fTistarVacuumChamberCylinderRadius);
+    if(fTistarVacuumChamberCylinderZ>0.)            pTistar->SetVacuumChamberCylinderZ(fTistarVacuumChamberCylinderZ);
     
-    if(fTISTARVacuumChamberExteriorMaterialName != "") pTISTAR->SetVacuumChamberExteriorMaterialName(fTISTARVacuumChamberExteriorMaterialName);
-    if(fTISTARVacuumChamberExteriorThickness>0.)       pTISTAR->SetVacuumChamberExteriorThickness(fTISTARVacuumChamberExteriorThickness);
+    if(fTistarVacuumChamberExteriorMaterialName != "") pTistar->SetVacuumChamberExteriorMaterialName(fTistarVacuumChamberExteriorMaterialName);
+    if(fTistarVacuumChamberExteriorThickness>0.)       pTistar->SetVacuumChamberExteriorThickness(fTistarVacuumChamberExteriorThickness);
 
-    pTISTAR->AddVacuumChamber(fLogicWorld,fLogicVC);   
+    pTistar->AddVacuumChamber(fLogicWorld,fLogicVC);   
 }
 
 void DetectorConstruction::SetProperties() {
@@ -1107,7 +1107,7 @@ bool DetectorConstruction::CheckVolumeName(G4String volumeName) {
 	if(volumeName.find("whiteScintillatorVolumeLog") != G4String::npos) return true;
 	if(volumeName.find("yellowScintillatorVolumeLog") != G4String::npos) return true;
 	if(volumeName.find("testcanScintillatorLog") != G4String::npos) return true;
-	if(volumeName.find("TISTARSiLayer") != G4String::npos) return true;
+	if(volumeName.find("TistarSiLayer") != G4String::npos) return true;
 	return false;
 }
 
@@ -1380,8 +1380,8 @@ DetectorProperties DetectorConstruction::ParseVolumeName(G4String volumeName) {
     	return result;
     }
     
-    if(volumeName.find("TISTARSiLayer") != G4String::npos) {
-        size_t loc = volumeName.find("TISTARSiLayer");
+    if(volumeName.find("TistarSiLayer") != G4String::npos) {
+        size_t loc = volumeName.find("TistarSiLayer");
         G4String detNumberString = volumeName.substr(loc+16,1);
         G4String cryNumberString = volumeName.substr(loc+17,1);
         result.systemID = 9500;

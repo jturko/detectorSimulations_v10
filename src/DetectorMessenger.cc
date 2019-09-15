@@ -340,96 +340,96 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction* Det)
     fUseTIGRESSPositionsCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
     // TI-STAR
-    fAddTISTARLayerCmd = new G4UIcmdWithoutParameter("/DetSys/det/addTISTARLayer",this);
-    fAddTISTARLayerCmd->SetGuidance("Add the previously configured TI-STAR layer");
-    fAddTISTARLayerCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    fAddTistarLayerCmd = new G4UIcmdWithoutParameter("/DetSys/det/addTistarLayer",this);
+    fAddTistarLayerCmd->SetGuidance("Add the previously configured TI-STAR layer");
+    fAddTistarLayerCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
-    fSetTISTARSiDimensionsCmd = new G4UIcmdWith3VectorAndUnit("/DetSys/det/setTISTARSiDimensions",this);
-    fSetTISTARSiDimensionsCmd->SetGuidance("Set the TI-STAR Si dimensions");
-    fSetTISTARSiDimensionsCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    fSetTistarSiDimensionsCmd = new G4UIcmdWith3VectorAndUnit("/DetSys/det/setTistarSiDimensions",this);
+    fSetTistarSiDimensionsCmd->SetGuidance("Set the TI-STAR Si dimensions");
+    fSetTistarSiDimensionsCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
-    fSetTISTARPCBDimensionsCmd = new G4UIcmdWith3VectorAndUnit("/DetSys/det/setTISTARPCBDimensions",this);
-    fSetTISTARPCBDimensionsCmd->SetGuidance("Set the TI-STAR PCB dimensions");
-    fSetTISTARPCBDimensionsCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    fSetTistarPCBDimensionsCmd = new G4UIcmdWith3VectorAndUnit("/DetSys/det/setTistarPCBDimensions",this);
+    fSetTistarPCBDimensionsCmd->SetGuidance("Set the TI-STAR PCB dimensions");
+    fSetTistarPCBDimensionsCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
-    fSetTISTARSiOffsetInPCBCmd = new G4UIcmdWith3VectorAndUnit("/DetSys/det/setTISTARSiOffsetInPCB",this);
-    fSetTISTARSiOffsetInPCBCmd->SetGuidance("Set the offset of the Si layer from the top left corner of the PCB board (assuming beam in the z-dim)");
-    fSetTISTARSiOffsetInPCBCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    fSetTistarSiOffsetInPCBCmd = new G4UIcmdWith3VectorAndUnit("/DetSys/det/setTistarSiOffsetInPCB",this);
+    fSetTistarSiOffsetInPCBCmd->SetGuidance("Set the offset of the Si layer from the top left corner of the PCB board (assuming beam in the z-dim)");
+    fSetTistarSiOffsetInPCBCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
-    fSetTISTARPositionCmd = new G4UIcmdWith3VectorAndUnit("/DetSys/det/setTISTARPosition",this);
-    fSetTISTARPositionCmd->SetGuidance("Set the TI-STAR layer position");
-    fSetTISTARPositionCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    fSetTistarPositionCmd = new G4UIcmdWith3VectorAndUnit("/DetSys/det/setTistarPosition",this);
+    fSetTistarPositionCmd->SetGuidance("Set the TI-STAR layer position");
+    fSetTistarPositionCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
     
-    fSetTISTARPositionOffsetCmd = new G4UIcmdWith3VectorAndUnit("/DetSys/det/setTISTARPositionOffset",this);
-    fSetTISTARPositionOffsetCmd->SetGuidance("Set the TI-STAR layer position offset (for aligning the inner layer)");
-    fSetTISTARPositionOffsetCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    fSetTistarPositionOffsetCmd = new G4UIcmdWith3VectorAndUnit("/DetSys/det/setTistarPositionOffset",this);
+    fSetTistarPositionOffsetCmd->SetGuidance("Set the TI-STAR layer position offset (for aligning the inner layer)");
+    fSetTistarPositionOffsetCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
-    fSetTISTARRotationCmd = new G4UIcmdWith3Vector("/DetSys/det/setTISTARRotation",this);
-    fSetTISTARRotationCmd->SetGuidance("Set the TI-STAR layer rotation (rotate by the x, y, then z axes - units in deg)");
-    fSetTISTARRotationCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    fSetTistarRotationCmd = new G4UIcmdWith3Vector("/DetSys/det/setTistarRotation",this);
+    fSetTistarRotationCmd->SetGuidance("Set the TI-STAR layer rotation (rotate by the x, y, then z axes - units in deg)");
+    fSetTistarRotationCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
-    fAddTISTAR2StripLayerCmd = new G4UIcmdWithoutParameter("/DetSys/det/addTISTAR2StripLayer",this);
-    fAddTISTAR2StripLayerCmd->SetGuidance("Add a 2-strip layer to TI-STAR (one panel on either side of the beam)");
-    fAddTISTAR2StripLayerCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    fAddTistar2StripLayerCmd = new G4UIcmdWithoutParameter("/DetSys/det/addTistar2StripLayer",this);
+    fAddTistar2StripLayerCmd->SetGuidance("Add a 2-strip layer to TI-STAR (one panel on either side of the beam)");
+    fAddTistar2StripLayerCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
-    fAddTISTAR4StripLayerCmd = new G4UIcmdWithoutParameter("/DetSys/det/addTISTAR4StripLayer",this);
-    fAddTISTAR4StripLayerCmd->SetGuidance("Add a 4-strip layer to TI-STAR (two panels on either side of the beam)");
-    fAddTISTAR4StripLayerCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    fAddTistar4StripLayerCmd = new G4UIcmdWithoutParameter("/DetSys/det/addTistar4StripLayer",this);
+    fAddTistar4StripLayerCmd->SetGuidance("Add a 4-strip layer to TI-STAR (two panels on either side of the beam)");
+    fAddTistar4StripLayerCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
-    fSetTISTARDistFromBeamCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/det/setTISTARDistFromBeam",this);
-    fSetTISTARDistFromBeamCmd->SetGuidance("Set the detector to beam axis distance");
-    fSetTISTARDistFromBeamCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    fSetTistarDistFromBeamCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/det/setTistarDistFromBeam",this);
+    fSetTistarDistFromBeamCmd->SetGuidance("Set the detector to beam axis distance");
+    fSetTistarDistFromBeamCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
-    fSetTISTARGapZCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/det/setTISTARGapZ",this);
-    fSetTISTARGapZCmd->SetGuidance("Set the z-gap distance for a 4-strip layer");
-    fSetTISTARGapZCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    fSetTistarGapZCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/det/setTistarGapZ",this);
+    fSetTistarGapZCmd->SetGuidance("Set the z-gap distance for a 4-strip layer");
+    fSetTistarGapZCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
-    fSetTISTARSiCenteredCmd = new G4UIcmdWithABool("/DetSys/det/setTISTARSiCentered",this);
-    fSetTISTARSiCenteredCmd->SetGuidance("Set 1 for si-centered layers, 0 for detector-centered layers");
-    fSetTISTARSiCenteredCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    fSetTistarSiCenteredCmd = new G4UIcmdWithABool("/DetSys/det/setTistarSiCentered",this);
+    fSetTistarSiCenteredCmd->SetGuidance("Set 1 for si-centered layers, 0 for detector-centered layers");
+    fSetTistarSiCenteredCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
  
-    fSetTISTARDetectorNumberCmd = new G4UIcmdWithAnInteger("/DetSys/det/setTISTARDetectorNumber",this);
-    fSetTISTARDetectorNumberCmd->SetGuidance("Set the TI-STAR detector number (to be added to 9000)");
-    fSetTISTARDetectorNumberCmd->SetGuidance("used as number for 1st strip when creating 2-strip and 4-strip layers, w/ subsequent layers incremeted by 1");
-    fSetTISTARDetectorNumberCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    fSetTistarDetectorNumberCmd = new G4UIcmdWithAnInteger("/DetSys/det/setTistarDetectorNumber",this);
+    fSetTistarDetectorNumberCmd->SetGuidance("Set the TI-STAR detector number (to be added to 9000)");
+    fSetTistarDetectorNumberCmd->SetGuidance("used as number for 1st strip when creating 2-strip and 4-strip layers, w/ subsequent layers incremeted by 1");
+    fSetTistarDetectorNumberCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
     // TI-STAR gas target   
-    fAddTISTARGasTargetCmd = new G4UIcmdWithoutParameter("/DetSys/app/addTISTARGasTarget",this);
-    fAddTISTARGasTargetCmd->SetGuidance("Add the TI-STAR gas target");
-    fAddTISTARGasTargetCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    fAddTistarGasTargetCmd = new G4UIcmdWithoutParameter("/DetSys/app/addTistarGasTarget",this);
+    fAddTistarGasTargetCmd->SetGuidance("Add the TI-STAR gas target");
+    fAddTistarGasTargetCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
     // TI-STAR vacuum chamber
-    fAddTISTARVacuumChamberCmd = new G4UIcmdWithoutParameter("/DetSys/app/addTISTARVacuumChamber",this);
-    fAddTISTARVacuumChamberCmd->SetGuidance("Add the TI-STAR vacuum chamber");
-    fAddTISTARVacuumChamberCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    fAddTistarVacuumChamberCmd = new G4UIcmdWithoutParameter("/DetSys/app/addTistarVacuumChamber",this);
+    fAddTistarVacuumChamberCmd->SetGuidance("Add the TI-STAR vacuum chamber");
+    fAddTistarVacuumChamberCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
-    fSetTISTARVacuumChamberShapeCmd = new G4UIcmdWithAString("/DetSys/app/setTISTARVacuumChamberShape",this);
-    fSetTISTARVacuumChamberShapeCmd->SetGuidance("Set the TI-STAR vacuum chamber shape (box or cylinder)");
-    fSetTISTARVacuumChamberShapeCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    fSetTistarVacuumChamberShapeCmd = new G4UIcmdWithAString("/DetSys/app/setTistarVacuumChamberShape",this);
+    fSetTistarVacuumChamberShapeCmd->SetGuidance("Set the TI-STAR vacuum chamber shape (box or cylinder)");
+    fSetTistarVacuumChamberShapeCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
     
-    fSetTISTARVacuumChamberMaterialNameCmd = new G4UIcmdWithAString("/DetSys/app/setTISTARVacuumChamberMaterial",this);
-    fSetTISTARVacuumChamberMaterialNameCmd->SetGuidance("Set the TI-STAR vacuum chamber material");
-    fSetTISTARVacuumChamberMaterialNameCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    fSetTistarVacuumChamberMaterialNameCmd = new G4UIcmdWithAString("/DetSys/app/setTistarVacuumChamberMaterial",this);
+    fSetTistarVacuumChamberMaterialNameCmd->SetGuidance("Set the TI-STAR vacuum chamber material");
+    fSetTistarVacuumChamberMaterialNameCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
     
-    fSetTISTARVacuumChamberBoxDimensionsCmd = new G4UIcmdWith3VectorAndUnit("/DetSys/app/setTISTARVacuumChamberBoxDimensions",this);
-    fSetTISTARVacuumChamberBoxDimensionsCmd->SetGuidance("Set the TI-STAR vacuum chamber dimensions (if shape = \"box\"");
-    fSetTISTARVacuumChamberBoxDimensionsCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    fSetTistarVacuumChamberBoxDimensionsCmd = new G4UIcmdWith3VectorAndUnit("/DetSys/app/setTistarVacuumChamberBoxDimensions",this);
+    fSetTistarVacuumChamberBoxDimensionsCmd->SetGuidance("Set the TI-STAR vacuum chamber dimensions (if shape = \"box\"");
+    fSetTistarVacuumChamberBoxDimensionsCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
     
-    fSetTISTARVacuumChamberCylinderRadiusCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/app/setTISTARVacuumChamberCylinderRadius",this);
-    fSetTISTARVacuumChamberCylinderRadiusCmd->SetGuidance("Set the TI-STAR vacuum chamber radius (if shape = \"cylinder\")"); 
-    fSetTISTARVacuumChamberCylinderRadiusCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    fSetTistarVacuumChamberCylinderRadiusCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/app/setTistarVacuumChamberCylinderRadius",this);
+    fSetTistarVacuumChamberCylinderRadiusCmd->SetGuidance("Set the TI-STAR vacuum chamber radius (if shape = \"cylinder\")"); 
+    fSetTistarVacuumChamberCylinderRadiusCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
-    fSetTISTARVacuumChamberCylinderZCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/app/setTISTARVacuumChamberCylinderZ",this);
-    fSetTISTARVacuumChamberCylinderZCmd->SetGuidance("Set the TI-STAR vacuum chamber z-dimensions (if shape = \"cylinder\")");
-    fSetTISTARVacuumChamberCylinderZCmd->AvailableForStates(G4State_PreInit,G4State_Idle);   
+    fSetTistarVacuumChamberCylinderZCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/app/setTistarVacuumChamberCylinderZ",this);
+    fSetTistarVacuumChamberCylinderZCmd->SetGuidance("Set the TI-STAR vacuum chamber z-dimensions (if shape = \"cylinder\")");
+    fSetTistarVacuumChamberCylinderZCmd->AvailableForStates(G4State_PreInit,G4State_Idle);   
 
-    fSetTISTARVacuumChamberExteriorMaterialNameCmd = new G4UIcmdWithAString("/DetSys/app/setTISTARVacuumChamberExteriorMaterial",this);
-    fSetTISTARVacuumChamberExteriorMaterialNameCmd->SetGuidance("Set the TI-STAR vacuum chamber exterior material");
-    fSetTISTARVacuumChamberExteriorMaterialNameCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    fSetTistarVacuumChamberExteriorMaterialNameCmd = new G4UIcmdWithAString("/DetSys/app/setTistarVacuumChamberExteriorMaterial",this);
+    fSetTistarVacuumChamberExteriorMaterialNameCmd->SetGuidance("Set the TI-STAR vacuum chamber exterior material");
+    fSetTistarVacuumChamberExteriorMaterialNameCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
-    fSetTISTARVacuumChamberExteriorThicknessCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/app/setTISTARVacuumChamberExteriorThickness",this);
-    fSetTISTARVacuumChamberExteriorThicknessCmd->SetGuidance("Set the TI-STAR vacuum chamber exterior layer thickness");
-    fSetTISTARVacuumChamberExteriorThicknessCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    fSetTistarVacuumChamberExteriorThicknessCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/app/setTistarVacuumChamberExteriorThickness",this);
+    fSetTistarVacuumChamberExteriorThicknessCmd->SetGuidance("Set the TI-STAR vacuum chamber exterior layer thickness");
+    fSetTistarVacuumChamberExteriorThicknessCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -514,30 +514,30 @@ DetectorMessenger::~DetectorMessenger()
     delete fUseSpiceResolutionCmd;
     delete fUseTIGRESSPositionsCmd;
 
-    delete fAddTISTARLayerCmd;
-    delete fAddTISTAR2StripLayerCmd;
-    delete fAddTISTAR4StripLayerCmd;
-    delete fSetTISTARSiDimensionsCmd;
-    delete fSetTISTARPCBDimensionsCmd;
-    delete fSetTISTARSiOffsetInPCBCmd;
-    delete fSetTISTARPositionCmd;
-    delete fSetTISTARPositionOffsetCmd;
-    delete fSetTISTARRotationCmd;
-    delete fSetTISTARDistFromBeamCmd;
-    delete fSetTISTARGapZCmd;
-    delete fSetTISTARSiCenteredCmd;
-    delete fSetTISTARDetectorNumberCmd;
+    delete fAddTistarLayerCmd;
+    delete fAddTistar2StripLayerCmd;
+    delete fAddTistar4StripLayerCmd;
+    delete fSetTistarSiDimensionsCmd;
+    delete fSetTistarPCBDimensionsCmd;
+    delete fSetTistarSiOffsetInPCBCmd;
+    delete fSetTistarPositionCmd;
+    delete fSetTistarPositionOffsetCmd;
+    delete fSetTistarRotationCmd;
+    delete fSetTistarDistFromBeamCmd;
+    delete fSetTistarGapZCmd;
+    delete fSetTistarSiCenteredCmd;
+    delete fSetTistarDetectorNumberCmd;
 
-    delete fAddTISTARGasTargetCmd;
+    delete fAddTistarGasTargetCmd;
 
-    delete fAddTISTARVacuumChamberCmd;
-    delete fSetTISTARVacuumChamberShapeCmd;
-    delete fSetTISTARVacuumChamberMaterialNameCmd;
-    delete fSetTISTARVacuumChamberBoxDimensionsCmd;
-    delete fSetTISTARVacuumChamberCylinderRadiusCmd;
-    delete fSetTISTARVacuumChamberCylinderZCmd;
-    delete fSetTISTARVacuumChamberExteriorMaterialNameCmd;
-    delete fSetTISTARVacuumChamberExteriorThicknessCmd;
+    delete fAddTistarVacuumChamberCmd;
+    delete fSetTistarVacuumChamberShapeCmd;
+    delete fSetTistarVacuumChamberMaterialNameCmd;
+    delete fSetTistarVacuumChamberBoxDimensionsCmd;
+    delete fSetTistarVacuumChamberCylinderRadiusCmd;
+    delete fSetTistarVacuumChamberCylinderZCmd;
+    delete fSetTistarVacuumChamberExteriorMaterialNameCmd;
+    delete fSetTistarVacuumChamberExteriorThicknessCmd;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -748,73 +748,73 @@ void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
     }
 
     // TI-STAR
-    if(command == fAddTISTARLayerCmd) {
-        fDetector->AddTISTARLayer();
+    if(command == fAddTistarLayerCmd) {
+        fDetector->AddTistarLayer();
     }
-    if(command == fSetTISTARSiDimensionsCmd) {
-        fDetector->SetTISTARSiDimensions(fSetTISTARSiDimensionsCmd->GetNew3VectorValue(newValue));
+    if(command == fSetTistarSiDimensionsCmd) {
+        fDetector->SetTistarSiDimensions(fSetTistarSiDimensionsCmd->GetNew3VectorValue(newValue));
     }
-    if(command == fSetTISTARPCBDimensionsCmd) {
-        fDetector->SetTISTARPCBDimensions(fSetTISTARPCBDimensionsCmd->GetNew3VectorValue(newValue));
+    if(command == fSetTistarPCBDimensionsCmd) {
+        fDetector->SetTistarPCBDimensions(fSetTistarPCBDimensionsCmd->GetNew3VectorValue(newValue));
     }
-    if(command == fSetTISTARSiOffsetInPCBCmd) {
-        fDetector->SetTISTARSiOffsetInPCB(fSetTISTARSiOffsetInPCBCmd->GetNew3VectorValue(newValue));
+    if(command == fSetTistarSiOffsetInPCBCmd) {
+        fDetector->SetTistarSiOffsetInPCB(fSetTistarSiOffsetInPCBCmd->GetNew3VectorValue(newValue));
     }
-    if(command == fSetTISTARPositionOffsetCmd) {
-        fDetector->SetTISTARPositionOffset(fSetTISTARPositionOffsetCmd->GetNew3VectorValue(newValue));
+    if(command == fSetTistarPositionOffsetCmd) {
+        fDetector->SetTistarPositionOffset(fSetTistarPositionOffsetCmd->GetNew3VectorValue(newValue));
     }
-    if(command == fSetTISTARPositionCmd) {
-        fDetector->SetTISTARPosition(fSetTISTARPositionCmd->GetNew3VectorValue(newValue));
+    if(command == fSetTistarPositionCmd) {
+        fDetector->SetTistarPosition(fSetTistarPositionCmd->GetNew3VectorValue(newValue));
     }
-    if(command == fSetTISTARRotationCmd) {
-        fDetector->SetTISTARRotation(fSetTISTARRotationCmd->GetNew3VectorValue(newValue));
+    if(command == fSetTistarRotationCmd) {
+        fDetector->SetTistarRotation(fSetTistarRotationCmd->GetNew3VectorValue(newValue));
     }
-    if(command == fAddTISTAR2StripLayerCmd) {
-        fDetector->AddTISTAR2StripLayer();
+    if(command == fAddTistar2StripLayerCmd) {
+        fDetector->AddTistar2StripLayer();
     }
-    if(command == fAddTISTAR4StripLayerCmd) {
-        fDetector->AddTISTAR4StripLayer();
+    if(command == fAddTistar4StripLayerCmd) {
+        fDetector->AddTistar4StripLayer();
     }
-    if(command == fSetTISTARDistFromBeamCmd) {
-        fDetector->SetTISTARDistFromBeam(fSetTISTARDistFromBeamCmd->GetNewDoubleValue(newValue));
+    if(command == fSetTistarDistFromBeamCmd) {
+        fDetector->SetTistarDistFromBeam(fSetTistarDistFromBeamCmd->GetNewDoubleValue(newValue));
     }   
-    if(command == fSetTISTARGapZCmd) {
-        fDetector->SetTISTARGapZ(fSetTISTARGapZCmd->GetNewDoubleValue(newValue));
+    if(command == fSetTistarGapZCmd) {
+        fDetector->SetTistarGapZ(fSetTistarGapZCmd->GetNewDoubleValue(newValue));
     }   
-    if(command == fSetTISTARSiCenteredCmd) {
-        fDetector->SetTISTARSiCentered(fSetTISTARSiCenteredCmd->GetNewBoolValue(newValue));
+    if(command == fSetTistarSiCenteredCmd) {
+        fDetector->SetTistarSiCentered(fSetTistarSiCenteredCmd->GetNewBoolValue(newValue));
     }
-    if(command == fSetTISTARDetectorNumberCmd) {
-        fDetector->SetTISTARDetectorNumber(fSetTISTARDetectorNumberCmd->GetNewIntValue(newValue));
+    if(command == fSetTistarDetectorNumberCmd) {
+        fDetector->SetTistarDetectorNumber(fSetTistarDetectorNumberCmd->GetNewIntValue(newValue));
     }
 
-    if(command == fAddTISTARGasTargetCmd) {
-       fDetector->AddTISTARGasTarget();
+    if(command == fAddTistarGasTargetCmd) {
+       fDetector->AddTistarGasTarget();
     }
 
-    if(command == fAddTISTARVacuumChamberCmd) {
-        fDetector->AddTISTARVacuumChamber();
+    if(command == fAddTistarVacuumChamberCmd) {
+        fDetector->AddTistarVacuumChamber();
     }
-    if(command == fSetTISTARVacuumChamberShapeCmd) {
-        fDetector->SetTISTARVacuumChamberShape(newValue);
+    if(command == fSetTistarVacuumChamberShapeCmd) {
+        fDetector->SetTistarVacuumChamberShape(newValue);
     }
-    if(command == fSetTISTARVacuumChamberMaterialNameCmd) {
-        fDetector->SetTISTARVacuumChamberMaterialName(newValue);
+    if(command == fSetTistarVacuumChamberMaterialNameCmd) {
+        fDetector->SetTistarVacuumChamberMaterialName(newValue);
     }
-    if(command == fSetTISTARVacuumChamberBoxDimensionsCmd) {
-        fDetector->SetTISTARVacuumChamberBoxDimensions(fSetTISTARVacuumChamberBoxDimensionsCmd->GetNew3VectorValue(newValue));
+    if(command == fSetTistarVacuumChamberBoxDimensionsCmd) {
+        fDetector->SetTistarVacuumChamberBoxDimensions(fSetTistarVacuumChamberBoxDimensionsCmd->GetNew3VectorValue(newValue));
     }
-    if(command == fSetTISTARVacuumChamberCylinderRadiusCmd) {
-        fDetector->SetTISTARVacuumChamberCylinderRadius(fSetTISTARVacuumChamberCylinderRadiusCmd->GetNewDoubleValue(newValue));
+    if(command == fSetTistarVacuumChamberCylinderRadiusCmd) {
+        fDetector->SetTistarVacuumChamberCylinderRadius(fSetTistarVacuumChamberCylinderRadiusCmd->GetNewDoubleValue(newValue));
     }
-    if(command == fSetTISTARVacuumChamberCylinderZCmd) {
-        fDetector->SetTISTARVacuumChamberCylinderZ(fSetTISTARVacuumChamberCylinderZCmd->GetNewDoubleValue(newValue));
+    if(command == fSetTistarVacuumChamberCylinderZCmd) {
+        fDetector->SetTistarVacuumChamberCylinderZ(fSetTistarVacuumChamberCylinderZCmd->GetNewDoubleValue(newValue));
     }
-    if(command == fSetTISTARVacuumChamberExteriorMaterialNameCmd) {
-        fDetector->SetTISTARVacuumChamberExteriorMaterialName(newValue);
+    if(command == fSetTistarVacuumChamberExteriorMaterialNameCmd) {
+        fDetector->SetTistarVacuumChamberExteriorMaterialName(newValue);
     }
-    if(command == fSetTISTARVacuumChamberExteriorThicknessCmd) {
-        fDetector->SetTISTARVacuumChamberExteriorThickness(fSetTISTARVacuumChamberExteriorThicknessCmd->GetNewDoubleValue(newValue));
+    if(command == fSetTistarVacuumChamberExteriorThicknessCmd) {
+        fDetector->SetTistarVacuumChamberExteriorThickness(fSetTistarVacuumChamberExteriorThicknessCmd->GetNewDoubleValue(newValue));
     }
 }
 

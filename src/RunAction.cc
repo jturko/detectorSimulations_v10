@@ -73,15 +73,9 @@ void RunAction::BeginOfRunAction(const G4Run* aRun)
 		fHistoManager->Book();
 		fHistoManager->GetDetectorConstruction()->SetProperties();
         G4cout<<"TRexSettings::Get()->SaveMe() = "<<TRexSettings::Get()->SaveMe()<<G4endl;
-        if(TRexSettings::Get()->SaveMe()) fHistoManager->BookTISTAR();
+        if(TRexSettings::Get()->SaveMe()) fHistoManager->BookTistar();
 	}
     TRexSettings::Get()->Nevents(G4RunManager::GetRunManager()->GetCurrentRun()->GetNumberOfEventToBeProcessed());
-    
-    //if(TRexSettings::Get()->SaveMe()) {
-    //    TTree * treeDet = new TTree("treeDet", "Detector tree");
-    //    fEventAction->SetTISTARDetTree(treeDet);
-    //    fEventAction->CreateTISTARDetTreeBranches(); 
-    //}
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

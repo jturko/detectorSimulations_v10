@@ -65,7 +65,7 @@ class DetectionSystemLanthanumBromide;
 class DetectionSystemBox;
 class DetectionSystemAncillaryBGO;
 
-class DetectionSystemTISTAR;
+class DetectionSystemTistar;
 
 //class MagneticField;
 
@@ -183,31 +183,31 @@ public:
     G4double GetLanthanumBromideCrystalRadialPosition();
     
      // TI STAR
-    void AddTISTARLayer();
-    void AddTISTAR2StripLayer();
-    void AddTISTAR4StripLayer();
-    void SetTISTARSiDimensions(G4ThreeVector dim)   { fTISTARSiDimensions = dim; } 
-    void SetTISTARPCBDimensions(G4ThreeVector dim)  { fTISTARPCBDimensions = dim; } 
-    void SetTISTARSiOffsetInPCB(G4ThreeVector offset)      { fTISTARSiOffsetInPCB = offset; } 
-    void SetTISTARRotation(G4ThreeVector rotate)    { fTISTARRotation = rotate; }
-    void SetTISTARPosition(G4ThreeVector move)      { fTISTARPosition = move; }
-    void SetTISTARPositionOffset(G4ThreeVector move){ fTISTARPositionOffset = move; }
-    void SetTISTARDistFromBeam(G4double dist)   { fTISTARDistFromBeam = dist; }
-    void SetTISTARGapZ(G4double gap)            { fTISTARGapZ = gap; }
-    void SetTISTARSiCentered(G4bool val)        { fTISTARSiCentered = val; }
-    void SetTISTARDetectorNumber(G4int num)     { fTISTARDetectorNumber = num; }
+    void AddTistarLayer();
+    void AddTistar2StripLayer();
+    void AddTistar4StripLayer();
+    void SetTistarSiDimensions(G4ThreeVector dim)   { fTistarSiDimensions = dim; } 
+    void SetTistarPCBDimensions(G4ThreeVector dim)  { fTistarPCBDimensions = dim; } 
+    void SetTistarSiOffsetInPCB(G4ThreeVector offset)      { fTistarSiOffsetInPCB = offset; } 
+    void SetTistarRotation(G4ThreeVector rotate)    { fTistarRotation = rotate; }
+    void SetTistarPosition(G4ThreeVector move)      { fTistarPosition = move; }
+    void SetTistarPositionOffset(G4ThreeVector move){ fTistarPositionOffset = move; }
+    void SetTistarDistFromBeam(G4double dist)   { fTistarDistFromBeam = dist; }
+    void SetTistarGapZ(G4double gap)            { fTistarGapZ = gap; }
+    void SetTistarSiCentered(G4bool val)        { fTistarSiCentered = val; }
+    void SetTistarDetectorNumber(G4int num)     { fTistarDetectorNumber = num; }
 
-    void AddTISTARGasTarget(); 
+    void AddTistarGasTarget(); 
     
-    void AddTISTARVacuumChamber();
-    void SetTISTARVacuumChamberShape(G4String shape) { fTISTARVacuumChamberShape = shape; }
-    void SetTISTARVacuumChamberMaterialName(G4String material) { fTISTARVacuumChamberMaterialName = material; }
-    void SetTISTARVacuumChamberBoxDimensions(G4ThreeVector dims) { fTISTARVacuumChamberBoxDimensions = dims; }
-    void SetTISTARVacuumChamberCylinderRadius(G4double radius) { fTISTARVacuumChamberCylinderRadius = radius; }
-    void SetTISTARVacuumChamberCylinderZ(G4double zz) { fTISTARVacuumChamberCylinderZ = zz; }
+    void AddTistarVacuumChamber();
+    void SetTistarVacuumChamberShape(G4String shape) { fTistarVacuumChamberShape = shape; }
+    void SetTistarVacuumChamberMaterialName(G4String material) { fTistarVacuumChamberMaterialName = material; }
+    void SetTistarVacuumChamberBoxDimensions(G4ThreeVector dims) { fTistarVacuumChamberBoxDimensions = dims; }
+    void SetTistarVacuumChamberCylinderRadius(G4double radius) { fTistarVacuumChamberCylinderRadius = radius; }
+    void SetTistarVacuumChamberCylinderZ(G4double zz) { fTistarVacuumChamberCylinderZ = zz; }
 
-    void SetTISTARVacuumChamberExteriorMaterialName(G4String name) { fTISTARVacuumChamberExteriorMaterialName = name; }
-    void SetTISTARVacuumChamberExteriorThickness(G4double thickness) { fTISTARVacuumChamberExteriorThickness = thickness; }
+    void SetTistarVacuumChamberExteriorMaterialName(G4String name) { fTistarVacuumChamberExteriorMaterialName = name; }
+    void SetTistarVacuumChamberExteriorThickness(G4double thickness) { fTistarVacuumChamberExteriorThickness = thickness; }
 
     G4bool   GridCell()   { return fGridCell;   }
     G4bool   Griffin()    { return fGriffin;    }
@@ -220,7 +220,7 @@ public:
     G4bool   Paces()      { return fPaces;      }
     G4bool   Descant()    { return fDescant;    }
     G4bool   Testcan()    { return fTestcan;    }
-    G4bool   TISTAR()     { return fTISTAR;     }
+    G4bool   Tistar()     { return fTistar;     }
     
     void SpiceRes(G4bool val) { fSpiceRes = val; }
     bool SpiceRes() { return fSpiceRes; }
@@ -310,25 +310,25 @@ private:
     G4ThreeVector fDetEffPosition;
     
     // TI-STAR Dimensions
-    G4ThreeVector   fTISTARSiDimensions;
-    G4ThreeVector   fTISTARPCBDimensions;
-    G4ThreeVector   fTISTARSiOffsetInPCB;
-    G4ThreeVector   fTISTARRotation;
-    G4ThreeVector   fTISTARPosition;
-    G4ThreeVector   fTISTARPositionOffset;    
-    G4double        fTISTARDistFromBeam;
-    G4double        fTISTARGapZ;
-    G4bool          fTISTARSiCentered;
-    G4int           fTISTARDetectorNumber;
+    G4ThreeVector   fTistarSiDimensions;
+    G4ThreeVector   fTistarPCBDimensions;
+    G4ThreeVector   fTistarSiOffsetInPCB;
+    G4ThreeVector   fTistarRotation;
+    G4ThreeVector   fTistarPosition;
+    G4ThreeVector   fTistarPositionOffset;    
+    G4double        fTistarDistFromBeam;
+    G4double        fTistarGapZ;
+    G4bool          fTistarSiCentered;
+    G4int           fTistarDetectorNumber;
     
-    G4String        fTISTARVacuumChamberShape;
-    G4String        fTISTARVacuumChamberMaterialName;
-    G4ThreeVector   fTISTARVacuumChamberBoxDimensions;
-    G4double        fTISTARVacuumChamberCylinderRadius;
-    G4double        fTISTARVacuumChamberCylinderZ;
+    G4String        fTistarVacuumChamberShape;
+    G4String        fTistarVacuumChamberMaterialName;
+    G4ThreeVector   fTistarVacuumChamberBoxDimensions;
+    G4double        fTistarVacuumChamberCylinderRadius;
+    G4double        fTistarVacuumChamberCylinderZ;
 
-    G4String fTISTARVacuumChamberExteriorMaterialName;
-    G4double fTISTARVacuumChamberExteriorThickness;
+    G4String fTistarVacuumChamberExteriorMaterialName;
+    G4double fTistarVacuumChamberExteriorThickness;
 
     //booleans which control which histograms are created (these are set by the detector construction)
     G4bool fGridCell;
@@ -342,7 +342,7 @@ private:
     G4bool fTestcan;
     G4bool fSpice;
     G4bool fPaces;
-    G4bool fTISTAR;
+    G4bool fTistar;
     
     //unordered maps which hold properties of the physical volumes created
     std::unordered_map<G4VPhysicalVolume*, DetectorProperties> fPropertiesMap;

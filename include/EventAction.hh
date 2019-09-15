@@ -76,10 +76,6 @@ public:
     void SpiceDet(G4double de, G4double dl, G4int det, G4int seg) { fSpiceEnergyDet[det][seg] += de; fSpiceTrackDet[det][seg] += dl;};///19/7
     G4bool SpiceTest();
 
-    // for TISTAR
-    //void SetTISTARDetTree(TTree * tree);
-    //void CreateTISTARDetTreeBranches();
-
 private:
     HistoManager* fHistoManager;
     DetectorConstruction* fDetCon;    
@@ -119,10 +115,6 @@ private:
     double fTimeDiff;
     double fTimeRemaining;
     double fEventsPerSecond;
-
-    // for TISTAR treeDet, done as in TRex/Miniball sim
-    //std::vector< std::vector<ParticleMC>* > fDataOfDetectors;
-    //TTree * fTISTARDetTree;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

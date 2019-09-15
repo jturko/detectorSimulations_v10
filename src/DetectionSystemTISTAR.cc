@@ -18,7 +18,7 @@
 #include "G4VisAttributes.hh"
 #include "G4Colour.hh"
 
-#include "DetectionSystemTISTAR.hh"
+#include "DetectionSystemTistar.hh"
 #include "TRexSettings.hh"
 
 #include "G4SystemOfUnits.hh"
@@ -26,7 +26,7 @@
 
 #include <string>
 
-DetectionSystemTISTAR::DetectionSystemTISTAR() :
+DetectionSystemTistar::DetectionSystemTistar() :
     fAssemblyLayer(NULL),
     fLogicalSiLayer(NULL),
     fLogicalPCBLayer(NULL),
@@ -65,21 +65,21 @@ DetectionSystemTISTAR::DetectionSystemTISTAR() :
     fVacuumChamberExteriorThickness = 1.0*mm;
 }
 
-DetectionSystemTISTAR::~DetectionSystemTISTAR() 
+DetectionSystemTistar::~DetectionSystemTistar() 
 {
     delete fLogicalSiLayer;
     delete fLogicalPCBLayer;
     delete fAssemblyLayer;
 }
 
-G4int DetectionSystemTISTAR::Build() 
+G4int DetectionSystemTistar::Build() 
 {
     BuildLayer();
 
     return 1;
 }
 
-G4int DetectionSystemTISTAR::PlaceDetector(G4LogicalVolume* expHallLog) 
+G4int DetectionSystemTistar::PlaceDetector(G4LogicalVolume* expHallLog) 
 {
     G4RotationMatrix * rotate = new G4RotationMatrix;
     G4ThreeVector move = G4ThreeVector(0., 0., 0.);
@@ -89,7 +89,7 @@ G4int DetectionSystemTISTAR::PlaceDetector(G4LogicalVolume* expHallLog)
     return 1;
 }
 
-G4int DetectionSystemTISTAR::PlaceDetector(G4ThreeVector move, G4ThreeVector rotate, G4LogicalVolume* expHallLog)
+G4int DetectionSystemTistar::PlaceDetector(G4ThreeVector move, G4ThreeVector rotate, G4LogicalVolume* expHallLog)
 {
     G4RotationMatrix * rotation = new G4RotationMatrix;
     rotation->rotateX(rotate.x()*M_PI/180.);
@@ -100,7 +100,7 @@ G4int DetectionSystemTISTAR::PlaceDetector(G4ThreeVector move, G4ThreeVector rot
     return 1;
 }
 
-G4int DetectionSystemTISTAR::BuildLayer() 
+G4int DetectionSystemTistar::BuildLayer() 
 {
     if(!fSiDimensionsSet) { G4cout << " ---> Silicon dimensions not set!" << G4endl; return 0; }
 
@@ -135,31 +135,31 @@ G4int DetectionSystemTISTAR::BuildLayer()
 
     // Physical volumes
 
-    name  = "TISTARSiLayerPV";
+    name  = "TistarSiLayerPV";
     G4Box * si_PV = new G4Box(name,si_dim.x()/2.,si_dim.y()/2.,si_dim.z()/2.);
 
     G4Box * pcb_precut_PV = NULL;
     G4Box * pcb_cutting_PV = NULL;
     G4SubtractionSolid * pcb_PV = NULL;
     if(fPCBDimensionsSet) {
-        name = "TISTARPCBLayerPreCutPV";
+        name = "TistarPCBLayerPreCutPV";
         pcb_precut_PV = new G4Box(name,pcb_dim.x()/2.,pcb_dim.y()/2.,pcb_dim.z()/2.);    
-        name = "TISTARPCBLayerCuttingPV";
+        name = "TistarPCBLayerCuttingPV";
         pcb_cutting_PV = new G4Box(name,si_dim.x()/2.+cut_extra.x(),pcb_dim.y()/2.+cut_extra.y(),si_dim.z()/2.+cut_extra.z());
-        name = "TISTARPCBLayerPV";
+        name = "TistarPCBLayerPV";
         pcb_PV = new G4SubtractionSolid(name,pcb_precut_PV,pcb_cutting_PV,rotate,move);
     }
 
     // Logical volumes
     if(fLogicalSiLayer == NULL) {
-        name = "TISTARSiLayerLV";
+        name = "TistarSiLayerLV";
         fLogicalSiLayer = new G4LogicalVolume(si_PV,si_material,name,0,0,0);
         fLogicalSiLayer->SetVisAttributes(si_vis_att);
     }
 
     if(fPCBDimensionsSet) {
         if(fLogicalPCBLayer == NULL) {
-            name = "TISTARPCBLayerLV";
+            name = "TistarPCBLayerLV";
             fLogicalPCBLayer = new G4LogicalVolume(pcb_PV,pcb_material,name,0,0,0);
             fLogicalPCBLayer->SetVisAttributes(pcb_vis_att);
         }
@@ -185,7 +185,7 @@ G4int DetectionSystemTISTAR::BuildLayer()
     return 1;
 }
 
-G4int DetectionSystemTISTAR::Add2StripLayer(G4double dist_from_beam, G4bool si_centered, G4LogicalVolume* expHallLog) 
+G4int DetectionSystemTistar::Add2StripLayer(G4double dist_from_beam, G4bool si_centered, G4LogicalVolume* expHallLog) 
 {
     G4ThreeVector move;
     G4ThreeVector rotate;
@@ -200,7 +200,7 @@ G4int DetectionSystemTISTAR::Add2StripLayer(G4double dist_from_beam, G4bool si_c
     rotate = G4ThreeVector( 0.,                     // x-rotation
                             0.,                     // y-rotation
                             +90.);                  // z-rotation
-    name = "TISTARSiLayerLV_" + std::to_string(fDetectorNumber);
+    name = "TistarSiLayerLV_" + std::to_string(fDetectorNumber);
     fLogicalSiLayer->SetName(name);
     PlaceDetector(move, rotate, expHallLog);
 
@@ -212,14 +212,14 @@ G4int DetectionSystemTISTAR::Add2StripLayer(G4double dist_from_beam, G4bool si_c
     rotate = G4ThreeVector( 0,                      // x-rotation
                             +180.,                  // y-rotation
                             +90.);                  // z-rotation
-    name = "TISTARSiLayerLV_" + std::to_string(fDetectorNumber+1);
+    name = "TistarSiLayerLV_" + std::to_string(fDetectorNumber+1);
     fLogicalSiLayer->SetName(name);
     PlaceDetector(move, rotate, expHallLog);
 
     return 1;
 }
 
-G4int DetectionSystemTISTAR::Add4StripLayer(G4double dist_from_beam, G4double gap_z, G4LogicalVolume* expHallLog) 
+G4int DetectionSystemTistar::Add4StripLayer(G4double dist_from_beam, G4double gap_z, G4LogicalVolume* expHallLog) 
 {
     G4ThreeVector move;
     G4ThreeVector rotate;
@@ -236,7 +236,7 @@ G4int DetectionSystemTISTAR::Add4StripLayer(G4double dist_from_beam, G4double ga
     rotate = G4ThreeVector( 0.,                     // x-rotation
                             0.,                     // y-rotation
                             +90.);                  // z-rotation
-    name = "TISTARSiLayerLV_" + std::to_string(fDetectorNumber);
+    name = "TistarSiLayerLV_" + std::to_string(fDetectorNumber);
     fLogicalSiLayer->SetName(name);
     PlaceDetector(move, rotate, expHallLog);
 
@@ -248,7 +248,7 @@ G4int DetectionSystemTISTAR::Add4StripLayer(G4double dist_from_beam, G4double ga
     rotate = G4ThreeVector( 0.,                     // x-rotation
                             0.,                     // y-rotation
                             -90.);                  // z-rotation
-    name = "TISTARSiLayerLV_" + std::to_string(fDetectorNumber+1);
+    name = "TistarSiLayerLV_" + std::to_string(fDetectorNumber+1);
     fLogicalSiLayer->SetName(name);
     PlaceDetector(move, rotate, expHallLog);
     
@@ -260,7 +260,7 @@ G4int DetectionSystemTISTAR::Add4StripLayer(G4double dist_from_beam, G4double ga
     rotate = G4ThreeVector( 0,                      // x-rotation
                             +180.,                  // y-rotation
                             +90.);                  // z-rotation
-    name = "TISTARSiLayerLV_" + std::to_string(fDetectorNumber+2);
+    name = "TistarSiLayerLV_" + std::to_string(fDetectorNumber+2);
     fLogicalSiLayer->SetName(name);
     PlaceDetector(move, rotate, expHallLog);
 
@@ -272,7 +272,7 @@ G4int DetectionSystemTISTAR::Add4StripLayer(G4double dist_from_beam, G4double ga
     rotate = G4ThreeVector( 0,                      // x-rotation
                             +180.,                  // y-rotation
                             -90.);                  // z-rotation
-    name = "TISTARSiLayerLV_" + std::to_string(fDetectorNumber+3);
+    name = "TistarSiLayerLV_" + std::to_string(fDetectorNumber+3);
     fLogicalSiLayer->SetName(name);
     PlaceDetector(move, rotate, expHallLog);
 
@@ -282,7 +282,7 @@ G4int DetectionSystemTISTAR::Add4StripLayer(G4double dist_from_beam, G4double ga
 
 // ---------------------------- Gas target ----------------------------
 
-G4int DetectionSystemTISTAR::AddGasTarget(G4LogicalVolume* expHallLog)
+G4int DetectionSystemTistar::AddGasTarget(G4LogicalVolume* expHallLog)
 {
     G4ThreeVector move;
     G4RotationMatrix * rotate = NULL;
@@ -351,7 +351,7 @@ G4int DetectionSystemTISTAR::AddGasTarget(G4LogicalVolume* expHallLog)
 
 //----------------------------- Vacuum Chamber -------------------------------
 
-void DetectionSystemTISTAR::SetVacuumChamberShape(G4String shape) 
+void DetectionSystemTistar::SetVacuumChamberShape(G4String shape) 
 {
     if(shape=="box" || shape=="cylinder") {
         fVacuumChamberShape = shape;
@@ -361,13 +361,13 @@ void DetectionSystemTISTAR::SetVacuumChamberShape(G4String shape)
     }
 }
 
-void DetectionSystemTISTAR::SetVacuumChamberMaterialName(G4String material) { 
+void DetectionSystemTistar::SetVacuumChamberMaterialName(G4String material) { 
     fVacuumChamberMaterialName = material; 
     TRexSettings::Get()->SetVacuumChamberGas(material);
 }
 
 
-G4int DetectionSystemTISTAR::AddVacuumChamber(G4LogicalVolume* expHallLog, G4LogicalVolume *& vacuumChamberLog) 
+G4int DetectionSystemTistar::AddVacuumChamber(G4LogicalVolume* expHallLog, G4LogicalVolume *& vacuumChamberLog) 
 {
     TRexSettings::Get()->IncludeVacuumChamber(1);
 

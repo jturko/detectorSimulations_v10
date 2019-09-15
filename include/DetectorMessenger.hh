@@ -155,31 +155,31 @@ private:
     G4UIcmdWithABool*           fUseSpiceResolutionCmd;
     
     // TI-STAR
-    G4UIcmdWithoutParameter*    fAddTISTARLayerCmd;
-    G4UIcmdWithoutParameter*    fAddTISTAR2StripLayerCmd;
-    G4UIcmdWithoutParameter*    fAddTISTAR4StripLayerCmd;
-    G4UIcmdWith3VectorAndUnit*  fSetTISTARSiDimensionsCmd;
-    G4UIcmdWith3VectorAndUnit*  fSetTISTARPCBDimensionsCmd;
-    G4UIcmdWith3VectorAndUnit*  fSetTISTARSiOffsetInPCBCmd;
-    G4UIcmdWith3VectorAndUnit*  fSetTISTARPositionOffsetCmd;
-    G4UIcmdWith3VectorAndUnit*  fSetTISTARPositionCmd;
-    G4UIcmdWith3Vector*         fSetTISTARRotationCmd;
-    G4UIcmdWithADoubleAndUnit*  fSetTISTARDistFromBeamCmd;
-    G4UIcmdWithADoubleAndUnit*  fSetTISTARGapZCmd;
-    G4UIcmdWithABool*           fSetTISTARSiCenteredCmd;
-    G4UIcmdWithAnInteger*       fSetTISTARDetectorNumberCmd;
+    G4UIcmdWithoutParameter*    fAddTistarLayerCmd;
+    G4UIcmdWithoutParameter*    fAddTistar2StripLayerCmd;
+    G4UIcmdWithoutParameter*    fAddTistar4StripLayerCmd;
+    G4UIcmdWith3VectorAndUnit*  fSetTistarSiDimensionsCmd;
+    G4UIcmdWith3VectorAndUnit*  fSetTistarPCBDimensionsCmd;
+    G4UIcmdWith3VectorAndUnit*  fSetTistarSiOffsetInPCBCmd;
+    G4UIcmdWith3VectorAndUnit*  fSetTistarPositionOffsetCmd;
+    G4UIcmdWith3VectorAndUnit*  fSetTistarPositionCmd;
+    G4UIcmdWith3Vector*         fSetTistarRotationCmd;
+    G4UIcmdWithADoubleAndUnit*  fSetTistarDistFromBeamCmd;
+    G4UIcmdWithADoubleAndUnit*  fSetTistarGapZCmd;
+    G4UIcmdWithABool*           fSetTistarSiCenteredCmd;
+    G4UIcmdWithAnInteger*       fSetTistarDetectorNumberCmd;
 
-    G4UIcmdWithoutParameter*    fAddTISTARGasTargetCmd;
+    G4UIcmdWithoutParameter*    fAddTistarGasTargetCmd;
 
-    G4UIcmdWithoutParameter*    fAddTISTARVacuumChamberCmd;
-    G4UIcmdWithAString*         fSetTISTARVacuumChamberShapeCmd;
-    G4UIcmdWithAString*         fSetTISTARVacuumChamberMaterialNameCmd;
-    G4UIcmdWith3VectorAndUnit*  fSetTISTARVacuumChamberBoxDimensionsCmd;
-    G4UIcmdWithADoubleAndUnit*  fSetTISTARVacuumChamberCylinderRadiusCmd;
-    G4UIcmdWithADoubleAndUnit*  fSetTISTARVacuumChamberCylinderZCmd;
+    G4UIcmdWithoutParameter*    fAddTistarVacuumChamberCmd;
+    G4UIcmdWithAString*         fSetTistarVacuumChamberShapeCmd;
+    G4UIcmdWithAString*         fSetTistarVacuumChamberMaterialNameCmd;
+    G4UIcmdWith3VectorAndUnit*  fSetTistarVacuumChamberBoxDimensionsCmd;
+    G4UIcmdWithADoubleAndUnit*  fSetTistarVacuumChamberCylinderRadiusCmd;
+    G4UIcmdWithADoubleAndUnit*  fSetTistarVacuumChamberCylinderZCmd;
 
-    G4UIcmdWithAString*         fSetTISTARVacuumChamberExteriorMaterialNameCmd;
-    G4UIcmdWithADoubleAndUnit*  fSetTISTARVacuumChamberExteriorThicknessCmd;
+    G4UIcmdWithAString*         fSetTistarVacuumChamberExteriorMaterialNameCmd;
+    G4UIcmdWithADoubleAndUnit*  fSetTistarVacuumChamberExteriorThicknessCmd;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
