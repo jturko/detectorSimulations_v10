@@ -48,8 +48,8 @@ include_directories(include ${ROOT_INCLUDE_DIRS})
 # jturko 14/8/2019
 #
 include(${ROOT_USE_FILE})
-ROOT_GENERATE_DICTIONARY(CustomClassesDict ${PROJECT_SOURCE_DIR}/include/TRexSettings.hh LINKDEF RootLinkDef.h) 
-add_library(CustomClasses SHARED ${PROJECT_SOURCE_DIR}/src/TRexSettings.cc CustomClassesDict) 
+ROOT_GENERATE_DICTIONARY(CustomClassesDict ${PROJECT_SOURCE_DIR}/include/TRexSettings.hh ${PROJECT_SOURCE_DIR}/include/ParticleMC.hh LINKDEF RootLinkDef.h) 
+add_library(CustomClasses SHARED ${PROJECT_SOURCE_DIR}/src/TRexSettings.cc ${PROJECT_SOURCE_DIR}/src/ParticleMC.cc CustomClassesDict) 
 target_link_libraries(CustomClasses ${ROOT_LIBRARIES})
 
 #----------------------------------------------------------------------------
