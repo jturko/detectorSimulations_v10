@@ -208,6 +208,8 @@ DetectorConstruction::DetectorConstruction() :
     fDescant  = false;
     fTestcan  = false;
     fTistar   = false;
+
+    fDataOfDetectorsNumber = 0;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -1113,7 +1115,6 @@ bool DetectorConstruction::CheckVolumeName(G4String volumeName) {
 
 DetectorProperties DetectorConstruction::ParseVolumeName(G4String volumeName) {
     DetectorProperties result;
-    result.detectorName = volumeName;
     // GRIFFIN detectors have the detector and crystal number in their names
     if(volumeName.find("germaniumBlock1") != G4String::npos) {
     	// strip "germaniumBlock1_" (16 characters) and everything before from the string
@@ -1384,10 +1385,12 @@ DetectorProperties DetectorConstruction::ParseVolumeName(G4String volumeName) {
         size_t loc = volumeName.find("TistarSiLayer");
         G4String detNumberString = volumeName.substr(loc+16,1);
         G4String cryNumberString = volumeName.substr(loc+17,1);
+        result.detectorName = "TistarSiLayer" + detNumberString + "Strip" + cryNumberString;
         result.systemID = 9500;
         result.detectorNumber = std::atoi(detNumberString);
         result.crystalNumber = std::atoi(cryNumberString);
-        G4cout<<"volumeName: "<<volumeName<<", systemID: "<<result.systemID<<", detectorID: "<<result.detectorNumber<<", crystalID: "<<result.crystalNumber<<G4endl;        
+        result.dataOfDetectorsNumber = fDataOfDetectorsNumber++;
+        //G4cout<<"volumeName: "<<volumeName<<", systemID: "<<result.systemID<<", detectorID: "<<result.detectorNumber<<", crystalID: "<<result.crystalNumber<<G4endl;        
     	return result;
     }
     

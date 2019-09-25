@@ -151,13 +151,14 @@ void HistoManager::Save() {
 
     // Adding TRexSettings class to ROOT file if a TRex-derived generator was used
     if(TRexSettings::Get()->SaveMe()) {
+        std::string new_filename = fFileName[0] + "_TRexSettings.root";
+        std::cout<<std::endl<<"---> Copying TTree(s) and TRexSettings to "<< new_filename<<" ...";
         // open original file
         TFile * infile = new TFile(fFileName[1].c_str());
         // get trees from original file
         TTree * infile_ntuple =  (TTree*)infile->Get("ntuple");
         TTree * infile_treeGen = (TTree*)infile->Get("treeGen");
         // open new file
-        std::string new_filename = fFileName[0] + "_TRexSettings.root";
         TFile * outfile = new TFile(new_filename.c_str(),"RECREATE");
         outfile->cd();
         TRexSettings::Get()->Write("settings",TObject::kOverwrite);
@@ -165,6 +166,7 @@ void HistoManager::Save() {
         infile_treeGen->CloneTree()->Write("treeGen");
         fTistarDetTree->CloneTree()->Write("treeDet");
         outfile->Close();
+        std::cout<<" done!"<<std::endl;
     }
 }
 
@@ -589,12 +591,16 @@ void HistoManager::Fill2DHistogram(G4int ih, G4double xbin, G4double ybin, G4dou
 
 void HistoManager::BookTistar() {
     fTistarDetTree = new TTree("treeDet", "Detector tree");
-    fDataOfDetectors = std::vector<std::vector<ParticleMC>*>(fDetectorConstruction->GetPropertiesMap().size());
-    int detNum = 0;
+    fTistarDataOfDetectors = std::vector<std::vector<ParticleMC>*>(fDetectorConstruction->GetPropertiesMap().size());
     for(auto prop : fDetectorConstruction->GetPropertiesMap()) {
-            //std::cout<<" ---> Creating branch for detector: "<<prop.second.detectorName<<std::endl;
-            fTistarDetTree->Branch((prop.second.detectorName + "_MC").c_str(), &(fDataOfDetectors[detNum]));
-            ++detNum;
+            fTistarDetTree->Branch((prop.second.detectorName + "_MC").c_str(), &(fTistarDataOfDetectors[prop.second.dataOfDetectorsNumber]));
     }
 }
 
+void HistoManager::ClearTistarDataOfDetectors() {
+    //std::cout << "fTistarDataOfDetectors.size() = " << fTistarDataOfDetectors.size() << std::endl;
+    for(size_t i=0; i<fTistarDataOfDetectors.size(); i++) {
+        delete fTistarDataOfDetectors[i];
+        fTistarDataOfDetectors[i] = 0;
+    }
+}

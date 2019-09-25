@@ -124,6 +124,11 @@ public:
 
     G4String GetFileName() { return fFileName[0]; }
 
+    // for TI-STAR
+    TTree * GetTistarDetTree() { return fTistarDetTree; }
+    std::vector< std::vector<ParticleMC>* > & GetTistarDataOfDetectors() { return fTistarDataOfDetectors; }
+    void ClearTistarDataOfDetectors();
+ 
 private:
 	void BookSpiceHistograms();
 	void MakeHistogram(G4AnalysisManager* analysisManager, G4String filename,  G4String title, G4double xmin, G4double xmax, G4int nbins);
@@ -152,9 +157,9 @@ private:
 	G4double fBeamEnergy;
 	G4double fBeamTheta;
 	G4double fBeamPhi;
-
-    std::vector< std::vector<ParticleMC>* > fDataOfDetectors;
+    
     TTree * fTistarDetTree;
+    std::vector< std::vector<ParticleMC>* > fTistarDataOfDetectors;
 
 public:
 	short PacesHistNumbers(int i) { return fPacesHistNumbers[i]; }

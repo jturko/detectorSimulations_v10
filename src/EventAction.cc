@@ -47,6 +47,7 @@
 #include "G4RunManager.hh"
 
 #include "TRexSettings.hh"
+#include "ParticleMC.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -136,6 +137,27 @@ void EventAction::EndOfEventAction(const G4Event*) {
 				fHistoManager->FillStepNtuple(fStepTrackerI[0][i], fStepTrackerI[1][i], fStepTrackerI[2][i], fStepTrackerI[3][i],  fStepTrackerI[4][i], fStepTrackerI[5][i], fStepTrackerI[6][i], fStepTrackerI[7][i], fStepTrackerI[8][i], fStepTrackerD[0][i]/keV, fStepTrackerD[1][i]/mm, fStepTrackerD[2][i]/mm, fStepTrackerD[3][i]/mm, fStepTrackerD[4][i]/second, fStepTrackerI[9][i]);
 			}
 		}
+        
+        if(TRexSettings::Get()->SaveMe()) {
+            for(int hitNum = 0; hitNum < fNumberOfHits; hitNum++) {
+                if(fProperties[hitNum].dataOfDetectorsNumber >= 0) {
+                    ParticleMC particle;
+                    particle.AddStrip(  -1,                             // strip number
+                                        fHitTrackerD[0][hitNum]/keV,    // energy
+                                        -1,                             // particle A
+                                        -1,                             // particle Z
+                                        fHitTrackerI[1][hitNum],        // track ID
+                                        fHitTrackerD[4][hitNum]/second, // time
+                                        fHitTrackerD[1][hitNum]/mm,     // global x pos
+                                        fHitTrackerD[2][hitNum]/mm,     // global y pos
+                                        fHitTrackerD[3][hitNum]/mm,     // global z pos
+                                        -1);                            // stopped?
+                    fHistoManager->GetTistarDataOfDetectors()[fProperties[hitNum].dataOfDetectorsNumber] = new std::vector<ParticleMC>;
+                    fHistoManager->GetTistarDataOfDetectors()[fProperties[hitNum].dataOfDetectorsNumber]->push_back(particle);
+                }
+            }
+            fHistoManager->GetTistarDetTree()->Fill();
+        }
 
 		ClearVariables();
 	}
@@ -170,6 +192,30 @@ void EventAction::AddHitTracker(const DetectorProperties& properties, const G4in
 	fHitTrackerD[4][fNumberOfHits] = time;
 
 	++fNumberOfHits;
+
+    // if TISTAR, try to fill the fDataOfDetectors
+    //if(properties.dataOfDetectorsNumber >= 0) { 
+    //    ParticleMC particle;
+    //    particle.AddStrip(  -1,         // strip number
+    //                        depEnergy,  // energy
+    //                        -1,         // particle A
+    //                        -1,         // particle Z
+    //                        trackID,    // track ID
+    //                        time,       // time
+    //                        pos.x(),    // global z pos
+    //                        pos.y(),    // global y pos
+    //                        pos.z(),    // global z pos
+    //                        -1);        // stopped?
+    //    
+    //    if(!fHistoManager->GetTistarDataOfDetectors()[properties.dataOfDetectorsNumber]) {
+    //        fHistoManager->GetTistarDataOfDetectors()[properties.dataOfDetectorsNumber] = new std::vector<ParticleMC>;
+    //    }
+    //    else {
+    //        std::cout << "fHistoManager->GetTistarDataOfDetectors()[" << properties.dataOfDetectorsNumber << "]->size() = " 
+    //                  << fHistoManager->GetTistarDataOfDetectors()[properties.dataOfDetectorsNumber]->size() << std::endl;
+    //    }
+    //    fHistoManager->GetTistarDataOfDetectors()[properties.dataOfDetectorsNumber]->push_back(particle);
+    //}    
 
 	if(fNumberOfHits >= MAXHITS) {
 		G4cout<<"ERROR! Too many hits!"<<G4endl;
@@ -234,6 +280,9 @@ void EventAction::ClearVariables() {
 			}
 		}
 	}
+    
+    if(TRexSettings::Get()->SaveMe()) fHistoManager->ClearTistarDataOfDetectors();
+    
 }
 
 
