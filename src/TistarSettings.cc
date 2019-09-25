@@ -1,11 +1,11 @@
 /*
- * TRexSettings.cc
+ * TistarSettings.cc
  *
  *  Created on: Jun 16, 2014
  *      Author: sklupp
  */
 
-#include "TRexSettings.hh"
+#include "TistarSettings.hh"
 
 #include "G4UnitsTable.hh"
 #include "G4SystemOfUnits.hh"
@@ -14,19 +14,19 @@
 
 #include <algorithm>
 
-ClassImp(TRexSettings)
+ClassImp(TistarSettings)
 
-TRexSettings* TRexSettings::fSettings = NULL;
+TistarSettings* TistarSettings::fSettings = NULL;
 
-TRexSettings* TRexSettings::Get() {
+TistarSettings* TistarSettings::Get() {
 	if(fSettings == NULL) {
-		fSettings = new TRexSettings;
+		fSettings = new TistarSettings;
 	}
 
 	return fSettings;
 }
 
-TRexSettings::TRexSettings() 
+TistarSettings::TistarSettings() 
 {
     fSaveMe = false;
 
@@ -89,12 +89,12 @@ TRexSettings::TRexSettings()
     fNevents = -1;
 }
 
-TRexSettings::~TRexSettings() {
+TistarSettings::~TistarSettings() {
 	// TODO Auto-generated destructor stub
 }
 
-void TRexSettings::Print(Option_t* opt) const {
-	std::cout<<"TRexSettings: "<<opt<<std::endl
+void TistarSettings::Print(Option_t* opt) const {
+	std::cout<<"TistarSettings: "<<opt<<std::endl
 		<<"fPrimaryGenerator = "<<fPrimaryGenerator<<std::endl
 		<<"fSimulateEjectiles = "<<fSimulateEjectiles<<std::endl
 		<<"fSimulateGammas = "<<fSimulateGammas<<std::endl
@@ -150,7 +150,7 @@ void TRexSettings::Print(Option_t* opt) const {
 		<<std::endl;
 }
 
-G4double TRexSettings::GetTargetPhysicalLength(){
+G4double TistarSettings::GetTargetPhysicalLength(){
 	if(GetGasTargetLength() > 0.) {
 		return GetGasTargetLength();
 	}
@@ -159,6 +159,6 @@ G4double TRexSettings::GetTargetPhysicalLength(){
 	return (thickness);
 }
 
-double TRexSettings::GetTargetThicknessMgPerCm2() { 
+double TistarSettings::GetTargetThicknessMgPerCm2() { 
 	return fTargetThickness/(mg/cm2); 
 }

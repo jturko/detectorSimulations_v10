@@ -40,7 +40,7 @@
 #include "TFile.h"
 #include "TTree.h"
 #include "TObject.h"
-#include "TRexSettings.hh"
+#include "TistarSettings.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -149,10 +149,10 @@ void HistoManager::Save() {
         fFactoryOn = false;
     }
 
-    // Adding TRexSettings class to ROOT file if a TRex-derived generator was used
-    if(TRexSettings::Get()->SaveMe()) {
-        std::string new_filename = fFileName[0] + "_TRexSettings.root";
-        std::cout<<std::endl<<"---> Copying TTree(s) and TRexSettings to "<< new_filename<<" ...";
+    // Adding TistarSettings class to ROOT file if a TRex-derived generator was used
+    if(TistarSettings::Get()->SaveMe()) {
+        std::string new_filename = fFileName[0] + "_TistarSettings.root";
+        std::cout<<std::endl<<"---> Copying TTree(s) and TistarSettings to "<< new_filename<<" ...";
         // open original file
         TFile * infile = new TFile(fFileName[1].c_str());
         // get trees from original file
@@ -161,7 +161,7 @@ void HistoManager::Save() {
         // open new file
         TFile * outfile = new TFile(new_filename.c_str(),"RECREATE");
         outfile->cd();
-        TRexSettings::Get()->Write("settings",TObject::kOverwrite);
+        TistarSettings::Get()->Write("settings",TObject::kOverwrite);
         infile_ntuple->CloneTree()->Write("ntuple");
         infile_treeGen->CloneTree()->Write("treeGen");
         fTistarDetTree->CloneTree()->Write("treeDet");

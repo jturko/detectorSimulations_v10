@@ -52,7 +52,7 @@ class G4GeneralParticleSource;
 class G4Event;
 
 class TRexBaseGenerator;
-class TRexMessenger;
+class TistarMessenger;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -131,7 +131,7 @@ private:
  
     G4bool fUseTRexGenerator;
     TRexBaseGenerator* fCurrentGenerator;     
-    TRexMessenger*  fTRexMessenger;
+    TistarMessenger*  fTistarMessenger;
     
     G4int fGenTypeNum;
 

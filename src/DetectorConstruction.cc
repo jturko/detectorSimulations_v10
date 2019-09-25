@@ -94,7 +94,7 @@
 #include "DetectionSystemAncillaryBGO.hh"
 
 #include "DetectionSystemTistar.hh"
-#include "TRexSettings.hh"
+#include "TistarSettings.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -949,7 +949,7 @@ void DetectorConstruction::AddTistar2StripLayer() {
     fTistar = true;
 
     int layerN = fTistarDetectorNumber/10 % 10 - 1;
-    TRexSettings * sett = TRexSettings::Get();
+    TistarSettings * sett = TistarSettings::Get();
     std::vector<double> posZ = { 0., 0. };
     std::vector<double> dist = { +fTistarDistFromBeam, -fTistarDistFromBeam };
     sett->SetLayerPositionZ(layerN, posZ);
@@ -987,7 +987,7 @@ void DetectorConstruction::AddTistar4StripLayer() {
     fTistar = true;
     
     int layerN = fTistarDetectorNumber/10 % 10 - 1;
-    TRexSettings * sett = TRexSettings::Get();
+    TistarSettings * sett = TistarSettings::Get();
     double pos = fTistarGapZ/2. + fTistarSiDimensions.z()/2.;
     std::vector<double> posZ = { +pos, +pos, -pos, -pos };
     std::vector<double> dist = { +fTistarDistFromBeam, -fTistarDistFromBeam, +fTistarDistFromBeam, -fTistarDistFromBeam };

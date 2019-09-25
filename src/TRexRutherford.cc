@@ -11,13 +11,13 @@
  * Moved additional things into first-run call to GeneratePrimaries to
  * fix some dependency issues.
  * 
- * fThetaCmMin = sett.GetValue("ThetaCmMin", 2.0) * degree; from TRexSettings.cc
+ * fThetaCmMin = sett.GetValue("ThetaCmMin", 2.0) * degree; from TistarSettings.cc
  * 
  * 
  */
 
 #include "TRexRutherford.hh"
-#include "TRexSettings.hh"
+#include "TistarSettings.hh"
 
 #include "G4SystemOfUnits.hh"
 #include "G4PhysicalConstants.hh"
@@ -49,9 +49,9 @@ void TRexRutherford::GeneratePrimaries(G4Event *anEvent) {
 		
 		fTargetMaterial = GetTargetMaterial();
 		std::cout << "TargetMaterialName for energy loss calculation in the target = " << fTargetMaterial->Name() << std::endl;
-		fKinematics = new Kinematic(&fProjectile, fTargetMaterial, TRexSettings::Get()->GetTargetThickness()/(mg/cm2));
+		fKinematics = new Kinematic(&fProjectile, fTargetMaterial, TistarSettings::Get()->GetTargetThickness()/(mg/cm2));
 		
-		fEnergyVsTargetDepth = *(fKinematics->EnergyVsThickness(fBeamEnergy / MeV, TRexSettings::Get()->GetTargetThickness() / 1000 / (mg/cm2)));
+		fEnergyVsTargetDepth = *(fKinematics->EnergyVsThickness(fBeamEnergy / MeV, TistarSettings::Get()->GetTargetThickness() / 1000 / (mg/cm2)));
 		
 		// calculate reaction energy in the middle of the target
 		fReactionZ = 0.;
@@ -97,7 +97,7 @@ void TRexRutherford::CalculateScatteringProbability() {
 	G4double sigmaTot = -4. * M_PI * RF / (E_CM * E_CM) * (1. - 1./ (sin(fThetaCM_min *0.5) * sin(fThetaCM_min * 0.5)));
 	//G4cout<<"sigmaTot = "<<sigmaTot/millibarn<<G4endl;
 
-	G4double arealDensity = TRexSettings::Get()->GetTargetThickness() * Avogadro / (fTargetA* g/mole);
+	G4double arealDensity = TistarSettings::Get()->GetTargetThickness() * Avogadro / (fTargetA* g/mole);
 	//G4cout<<"areal density = "<<arealDensity*cm2<<G4endl;
 
 	fScatteringProbability = arealDensity * sigmaTot;

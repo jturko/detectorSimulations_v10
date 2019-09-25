@@ -12,7 +12,7 @@
  */
 
 #include "TRexBeam.hh"
-#include "TRexSettings.hh"
+#include "TistarSettings.hh"
 
 #include "G4ParticleGun.hh"
 #include "G4ParticleTable.hh"
@@ -33,8 +33,8 @@ TRexBeam::TRexBeam() :
 		fParticleGunRecoil = new G4ParticleGun(1);
 		fParticleGunGamma = new G4ParticleGun(1);
 
-		fBeamEnergy = TRexSettings::Get()->GetBeamEnergy();
-		fBeamWidth = TRexSettings::Get()->GetBeamWidth();
+		fBeamEnergy = TistarSettings::Get()->GetBeamEnergy();
+		fBeamWidth = TistarSettings::Get()->GetBeamWidth();
 		fReactionEnergy = 0.;
 
 		// define nuclei
@@ -43,13 +43,13 @@ TRexBeam::TRexBeam() :
 		// define reaction kinematics and energy loss calculations
 		//fTargetMaterial = GetTargetMaterial();
 		//std::cout << "TargetMaterialName for energy loss calculation in the target = " << fTargetMaterial->Name() << std::endl;
-		//fKinematics = new Kinematic(&fProjectile, fTargetMaterial, TRexSettings::Get()->GetTargetThickness()/(mg/cm2));
+		//fKinematics = new Kinematic(&fProjectile, fTargetMaterial, TistarSettings::Get()->GetTargetThickness()/(mg/cm2));
 
 		// energy loss in the targe
-		//fEnergyVsTargetDepth = *(fKinematics->EnergyVsThickness(fBeamEnergy / MeV, TRexSettings::Get()->GetTargetThickness() / 1000 / (mg/cm2)));
+		//fEnergyVsTargetDepth = *(fKinematics->EnergyVsThickness(fBeamEnergy / MeV, TistarSettings::Get()->GetTargetThickness() / 1000 / (mg/cm2)));
 
 		// set minimal thetaCM
-		fThetaCM_min = TRexSettings::Get()->GetThetaCmMin();
+		fThetaCM_min = TistarSettings::Get()->GetThetaCmMin();
 
 		//fEbeamCmHist = nullptr;
         
@@ -66,16 +66,16 @@ TRexBeam::~TRexBeam() {
 
 void TRexBeam::ShootReactionPosition() {
     // if the reactionZ distribution file has been set, sample from it
-    if(TRexSettings::Get()->GetReactionZDistributionFileBool()) {
+    if(TistarSettings::Get()->GetReactionZDistributionFileBool()) {
         fReactionZ = fReactionZDistributionHisto->GetRandom()*mm;
     } 
 	// otherwise, choose z according to a flat distribution in the target
     else {
-        fReactionZ = G4RandFlat::shoot(-TRexSettings::Get()->GetTargetPhysicalLength()/(2*um), TRexSettings::Get()->GetTargetPhysicalLength()/(2*um))*um;
+        fReactionZ = G4RandFlat::shoot(-TistarSettings::Get()->GetTargetPhysicalLength()/(2*um), TistarSettings::Get()->GetTargetPhysicalLength()/(2*um))*um;
     }
     
     // if the beam spread file has been set, use the spline to get the x-y reaction coords
-	if(TRexSettings::Get()->GetReactionZvsRadiusFileBool()) {
+	if(TistarSettings::Get()->GetReactionZvsRadiusFileBool()) {
         // calculate the radius 
         double max_radius = fReactionZvsRadiusSpline->Eval(fReactionZ/mm)*mm;
 
@@ -97,26 +97,26 @@ void TRexBeam::ShootReactionPosition() {
 	    fReactionY = G4RandFlat::shoot(-fBeamWidth / 2., fBeamWidth / 2.) * mm;
 
 	    // choose z according to a flat distribution in the target
-	    //fReactionZ = G4RandFlat::shoot(-TRexSettings::Get()->GetTargetThickness() / (2. * TRexSettings::Get()->GetTargetMaterialDensity()) / um,
-	    //TRexSettings::Get()->GetTargetThickness() / (2. * TRexSettings::Get()->GetTargetMaterialDensity()) / um) * um;
+	    //fReactionZ = G4RandFlat::shoot(-TistarSettings::Get()->GetTargetThickness() / (2. * TistarSettings::Get()->GetTargetMaterialDensity()) / um,
+	    //TistarSettings::Get()->GetTargetThickness() / (2. * TistarSettings::Get()->GetTargetMaterialDensity()) / um) * um;
 	    //fReactionZ = G4RandFlat::shoot(-0.5, 0.5) * mm;
-	    //fReactionZ = G4RandFlat::shoot(-TRexSettings::Get()->GetTargetPhysicalLength()/(2*um), TRexSettings::Get()->GetTargetPhysicalLength()/(2*um))*um;
+	    //fReactionZ = G4RandFlat::shoot(-TistarSettings::Get()->GetTargetPhysicalLength()/(2*um), TistarSettings::Get()->GetTargetPhysicalLength()/(2*um))*um;
 	    // units: although the target length is given as cm in the setting file but fReactionZ is in mm!
     }	
 
 }
 
 void TRexBeam::FillReactionZDistributionGraph() {
-    std::ifstream file(TRexSettings::Get()->GetReactionZDistributionFile().c_str());
+    std::ifstream file(TistarSettings::Get()->GetReactionZDistributionFile().c_str());
     
-    if(!TRexSettings::Get()->GetReactionZDistributionFileBool()) {
+    if(!TistarSettings::Get()->GetReactionZDistributionFileBool()) {
         std::cout<<"No reactionZ distribution file set, fReactionZDistributionGraph could not be built!\nexiting ... \n";
         exit(2);
     } else if(file.bad()) {
-        std::cerr << "Unable to open reactionZ distribution file" << TRexSettings::Get()->GetReactionZDistributionFile() << "!\nexiting ... \n";
+        std::cerr << "Unable to open reactionZ distribution file" << TistarSettings::Get()->GetReactionZDistributionFile() << "!\nexiting ... \n";
         exit(2);
     } else {
-        std::cout << "\nReading reactionZ distribution file " << TRexSettings::Get()->GetReactionZDistributionFile() << " ... "<< std::endl;
+        std::cout << "\nReading reactionZ distribution file " << TistarSettings::Get()->GetReactionZDistributionFile() << " ... "<< std::endl;
     }
     
     int nbPoints;
@@ -165,16 +165,16 @@ void TRexBeam::FillReactionZDistributionHisto() {
 }
 
 void TRexBeam::BuildReactionZvsRadiusSpline() {
-    std::ifstream file(TRexSettings::Get()->GetReactionZvsRadiusFile().c_str());
+    std::ifstream file(TistarSettings::Get()->GetReactionZvsRadiusFile().c_str());
 
-    if(!TRexSettings::Get()->GetReactionZvsRadiusFileBool()) {
+    if(!TistarSettings::Get()->GetReactionZvsRadiusFileBool()) {
         std::cout<<"No beam spread file set, fReactionZvsRadiusSpline could not be built!\nexiting ... \n";
         exit(2);
     } else if(file.bad()) {
-        std::cerr << "Unable to open beam spread distribution file" << TRexSettings::Get()->GetReactionZvsRadiusFile() << "!\nexiting ... \n";
+        std::cerr << "Unable to open beam spread distribution file" << TistarSettings::Get()->GetReactionZvsRadiusFile() << "!\nexiting ... \n";
         exit(2);
     } else {
-        std::cout << "\nReading beam spread distribution file " << TRexSettings::Get()->GetReactionZvsRadiusFile() << " ... "<< std::endl;
+        std::cout << "\nReading beam spread distribution file " << TistarSettings::Get()->GetReactionZvsRadiusFile() << " ... "<< std::endl;
     }    
 
     int nbPoints;
@@ -196,14 +196,14 @@ void TRexBeam::BuildReactionZvsRadiusSpline() {
 }
 
 void TRexBeam::DefineNuclei() {
-	fProjectileZ = TRexSettings::Get()->GetProjectileZ();
-	fProjectileA = TRexSettings::Get()->GetProjectileA();
-	fTargetZ = TRexSettings::Get()->GetTargetZ();
-	fTargetA = TRexSettings::Get()->GetTargetA();
-	fEjectileZ = TRexSettings::Get()->GetEjectileZ();
-	fEjectileA = TRexSettings::Get()->GetEjectileA();
-	fRecoilZ = TRexSettings::Get()->GetRecoilZ();
-	fRecoilA = TRexSettings::Get()->GetRecoilA();
+	fProjectileZ = TistarSettings::Get()->GetProjectileZ();
+	fProjectileA = TistarSettings::Get()->GetProjectileA();
+	fTargetZ = TistarSettings::Get()->GetTargetZ();
+	fTargetA = TistarSettings::Get()->GetTargetA();
+	fEjectileZ = TistarSettings::Get()->GetEjectileZ();
+	fEjectileA = TistarSettings::Get()->GetEjectileA();
+	fRecoilZ = TistarSettings::Get()->GetRecoilZ();
+	fRecoilA = TistarSettings::Get()->GetRecoilA();
 
 	// masses
 	fProjectileRestMass = ParticleDefinition(fProjectileZ, fProjectileA - fProjectileZ, 0)->GetPDGMass();
@@ -212,19 +212,19 @@ void TRexBeam::DefineNuclei() {
 	fRecoilRestMass = ParticleDefinition(fRecoilZ, fRecoilA - fRecoilZ, 0)->GetPDGMass();
 
 	// define isotopes
-	std::cout<<"Reading isotopes from '"<<TRexSettings::Get()->GetMassFile()<<"' ... ";
-	fIsotopeTable = new Isotopes(TRexSettings::Get()->GetMassFile().c_str());
+	std::cout<<"Reading isotopes from '"<<TistarSettings::Get()->GetMassFile()<<"' ... ";
+	fIsotopeTable = new Isotopes(TistarSettings::Get()->GetMassFile().c_str());
 	if(fIsotopeTable->NumberOfIsotopes() == 0) {
 		std::cout<<"failed to read mass file!"<<std::endl;
 		exit(1);
 	}
 	std::cout<<"read "<<fIsotopeTable->NumberOfIsotopes()<<" isotopes"<<std::endl;
 
-	fProjectile = *(fIsotopeTable->Search((char*)TRexSettings::Get()->GetProjectileName().c_str()));
-	fTarget = *(fIsotopeTable->Search((char*)TRexSettings::Get()->GetTargetName().c_str()));
+	fProjectile = *(fIsotopeTable->Search((char*)TistarSettings::Get()->GetProjectileName().c_str()));
+	fTarget = *(fIsotopeTable->Search((char*)TistarSettings::Get()->GetTargetName().c_str()));
 	//fTarget = *(IsotopeTable->Search(fTargetZ, fTargetA - fTargetZ));
-	fEjectile = *(fIsotopeTable->Search((char*)TRexSettings::Get()->GetEjectileName().c_str()));
-	fRecoil = *(fIsotopeTable->Search((char*)TRexSettings::Get()->GetRecoilName().c_str()));
+	fEjectile = *(fIsotopeTable->Search((char*)TistarSettings::Get()->GetEjectileName().c_str()));
+	fRecoil = *(fIsotopeTable->Search((char*)TistarSettings::Get()->GetRecoilName().c_str()));
 
 	std::cout << "Shooting the projectile " << fProjectile.A() << fProjectile.Name() << " with (Z,A) = (" << fProjectileZ << "," <<  fProjectileA
 		<< ") on the target " << fTarget.A() << fTarget.Name() << " with (Z,A) = (" << fTargetZ << "," << fTargetA << ") => ejectile "
@@ -245,34 +245,34 @@ Material* TRexBeam::GetTargetMaterial() {
 	Material* TargetMaterial;
 
 	//PE and MY are implemented as materials, everything else should be the name of the element
-	if(((G4String)TRexSettings::Get()->GetTargetMaterialName()).contains("PE") || ((G4String)TRexSettings::Get()->GetTargetMaterialName()).contains("MY")) {
-		TargetMaterial = new Material((char*)TRexSettings::Get()->GetTargetMaterialName().c_str());
+	if(((G4String)TistarSettings::Get()->GetTargetMaterialName()).contains("PE") || ((G4String)TistarSettings::Get()->GetTargetMaterialName()).contains("MY")) {
+		TargetMaterial = new Material((char*)TistarSettings::Get()->GetTargetMaterialName().c_str());
 	} else {
 		//if target material name is the same as the name of the scattering target build set the material to only this element
-		if(TRexSettings::Get()->GetTargetMaterialName() == TRexSettings::Get()->GetTargetName() || TRexSettings::Get()->GetTargetMaterialName() == "dummy" ||
-				TRexSettings::Get()->GetTargetMaterialName() == "SolidDeuterium") {       // added bei Leila 
-			TargetMaterial = new Material((char*)TRexSettings::Get()->GetTargetName().c_str(),false);
+		if(TistarSettings::Get()->GetTargetMaterialName() == TistarSettings::Get()->GetTargetName() || TistarSettings::Get()->GetTargetMaterialName() == "dummy" ||
+				TistarSettings::Get()->GetTargetMaterialName() == "SolidDeuterium") {       // added bei Leila 
+			TargetMaterial = new Material((char*)TistarSettings::Get()->GetTargetName().c_str(),false);
 		} else {
-			std::cout<<"'"<<TRexSettings::Get()->GetTargetMaterialName()<<"' != '"<<TRexSettings::Get()->GetTargetName()<<"'"<<std::endl;
-			char* ElementNames[] = {(char*)TRexSettings::Get()->GetTargetMaterialName().c_str(), (char*)TRexSettings::Get()->GetTargetName().c_str()};
+			std::cout<<"'"<<TistarSettings::Get()->GetTargetMaterialName()<<"' != '"<<TistarSettings::Get()->GetTargetName()<<"'"<<std::endl;
+			char* ElementNames[] = {(char*)TistarSettings::Get()->GetTargetMaterialName().c_str(), (char*)TistarSettings::Get()->GetTargetName().c_str()};
 
-			std::string strCarrierA = TRexSettings::Get()->GetTargetMaterialName();
+			std::string strCarrierA = TistarSettings::Get()->GetTargetMaterialName();
 			strCarrierA.erase(strCarrierA.find_first_not_of("0123456789"));
 			int CarrierA = atoi(strCarrierA.c_str());
 
-			std::string strTargetA = TRexSettings::Get()->GetTargetName();
+			std::string strTargetA = TistarSettings::Get()->GetTargetName();
 			strTargetA.erase(strTargetA.find_first_not_of("0123456789"));
 			int TargetA = atoi(strTargetA.c_str());
 
-			G4double TargetRatio = TargetA * TRexSettings::Get()->GetTargetAtomicRatio() / (TargetA * TRexSettings::Get()->GetTargetAtomicRatio() + CarrierA);
-			std::cout<<"TargetRatio = "<<TargetRatio<<" ("<<TargetA<<"*"<<TRexSettings::Get()->GetTargetAtomicRatio()<<"/("<<TargetA<<"*"<<TRexSettings::Get()->GetTargetAtomicRatio()<<"+"<<CarrierA<<"))"<<std::endl;
+			G4double TargetRatio = TargetA * TistarSettings::Get()->GetTargetAtomicRatio() / (TargetA * TistarSettings::Get()->GetTargetAtomicRatio() + CarrierA);
+			std::cout<<"TargetRatio = "<<TargetRatio<<" ("<<TargetA<<"*"<<TistarSettings::Get()->GetTargetAtomicRatio()<<"/("<<TargetA<<"*"<<TistarSettings::Get()->GetTargetAtomicRatio()<<"+"<<CarrierA<<"))"<<std::endl;
 
 			double ElementRatios[] = {1-TargetRatio,TargetRatio};
 			std::cout << "Element 0: " << ElementNames[0] << " with ratio " << ElementRatios[0] << std::endl;
 			std::cout << "Element 1: " << ElementNames[1] << " with ratio " << ElementRatios[1] << std::endl;
 			TargetMaterial = new Material(2,ElementNames,ElementRatios,false);
 
-			//TargetMaterial = new Material((char*)TRexSettings::Get()->GetTargetMaterialName().c_str(),false);
+			//TargetMaterial = new Material((char*)TistarSettings::Get()->GetTargetMaterialName().c_str(),false);
 		}
 	}
 
@@ -280,13 +280,13 @@ Material* TRexBeam::GetTargetMaterial() {
 }
 
 /*void TRexBeam::FillCrossSectionGraph() {
-	std::ifstream file(TRexSettings::Get()->GetCrossSectionFile().c_str());
+	std::ifstream file(TistarSettings::Get()->GetCrossSectionFile().c_str());
 
 	if(file.bad()) {
-		std::cerr << "Unable to open cross sectoin file" << TRexSettings::Get()->GetCrossSectionFile() << "!\nexiting ... \n";
+		std::cerr << "Unable to open cross sectoin file" << TistarSettings::Get()->GetCrossSectionFile() << "!\nexiting ... \n";
 		exit(2);
 	} else {
-		std::cout << "\nReading cross section file " << TRexSettings::Get()->GetCrossSectionFile() << " ... \n"<< std::endl;
+		std::cout << "\nReading cross section file " << TistarSettings::Get()->GetCrossSectionFile() << " ... \n"<< std::endl;
 	}
 
 
@@ -356,10 +356,10 @@ void TRexBeam::CalculateReactionEnergyInTheTarget() {
 
 	// *********************************** Original first reactionZ then reactionEnergy*******************************
 
-	G4double reactionPosInTarget = fReactionZ * TRexSettings::Get()->GetTargetMaterialDensity() + TRexSettings::Get()->GetTargetThickness() / 2.;
+	G4double reactionPosInTarget = fReactionZ * TistarSettings::Get()->GetTargetMaterialDensity() + TistarSettings::Get()->GetTargetThickness() / 2.;
     fReactionEnergy = fEnergyVsTargetDepth.Eval(reactionPosInTarget /(mg/cm2))*MeV;
 
-	//std::cout << "fReactionZ = " << fReactionZ << " ,x = " << reactionPosInTarget /(mg/cm2) << " , E(x) = " << fReactionEnergy / MeV << " TargetMaterialDensity: "<<TRexSettings::Get()->GetTargetMaterialDensity()/(mg/cm3)<<std::endl; 
+	//std::cout << "fReactionZ = " << fReactionZ << " ,x = " << reactionPosInTarget /(mg/cm2) << " , E(x) = " << fReactionEnergy / MeV << " TargetMaterialDensity: "<<TistarSettings::Get()->GetTargetMaterialDensity()/(mg/cm3)<<std::endl; 
 
 	// *********************************** Vinzenz first reactionEnergy then reactionZ*******************************
 	
@@ -385,13 +385,13 @@ void TRexBeam::CalculateReactionEnergyInTheTarget() {
 	double rangeReaction = fRangeVsBeamEnergyLeila.Eval(fReactionEnergy / MeV);
 
 	fReactionZ = (rangeBeam-rangeReaction);	
-	fReactionZ = (fReactionZ * 1000. * TRexSettings::Get()->GetTargetMaterialDensity() / (mg/cm2)*10. - TRexSettings::Get()->GetTargetPhysicalLength()/2.) * mm;
+	fReactionZ = (fReactionZ * 1000. * TistarSettings::Get()->GetTargetMaterialDensity() / (mg/cm2)*10. - TistarSettings::Get()->GetTargetPhysicalLength()/2.) * mm;
 	
 	//std::cout<<"\n fReactionZ: "<<fReactionZ<<" fReactionZ/(mg/cm2): "<<fReactionZ/(mg/cm2)<<" fReactionZ*(mg/cm2): "<<fReactionZ*(mg/cm2)<<" reaction: "<<fReacProbA<<" eventno: "<<fEventCounter<<std::endl;
 	
-	//std::cout<<"\n TRexSettings::Get()->GetTargetMaterialDensity(): "<<TRexSettings::Get()->GetTargetMaterialDensity()<<" TRexSettings::Get()->GetTargetMaterialDensity()/(mg/cm2): "<<TRexSettings::Get()->GetTargetMaterialDensity()/(mg/cm2)<<" TRexSettings::Get()->GetTargetMaterialDensity()*(mg/cm2): "<<TRexSettings::Get()->GetTargetMaterialDensity()*(mg/cm2)<<std::endl;
+	//std::cout<<"\n TistarSettings::Get()->GetTargetMaterialDensity(): "<<TistarSettings::Get()->GetTargetMaterialDensity()<<" TistarSettings::Get()->GetTargetMaterialDensity()/(mg/cm2): "<<TistarSettings::Get()->GetTargetMaterialDensity()/(mg/cm2)<<" TistarSettings::Get()->GetTargetMaterialDensity()*(mg/cm2): "<<TistarSettings::Get()->GetTargetMaterialDensity()*(mg/cm2)<<std::endl;
 	
-	//std::cout<<"\n TRexSettings::Get()->GetTargetThickness(): "<<TRexSettings::Get()->GetTargetThickness()<<" TRexSettings::Get()->GetTargetThickness()/(mg/cm2): "<<TRexSettings::Get()->GetTargetThickness()/(mg/cm2)<<" TRexSettings::Get()->GetTargetThickness()*(mg/cm2): "<<TRexSettings::Get()->GetTargetThickness()*(mg/cm2)<<std::endl;	
+	//std::cout<<"\n TistarSettings::Get()->GetTargetThickness(): "<<TistarSettings::Get()->GetTargetThickness()<<" TistarSettings::Get()->GetTargetThickness()/(mg/cm2): "<<TistarSettings::Get()->GetTargetThickness()/(mg/cm2)<<" TistarSettings::Get()->GetTargetThickness()*(mg/cm2): "<<TistarSettings::Get()->GetTargetThickness()*(mg/cm2)<<std::endl;	
 	
     }
 
@@ -457,7 +457,7 @@ G4ParticleDefinition* TRexBeam::ParticleDefinition(int Z, int N, double eex) {
 }
 
 void TRexBeam::SetEjectileGun(G4Event *anEvent) {
-	if(TRexSettings::Get()->SimulateEjectiles()) {
+	if(TistarSettings::Get()->SimulateEjectiles()) {
 		// particle definition
 		//fParticleGunEjectile->SetParticleDefinition(ParticleDefinition(fEjectileZ, fEjectileA - fEjectileZ, fReactionEnergy)); // original
 		fParticleGunEjectile->SetParticleDefinition(ParticleDefinition(fEjectileZ, fEjectileA - fEjectileZ, fExcitationEnergy));

@@ -9,7 +9,7 @@
  */
 
 #include "TRexAngularDistribution.hh"
-#include "TRexSettings.hh"
+#include "TistarSettings.hh"
 
 #include "G4SystemOfUnits.hh"
 #include "Randomize.hh"
@@ -31,10 +31,10 @@ TRexAngularDistribution::TRexAngularDistribution() :
 	//FillCrossSectionGraph(); // Leila #######
     
     // build the reactionZ vs radius spline if file has been set
-    if(TRexSettings::Get()->GetReactionZvsRadiusFileBool()) BuildReactionZvsRadiusSpline();
+    if(TistarSettings::Get()->GetReactionZvsRadiusFileBool()) BuildReactionZvsRadiusSpline();
 	
     // build the reactionZ distributon graph/histo if file has been set
-    if(TRexSettings::Get()->GetReactionZDistributionFileBool()) {
+    if(TistarSettings::Get()->GetReactionZDistributionFileBool()) {
         FillReactionZDistributionGraph();
         FillReactionZDistributionHisto();
     }
@@ -54,10 +54,10 @@ void TRexAngularDistribution::GeneratePrimaries(G4Event *anEvent) {
 		fTargetMaterial = GetTargetMaterial();
 		std::cout << "TargetMaterialName for energy loss calculation in the target = " << fTargetMaterial->Name() << std::endl;
 		
-		fKinematics = new Kinematic(&fProjectile, fTargetMaterial, TRexSettings::Get()->GetTargetThickness()/(mg/cm2));
+		fKinematics = new Kinematic(&fProjectile, fTargetMaterial, TistarSettings::Get()->GetTargetThickness()/(mg/cm2));
 		
-		fEnergyVsTargetDepth = *(fKinematics->EnergyVsThickness(fBeamEnergy / MeV, TRexSettings::Get()->GetTargetThickness() / 1000 / (mg/cm2)));
-		fRangeVsBeamEnergyLeila = *(fKinematics->RangeVsEnergy(fBeamEnergy / MeV, TRexSettings::Get()->GetTargetThickness() / 1000 / (mg/cm2)));
+		fEnergyVsTargetDepth = *(fKinematics->EnergyVsThickness(fBeamEnergy / MeV, TistarSettings::Get()->GetTargetThickness() / 1000 / (mg/cm2)));
+		fRangeVsBeamEnergyLeila = *(fKinematics->RangeVsEnergy(fBeamEnergy / MeV, TistarSettings::Get()->GetTargetThickness() / 1000 / (mg/cm2)));
 				
 		isDefined = true;
 		
@@ -94,7 +94,7 @@ void TRexAngularDistribution::GeneratePrimaries(G4Event *anEvent) {
 	// shoot energy and direction
 	ShootEjectileAndRecoilDirections();
 
-	if(TRexSettings::Get()->SimulateGammas() && fReaction < fNbOfLevels) {
+	if(TistarSettings::Get()->SimulateGammas() && fReaction < fNbOfLevels) {
 		// shoot energy and direction of the gamma
 		ShootGamma();
 	}
@@ -103,7 +103,7 @@ void TRexAngularDistribution::GeneratePrimaries(G4Event *anEvent) {
 	SetEjectileGun(anEvent);
 	SetRecoilGun(anEvent);
 
-	if(TRexSettings::Get()->SimulateGammas() && fReaction < fNbOfLevels) {
+	if(TistarSettings::Get()->SimulateGammas() && fReaction < fNbOfLevels) {
 		SetGammaGun(anEvent);
 	}
     
@@ -114,19 +114,19 @@ void TRexAngularDistribution::GeneratePrimaries(G4Event *anEvent) {
 void TRexAngularDistribution::SetEjectileAndRecoil() {
 	// Transfer or Coulex reaction
 	if(fReaction < fNbOfLevels) {
-		fTargetZ = TRexSettings::Get()->GetTargetZ();
-		fTargetA = TRexSettings::Get()->GetTargetA();
-		fEjectileZ = TRexSettings::Get()->GetEjectileZ();
-		fEjectileA = TRexSettings::Get()->GetEjectileA();
-		fRecoilZ = TRexSettings::Get()->GetRecoilZ();
-		fRecoilA = TRexSettings::Get()->GetRecoilA();
+		fTargetZ = TistarSettings::Get()->GetTargetZ();
+		fTargetA = TistarSettings::Get()->GetTargetA();
+		fEjectileZ = TistarSettings::Get()->GetEjectileZ();
+		fEjectileA = TistarSettings::Get()->GetEjectileA();
+		fRecoilZ = TistarSettings::Get()->GetRecoilZ();
+		fRecoilA = TistarSettings::Get()->GetRecoilA();
 	} else { // elastic Rutherford scattering
 		size_t index = fReaction - fNbOfLevels;
 
 		fTargetZ = fTargetMaterial->GetElement(index)->Z();
 		fTargetA = fTargetMaterial->GetElement(index)->A();
-		fEjectileZ = TRexSettings::Get()->GetProjectileZ();
-		fEjectileA = TRexSettings::Get()->GetProjectileA();
+		fEjectileZ = TistarSettings::Get()->GetProjectileZ();
+		fEjectileA = TistarSettings::Get()->GetProjectileA();
 		fRecoilZ = fTargetMaterial->GetElement(index)->Z();
 		fRecoilA = fTargetMaterial->GetElement(index)->A();
 	}
@@ -152,7 +152,7 @@ void TRexAngularDistribution::ShootThetaCm(int levelNb) {
 
 /*void TRexAngularDistribution::ShootReactionPosition() {
 	
-	fBeamWidth = TRexSettings::Get()->GetBeamWidth();
+	fBeamWidth = TistarSettings::Get()->GetBeamWidth();
 	
 	//select random x and y position on a disk with diameter beamWidth
 	do {
@@ -166,7 +166,7 @@ void TRexAngularDistribution::ShootReactionTypeAndExcitationEnergy() {
 	// decide whether to simulate transfer reaction / Coulex reaction or elastic Rutherford scattering
 	double tmp = G4RandFlat::shoot(0.,1.);
 
-	if(tmp < TRexSettings::Get()->GetTransferOrCoulexProbability()) { //transfer reaction or Coulex
+	if(tmp < TistarSettings::Get()->GetTransferOrCoulexProbability()) { //transfer reaction or Coulex
 		// shoot transfer / Coulex reaction channel
 		tmp = G4RandFlat::shoot(0., fScatteringProbabilitySingle[fNbOfLevels - 1]);
 
@@ -237,16 +237,16 @@ void TRexAngularDistribution::ShootEjectileAndRecoilDirections() {
 
 
 	// set ejectile Lorentz vector after target if gammas are simulated (needed for the calculation of the Doppler shift)
-	if(TRexSettings::Get()->SimulateGammas()) {
+	if(TistarSettings::Get()->SimulateGammas()) {
 		// travel length of the ejectile through the target
 		G4double travelLength;
 
 		if(fEjectileTheta / degree < 90*degree) {
 			travelLength = 1. / fabs(cos(fEjectileTheta)) *
-				(TRexSettings::Get()->GetTargetThickness() - (fReactionZ * TRexSettings::Get()->GetTargetMaterialDensity() + TRexSettings::Get()->GetTargetThickness() / 2.));
+				(TistarSettings::Get()->GetTargetThickness() - (fReactionZ * TistarSettings::Get()->GetTargetMaterialDensity() + TistarSettings::Get()->GetTargetThickness() / 2.));
 		} else {
 			travelLength = 1. / fabs(cos(fEjectileTheta)) *
-				(fReactionZ * TRexSettings::Get()->GetTargetMaterialDensity() + TRexSettings::Get()->GetTargetThickness() / 2.);
+				(fReactionZ * TistarSettings::Get()->GetTargetMaterialDensity() + TistarSettings::Get()->GetTargetThickness() / 2.);
 		}
 
 		// energy loss of the ejectile in the target
@@ -294,13 +294,13 @@ void TRexAngularDistribution::ShootGamma() {
 }
 
 void TRexAngularDistribution::FillAngularDistributionGraphs() {
-	std::ifstream file(TRexSettings::Get()->GetAngularDistributionFile().c_str());
+	std::ifstream file(TistarSettings::Get()->GetAngularDistributionFile().c_str());
 
 	if(file.bad()) {
-		std::cerr << "Unable to open angular distribution file" << TRexSettings::Get()->GetAngularDistributionFile() << "!\nexiting ... \n";
+		std::cerr << "Unable to open angular distribution file" << TistarSettings::Get()->GetAngularDistributionFile() << "!\nexiting ... \n";
 		exit(2);
 	} else {
-		std::cout << "\nReading angular distribution file " << TRexSettings::Get()->GetAngularDistributionFile() << " ... "<< std::endl;
+		std::cout << "\nReading angular distribution file " << TistarSettings::Get()->GetAngularDistributionFile() << " ... "<< std::endl;
 	}
 
 
@@ -375,13 +375,13 @@ void TRexAngularDistribution::FillAngularDistributionHistos() {
 }
 
 /*void TRexAngularDistribution::FillCrossSectionGraph() {
-	std::ifstream file(TRexSettings::Get()->GetCrossSectionFile().c_str());
+	std::ifstream file(TistarSettings::Get()->GetCrossSectionFile().c_str());
 
 	if(file.bad()) {
-		std::cerr << "Unable to open cross sectoin file" << TRexSettings::Get()->GetCrossSectionFile() << "!\nexiting ... \n";
+		std::cerr << "Unable to open cross sectoin file" << TistarSettings::Get()->GetCrossSectionFile() << "!\nexiting ... \n";
 		exit(2);
 	} else {
-		std::cout << "\nReading cross section file " << TRexSettings::Get()->GetCrossSectionFile() << " ... \n"<< std::endl;
+		std::cout << "\nReading cross section file " << TistarSettings::Get()->GetCrossSectionFile() << " ... \n"<< std::endl;
 	}
 
 
@@ -448,13 +448,13 @@ void TRexAngularDistribution::FillAngularDistributionHistos() {
 
 void TRexAngularDistribution::CalculateArealDensity() {
 	if(fTargetMaterial->NumberOfElements() == 1) {
-		fArealDensity.push_back(TRexSettings::Get()->GetTargetThickness() * Avogadro / (fTargetMaterial->GetElement(0)->A() * g/mole));
+		fArealDensity.push_back(TistarSettings::Get()->GetTargetThickness() * Avogadro / (fTargetMaterial->GetElement(0)->A() * g/mole));
 	} else {
-		double atomicRatio[2] = {1.0, TRexSettings::Get()->GetTargetAtomicRatio()};
+		double atomicRatio[2] = {1.0, TistarSettings::Get()->GetTargetAtomicRatio()};
 
 		for(size_t i = 0; i < fTargetMaterial->NumberOfElements(); ++i) {
-			fArealDensity.push_back(atomicRatio[i] * TRexSettings::Get()->GetTargetThickness() * Avogadro /
-					(fTargetMaterial->GetElement(0)->A() * g/mole + TRexSettings::Get()->GetTargetAtomicRatio() * fTargetMaterial->GetElement(1)->A() * g/mole));
+			fArealDensity.push_back(atomicRatio[i] * TistarSettings::Get()->GetTargetThickness() * Avogadro /
+					(fTargetMaterial->GetElement(0)->A() * g/mole + TistarSettings::Get()->GetTargetAtomicRatio() * fTargetMaterial->GetElement(1)->A() * g/mole));
 		}
 	}
 
@@ -485,7 +485,7 @@ void TRexAngularDistribution::CalculateCrossSectionIntegral() {
 		G4double RF = fProjectileZ * fTargetMaterial->Z(i) * eplus * eplus / (16. * M_PI * epsilon0);
 		RF *= RF;
 
-		G4double fBeamEnergyMiddleTarget = fEnergyVsTargetDepth.Eval(TRexSettings::Get()->GetTargetThickness() / 2. /(mg/cm2))*MeV;
+		G4double fBeamEnergyMiddleTarget = fEnergyVsTargetDepth.Eval(TistarSettings::Get()->GetTargetThickness() / 2. /(mg/cm2))*MeV;
 
 		//std::cout << "fBeamEnergyMiddleTarget = " << fBeamEnergyMiddleTarget / MeV << std::endl;
 
@@ -553,24 +553,24 @@ void TRexAngularDistribution::CalculateScatteringProbability() {
 	}
 
 	// set total scattering probability
-	fScatteringProbability = fScatteringProbabilitySingle[fNbOfLevels - 1] * TRexSettings::Get()->GetTransferOrCoulexProbability() +
-		fScatteringProbabilitySingle[fNbOfLevels + fTargetMaterial->NumberOfElements() - 1] * (1 - TRexSettings::Get()->GetTransferOrCoulexProbability());
+	fScatteringProbability = fScatteringProbabilitySingle[fNbOfLevels - 1] * TistarSettings::Get()->GetTransferOrCoulexProbability() +
+		fScatteringProbabilitySingle[fNbOfLevels + fTargetMaterial->NumberOfElements() - 1] * (1 - TistarSettings::Get()->GetTransferOrCoulexProbability());
 
 	if(fThetaCM < 0.00001 * degree) {
-		fScatteringProbability = fScatteringProbabilitySingle[fNbOfLevels - 1] * TRexSettings::Get()->GetTransferOrCoulexProbability();
+		fScatteringProbability = fScatteringProbabilitySingle[fNbOfLevels - 1] * TistarSettings::Get()->GetTransferOrCoulexProbability();
 	}
-	std::cout << "leila: "<<0.00001 * degree<<" ScatteringProbabilityTree total(leila) = " << fScatteringProbability << " = ? "<< fScatteringProbabilitySingle[fNbOfLevels - 1] * TRexSettings::Get()->GetTransferOrCoulexProbability() << std::endl;// commented in by Leila 28.07.2017
+	std::cout << "leila: "<<0.00001 * degree<<" ScatteringProbabilityTree total(leila) = " << fScatteringProbability << " = ? "<< fScatteringProbabilitySingle[fNbOfLevels - 1] * TistarSettings::Get()->GetTransferOrCoulexProbability() << std::endl;// commented in by Leila 28.07.2017
 }
 
 
 void TRexAngularDistribution::ReadLevelFile() {
-	std::ifstream file(TRexSettings::Get()->GetLevelFile().c_str());
+	std::ifstream file(TistarSettings::Get()->GetLevelFile().c_str());
 
 	if(file.bad()) {
-		std::cerr << "Unable to open " << TRexSettings::Get()->GetLevelFile() << "!\nexiting ... \n";
+		std::cerr << "Unable to open " << TistarSettings::Get()->GetLevelFile() << "!\nexiting ... \n";
 		exit(2);
 	} else {
-		std::cout << "\nReading level file " << TRexSettings::Get()->GetLevelFile() << " ... \n"<< std::endl;
+		std::cout << "\nReading level file " << TistarSettings::Get()->GetLevelFile() << " ... \n"<< std::endl;
 	}
 
 	// ignore the first 3 lines as they are only comments

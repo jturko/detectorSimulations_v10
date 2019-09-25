@@ -11,12 +11,12 @@
 #include "TRexBeamIn.hh"
 #include "G4ParticleTable.hh"
 #include "G4IonTable.hh"
-#include "TRexSettings.hh"
+#include "TistarSettings.hh"
 #include "G4ParticleGun.hh"
 #include "G4Alpha.hh"
 #include "Randomize.hh"
 
-#include "TRexSettings.hh"
+#include "TistarSettings.hh"
 
 #include "g4root.hh"
 
@@ -37,11 +37,11 @@ void TRexBeamIn::GeneratePrimaries(G4Event *anEvent) {
 	
 	
 	ShootReactionPosition();
-	fReactionEnergy = TRexSettings::Get()->GetBeamEnergy();  
+	fReactionEnergy = TistarSettings::Get()->GetBeamEnergy();  
 	G4ParticleTable* particleTable = G4ParticleTable::GetParticleTable();//Creating Projectile Particle 
 	G4ParticleDefinition* beam = particleTable->GetIonTable()->GetIon(
-		TRexSettings::Get()->GetProjectileZ(), //Atomic Number
-		TRexSettings::Get()->GetProjectileA(), //Atomic Mass
+		TistarSettings::Get()->GetProjectileZ(), //Atomic Number
+		TistarSettings::Get()->GetProjectileA(), //Atomic Mass
 		0                               //Excitation Energy
 	);
 	fParticleGun->SetParticleDefinition(beam);
@@ -64,8 +64,8 @@ void TRexBeamIn::GeneratePrimaries(G4Event *anEvent) {
 }
 
 void TRexBeamIn::ShootReactionPosition() {
-	G4double BeamDiameter = TRexSettings::Get()->GetBeamWidth() / mm;
-	fReactionZ = TRexSettings::Get()->GetGasTargetLength() / cm ;
+	G4double BeamDiameter = TistarSettings::Get()->GetBeamWidth() / mm;
+	fReactionZ = TistarSettings::Get()->GetGasTargetLength() / cm ;
 	fReactionZ = -(fReactionZ/2.) - 0.0008;
 	fReactionZ *= cm;
 	

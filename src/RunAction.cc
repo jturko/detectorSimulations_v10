@@ -38,7 +38,7 @@
 #include "G4RunManager.hh"
 #include "G4UnitsTable.hh"
 
-#include "TRexSettings.hh"
+#include "TistarSettings.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -72,10 +72,10 @@ void RunAction::BeginOfRunAction(const G4Run* aRun)
 	if(fHistoManager != nullptr) {
 		fHistoManager->Book();
 		fHistoManager->GetDetectorConstruction()->SetProperties();
-        G4cout<<"TRexSettings::Get()->SaveMe() = "<<TRexSettings::Get()->SaveMe()<<G4endl;
-        if(TRexSettings::Get()->SaveMe()) fHistoManager->BookTistar();
+        G4cout<<"TistarSettings::Get()->SaveMe() = "<<TistarSettings::Get()->SaveMe()<<G4endl;
+        if(TistarSettings::Get()->SaveMe()) fHistoManager->BookTistar();
 	}
-    TRexSettings::Get()->Nevents(G4RunManager::GetRunManager()->GetCurrentRun()->GetNumberOfEventToBeProcessed());
+    TistarSettings::Get()->Nevents(G4RunManager::GetRunManager()->GetCurrentRun()->GetNumberOfEventToBeProcessed());
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

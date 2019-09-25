@@ -24,7 +24,7 @@
 // ********************************************************************
 //
 //
-// $Id: TRexMessenger.cc,v 1.1 2010-10-18 15:56:17 maire Exp $
+// $Id: TistarMessenger.cc,v 1.1 2010-10-18 15:56:17 maire Exp $
 // GEANT4 tag $Name: geant4-09-04-patch-02 $
 //
 //
@@ -32,8 +32,8 @@
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-#include "TRexMessenger.hh"
-#include "TRexSettings.hh"
+#include "TistarMessenger.hh"
+#include "TistarSettings.hh"
 
 #include "G4UIdirectory.hh"
 #include "G4UIcmdWithADouble.hh"
@@ -49,7 +49,7 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-TRexMessenger::TRexMessenger(PrimaryGeneratorAction * pgen) :
+TistarMessenger::TistarMessenger(PrimaryGeneratorAction * pgen) :
     fPrimaryGeneratorAction(pgen)
 {
     fSetPrimaryGeneratorCmd = new G4UIcmdWithAString("/DetSys/miniball/SetPrimaryGenerator",this);
@@ -239,13 +239,13 @@ TRexMessenger::TRexMessenger(PrimaryGeneratorAction * pgen) :
     fSetTargetBeWindowThicknessCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
     fPrintCmd = new G4UIcmdWithoutParameter("/DetSys/miniball/Print",this);
-    fPrintCmd->SetGuidance("print values stored in TRexSettings");
+    fPrintCmd->SetGuidance("print values stored in TistarSettings");
     fPrintCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-TRexMessenger::~TRexMessenger() {
+TistarMessenger::~TistarMessenger() {
     delete fSetPrimaryGeneratorCmd;
     delete fSimulateEjectilesCmd;
     delete fSimulateGammasCmd;
@@ -303,60 +303,60 @@ TRexMessenger::~TRexMessenger() {
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void TRexMessenger::SetNewValue(G4UIcommand* command, G4String value) {
-    if(command == fSetPrimaryGeneratorCmd)          TRexSettings::Get()->SetPrimaryGenerator(value);
-    if(command == fSimulateEjectilesCmd)            TRexSettings::Get()->SimulateEjectiles(fSimulateEjectilesCmd->GetNewBoolValue(value));
-    if(command == fSimulateGammasCmd)               TRexSettings::Get()->SimulateGammas(fSimulateGammasCmd->GetNewBoolValue(value));
-    if(command == fIncludeEnergyResolutionCmd)      TRexSettings::Get()->IncludeEnergyResolution(fIncludeEnergyResolutionCmd->GetNewIntValue(value));
-    if(command == fIncludeVacuumChamberCmd)         TRexSettings::Get()->IncludeVacuumChamber(fIncludeVacuumChamberCmd->GetNewIntValue(value));
-    if(command == fSetVacuumChamberTypeCmd)         TRexSettings::Get()->SetVacuumChamberType(value);
-    if(command == fSetVacuumChamberGasCmd)          TRexSettings::Get()->SetVacuumChamberGas(value);
-    if(command == fSetVacuumChamberGasPressureCmd)  TRexSettings::Get()->SetVacuumChamberGasPressure(fSetVacuumChamberGasPressureCmd->GetNewDoubleValue(value));
+void TistarMessenger::SetNewValue(G4UIcommand* command, G4String value) {
+    if(command == fSetPrimaryGeneratorCmd)          TistarSettings::Get()->SetPrimaryGenerator(value);
+    if(command == fSimulateEjectilesCmd)            TistarSettings::Get()->SimulateEjectiles(fSimulateEjectilesCmd->GetNewBoolValue(value));
+    if(command == fSimulateGammasCmd)               TistarSettings::Get()->SimulateGammas(fSimulateGammasCmd->GetNewBoolValue(value));
+    if(command == fIncludeEnergyResolutionCmd)      TistarSettings::Get()->IncludeEnergyResolution(fIncludeEnergyResolutionCmd->GetNewIntValue(value));
+    if(command == fIncludeVacuumChamberCmd)         TistarSettings::Get()->IncludeVacuumChamber(fIncludeVacuumChamberCmd->GetNewIntValue(value));
+    if(command == fSetVacuumChamberTypeCmd)         TistarSettings::Get()->SetVacuumChamberType(value);
+    if(command == fSetVacuumChamberGasCmd)          TistarSettings::Get()->SetVacuumChamberGas(value);
+    if(command == fSetVacuumChamberGasPressureCmd)  TistarSettings::Get()->SetVacuumChamberGasPressure(fSetVacuumChamberGasPressureCmd->GetNewDoubleValue(value));
     
-    if(command == fSetTestSourceEnergyCmd)          TRexSettings::Get()->SetTestSourceEnergy(fSetTestSourceEnergyCmd->GetNewDoubleValue(value));
-    if(command == fSetBeamEnergyCmd)                TRexSettings::Get()->SetBeamEnergy(fSetBeamEnergyCmd->GetNewDoubleValue(value));
-    if(command == fSetBeamWidthCmd)                 TRexSettings::Get()->SetBeamWidth(fSetBeamWidthCmd->GetNewDoubleValue(value));
-    if(command == fSetThetaCmMinCmd)                TRexSettings::Get()->SetThetaCmMin(fSetThetaCmMinCmd->GetNewDoubleValue(value));
+    if(command == fSetTestSourceEnergyCmd)          TistarSettings::Get()->SetTestSourceEnergy(fSetTestSourceEnergyCmd->GetNewDoubleValue(value));
+    if(command == fSetBeamEnergyCmd)                TistarSettings::Get()->SetBeamEnergy(fSetBeamEnergyCmd->GetNewDoubleValue(value));
+    if(command == fSetBeamWidthCmd)                 TistarSettings::Get()->SetBeamWidth(fSetBeamWidthCmd->GetNewDoubleValue(value));
+    if(command == fSetThetaCmMinCmd)                TistarSettings::Get()->SetThetaCmMin(fSetThetaCmMinCmd->GetNewDoubleValue(value));
     
-    if(command == fSetProjectileZCmd)               TRexSettings::Get()->SetProjectileZ(fSetProjectileZCmd->GetNewIntValue(value));
-    if(command == fSetProjectileACmd)               TRexSettings::Get()->SetProjectileA(fSetProjectileACmd->GetNewIntValue(value));
-    if(command == fSetTargetZCmd)                   TRexSettings::Get()->SetTargetZ(fSetTargetZCmd->GetNewIntValue(value));
-    if(command == fSetTargetACmd)                   TRexSettings::Get()->SetTargetA(fSetTargetACmd->GetNewIntValue(value));
-    if(command == fSetEjectileZCmd)                 TRexSettings::Get()->SetEjectileZ(fSetEjectileZCmd->GetNewIntValue(value));
-    if(command == fSetEjectileACmd)                 TRexSettings::Get()->SetEjectileA(fSetEjectileACmd->GetNewIntValue(value));
-    if(command == fSetRecoilZCmd)                   TRexSettings::Get()->SetRecoilZ(fSetRecoilZCmd->GetNewIntValue(value));
-    if(command == fSetRecoilACmd)                   TRexSettings::Get()->SetRecoilA(fSetRecoilACmd->GetNewIntValue(value));
+    if(command == fSetProjectileZCmd)               TistarSettings::Get()->SetProjectileZ(fSetProjectileZCmd->GetNewIntValue(value));
+    if(command == fSetProjectileACmd)               TistarSettings::Get()->SetProjectileA(fSetProjectileACmd->GetNewIntValue(value));
+    if(command == fSetTargetZCmd)                   TistarSettings::Get()->SetTargetZ(fSetTargetZCmd->GetNewIntValue(value));
+    if(command == fSetTargetACmd)                   TistarSettings::Get()->SetTargetA(fSetTargetACmd->GetNewIntValue(value));
+    if(command == fSetEjectileZCmd)                 TistarSettings::Get()->SetEjectileZ(fSetEjectileZCmd->GetNewIntValue(value));
+    if(command == fSetEjectileACmd)                 TistarSettings::Get()->SetEjectileA(fSetEjectileACmd->GetNewIntValue(value));
+    if(command == fSetRecoilZCmd)                   TistarSettings::Get()->SetRecoilZ(fSetRecoilZCmd->GetNewIntValue(value));
+    if(command == fSetRecoilACmd)                   TistarSettings::Get()->SetRecoilA(fSetRecoilACmd->GetNewIntValue(value));
     
-    if(command == fSetProjectileNameCmd)            TRexSettings::Get()->SetProjectileName(value);
-    if(command == fSetTargetNameCmd)                TRexSettings::Get()->SetTargetName(value);
-    if(command == fSetEjectileNameCmd)              TRexSettings::Get()->SetEjectileName(value);
-    if(command == fSetRecoilNameCmd)                TRexSettings::Get()->SetRecoilName(value);
+    if(command == fSetProjectileNameCmd)            TistarSettings::Get()->SetProjectileName(value);
+    if(command == fSetTargetNameCmd)                TistarSettings::Get()->SetTargetName(value);
+    if(command == fSetEjectileNameCmd)              TistarSettings::Get()->SetEjectileName(value);
+    if(command == fSetRecoilNameCmd)                TistarSettings::Get()->SetRecoilName(value);
 
-    if(command == fSetTargetMaterialNameCmd)            TRexSettings::Get()->SetTargetMaterialName(value);
-    if(command == fSetTargetAtomicRatioCmd)             TRexSettings::Get()->SetTargetAtomicRatio(fSetTargetAtomicRatioCmd->GetNewDoubleValue(value));
-    if(command == fSetTransferOrCoulexProbabilityCmd)   TRexSettings::Get()->SetTransferOrCoulexProbability(fSetTransferOrCoulexProbabilityCmd->GetNewDoubleValue(value));
+    if(command == fSetTargetMaterialNameCmd)            TistarSettings::Get()->SetTargetMaterialName(value);
+    if(command == fSetTargetAtomicRatioCmd)             TistarSettings::Get()->SetTargetAtomicRatio(fSetTargetAtomicRatioCmd->GetNewDoubleValue(value));
+    if(command == fSetTransferOrCoulexProbabilityCmd)   TistarSettings::Get()->SetTransferOrCoulexProbability(fSetTransferOrCoulexProbabilityCmd->GetNewDoubleValue(value));
     
-    if(command == fSetLevelFileCmd)                     TRexSettings::Get()->SetLevelFile(value);
-    if(command == fSetAngularDistributionFileCmd)       TRexSettings::Get()->SetAngularDistributionFile(value);
-    if(command == fSetMassFileCmd)                      TRexSettings::Get()->SetMassFile(value);
-    if(command == fSetCrossSectionFileCmd)              TRexSettings::Get()->SetCrossSectionFile(value);
-    if(command == fSetReactionZvsRadiusFileCmd)         TRexSettings::Get()->SetReactionZvsRadiusFile(value);
-    if(command == fSetReactionZDistributionFileCmd)     TRexSettings::Get()->SetReactionZDistributionFile(value);
+    if(command == fSetLevelFileCmd)                     TistarSettings::Get()->SetLevelFile(value);
+    if(command == fSetAngularDistributionFileCmd)       TistarSettings::Get()->SetAngularDistributionFile(value);
+    if(command == fSetMassFileCmd)                      TistarSettings::Get()->SetMassFile(value);
+    if(command == fSetCrossSectionFileCmd)              TistarSettings::Get()->SetCrossSectionFile(value);
+    if(command == fSetReactionZvsRadiusFileCmd)         TistarSettings::Get()->SetReactionZvsRadiusFile(value);
+    if(command == fSetReactionZDistributionFileCmd)     TistarSettings::Get()->SetReactionZDistributionFile(value);
 
-    if(command == fSetAlphaSourceDiameterCmd)       TRexSettings::Get()->SetAlphaSourceDiameter(fSetAlphaSourceDiameterCmd->GetNewDoubleValue(value));
-    if(command == fSetAlphaSourceThicknessCmd)      TRexSettings::Get()->SetAlphaSourceThickness(fSetAlphaSourceThicknessCmd->GetNewDoubleValue(value));
+    if(command == fSetAlphaSourceDiameterCmd)       TistarSettings::Get()->SetAlphaSourceDiameter(fSetAlphaSourceDiameterCmd->GetNewDoubleValue(value));
+    if(command == fSetAlphaSourceThicknessCmd)      TistarSettings::Get()->SetAlphaSourceThickness(fSetAlphaSourceThicknessCmd->GetNewDoubleValue(value));
 
-    if(command == fSetTargetDiameterCmd)            TRexSettings::Get()->SetTargetDiameter(fSetTargetDiameterCmd->GetNewDoubleValue(value));
-    if(command == fSetTargetThicknessCmd)           TRexSettings::Get()->SetTargetThickness(fSetTargetThicknessCmd->GetNewDoubleValue(value));
-    if(command == fSetGasTargetLengthCmd)           TRexSettings::Get()->SetGasTargetLength(fSetGasTargetLengthCmd->GetNewDoubleValue(value));
-    if(command == fSetTargetPressureCmd)            TRexSettings::Get()->SetTargetPressure(fSetTargetPressureCmd->GetNewDoubleValue(value));
+    if(command == fSetTargetDiameterCmd)            TistarSettings::Get()->SetTargetDiameter(fSetTargetDiameterCmd->GetNewDoubleValue(value));
+    if(command == fSetTargetThicknessCmd)           TistarSettings::Get()->SetTargetThickness(fSetTargetThicknessCmd->GetNewDoubleValue(value));
+    if(command == fSetGasTargetLengthCmd)           TistarSettings::Get()->SetGasTargetLength(fSetGasTargetLengthCmd->GetNewDoubleValue(value));
+    if(command == fSetTargetPressureCmd)            TistarSettings::Get()->SetTargetPressure(fSetTargetPressureCmd->GetNewDoubleValue(value));
 
-    if(command == fSetTargetMaterialDensityCmd)     TRexSettings::Get()->SetTargetMaterialDensity(fSetTargetMaterialDensityCmd->GetNewDoubleValue(value));
+    if(command == fSetTargetMaterialDensityCmd)     TistarSettings::Get()->SetTargetMaterialDensity(fSetTargetMaterialDensityCmd->GetNewDoubleValue(value));
 
-    if(command == fSetTargetMylarThicknessCmd)      TRexSettings::Get()->SetTargetMylarThickness(fSetTargetMylarThicknessCmd->GetNewDoubleValue(value));
-    if(command == fSetTargetBeWindowThicknessCmd)   TRexSettings::Get()->SetTargetBeWindowThickness(fSetTargetBeWindowThicknessCmd->GetNewDoubleValue(value));
+    if(command == fSetTargetMylarThicknessCmd)      TistarSettings::Get()->SetTargetMylarThickness(fSetTargetMylarThicknessCmd->GetNewDoubleValue(value));
+    if(command == fSetTargetBeWindowThicknessCmd)   TistarSettings::Get()->SetTargetBeWindowThickness(fSetTargetBeWindowThicknessCmd->GetNewDoubleValue(value));
 
-    if(command == fPrintCmd)                        TRexSettings::Get()->Print();
+    if(command == fPrintCmd)                        TistarSettings::Get()->Print();
 
 }   
 

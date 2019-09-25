@@ -39,7 +39,7 @@
 #include "G4VUserDetectorConstruction.hh"
 #include "globals.hh"
 
-#include "TRexSettings.hh"
+#include "TistarSettings.hh"
 #include "TRexBaseDetector.hh"
 
 class G4AssemblyVolume;

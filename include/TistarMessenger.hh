@@ -24,7 +24,7 @@
 // ********************************************************************
 //
 //
-// $Id: TRexMessenger.hh,v 1.1 2010-10-18 15:56:17 maire Exp $
+// $Id: TistarMessenger.hh,v 1.1 2010-10-18 15:56:17 maire Exp $
 // GEANT4 tag $Name: geant4-09-04-patch-02 $
 //
 //
@@ -32,14 +32,14 @@
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-#ifndef TREXMESSENGER_HH
-#define TREXMESSENGER_HH
+#ifndef TISTARMESSENGER_HH
+#define TISTARMESSENGER_HH
 
 #include "G4UImessenger.hh"
 #include "globals.hh"
 #include "G4SystemOfUnits.hh"
 
-class TRexSettings;
+class TistarSettings;
 
 class PrimaryGeneratorAction;
 
@@ -56,11 +56,11 @@ class G4UIcmdWithoutParameter;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-class TRexMessenger: public G4UImessenger
+class TistarMessenger: public G4UImessenger
 {
 public:
-    TRexMessenger(PrimaryGeneratorAction* pgen);
-    virtual ~TRexMessenger();
+    TistarMessenger(PrimaryGeneratorAction* pgen);
+    virtual ~TistarMessenger();
 
 public:
     void SetNewValue(G4UIcommand*, G4String);

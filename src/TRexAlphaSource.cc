@@ -7,7 +7,7 @@
 
 #include "TRexAlphaSource.hh"
 
-#include "TRexSettings.hh"
+#include "TistarSettings.hh"
 #include "G4ParticleGun.hh"
 #include "G4Alpha.hh"
 #include "G4Proton.hh"
@@ -87,9 +87,9 @@ void TRexAlphaSource::GeneratePrimaries(G4Event *anEvent) {
 }
 
 void TRexAlphaSource::ShootReactionPosition() {
-	G4double alphaSourceDiameter = TRexSettings::Get()->GetAlphaSourceDiameter() / mm;
-	G4double alphaSourceThickness = TRexSettings::Get()->GetAlphaSourceThickness();
-	G4double BeamDiameter = TRexSettings::Get()->GetBeamWidth() / mm;
+	G4double alphaSourceDiameter = TistarSettings::Get()->GetAlphaSourceDiameter() / mm;
+	G4double alphaSourceThickness = TistarSettings::Get()->GetAlphaSourceThickness();
+	G4double BeamDiameter = TistarSettings::Get()->GetBeamWidth() / mm;
 
 	do {
 		/**fReactionX = G4RandFlat::shoot(-alphaSourceDiameter / 2., alphaSourceDiameter / 2.);
@@ -113,10 +113,10 @@ void TRexAlphaSource::ShootReactionPosition() {
 		fReactionZ = alphaSourceThickness;
 	}**/
 	
-	//fReactionZ = TRexSettings::Get()->GetGasTargetLength() / cm ; // leila
+	//fReactionZ = TistarSettings::Get()->GetGasTargetLength() / cm ; // leila
 	//fReactionZ = (fReactionZ/2.) * cm; // leila
 	
-	fReactionZ = G4RandFlat::shoot(-TRexSettings::Get()->GetGasTargetLength()/2.,TRexSettings::Get()->GetGasTargetLength()/2.)*mm; // leila #####
+	fReactionZ = G4RandFlat::shoot(-TistarSettings::Get()->GetGasTargetLength()/2.,TistarSettings::Get()->GetGasTargetLength()/2.)*mm; // leila #####
 	
 	//fReactionZ = alphaSourceThickness;//Leila
 	

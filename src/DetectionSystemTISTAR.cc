@@ -19,7 +19,7 @@
 #include "G4Colour.hh"
 
 #include "DetectionSystemTistar.hh"
-#include "TRexSettings.hh"
+#include "TistarSettings.hh"
 
 #include "G4SystemOfUnits.hh"
 #include "G4UnitsTable.hh"
@@ -44,16 +44,16 @@ DetectionSystemTistar::DetectionSystemTistar() :
     fSiOffsetInPCB = G4ThreeVector(0.,0.,0.);
     fPositionOffset = G4ThreeVector(0.,0.,0.);
 
-    fGasTargetRadius = TRexSettings::Get()->GetTargetDiameter()/2.;
-    fGasTargetLength = TRexSettings::Get()->GetGasTargetLength();
-    fGasTargetDensity = TRexSettings::Get()->GetTargetMaterialDensity();
-    fGasTargetPressure = TRexSettings::Get()->GetTargetPressure();
-    fGasTargetMaterialName = TRexSettings::Get()->GetTargetMaterialName();
+    fGasTargetRadius = TistarSettings::Get()->GetTargetDiameter()/2.;
+    fGasTargetLength = TistarSettings::Get()->GetGasTargetLength();
+    fGasTargetDensity = TistarSettings::Get()->GetTargetMaterialDensity();
+    fGasTargetPressure = TistarSettings::Get()->GetTargetPressure();
+    fGasTargetMaterialName = TistarSettings::Get()->GetTargetMaterialName();
 
-    fGasTargetMylarThickness = TRexSettings::Get()->GetTargetMylarThickness();
+    fGasTargetMylarThickness = TistarSettings::Get()->GetTargetMylarThickness();
     fGasTargetMylarMaterialName = "Mylar";
 
-    fGasTargetBeWindowThickness = TRexSettings::Get()->GetTargetBeWindowThickness();
+    fGasTargetBeWindowThickness = TistarSettings::Get()->GetTargetBeWindowThickness();
     fGasTargetBeWindowMaterialName = "Beryllium";
     
     fDetectorNumber = 10;
@@ -355,7 +355,7 @@ void DetectionSystemTistar::SetVacuumChamberShape(G4String shape)
 {
     if(shape=="box" || shape=="cylinder") {
         fVacuumChamberShape = shape;
-        TRexSettings::Get()->SetVacuumChamberType(shape);
+        TistarSettings::Get()->SetVacuumChamberType(shape);
     } else {
         G4cout << " ---> TI-STAR vacuum chamber shape \"" << shape << "\" unknown!" << G4endl;
     }
@@ -363,13 +363,13 @@ void DetectionSystemTistar::SetVacuumChamberShape(G4String shape)
 
 void DetectionSystemTistar::SetVacuumChamberMaterialName(G4String material) { 
     fVacuumChamberMaterialName = material; 
-    TRexSettings::Get()->SetVacuumChamberGas(material);
+    TistarSettings::Get()->SetVacuumChamberGas(material);
 }
 
 
 G4int DetectionSystemTistar::AddVacuumChamber(G4LogicalVolume* expHallLog, G4LogicalVolume *& vacuumChamberLog) 
 {
-    TRexSettings::Get()->IncludeVacuumChamber(1);
+    TistarSettings::Get()->IncludeVacuumChamber(1);
 
     G4ThreeVector move;
     G4RotationMatrix * rotate = NULL;
@@ -377,7 +377,7 @@ G4int DetectionSystemTistar::AddVacuumChamber(G4LogicalVolume* expHallLog, G4Log
     // Make the target materials
     G4Material * vacuum_material = G4Material::GetMaterial(fVacuumChamberMaterialName);
     G4Material * exterior_material = G4Material::GetMaterial(fVacuumChamberExteriorMaterialName);
-    TRexSettings::Get()->SetVacuumChamberGasPressure(vacuum_material->GetPressure());
+    TistarSettings::Get()->SetVacuumChamberGasPressure(vacuum_material->GetPressure());
 
     // Set up colours and other vis. attributes
     G4VisAttributes * vacuum_vis_att = new G4VisAttributes(G4Colour::Red());

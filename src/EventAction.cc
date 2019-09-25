@@ -46,7 +46,7 @@
 #include "G4Run.hh"
 #include "G4RunManager.hh"
 
-#include "TRexSettings.hh"
+#include "TistarSettings.hh"
 #include "ParticleMC.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -138,7 +138,7 @@ void EventAction::EndOfEventAction(const G4Event*) {
 			}
 		}
         
-        if(TRexSettings::Get()->SaveMe()) {
+        if(TistarSettings::Get()->SaveMe()) {
             for(int hitNum = 0; hitNum < fNumberOfHits; hitNum++) {
                 if(fProperties[hitNum].dataOfDetectorsNumber >= 0) {
                     ParticleMC particle;
@@ -281,7 +281,7 @@ void EventAction::ClearVariables() {
 		}
 	}
     
-    if(TRexSettings::Get()->SaveMe()) fHistoManager->ClearTistarDataOfDetectors();
+    if(TistarSettings::Get()->SaveMe()) fHistoManager->ClearTistarDataOfDetectors();
     
 }
 

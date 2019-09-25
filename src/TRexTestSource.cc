@@ -6,7 +6,7 @@
  */
 
 #include "TRexTestSource.hh"
-#include "TRexSettings.hh"
+#include "TistarSettings.hh"
 
 #include "G4ParticleGun.hh"
 #include "G4SystemOfUnits.hh"
@@ -29,7 +29,7 @@ TRexTestSource::~TRexTestSource() {
  ************************************************************/
 void TRexTestSource::GeneratePrimaries(G4Event *anEvent) {
 
-	fReactionEnergy = TRexSettings::Get()->GetTestSourceEnergy();
+	fReactionEnergy = TistarSettings::Get()->GetTestSourceEnergy();
 
 	// shoot the alpha emission point
 	ShootReactionPosition();

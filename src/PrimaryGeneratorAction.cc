@@ -60,8 +60,8 @@
 #include "TRexRutherford.hh"
 #include "TRexBeamIn.hh"
 
-#include "TRexMessenger.hh"
-#include "TRexSettings.hh"
+#include "TistarMessenger.hh"
+#include "TistarSettings.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -100,7 +100,7 @@
     fGPS = new G4GeneralParticleSource;
     fUseGPS = false;
 
-    fTRexMessenger = new TRexMessenger(this);
+    fTistarMessenger = new TistarMessenger(this);
     fUseTRexGenerator = false;
 
     fGenTypeNum = 0;
@@ -116,7 +116,7 @@ PrimaryGeneratorAction::~PrimaryGeneratorAction()
 	delete fBeamDistribution;
 
     if(fCurrentGenerator) delete fCurrentGenerator;
-    delete fTRexMessenger;
+    delete fTistarMessenger;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -392,8 +392,8 @@ void PrimaryGeneratorAction::LaBrinit() {
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void PrimaryGeneratorAction::SetGenerator() {
-        TRexSettings::Get()->SaveMe(true); // with this set, the TRexSettings file will be saved to the output ROOT file
-        std::string generatorName = TRexSettings::Get()->GetPrimaryGenerator();
+        TistarSettings::Get()->SaveMe(true); // with this set, the TistarSettings file will be saved to the output ROOT file
+        std::string generatorName = TistarSettings::Get()->GetPrimaryGenerator();
         if(generatorName == "TestSource") {
             std::cout<<std::endl<<"Using test source ....\n"<<std::endl;
             fCurrentGenerator = new TRexTestSource;

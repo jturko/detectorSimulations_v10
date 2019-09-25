@@ -1,12 +1,12 @@
 /*
- * TRexSettings.hh
+ * TistarSettings.hh
  *
  *  Created on: Jun 16, 2014
  *      Author: sklupp
  */
 
-#ifndef TREXSETTINGS_HH_
-#define TREXSETTINGS_HH_
+#ifndef TISTARSETTINGS_HH_
+#define TISTARSETTINGS_HH_
 
 #include "TEnv.h"
 
@@ -18,11 +18,11 @@
 
 #include <string>
 
-class TRexSettings : public TObject 
+class TistarSettings : public TObject 
 {
 public:
-    static TRexSettings* Get();
-    virtual ~TRexSettings();
+    static TistarSettings* Get();
+    virtual ~TistarSettings();
     
     std::string GetPrimaryGenerator() { return fPrimaryGenerator; }
     void SetPrimaryGenerator(std::string pgen) { fPrimaryGenerator = pgen; }
@@ -165,7 +165,7 @@ public:
 
     // this constructor has to be public to be able to
     // write the class to file, but it should never be used!
-    TRexSettings();
+    TistarSettings();
     
     void SaveMe(bool val) { fSaveMe = val; }
     bool SaveMe() { return fSaveMe; }
@@ -174,7 +174,7 @@ public:
     Int_t Nevents() { return fNevents; }
 
 private:
-    static TRexSettings* fSettings;
+    static TistarSettings* fSettings;
     
     std::string fSettingsFile;
     std::string fPrimaryGenerator;
@@ -235,8 +235,8 @@ private:
     bool fSaveMe;
     Int_t fNevents;
 
-    ClassDef(TRexSettings, 1);
+    ClassDef(TistarSettings, 1);
 
 };
 
-#endif /* TREXSETTINGS_HH_ */
+#endif /* TISTARSETTINGS_HH_ */
