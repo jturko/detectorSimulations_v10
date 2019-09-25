@@ -16,7 +16,7 @@ else()
 endif()
 
 #----------------------------------------------------------------------------
-# Resolve cmake error that arrises from including the TRexSettings class
+# Resolve cmake error that arrises from including the TistarSettings class
 #
 if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 set(CMAKE_MACOSX_RPATH 1)
@@ -44,12 +44,12 @@ find_package(ROOT REQUIRED COMPONENTS Graf3d Graf Gpad MathCore RIO Hist Tree Ne
 include_directories(include ${ROOT_INCLUDE_DIRS})
 
 #----------------------------------------------------------------------------
-# trying to build a dict w/ custom TRexSettings class so we can save it in the output ROOT file
+# trying to build a dict w/ custom TistarSettings class so we can save it in the output ROOT file
 # jturko 14/8/2019
 #
 include(${ROOT_USE_FILE})
-ROOT_GENERATE_DICTIONARY(CustomClassesDict ${PROJECT_SOURCE_DIR}/include/TRexSettings.hh ${PROJECT_SOURCE_DIR}/include/ParticleMC.hh LINKDEF RootLinkDef.h) 
-add_library(CustomClasses SHARED ${PROJECT_SOURCE_DIR}/src/TRexSettings.cc ${PROJECT_SOURCE_DIR}/src/ParticleMC.cc CustomClassesDict) 
+ROOT_GENERATE_DICTIONARY(CustomClassesDict ${PROJECT_SOURCE_DIR}/include/TistarSettings.hh ${PROJECT_SOURCE_DIR}/include/ParticleMC.hh LINKDEF RootLinkDef.h) 
+add_library(CustomClasses SHARED ${PROJECT_SOURCE_DIR}/src/TistarSettings.cc ${PROJECT_SOURCE_DIR}/src/ParticleMC.cc CustomClassesDict) 
 target_link_libraries(CustomClasses ${ROOT_LIBRARIES})
 
 #----------------------------------------------------------------------------
@@ -111,7 +111,7 @@ endif()
 add_executable(Griffinv10 Griffinv10.cc ${sources} ${headers} ${TOOLS_FORTRAN_OBJECTS})
 target_link_libraries(Griffinv10 ${Geant4_LIBRARIES} ${HBOOK_LIBRARIES})
 target_link_libraries(Griffinv10 ${ROOT_LIBRARIES}) # jturko 27/3/2019
-target_link_libraries(Griffinv10 CustomClasses) # jturko 14/8/2019; for adding TRexSettings lib
+target_link_libraries(Griffinv10 CustomClasses) # jturko 14/8/2019; for adding TistarSettings lib
 
 #----------------------------------------------------------------------------
 # Copy all scripts to the build directory, i.e. the directory in which we
