@@ -41,6 +41,8 @@
 #include "G4SystemOfUnits.hh" // new version geant4.10 requires units
 
 #include "DetectorConstruction.hh"
+//#include "PrimaryGeneratorAction.hh"
+class PrimaryGeneratorAction;
 
 #include "ParticleMC.hh"
 #include "TTree.h"
@@ -125,9 +127,12 @@ public:
 
     G4String GetFileName() { return fFileName[0]; }
 
+    void SetPrimaryGenAction(PrimaryGeneratorAction * pgen) { fPrimaryGenAction = pgen; }
+
     // for TI-STAR
     TFile * GetOutputFile() { return fOutputFile; }
     TTree * GetTistarDetTree() { return fTistarDetTree; }
+    TTree * GetTistarGenTree() { return fTistarGenTree; }
     std::vector< std::vector<ParticleMC>* > & GetTistarDataOfDetectors() { return fTistarDataOfDetectors; }
     void ClearTistarDataOfDetectors();
  
@@ -141,6 +146,8 @@ private:
 	G4String G4intToG4String(G4int value);
 
 	DetectorConstruction* fDetectorConstruction;
+    PrimaryGeneratorAction* fPrimaryGenAction;
+
 	G4bool        fFactoryOn;
 	G4int         fMakeHistogramIndex;
 	G4String      fFileName[2];
@@ -160,8 +167,10 @@ private:
 	G4double fBeamTheta;
 	G4double fBeamPhi;
     
+    // for TI-STAR
     TFile * fOutputFile;
     TTree * fTistarDetTree;
+    TTree * fTistarGenTree;
     std::vector< std::vector<ParticleMC>* > fTistarDataOfDetectors;
 
 public:

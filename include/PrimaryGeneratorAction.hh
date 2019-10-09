@@ -44,8 +44,8 @@
 
 #include "PrimaryGeneratorMessenger.hh"
 #include "DetectorConstruction.hh"
-#include "HistoManager.hh"
 #include "BeamDistribution.hh"
+#include "HistoManager.hh"
 
 class G4ParticleGun;
 class G4GeneralParticleSource;

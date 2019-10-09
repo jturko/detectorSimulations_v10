@@ -70,9 +70,9 @@ void RunAction::BeginOfRunAction(const G4Run* aRun)
 		G4cout<<"### Run "<<aRun->GetRunID()<<" start."<<G4endl;
 	}
 	if(fHistoManager != nullptr) {
-		fHistoManager->Book();
 		fHistoManager->GetDetectorConstruction()->SetProperties();
         if(TistarSettings::Get()->SaveMe()) fHistoManager->BookTistar();
+        else                                fHistoManager->Book();
 	}
     TistarSettings::Get()->Nevents(G4RunManager::GetRunManager()->GetCurrentRun()->GetNumberOfEventToBeProcessed());
 }
@@ -91,3 +91,4 @@ void RunAction::EndOfRunAction(const G4Run* aRun)
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+

@@ -24,7 +24,7 @@ class TRexAlphaSource : public TRexBaseGenerator {
 		void GeneratePrimaries(G4Event *anEvent);
 		//void CreateTreeBranches(TTree &tree);
 		//void FillTree(TTree &tree);
-		void CreateNtupleBranches();
+		void CreateNtupleBranches(TTree * tree);
         void FillNtuple();
 
 	private:

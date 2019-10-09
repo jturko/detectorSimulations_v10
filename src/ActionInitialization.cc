@@ -68,8 +68,9 @@ void ActionInitialization::Build() const
     auto histManager = new HistoManager(fDetector);
     
     PrimaryGeneratorAction* primaryGen = new PrimaryGeneratorAction(histManager);
+    histManager->SetPrimaryGenAction(primaryGen);
     SetUserAction(primaryGen);
-    
+
     EventAction* eventAction = new EventAction(histManager, fDetector);
     SetUserAction(eventAction);
     

@@ -9,6 +9,7 @@
 #define TREXBASEGENERATOR_HH_
 
 #include "TTree.h"
+#include "TFile.h"
 
 #include "G4Event.hh"
 
@@ -23,12 +24,15 @@ class TRexBaseGenerator {
 		virtual void GeneratePrimaries(G4Event*) {}
 		//virtual void CreateTreeBranches(TTree &tree) {};
 		//virtual void FillTree(TTree &tree);
-		virtual void CreateNtupleBranches() {} 
+		virtual void CreateNtupleBranches(TTree*) {} 
 		virtual void FillNtuple() {}
+
+        virtual void SaveExtras(TFile * file) {}
 
 	protected:
         G4int fNtupleID;
         G4int fNtupleColID[MAX_NTUPLE_COLUMNS];
+        TTree * fTree;
 };
 
 #endif /* TREXBASEGENERATOR_HH_ */

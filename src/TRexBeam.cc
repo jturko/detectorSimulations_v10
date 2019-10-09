@@ -58,6 +58,8 @@ TRexBeam::TRexBeam() :
         fReactionZDistributionHisto = NULL;
         fReactionZDistributionGraph = NULL;
         fReactionZDistributionSpline = NULL;
+
+        fTree = NULL;
 }
 
 TRexBeam::~TRexBeam() {
@@ -399,38 +401,69 @@ void TRexBeam::CalculateReactionEnergyInTheTarget() {
 
 }
 
-void TRexBeam::CreateNtupleBranches() {
-    // w/ Griffinv10
-    G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
-    fNtupleID = analysisManager->CreateNtuple("treeGen", "generator output from TRexBeam"); 
-    fNtupleColID[0] = analysisManager->CreateNtupleDColumn(fNtupleID, "beamEnergy");
-    fNtupleColID[1] = analysisManager->CreateNtupleDColumn(fNtupleID, "beamWidth");
-    fNtupleColID[2] = analysisManager->CreateNtupleDColumn(fNtupleID, "reactionEnergy");
-    fNtupleColID[3] = analysisManager->CreateNtupleDColumn(fNtupleID, "reactionEnergyCM");
-    fNtupleColID[4] = analysisManager->CreateNtupleDColumn(fNtupleID, "reactionX");
-    fNtupleColID[5] = analysisManager->CreateNtupleDColumn(fNtupleID, "reactionY");
-    fNtupleColID[6] = analysisManager->CreateNtupleDColumn(fNtupleID, "reactionZ");
-    fNtupleColID[7] = analysisManager->CreateNtupleDColumn(fNtupleID, "thetaCM");
-    fNtupleColID[8] = analysisManager->CreateNtupleDColumn(fNtupleID, "ejectileTheta");
-    fNtupleColID[9] = analysisManager->CreateNtupleDColumn(fNtupleID, "recoilTheta");
-    fNtupleColID[10] = analysisManager->CreateNtupleDColumn(fNtupleID, "ejectilePhi");
-    fNtupleColID[11] = analysisManager->CreateNtupleDColumn(fNtupleID, "recoilPhi");
-    fNtupleColID[12] = analysisManager->CreateNtupleDColumn(fNtupleID, "ejectileEnergy");
-    fNtupleColID[13] = analysisManager->CreateNtupleDColumn(fNtupleID, "recoilEnergy");
-    fNtupleColID[14] = analysisManager->CreateNtupleIColumn(fNtupleID, "projectileZ");
-    fNtupleColID[15] = analysisManager->CreateNtupleIColumn(fNtupleID, "projectileA");
-    fNtupleColID[16] = analysisManager->CreateNtupleIColumn(fNtupleID, "targetZ");
-    fNtupleColID[17] = analysisManager->CreateNtupleIColumn(fNtupleID, "targetA");
-    fNtupleColID[18] = analysisManager->CreateNtupleIColumn(fNtupleID, "ejectileZ");
-    fNtupleColID[19] = analysisManager->CreateNtupleIColumn(fNtupleID, "ejectileA");
-    fNtupleColID[20] = analysisManager->CreateNtupleIColumn(fNtupleID, "recoilZ");
-    fNtupleColID[21] = analysisManager->CreateNtupleIColumn(fNtupleID, "recoilA");
-    fNtupleColID[22] = analysisManager->CreateNtupleDColumn(fNtupleID, "scatteringProbability");
-    fNtupleColID[23] = analysisManager->CreateNtupleIColumn(fNtupleID, "reaction");
-    fNtupleColID[24] = analysisManager->CreateNtupleDColumn(fNtupleID, "gammaTheta", *fGammaTheta);
-    fNtupleColID[25] = analysisManager->CreateNtupleDColumn(fNtupleID, "gammaPhi", *fGammaPhi);
-    fNtupleColID[26] = analysisManager->CreateNtupleDColumn(fNtupleID, "gammaEnergy", *fGammaEnergy);
-    analysisManager->FinishNtuple(fNtupleID);
+void TRexBeam::CreateNtupleBranches(TTree * tree) {
+    if(TistarSettings::Get()->SaveMe()) {
+        fTree = tree;
+        fTree->Branch("beamEnergy", &fBeamEnergy, "beamEnergy/D");
+        fTree->Branch("beamWidth", &fBeamWidth, "beamWidth/D");
+        fTree->Branch("reactionEnergy", &fReactionEnergy, "reactionEnergy/D");
+        fTree->Branch("reactionEnergyCM", &fReactionEnergyCM, "reactionEnergyCM/D");
+        fTree->Branch("reactionX", &fReactionX, "reactionX/D");
+        fTree->Branch("reactionY", &fReactionY, "reactionY/D");
+        fTree->Branch("reactionZ", &fReactionZ, "reactionZ/D");
+        fTree->Branch("thetaCM", &fThetaCM, "thetaCM/D");
+        fTree->Branch("ejectileTheta", &fEjectileTheta, "ejectileTheta/D");
+        fTree->Branch("recoilTheta", &fRecoilTheta, "recoilTheta/D");
+        fTree->Branch("ejectilePhi", &fEjectilePhi, "ejectilePhi/D");
+        fTree->Branch("recoilPhi", &fRecoilPhi, "recoilPhi/D");
+        fTree->Branch("ejectileEnergy", &fEjectileEnergy, "ejectileEnergy/D");
+        fTree->Branch("recoilEnergy", &fRecoilEnergy, "recoilEnergy/D");
+        fTree->Branch("projectileZ", &fProjectileZ, "projectileZ/I");
+        fTree->Branch("projectileA", &fProjectileA, "projectileA/I");
+        fTree->Branch("targetZ", &fTargetZ, "targetZ/I");
+        fTree->Branch("targetA", &fTargetA, "targetA/I");
+        fTree->Branch("ejectileZ", &fEjectileZ, "ejectileZ/I");
+        fTree->Branch("ejectileA", &fEjectileA, "ejectileA/I");
+        fTree->Branch("recoilZ", &fRecoilZ, "recoilZ/I");
+        fTree->Branch("recoilA", &fRecoilA, "recoilA/I");
+        fTree->Branch("scatteringProbability", &fScatteringProbability, "scatteringProbability/D");
+        fTree->Branch("reaction", &fReaction, "reaction/i");
+        fTree->Branch("gammaTheta", &fGammaTheta);
+        fTree->Branch("gammaPhi", &fGammaPhi);
+        fTree->Branch("gammaEnergy", &fGammaEnergy);
+    } 
+    else {
+        G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
+        fNtupleID = analysisManager->CreateNtuple("treeGen", "generator output from TRexBeam"); 
+        fNtupleColID[0] = analysisManager->CreateNtupleDColumn(fNtupleID, "beamEnergy");
+        fNtupleColID[1] = analysisManager->CreateNtupleDColumn(fNtupleID, "beamWidth");
+        fNtupleColID[2] = analysisManager->CreateNtupleDColumn(fNtupleID, "reactionEnergy");
+        fNtupleColID[3] = analysisManager->CreateNtupleDColumn(fNtupleID, "reactionEnergyCM");
+        fNtupleColID[4] = analysisManager->CreateNtupleDColumn(fNtupleID, "reactionX");
+        fNtupleColID[5] = analysisManager->CreateNtupleDColumn(fNtupleID, "reactionY");
+        fNtupleColID[6] = analysisManager->CreateNtupleDColumn(fNtupleID, "reactionZ");
+        fNtupleColID[7] = analysisManager->CreateNtupleDColumn(fNtupleID, "thetaCM");
+        fNtupleColID[8] = analysisManager->CreateNtupleDColumn(fNtupleID, "ejectileTheta");
+        fNtupleColID[9] = analysisManager->CreateNtupleDColumn(fNtupleID, "recoilTheta");
+        fNtupleColID[10] = analysisManager->CreateNtupleDColumn(fNtupleID, "ejectilePhi");
+        fNtupleColID[11] = analysisManager->CreateNtupleDColumn(fNtupleID, "recoilPhi");
+        fNtupleColID[12] = analysisManager->CreateNtupleDColumn(fNtupleID, "ejectileEnergy");
+        fNtupleColID[13] = analysisManager->CreateNtupleDColumn(fNtupleID, "recoilEnergy");
+        fNtupleColID[14] = analysisManager->CreateNtupleIColumn(fNtupleID, "projectileZ");
+        fNtupleColID[15] = analysisManager->CreateNtupleIColumn(fNtupleID, "projectileA");
+        fNtupleColID[16] = analysisManager->CreateNtupleIColumn(fNtupleID, "targetZ");
+        fNtupleColID[17] = analysisManager->CreateNtupleIColumn(fNtupleID, "targetA");
+        fNtupleColID[18] = analysisManager->CreateNtupleIColumn(fNtupleID, "ejectileZ");
+        fNtupleColID[19] = analysisManager->CreateNtupleIColumn(fNtupleID, "ejectileA");
+        fNtupleColID[20] = analysisManager->CreateNtupleIColumn(fNtupleID, "recoilZ");
+        fNtupleColID[21] = analysisManager->CreateNtupleIColumn(fNtupleID, "recoilA");
+        fNtupleColID[22] = analysisManager->CreateNtupleDColumn(fNtupleID, "scatteringProbability");
+        fNtupleColID[23] = analysisManager->CreateNtupleIColumn(fNtupleID, "reaction");
+        fNtupleColID[24] = analysisManager->CreateNtupleDColumn(fNtupleID, "gammaTheta", *fGammaTheta);
+        fNtupleColID[25] = analysisManager->CreateNtupleDColumn(fNtupleID, "gammaPhi", *fGammaPhi);
+        fNtupleColID[26] = analysisManager->CreateNtupleDColumn(fNtupleID, "gammaEnergy", *fGammaEnergy);
+        analysisManager->FinishNtuple(fNtupleID);
+    }
     G4cout << "created ntuple treeGen" << G4endl;
 
 }
@@ -537,31 +570,42 @@ void TRexBeam::SetGammaGun(G4Event *anEvent) {
 
 // w/ Griffinv10
 void TRexBeam::FillNtuple() { 
-    G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
-    analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[0], fBeamEnergy);
-    analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[1], fBeamWidth);
-    analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[2], fReactionEnergy);
-    analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[3], fReactionEnergyCM);
-    analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[4], fReactionX);
-    analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[5], fReactionY);
-    analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[6], fReactionZ);
-    analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[7], fThetaCM);
-    analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[8], fEjectileTheta);
-    analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[9], fRecoilTheta);
-    analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[10], fEjectilePhi);
-    analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[11], fRecoilPhi);
-    analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[12], fEjectileEnergy);
-    analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[13], fRecoilEnergy);
-    analysisManager->FillNtupleIColumn(fNtupleID, fNtupleColID[14], fProjectileZ);
-    analysisManager->FillNtupleIColumn(fNtupleID, fNtupleColID[15], fProjectileA);
-    analysisManager->FillNtupleIColumn(fNtupleID, fNtupleColID[16], fTargetZ);
-    analysisManager->FillNtupleIColumn(fNtupleID, fNtupleColID[17], fTargetA);
-    analysisManager->FillNtupleIColumn(fNtupleID, fNtupleColID[18], fEjectileZ);
-    analysisManager->FillNtupleIColumn(fNtupleID, fNtupleColID[19], fEjectileA);
-    analysisManager->FillNtupleIColumn(fNtupleID, fNtupleColID[20], fRecoilZ);
-    analysisManager->FillNtupleIColumn(fNtupleID, fNtupleColID[21], fRecoilA);
-    analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[22], fScatteringProbability);
-    analysisManager->FillNtupleIColumn(fNtupleID, fNtupleColID[23], fReaction);
-    analysisManager->AddNtupleRow(fNtupleID);
+   if(TistarSettings::Get()->SaveMe()) { 
+        fTree->Fill();
+    }
+    else {
+        G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
+        analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[0], fBeamEnergy);
+        analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[1], fBeamWidth);
+        analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[2], fReactionEnergy);
+        analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[3], fReactionEnergyCM);
+        analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[4], fReactionX);
+        analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[5], fReactionY);
+        analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[6], fReactionZ);
+        analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[7], fThetaCM);
+        analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[8], fEjectileTheta);
+        analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[9], fRecoilTheta);
+        analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[10], fEjectilePhi);
+        analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[11], fRecoilPhi);
+        analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[12], fEjectileEnergy);
+        analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[13], fRecoilEnergy);
+        analysisManager->FillNtupleIColumn(fNtupleID, fNtupleColID[14], fProjectileZ);
+        analysisManager->FillNtupleIColumn(fNtupleID, fNtupleColID[15], fProjectileA);
+        analysisManager->FillNtupleIColumn(fNtupleID, fNtupleColID[16], fTargetZ);
+        analysisManager->FillNtupleIColumn(fNtupleID, fNtupleColID[17], fTargetA);
+        analysisManager->FillNtupleIColumn(fNtupleID, fNtupleColID[18], fEjectileZ);
+        analysisManager->FillNtupleIColumn(fNtupleID, fNtupleColID[19], fEjectileA);
+        analysisManager->FillNtupleIColumn(fNtupleID, fNtupleColID[20], fRecoilZ);
+        analysisManager->FillNtupleIColumn(fNtupleID, fNtupleColID[21], fRecoilA);
+        analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[22], fScatteringProbability);
+        analysisManager->FillNtupleIColumn(fNtupleID, fNtupleColID[23], fReaction);
+        analysisManager->AddNtupleRow(fNtupleID);
+    }
 }
 
+void TRexBeam::SaveExtras(TFile * file) {
+    file->cd();
+    if(fReactionZDistributionGraph) fReactionZDistributionGraph->Write("fReactionZDistributionGraph");
+    if(fReactionZDistributionHisto) fReactionZDistributionHisto->Write("fReactionZDistributionHisto");
+    if(fReactionZDistributionSpline) fReactionZDistributionSpline->Write("fReactionZDistributionSpline");   
+}

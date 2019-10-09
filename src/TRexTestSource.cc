@@ -71,29 +71,44 @@ void TRexTestSource::CreateIsotropicDistribution() {
 	//fPhi = RandFlat::shoot(-M_PI / 2.,M_PI + M_PI / 2.)*radian;
 }
 
-void TRexTestSource::CreateNtupleBranches() {
-    // w/ Griffinv10
-    G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
-    fNtupleID = analysisManager->CreateNtuple("treeGen", "generator output from TRexTestSource");
-    fNtupleColID[0] = analysisManager->CreateNtupleDColumn(fNtupleID, "reactionEnergy");
-    fNtupleColID[1] = analysisManager->CreateNtupleDColumn(fNtupleID, "reactionX");
-    fNtupleColID[2] = analysisManager->CreateNtupleDColumn(fNtupleID, "reactionY");
-    fNtupleColID[3] = analysisManager->CreateNtupleDColumn(fNtupleID, "reactionZ");
-    fNtupleColID[4] = analysisManager->CreateNtupleDColumn(fNtupleID, "thetaCM");
-    fNtupleColID[5] = analysisManager->CreateNtupleDColumn(fNtupleID, "phi");
-    analysisManager->FinishNtuple(fNtupleID);
+void TRexTestSource::CreateNtupleBranches(TTree * tree) {
+    if(TistarSettings::Get()->SaveMe()) {
+        fTree = tree;
+        fTree->Branch("reactionEnergy", &fReactionEnergy, "reactionEnergy/D");
+        fTree->Branch("reactionX", &fReactionX, "reactionX/D");
+        fTree->Branch("reactionY", &fReactionY, "reactionY/D");
+        fTree->Branch("reactionZ", &fReactionZ, "reactionZ/D");
+        fTree->Branch("thetaCM", &fThetaCM, "thetaCM/D");
+        fTree->Branch("phi", &fPhi, "phi/D");
+    }
+    else {
+        G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
+        fNtupleID = analysisManager->CreateNtuple("treeGen", "generator output from TRexTestSource");
+        fNtupleColID[0] = analysisManager->CreateNtupleDColumn(fNtupleID, "reactionEnergy");
+        fNtupleColID[1] = analysisManager->CreateNtupleDColumn(fNtupleID, "reactionX");
+        fNtupleColID[2] = analysisManager->CreateNtupleDColumn(fNtupleID, "reactionY");
+        fNtupleColID[3] = analysisManager->CreateNtupleDColumn(fNtupleID, "reactionZ");
+        fNtupleColID[4] = analysisManager->CreateNtupleDColumn(fNtupleID, "thetaCM");
+        fNtupleColID[5] = analysisManager->CreateNtupleDColumn(fNtupleID, "phi");
+        analysisManager->FinishNtuple(fNtupleID);
+    }
     G4cout << "created ntuple treeGen" << G4endl;
 }
 
 void TRexTestSource::FillNtuple() {
-    G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
-    analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[0], fReactionEnergy);
-    analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[1], fReactionX);
-    analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[2], fReactionY);
-    analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[3], fReactionZ);
-    analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[4], fThetaCM);
-    analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[5], fPhi);
-    analysisManager->AddNtupleRow(fNtupleID);
+    if(TistarSettings::Get()->SaveMe()) {
+        fTree->Fill();
+    }
+    else {
+        G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
+        analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[0], fReactionEnergy);
+        analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[1], fReactionX);
+        analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[2], fReactionY);
+        analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[3], fReactionZ);
+        analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[4], fThetaCM);
+        analysisManager->FillNtupleDColumn(fNtupleID, fNtupleColID[5], fPhi);
+        analysisManager->AddNtupleRow(fNtupleID);
+    }
 }
 
 

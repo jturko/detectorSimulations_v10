@@ -413,5 +413,5 @@ void PrimaryGeneratorAction::SetGenerator() {
             std::cout<<std::endl<<"Unknown generator !!!\n"<<std::endl;
             fCurrentGenerator = NULL;
         }
-        if(fCurrentGenerator) fCurrentGenerator->CreateNtupleBranches();
+        if(fCurrentGenerator) fCurrentGenerator->CreateNtupleBranches(fHistoManager->GetTistarGenTree());
 }

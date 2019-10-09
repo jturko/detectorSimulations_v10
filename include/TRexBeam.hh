@@ -33,6 +33,8 @@
 //#include "TRandom1.h"
 #include "TH1F.h"
 
+#include "TFile.h"
+
 class G4ParticleGun;
 
 class TRexBeam : public TRexBaseGenerator 
@@ -46,8 +48,10 @@ public:
     //void CreateTreeBranches(TTree &tree);
     //void FillTree(TTree &tree);
     void FillNtuple();
-    void CreateNtupleBranches();
+    void CreateNtupleBranches(TTree * tree);
 	
+    void SaveExtras(TFile * file);
+
 protected:
     // shoot fReactionX, fReactionY, fReactionZ of the source
     void ShootReactionPosition();

@@ -42,6 +42,9 @@
 #include "TObject.h"
 #include "TistarSettings.hh"
 
+#include "PrimaryGeneratorAction.hh"
+#include "TRexBaseGenerator.hh"
+
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 HistoManager::HistoManager(DetectorConstruction* detectorConstruction) {
@@ -107,8 +110,6 @@ void HistoManager::Book() {
         fNtColIdHit[14] = analysisManager->CreateNtupleIColumn("targetZ");
         analysisManager->FinishNtuple();
     }
-
-
     if(fStepTrackerBool) {
         analysisManager->CreateNtuple("ntuple", "StepTracker");
         fNtColIdStep[0] = analysisManager->CreateNtupleIColumn("eventNumber");
@@ -128,7 +129,6 @@ void HistoManager::Book() {
         fNtColIdStep[14] = analysisManager->CreateNtupleIColumn("targetZ");
         analysisManager->FinishNtuple();
     }
-
     if(fDetectorConstruction->Spice()) {
         BookSpiceHistograms();
     }
@@ -153,6 +153,8 @@ void HistoManager::Save() {
     if(TistarSettings::Get()->SaveMe()) {
         fOutputFile->cd();
         TistarSettings::Get()->Write("settings",TObject::kOverwrite);
+        fPrimaryGenAction->GetCurrentGenerator()->SaveExtras(fOutputFile);
+        fTistarGenTree->Write("treeGen");
         fTistarDetTree->Write("treeDet");
         fOutputFile->Close();
     }
@@ -578,10 +580,13 @@ void HistoManager::Fill2DHistogram(G4int ih, G4double xbin, G4double ybin, G4dou
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void HistoManager::BookTistar() {
-    fOutputFile = new TFile(Form("%s_TistarSettings.root",fFileName[0].c_str()));
+    fOutputFile = new TFile(Form("%s_tistar.root",fFileName[0].c_str()),"RECREATE");
+    fOutputFile->cd();
+    fTistarGenTree = new TTree("treeGen", "Generator tree");
     fTistarDetTree = new TTree("treeDet", "Detector tree");
     fTistarDataOfDetectors = std::vector<std::vector<ParticleMC>*>(fDetectorConstruction->GetPropertiesMap().size());
     for(auto prop : fDetectorConstruction->GetPropertiesMap()) {
+        std::cout << "creating branch : " << prop.second.detectorName << std::endl;
         fTistarDetTree->Branch((prop.second.detectorName + "_MC").c_str(), &(fTistarDataOfDetectors[prop.second.dataOfDetectorsNumber]));
     }
 }
