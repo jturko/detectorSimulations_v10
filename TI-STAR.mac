@@ -82,22 +82,22 @@
 
 ## GRIFFIN
 #
-/DetSys/det/addGriffinBackDetector 1
-/DetSys/det/addGriffinBackDetector 2
-/DetSys/det/addGriffinBackDetector 3
-/DetSys/det/addGriffinBackDetector 4
-/DetSys/det/addGriffinBackDetector 5
-/DetSys/det/addGriffinBackDetector 6
-/DetSys/det/addGriffinBackDetector 7
-/DetSys/det/addGriffinBackDetector 8
-/DetSys/det/addGriffinBackDetector 9
-/DetSys/det/addGriffinBackDetector 10
-/DetSys/det/addGriffinBackDetector 11
-/DetSys/det/addGriffinBackDetector 12
-/DetSys/det/addGriffinBackDetector 13
-/DetSys/det/addGriffinBackDetector 14
-/DetSys/det/addGriffinBackDetector 15
-/DetSys/det/addGriffinBackDetector 16
+#/DetSys/det/addGriffinBackDetector 1
+#/DetSys/det/addGriffinBackDetector 2
+#/DetSys/det/addGriffinBackDetector 3
+#/DetSys/det/addGriffinBackDetector 4
+#/DetSys/det/addGriffinBackDetector 5
+#/DetSys/det/addGriffinBackDetector 6
+#/DetSys/det/addGriffinBackDetector 7
+#/DetSys/det/addGriffinBackDetector 8
+#/DetSys/det/addGriffinBackDetector 9
+#/DetSys/det/addGriffinBackDetector 10
+#/DetSys/det/addGriffinBackDetector 11
+#/DetSys/det/addGriffinBackDetector 12
+#/DetSys/det/addGriffinBackDetector 13
+#/DetSys/det/addGriffinBackDetector 14
+#/DetSys/det/addGriffinBackDetector 15
+#/DetSys/det/addGriffinBackDetector 16
 
 ## GRIFFIN structure
 #
@@ -163,5 +163,5 @@
 # Start the run
 #
 
-/run/beamOn 1000
+/run/beamOn 10000
 

@@ -55,7 +55,7 @@ EventAction::EventAction(HistoManager* hist, DetectorConstruction* detcon)
 :G4UserEventAction(),
 	fHistoManager(hist),
     fDetCon(detcon),
-	fPrintModulo(10)
+	fPrintModulo(100)
 {
 	fNumberOfHits = 0;
 	fNumberOfSteps = 0;
@@ -144,8 +144,8 @@ void EventAction::EndOfEventAction(const G4Event*) {
                     ParticleMC particle;
                     particle.AddStrip(  -1,                             // strip number
                                         fHitTrackerD[0][hitNum]/keV,    // energy
-                                        -1,                             // particle A
-                                        -1,                             // particle Z
+                                        fHitTrackerD[5][hitNum],        // particle A
+                                        fHitTrackerI[9][hitNum],        // particle Z
                                         fHitTrackerI[1][hitNum],        // track ID
                                         fHitTrackerD[4][hitNum]/second, // time
                                         fHitTrackerD[1][hitNum]/mm,     // global x pos
@@ -156,6 +156,7 @@ void EventAction::EndOfEventAction(const G4Event*) {
                     fHistoManager->GetTistarDataOfDetectors()[fProperties[hitNum].dataOfDetectorsNumber]->push_back(particle);
                 }
             }
+            fHistoManager->GetOutputFile()->cd();
             fHistoManager->GetTistarDetTree()->Fill();
         }
 
@@ -165,7 +166,7 @@ void EventAction::EndOfEventAction(const G4Event*) {
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void EventAction::AddHitTracker(const DetectorProperties& properties, const G4int& eventNumber, const G4int& trackID, const G4int& parentID, const G4int& stepNumber, const G4int& particleType, const G4int& processType, const G4double& depEnergy, const G4ThreeVector& pos, const G4double& time, const G4int& targetZ) {
+void EventAction::AddHitTracker(const DetectorProperties& properties, const G4int& eventNumber, const G4int& trackID, const G4int& parentID, const G4int& stepNumber, const G4int& particleType, const G4int& processType, const G4double& depEnergy, const G4ThreeVector& pos, const G4double& time, const G4int& targetZ, const G4double& targetA) {
 	for(G4int i = 0; i < fNumberOfHits; i++) {
 		if(fProperties[i] == properties) {
 			// sum the new enery
@@ -190,32 +191,9 @@ void EventAction::AddHitTracker(const DetectorProperties& properties, const G4in
 	fHitTrackerD[2][fNumberOfHits] = pos.y();
 	fHitTrackerD[3][fNumberOfHits] = pos.z();
 	fHitTrackerD[4][fNumberOfHits] = time;
+    fHitTrackerD[5][fNumberOfHits] = targetA;
 
 	++fNumberOfHits;
-
-    // if TISTAR, try to fill the fDataOfDetectors
-    //if(properties.dataOfDetectorsNumber >= 0) { 
-    //    ParticleMC particle;
-    //    particle.AddStrip(  -1,         // strip number
-    //                        depEnergy,  // energy
-    //                        -1,         // particle A
-    //                        -1,         // particle Z
-    //                        trackID,    // track ID
-    //                        time,       // time
-    //                        pos.x(),    // global z pos
-    //                        pos.y(),    // global y pos
-    //                        pos.z(),    // global z pos
-    //                        -1);        // stopped?
-    //    
-    //    if(!fHistoManager->GetTistarDataOfDetectors()[properties.dataOfDetectorsNumber]) {
-    //        fHistoManager->GetTistarDataOfDetectors()[properties.dataOfDetectorsNumber] = new std::vector<ParticleMC>;
-    //    }
-    //    else {
-    //        std::cout << "fHistoManager->GetTistarDataOfDetectors()[" << properties.dataOfDetectorsNumber << "]->size() = " 
-    //                  << fHistoManager->GetTistarDataOfDetectors()[properties.dataOfDetectorsNumber]->size() << std::endl;
-    //    }
-    //    fHistoManager->GetTistarDataOfDetectors()[properties.dataOfDetectorsNumber]->push_back(particle);
-    //}    
 
 	if(fNumberOfHits >= MAXHITS) {
 		G4cout<<"ERROR! Too many hits!"<<G4endl;
@@ -223,7 +201,7 @@ void EventAction::AddHitTracker(const DetectorProperties& properties, const G4in
 	}
 }
 
-void EventAction::AddStepTracker(const DetectorProperties& properties, const G4int& eventNumber, const G4int& trackID, const G4int& parentID, const G4int& stepNumber, const G4int& particleType, const G4int& processType, const G4double& depEnergy, const G4ThreeVector& pos, const G4double& time, const G4int& targetZ) {
+void EventAction::AddStepTracker(const DetectorProperties& properties, const G4int& eventNumber, const G4int& trackID, const G4int& parentID, const G4int& stepNumber, const G4int& particleType, const G4int& processType, const G4double& depEnergy, const G4ThreeVector& pos, const G4double& time, const G4int& targetZ, const G4double& targetA) {
 	// new step
 	fStepTrackerI[0][fNumberOfSteps] = eventNumber;
 	fStepTrackerI[1][fNumberOfSteps] = trackID;
@@ -240,6 +218,7 @@ void EventAction::AddStepTracker(const DetectorProperties& properties, const G4i
 	fStepTrackerD[2][fNumberOfSteps] = pos.y();
 	fStepTrackerD[3][fNumberOfSteps] = pos.z();
 	fStepTrackerD[4][fNumberOfSteps] = time;
+    fStepTrackerD[5][fNumberOfSteps] = targetA;
 
 	++fNumberOfSteps;
 

@@ -151,22 +151,10 @@ void HistoManager::Save() {
 
     // Adding TistarSettings class to ROOT file if a TRex-derived generator was used
     if(TistarSettings::Get()->SaveMe()) {
-        std::string new_filename = fFileName[0] + "_TistarSettings.root";
-        std::cout<<std::endl<<"---> Copying TTree(s) and TistarSettings to "<< new_filename<<" ...";
-        // open original file
-        TFile * infile = new TFile(fFileName[1].c_str());
-        // get trees from original file
-        TTree * infile_ntuple =  (TTree*)infile->Get("ntuple");
-        TTree * infile_treeGen = (TTree*)infile->Get("treeGen");
-        // open new file
-        TFile * outfile = new TFile(new_filename.c_str(),"RECREATE");
-        outfile->cd();
+        fOutputFile->cd();
         TistarSettings::Get()->Write("settings",TObject::kOverwrite);
-        infile_ntuple->CloneTree()->Write("ntuple");
-        infile_treeGen->CloneTree()->Write("treeGen");
-        fTistarDetTree->CloneTree()->Write("treeDet");
-        outfile->Close();
-        std::cout<<" done!"<<std::endl;
+        fTistarDetTree->Write("treeDet");
+        fOutputFile->Close();
     }
 }
 
@@ -590,10 +578,11 @@ void HistoManager::Fill2DHistogram(G4int ih, G4double xbin, G4double ybin, G4dou
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void HistoManager::BookTistar() {
+    fOutputFile = new TFile(Form("%s_TistarSettings.root",fFileName[0].c_str()));
     fTistarDetTree = new TTree("treeDet", "Detector tree");
     fTistarDataOfDetectors = std::vector<std::vector<ParticleMC>*>(fDetectorConstruction->GetPropertiesMap().size());
     for(auto prop : fDetectorConstruction->GetPropertiesMap()) {
-            fTistarDetTree->Branch((prop.second.detectorName + "_MC").c_str(), &(fTistarDataOfDetectors[prop.second.dataOfDetectorsNumber]));
+        fTistarDetTree->Branch((prop.second.detectorName + "_MC").c_str(), &(fTistarDataOfDetectors[prop.second.dataOfDetectorsNumber]));
     }
 }
 

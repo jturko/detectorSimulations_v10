@@ -78,15 +78,17 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 	G4int particleType  = aStep->GetTrack()->GetParticleDefinition()->GetPDGEncoding();
 
 	const G4VProcess* process = aStep->GetPostStepPoint()->GetProcessDefinedStep();
-	G4int targetZ = -1;
+	G4int targetZ = -1, targetA = -1;
 	if(process != nullptr && process->GetProcessType() == fHadronic) {
 		G4HadronicProcess* hadrProcess = (G4HadronicProcess*) process;
 		const G4Isotope* target = nullptr;
 		target = hadrProcess->GetTargetIsotope();
 		if(target != nullptr) {
-			targetZ = target->GetZ();
+			targetZ = target->GetZ(); 
+			targetA = target->GetN() + targetZ;
 		}
 	}
+    //std::cout<<"particle = "<<aStep->GetTrack()->GetParticleDefinition()->GetParticleName()<<", z = "<<targetZ<<", a = "<<targetA<<std::endl;
 
 	// this can be modified to add more processes
 	if(theTrack->GetCreatorProcess() != nullptr) {
@@ -126,6 +128,20 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 	if((edep > 0 || (fDetector->GridCell() && ekin > 0)) && fDetector->HasProperties(volume)) {
 		DetectorProperties prop = fDetector->GetProperties(volume);
 
+        if(prop.systemID == 9500) {
+            targetZ = aStep->GetTrack()->GetParticleDefinition()->GetAtomicNumber();
+            targetA = aStep->GetTrack()->GetParticleDefinition()->GetAtomicMass();
+            //const std::vector<const G4Track*> * secondaries = aStep->GetSecondaryInCurrentStep(); 
+            //if( secondaries->size()>0 ) {
+            //    for( unsigned int i=0; i<secondaries->size(); ++i ) {
+            //        if( secondaries->at(i)->GetParentID()>0 ) {
+            //            //std::cout<<"secondary #"<<i<<": Z= "<<secondaries->at(i)->GetParticleDefinition()->GetAtomicNumber()
+            //            //                           <<", A= "<<secondaries->at(i)->GetParticleDefinition()->GetAtomicMass()<<std::endl;              
+            //        }
+            //    }
+            //}
+        }
+
 		if(fDetector->GridCell()) {
 			G4String volumeName = volume->GetName();
 			if(volumeName.find("gridcellLog") != G4String::npos) {
@@ -146,10 +162,10 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 		// check edep again in case we use the grid cell but haven't hit it
 		if(edep <= 0) return;
 
-		fEventAction->AddHitTracker(prop, evntNb, trackID, parentID, stepNumber, particleType, processType, edep, postPos, postTime, targetZ);
+		fEventAction->AddHitTracker(prop, evntNb, trackID, parentID, stepNumber, particleType, processType, edep, postPos, postTime, targetZ, targetA);
 
 		if(trackSteps) {
-			fEventAction->AddStepTracker(prop, evntNb, trackID, parentID, stepNumber, particleType, processType, edep, postPos, postTime, targetZ);
+			fEventAction->AddStepTracker(prop, evntNb, trackID, parentID, stepNumber, particleType, processType, edep, postPos, postTime, targetZ, targetA);
 		}
 	}// if(fDetector->HasProperties(volume))
 }

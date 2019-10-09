@@ -44,6 +44,7 @@
 
 #include "ParticleMC.hh"
 #include "TTree.h"
+#include "TFile.h"
 
 const G4int MAXNTCOL            = 15;
 
@@ -125,6 +126,7 @@ public:
     G4String GetFileName() { return fFileName[0]; }
 
     // for TI-STAR
+    TFile * GetOutputFile() { return fOutputFile; }
     TTree * GetTistarDetTree() { return fTistarDetTree; }
     std::vector< std::vector<ParticleMC>* > & GetTistarDataOfDetectors() { return fTistarDataOfDetectors; }
     void ClearTistarDataOfDetectors();
@@ -158,6 +160,7 @@ private:
 	G4double fBeamTheta;
 	G4double fBeamPhi;
     
+    TFile * fOutputFile;
     TTree * fTistarDetTree;
     std::vector< std::vector<ParticleMC>* > fTistarDataOfDetectors;
 

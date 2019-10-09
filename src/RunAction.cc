@@ -72,7 +72,6 @@ void RunAction::BeginOfRunAction(const G4Run* aRun)
 	if(fHistoManager != nullptr) {
 		fHistoManager->Book();
 		fHistoManager->GetDetectorConstruction()->SetProperties();
-        G4cout<<"TistarSettings::Get()->SaveMe() = "<<TistarSettings::Get()->SaveMe()<<G4endl;
         if(TistarSettings::Get()->SaveMe()) fHistoManager->BookTistar();
 	}
     TistarSettings::Get()->Nevents(G4RunManager::GetRunManager()->GetCurrentRun()->GetNumberOfEventToBeProcessed());
