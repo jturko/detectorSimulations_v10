@@ -173,6 +173,24 @@ private:
     TTree * fTistarGenTree;
     std::vector< std::vector<ParticleMC>* > fTistarDataOfDetectors;
 
+    // for direct ntuple
+    TTree * fNtuple;
+    G4int fEventNumber;
+    G4int fTrackID;
+    G4int fParentID;
+    G4int fStepNumber;
+    G4int fParticleType;
+    G4int fProcessType;
+    G4int fSystemID;
+    G4int fCryNumber;
+    G4int fDetNumber;
+    G4double fDepEnergy;
+    G4double fPosX;
+    G4double fPosY;
+    G4double fPosZ;
+    G4double fTime;
+    G4int fTargetZ;
+    
 public:
 	short PacesHistNumbers(int i) { return fPacesHistNumbers[i]; }
 	short SpiceHistNumbers(int i) { return fSpiceHistNumbers[i]; }

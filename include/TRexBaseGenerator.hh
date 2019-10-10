@@ -27,7 +27,7 @@ class TRexBaseGenerator {
 		virtual void CreateNtupleBranches(TTree*) {} 
 		virtual void FillNtuple() {}
 
-        virtual void SaveExtras(TFile * file) {}
+        virtual void SaveExtras(TFile*) {}
 
 	protected:
         G4int fNtupleID;

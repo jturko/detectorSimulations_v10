@@ -183,6 +183,7 @@ void PrimaryGeneratorMessenger::SetNewValue(G4UIcommand* command, G4String newVa
 
     if(command == fUseGPSCmd) {
         fAction->SetUseGPS(fUseGPSCmd->GetNewBoolValue(newValue));
+        if(fUseGPSCmd->GetNewBoolValue(newValue)) TistarSettings::Get()->SaveMe(false);
     }
     if(command == fUseTRexGeneratorCmd) {
         fAction->SetUseTRexGenerator(fUseTRexGeneratorCmd->GetNewBoolValue(newValue));

@@ -76,59 +76,78 @@ void HistoManager::Book() {
     // Create or get analysis manager
     // The choice of analysis technology is done via selection of a namespace
     // in HistoManager.hh
-    G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
-    //analysisManager->SetVerboseLevel(2);
-    G4String extension = analysisManager->GetFileType();
-    fFileName[1] = fFileName[0] + "." + extension; // creating root output file in build folder
 
-    // Create directories
-    // Open an output file
-    G4bool fileOpen = analysisManager->OpenFile(fFileName[0]); 
-    if(!fileOpen) {
-        G4cout<<"---> HistoManager::book(): cannot open "<<fFileName[1]<<G4endl;
-        return;
+    if(TistarSettings::Get()->SaveMe()) {
+        fOutputFile = new TFile(Form("%s_tistar.root",fFileName[0].c_str()),"RECREATE");
+        fOutputFile->cd();
+        if(fHitTrackerBool)       fNtuple = new TTree("ntuple","Griffinv10 HitTracker ntuple");
+        else if(fStepTrackerBool) fNtuple = new TTree("ntuple","Griffinv10 StepTracker ntuple");
+        fNtuple->Branch("eventNumber", &fEventNumber, "eventNumber/I" );
+        fNtuple->Branch("trackID",     &fTrackID,     "trackID/I"     );
+        fNtuple->Branch("parentID",    &fParentID,    "parentID/I"    );
+        fNtuple->Branch("stepNumber",  &fStepNumber,  "stepNumber/I"  );
+        fNtuple->Branch("particleType",&fParticleType,"particleType/I");
+        fNtuple->Branch("processType", &fProcessType, "processType/I" );
+        fNtuple->Branch("systemID",    &fSystemID,    "systemID/I"    );
+        fNtuple->Branch("cryNumber",   &fCryNumber,   "cryNumber/I"   );
+        fNtuple->Branch("detNumber",   &fDetNumber,   "detNumber/I"   );
+        fNtuple->Branch("depEnergy",   &fDepEnergy,   "depEnergy/D"   );
+        fNtuple->Branch("posx",        &fPosX,        "posx/D"        );
+        fNtuple->Branch("posy",        &fPosY,        "posy/D"        );
+        fNtuple->Branch("posz",        &fPosZ,        "posz/D"        );
+        fNtuple->Branch("time",        &fTime,        "time/D"        );
+        fNtuple->Branch("targetZ",     &fTargetZ,     "targetZ/I"     );
     }
-    
-    ///////////////////////////////////////////////////////////////////
-    // Create 1 ntuple
-    if(fHitTrackerBool) {
-        analysisManager->CreateNtuple("ntuple", "HitTracker");
-        fNtColIdHit[0] = analysisManager->CreateNtupleIColumn("eventNumber");
-        fNtColIdHit[1] = analysisManager->CreateNtupleIColumn("trackID");
-        fNtColIdHit[2] = analysisManager->CreateNtupleIColumn("parentID");
-        fNtColIdHit[3] = analysisManager->CreateNtupleIColumn("stepNumber");
-        fNtColIdHit[4] = analysisManager->CreateNtupleIColumn("particleType");
-        fNtColIdHit[5] = analysisManager->CreateNtupleIColumn("processType");
-        fNtColIdHit[6] = analysisManager->CreateNtupleIColumn("systemID");
-        fNtColIdHit[7] = analysisManager->CreateNtupleIColumn("cryNumber");
-        fNtColIdHit[8] = analysisManager->CreateNtupleIColumn("detNumber");
-        fNtColIdHit[9] = analysisManager->CreateNtupleDColumn("depEnergy");
-        fNtColIdHit[10] = analysisManager->CreateNtupleDColumn("posx");
-        fNtColIdHit[11] = analysisManager->CreateNtupleDColumn("posy");
-        fNtColIdHit[12] = analysisManager->CreateNtupleDColumn("posz");
-        fNtColIdHit[13] = analysisManager->CreateNtupleDColumn("time");
-        fNtColIdHit[14] = analysisManager->CreateNtupleIColumn("targetZ");
-        analysisManager->FinishNtuple();
+    else {
+        G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
+        //analysisManager->SetVerboseLevel(2);
+        G4String extension = analysisManager->GetFileType();
+        fFileName[1] = fFileName[0] + "." + extension; // creating root output file in build folder
+        G4bool fileOpen = analysisManager->OpenFile(fFileName[0]); 
+        if(!fileOpen) {
+            G4cout<<"---> HistoManager::book(): cannot open "<<fFileName[1]<<G4endl;
+            return;
+        }
+        if(fHitTrackerBool) {
+            analysisManager->CreateNtuple("ntuple", "HitTracker");
+            fNtColIdHit[0] = analysisManager->CreateNtupleIColumn("eventNumber");
+            fNtColIdHit[1] = analysisManager->CreateNtupleIColumn("trackID");
+            fNtColIdHit[2] = analysisManager->CreateNtupleIColumn("parentID");
+            fNtColIdHit[3] = analysisManager->CreateNtupleIColumn("stepNumber");
+            fNtColIdHit[4] = analysisManager->CreateNtupleIColumn("particleType");
+            fNtColIdHit[5] = analysisManager->CreateNtupleIColumn("processType");
+            fNtColIdHit[6] = analysisManager->CreateNtupleIColumn("systemID");
+            fNtColIdHit[7] = analysisManager->CreateNtupleIColumn("cryNumber");
+            fNtColIdHit[8] = analysisManager->CreateNtupleIColumn("detNumber");
+            fNtColIdHit[9] = analysisManager->CreateNtupleDColumn("depEnergy");
+            fNtColIdHit[10] = analysisManager->CreateNtupleDColumn("posx");
+            fNtColIdHit[11] = analysisManager->CreateNtupleDColumn("posy");
+            fNtColIdHit[12] = analysisManager->CreateNtupleDColumn("posz");
+            fNtColIdHit[13] = analysisManager->CreateNtupleDColumn("time");
+            fNtColIdHit[14] = analysisManager->CreateNtupleIColumn("targetZ");
+            analysisManager->FinishNtuple();
+        }
+        if(fStepTrackerBool) {
+            analysisManager->CreateNtuple("ntuple", "StepTracker");
+            fNtColIdStep[0] = analysisManager->CreateNtupleIColumn("eventNumber");
+            fNtColIdStep[1] = analysisManager->CreateNtupleIColumn("trackID");
+            fNtColIdStep[2] = analysisManager->CreateNtupleIColumn("parentID");
+            fNtColIdStep[3] = analysisManager->CreateNtupleIColumn("stepNumber");
+            fNtColIdStep[4] = analysisManager->CreateNtupleIColumn("particleType");
+            fNtColIdStep[5] = analysisManager->CreateNtupleIColumn("processType");
+            fNtColIdStep[6] = analysisManager->CreateNtupleIColumn("systemID");
+            fNtColIdStep[7] = analysisManager->CreateNtupleIColumn("cryNumber");
+            fNtColIdStep[8] = analysisManager->CreateNtupleIColumn("detNumber");
+            fNtColIdStep[9] = analysisManager->CreateNtupleDColumn("depEnergy");
+            fNtColIdStep[10] = analysisManager->CreateNtupleDColumn("posx");
+            fNtColIdStep[11] = analysisManager->CreateNtupleDColumn("posy");
+            fNtColIdStep[12] = analysisManager->CreateNtupleDColumn("posz");
+            fNtColIdStep[13] = analysisManager->CreateNtupleDColumn("time");
+            fNtColIdStep[14] = analysisManager->CreateNtupleIColumn("targetZ");
+            analysisManager->FinishNtuple();
+        }
     }
-    if(fStepTrackerBool) {
-        analysisManager->CreateNtuple("ntuple", "StepTracker");
-        fNtColIdStep[0] = analysisManager->CreateNtupleIColumn("eventNumber");
-        fNtColIdStep[1] = analysisManager->CreateNtupleIColumn("trackID");
-        fNtColIdStep[2] = analysisManager->CreateNtupleIColumn("parentID");
-        fNtColIdStep[3] = analysisManager->CreateNtupleIColumn("stepNumber");
-        fNtColIdStep[4] = analysisManager->CreateNtupleIColumn("particleType");
-        fNtColIdStep[5] = analysisManager->CreateNtupleIColumn("processType");
-        fNtColIdStep[6] = analysisManager->CreateNtupleIColumn("systemID");
-        fNtColIdStep[7] = analysisManager->CreateNtupleIColumn("cryNumber");
-        fNtColIdStep[8] = analysisManager->CreateNtupleIColumn("detNumber");
-        fNtColIdStep[9] = analysisManager->CreateNtupleDColumn("depEnergy");
-        fNtColIdStep[10] = analysisManager->CreateNtupleDColumn("posx");
-        fNtColIdStep[11] = analysisManager->CreateNtupleDColumn("posy");
-        fNtColIdStep[12] = analysisManager->CreateNtupleDColumn("posz");
-        fNtColIdStep[13] = analysisManager->CreateNtupleDColumn("time");
-        fNtColIdStep[14] = analysisManager->CreateNtupleIColumn("targetZ");
-        analysisManager->FinishNtuple();
-    }
+
     if(fDetectorConstruction->Spice()) {
         BookSpiceHistograms();
     }
@@ -156,51 +175,92 @@ void HistoManager::Save() {
         fPrimaryGenAction->GetCurrentGenerator()->SaveExtras(fOutputFile);
         fTistarGenTree->Write("treeGen");
         fTistarDetTree->Write("treeDet");
+        fNtuple->Write("ntuple");
         fOutputFile->Close();
     }
 }
 
 void HistoManager::FillHitNtuple(G4int eventNumber, G4int trackID, G4int parentID, G4int stepNumber, G4int particleType, G4int processType, G4int systemID, G4int cryNumber, G4int detNumber, G4double depEnergy, G4double posx, G4double posy, G4double posz, G4double time, G4int targetZ) {
     if(fHitTrackerBool) {
-        G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
-        analysisManager->FillNtupleIColumn(fNtColIdHit[0], eventNumber);
-        analysisManager->FillNtupleIColumn(fNtColIdHit[1], trackID);
-        analysisManager->FillNtupleIColumn(fNtColIdHit[2], parentID);
-        analysisManager->FillNtupleIColumn(fNtColIdHit[3], stepNumber);
-        analysisManager->FillNtupleIColumn(fNtColIdHit[4], particleType);
-        analysisManager->FillNtupleIColumn(fNtColIdHit[5], processType);
-        analysisManager->FillNtupleIColumn(fNtColIdHit[6], systemID);
-        analysisManager->FillNtupleIColumn(fNtColIdHit[7], cryNumber);
-        analysisManager->FillNtupleIColumn(fNtColIdHit[8], detNumber);
-        analysisManager->FillNtupleDColumn(fNtColIdHit[9], depEnergy);
-        analysisManager->FillNtupleDColumn(fNtColIdHit[10], posx);
-        analysisManager->FillNtupleDColumn(fNtColIdHit[11], posy);
-        analysisManager->FillNtupleDColumn(fNtColIdHit[12], posz);
-        analysisManager->FillNtupleDColumn(fNtColIdHit[13], time);
-        analysisManager->FillNtupleIColumn(fNtColIdHit[14], targetZ);
-        analysisManager->AddNtupleRow();
+        if(TistarSettings::Get()->SaveMe()) {
+            fEventNumber = eventNumber;
+            fTrackID = trackID;
+            fParentID = parentID;
+            fStepNumber = stepNumber;
+            fParticleType = particleType;
+            fProcessType = processType;
+            fSystemID = systemID;
+            fCryNumber = cryNumber;
+            fDetNumber = detNumber;
+            fDepEnergy = depEnergy;
+            fPosX = posx;
+            fPosY = posy;
+            fPosZ = posz;
+            fTime = time;
+            fTargetZ = targetZ;
+            fNtuple->Fill();
+        }
+        else {
+            G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
+            analysisManager->FillNtupleIColumn(fNtColIdHit[0], eventNumber);
+            analysisManager->FillNtupleIColumn(fNtColIdHit[1], trackID);
+            analysisManager->FillNtupleIColumn(fNtColIdHit[2], parentID);
+            analysisManager->FillNtupleIColumn(fNtColIdHit[3], stepNumber);
+            analysisManager->FillNtupleIColumn(fNtColIdHit[4], particleType);
+            analysisManager->FillNtupleIColumn(fNtColIdHit[5], processType);
+            analysisManager->FillNtupleIColumn(fNtColIdHit[6], systemID);
+            analysisManager->FillNtupleIColumn(fNtColIdHit[7], cryNumber);
+            analysisManager->FillNtupleIColumn(fNtColIdHit[8], detNumber);
+            analysisManager->FillNtupleDColumn(fNtColIdHit[9], depEnergy);
+            analysisManager->FillNtupleDColumn(fNtColIdHit[10], posx);
+            analysisManager->FillNtupleDColumn(fNtColIdHit[11], posy);
+            analysisManager->FillNtupleDColumn(fNtColIdHit[12], posz);
+            analysisManager->FillNtupleDColumn(fNtColIdHit[13], time);
+            analysisManager->FillNtupleIColumn(fNtColIdHit[14], targetZ);
+            analysisManager->AddNtupleRow();
+        }
     }
 }
 
 void HistoManager::FillStepNtuple(G4int eventNumber, G4int trackID, G4int parentID, G4int stepNumber, G4int particleType, G4int processType, G4int systemID, G4int cryNumber, G4int detNumber, G4double depEnergy, G4double posx, G4double posy, G4double posz, G4double time, G4int targetZ) {
     if(fStepTrackerBool) {
-        G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
-        analysisManager->FillNtupleIColumn(fNtColIdStep[0], eventNumber);
-        analysisManager->FillNtupleIColumn(fNtColIdStep[1], trackID);
-        analysisManager->FillNtupleIColumn(fNtColIdStep[2], parentID);
-        analysisManager->FillNtupleIColumn(fNtColIdStep[3], stepNumber);
-        analysisManager->FillNtupleIColumn(fNtColIdStep[4], particleType);
-        analysisManager->FillNtupleIColumn(fNtColIdStep[5], processType);
-        analysisManager->FillNtupleIColumn(fNtColIdStep[6], systemID);
-        analysisManager->FillNtupleIColumn(fNtColIdStep[7], cryNumber);
-        analysisManager->FillNtupleIColumn(fNtColIdStep[8], detNumber);
-        analysisManager->FillNtupleDColumn(fNtColIdStep[9], depEnergy);
-        analysisManager->FillNtupleDColumn(fNtColIdStep[10], posx);
-        analysisManager->FillNtupleDColumn(fNtColIdStep[11], posy);
-        analysisManager->FillNtupleDColumn(fNtColIdStep[12], posz);
-        analysisManager->FillNtupleDColumn(fNtColIdStep[13], time);
-        analysisManager->FillNtupleIColumn(fNtColIdStep[14], targetZ);
-        analysisManager->AddNtupleRow();
+        if(TistarSettings::Get()->SaveMe()) {
+            fEventNumber = eventNumber;
+            fTrackID = trackID;
+            fParentID = parentID;
+            fStepNumber = stepNumber;
+            fParticleType = particleType;
+            fProcessType = processType;
+            fSystemID = systemID;
+            fCryNumber = cryNumber;
+            fDetNumber = detNumber;
+            fDepEnergy = depEnergy;
+            fPosX = posx;
+            fPosY = posy;
+            fPosZ = posz;
+            fTime = time;
+            fTargetZ = targetZ;
+            fNtuple->Fill();
+        }
+        else {
+            G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
+            analysisManager->FillNtupleIColumn(fNtColIdStep[0], eventNumber);
+            analysisManager->FillNtupleIColumn(fNtColIdStep[1], trackID);
+            analysisManager->FillNtupleIColumn(fNtColIdStep[2], parentID);
+            analysisManager->FillNtupleIColumn(fNtColIdStep[3], stepNumber);
+            analysisManager->FillNtupleIColumn(fNtColIdStep[4], particleType);
+            analysisManager->FillNtupleIColumn(fNtColIdStep[5], processType);
+            analysisManager->FillNtupleIColumn(fNtColIdStep[6], systemID);
+            analysisManager->FillNtupleIColumn(fNtColIdStep[7], cryNumber);
+            analysisManager->FillNtupleIColumn(fNtColIdStep[8], detNumber);
+            analysisManager->FillNtupleDColumn(fNtColIdStep[9], depEnergy);
+            analysisManager->FillNtupleDColumn(fNtColIdStep[10], posx);
+            analysisManager->FillNtupleDColumn(fNtColIdStep[11], posy);
+            analysisManager->FillNtupleDColumn(fNtColIdStep[12], posz);
+            analysisManager->FillNtupleDColumn(fNtColIdStep[13], time);
+            analysisManager->FillNtupleIColumn(fNtColIdStep[14], targetZ);
+            analysisManager->AddNtupleRow();
+        }
     }
 }
 
@@ -580,7 +640,6 @@ void HistoManager::Fill2DHistogram(G4int ih, G4double xbin, G4double ybin, G4dou
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void HistoManager::BookTistar() {
-    fOutputFile = new TFile(Form("%s_tistar.root",fFileName[0].c_str()),"RECREATE");
     fOutputFile->cd();
     fTistarGenTree = new TTree("treeGen", "Generator tree");
     fTistarDetTree = new TTree("treeDet", "Detector tree");
