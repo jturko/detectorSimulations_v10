@@ -9,13 +9,13 @@
 #define TISTARSETTINGS_HH_
 
 #include "TEnv.h"
+#include "TVector3.h"
 
 #include "G4SystemOfUnits.hh"
 
 //#include "globals.hh"
 
 #include <iostream>
-
 #include <string>
 
 class TistarSettings : public TObject 
@@ -163,6 +163,20 @@ public:
     void SetLayerDimensionsX(int layerN, double dimX) { fLayerDimensionsX.resize(layerN+1); fLayerDimensionsX[layerN] = dimX; }
     void SetLayerDimensionsY(int layerN, double dimY) { fLayerDimensionsY.resize(layerN+1); fLayerDimensionsY[layerN] = dimY; }
 
+    std::vector<std::vector<TVector3>> GetLayerPositionVector() { return fLayerPositionVector; }
+    std::vector<std::vector<TVector3>> GetLayerDimensionVector() { return fLayerDimensionVector; }
+
+    void SetLayerPositionVector(int layerN, int stripN, TVector3 vector) { 
+        fLayerPositionVector.resize(layerN+1); 
+        fLayerPositionVector[layerN].resize(stripN+1); 
+        fLayerPositionVector[layerN][stripN] = vector;
+    }
+    void SetLayerDimensionVector(int layerN, int stripN, TVector3 vector) { 
+        fLayerDimensionVector.resize(layerN+1); 
+        fLayerDimensionVector[layerN].resize(stripN+1); 
+        fLayerDimensionVector[layerN][stripN] = vector;
+    }
+
     // this constructor has to be public to be able to
     // write the class to file, but it should never be used!
     TistarSettings();
@@ -230,6 +244,9 @@ private:
     std::vector<std::vector<double>> fLayerDistToBeam;
     std::vector<double> fLayerDimensionsX;
     std::vector<double> fLayerDimensionsY;
+
+    std::vector<std::vector<TVector3>> fLayerDimensionVector;
+    std::vector<std::vector<TVector3>> fLayerPositionVector;
 
     // extra
     bool fSaveMe;

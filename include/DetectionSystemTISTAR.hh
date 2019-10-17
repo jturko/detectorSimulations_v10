@@ -82,6 +82,8 @@ public:
 
     G4int AddVacuumChamber(G4LogicalVolume* expHallLog, G4LogicalVolume *& vaccumChamberLog);
 
+    TVector3 g4_to_root(G4ThreeVector g4_vec) { return TVector3 (g4_vec.x(), g4_vec.y(), g4_vec.z()); }
+
 private:
     G4int fDetectorNumber;
     

@@ -42,6 +42,7 @@
 #include "G4VUserDetectorConstruction.hh"
 #include "globals.hh"
 #include "G4ThreeVector.hh"
+#include "TVector3.h"
 
 class G4Box;
 class G4LogicalVolume;

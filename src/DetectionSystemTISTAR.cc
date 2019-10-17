@@ -192,6 +192,8 @@ G4int DetectionSystemTistar::Add2StripLayer(G4double dist_from_beam, G4bool si_c
 
     G4String name;
 
+    TistarSettings * sett = TistarSettings::Get();
+
     // first strip
     move = G4ThreeVector(   +dist_from_beam,        // x
                             0.,                     // y
@@ -203,6 +205,10 @@ G4int DetectionSystemTistar::Add2StripLayer(G4double dist_from_beam, G4bool si_c
     name = "TistarSiLayerLV_" + std::to_string(fDetectorNumber);
     fLogicalSiLayer->SetName(name);
     PlaceDetector(move, rotate, expHallLog);
+    std::cout << "fDetectorNumber = " << fDetectorNumber << " ";
+    std::cout << "layerN = " << fDetectorNumber/10%10-1 << std::endl;
+    sett->SetLayerDimensionVector(fDetectorNumber/10%10-1, 0, g4_to_root(fSiDimensions));
+    sett->SetLayerPositionVector(fDetectorNumber/10%10-1, 0, g4_to_root(move));
 
     // second strip
     move = G4ThreeVector(   -dist_from_beam,        // x
@@ -215,6 +221,10 @@ G4int DetectionSystemTistar::Add2StripLayer(G4double dist_from_beam, G4bool si_c
     name = "TistarSiLayerLV_" + std::to_string(fDetectorNumber+1);
     fLogicalSiLayer->SetName(name);
     PlaceDetector(move, rotate, expHallLog);
+    std::cout << "fDetectorNumber = " << fDetectorNumber << " ";
+    std::cout << "layerN = " << fDetectorNumber/10%10-1 << std::endl;
+    sett->SetLayerDimensionVector(fDetectorNumber/10%10-1, 1, g4_to_root(fSiDimensions));
+    sett->SetLayerPositionVector(fDetectorNumber/10%10-1, 1, g4_to_root(move));
 
     return 1;
 }
@@ -225,6 +235,8 @@ G4int DetectionSystemTistar::Add4StripLayer(G4double dist_from_beam, G4double ga
     G4ThreeVector rotate;
 
     G4String name;
+    
+    TistarSettings * sett = TistarSettings::Get();
 
     //fPositionOffset = G4ThreeVector(0., 10.0*mm*(-5.0*mm -100.0/2.*mm +140.0/2.*mm)/(30.0*mm), 0.);
 
@@ -239,6 +251,10 @@ G4int DetectionSystemTistar::Add4StripLayer(G4double dist_from_beam, G4double ga
     name = "TistarSiLayerLV_" + std::to_string(fDetectorNumber);
     fLogicalSiLayer->SetName(name);
     PlaceDetector(move, rotate, expHallLog);
+    std::cout << "fDetectorNumber = " << fDetectorNumber << " ";
+    std::cout << "layerN = " << fDetectorNumber/10%10-1 << std::endl;
+    sett->SetLayerDimensionVector(fDetectorNumber/10%10-1, 0, g4_to_root(fSiDimensions));
+    sett->SetLayerPositionVector(fDetectorNumber/10%10-1, 0, g4_to_root(move));
 
     // second forward strip
     move = G4ThreeVector(   -dist_from_beam,                // x
@@ -251,6 +267,10 @@ G4int DetectionSystemTistar::Add4StripLayer(G4double dist_from_beam, G4double ga
     name = "TistarSiLayerLV_" + std::to_string(fDetectorNumber+1);
     fLogicalSiLayer->SetName(name);
     PlaceDetector(move, rotate, expHallLog);
+    std::cout << "fDetectorNumber = " << fDetectorNumber << " ";
+    std::cout << "layerN = " << fDetectorNumber/10%10-1 << std::endl;
+    sett->SetLayerDimensionVector(fDetectorNumber/10%10-1, 1, g4_to_root(fSiDimensions));
+    sett->SetLayerPositionVector(fDetectorNumber/10%10-1, 1, g4_to_root(move));
     
     // first backward strip
     move = G4ThreeVector(   +dist_from_beam,                // x
@@ -263,6 +283,10 @@ G4int DetectionSystemTistar::Add4StripLayer(G4double dist_from_beam, G4double ga
     name = "TistarSiLayerLV_" + std::to_string(fDetectorNumber+2);
     fLogicalSiLayer->SetName(name);
     PlaceDetector(move, rotate, expHallLog);
+    std::cout << "fDetectorNumber = " << fDetectorNumber << " ";
+    std::cout << "layerN = " << fDetectorNumber/10%10-1 << std::endl;
+    sett->SetLayerDimensionVector(fDetectorNumber/10%10-1, 2, g4_to_root(fSiDimensions));
+    sett->SetLayerPositionVector(fDetectorNumber/10%10-1, 2, g4_to_root(move));
 
     // second backward strip
     move = G4ThreeVector(   -dist_from_beam,                // x
@@ -275,6 +299,10 @@ G4int DetectionSystemTistar::Add4StripLayer(G4double dist_from_beam, G4double ga
     name = "TistarSiLayerLV_" + std::to_string(fDetectorNumber+3);
     fLogicalSiLayer->SetName(name);
     PlaceDetector(move, rotate, expHallLog);
+    std::cout << "fDetectorNumber = " << fDetectorNumber << " ";
+    std::cout << "layerN = " << fDetectorNumber/10%10-1 << std::endl;
+    sett->SetLayerDimensionVector(fDetectorNumber/10%10-1, 3, g4_to_root(fSiDimensions));
+    sett->SetLayerPositionVector(fDetectorNumber/10%10-1, 3, g4_to_root(move));
 
 
     return 1;

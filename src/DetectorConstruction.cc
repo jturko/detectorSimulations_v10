@@ -956,6 +956,15 @@ void DetectorConstruction::AddTistar2StripLayer() {
     sett->SetLayerDistToBeam(layerN, dist);
     sett->SetLayerDimensionsX(layerN, fTistarSiDimensions.x());
     sett->SetLayerDimensionsY(layerN, fTistarSiDimensions.z());
+
+    //sett->SetLayerDimensionVector(layerN, 0, g4_to_root(fTistarSiDimensions));
+    //sett->SetLayerDimensionVector(layerN, 1, g4_to_root(fTistarSiDimensions));
+    //
+    //TVector3 position;
+    //position = TVector3(+fTistarDistFromBeam, 0., 0.);
+    //sett->SetLayerPositionVector(layerN, 0, position);
+    //position = TVector3(-fTistarDistFromBeam, 0., 0.);
+    //sett->SetLayerPositionVector(layerN, 1, position);  
 }
 
 void DetectorConstruction::AddTistar4StripLayer() {
@@ -995,6 +1004,14 @@ void DetectorConstruction::AddTistar4StripLayer() {
     sett->SetLayerDistToBeam(layerN, dist);
     sett->SetLayerDimensionsX(layerN, fTistarSiDimensions.x());
     sett->SetLayerDimensionsY(layerN, fTistarSiDimensions.z());
+    
+    //sett->SetLayerDimensionVector(layerN, 0, g4_to_root(fTistarSiDimensions));
+    //sett->SetLayerDimensionVector(layerN, 1, g4_to_root(fTistarSiDimensions));
+    //sett->SetLayerDimensionVector(layerN, 2, g4_to_root(fTistarSiDimensions));
+    //sett->SetLayerDimensionVector(layerN, 3, g4_to_root(fTistarSiDimensions));
+
+    //TVector3 position;
+    //position = TVector3(fTistarPositionOffset.x(), fTistarPositionOffset.y()+
 }
 
 void DetectorConstruction::AddTistarGasTarget() {
