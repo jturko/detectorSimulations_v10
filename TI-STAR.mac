@@ -12,7 +12,7 @@
 #
 
 /run/initialize
-#/control/execute vis.mac
+/control/execute vis.mac
 /tracking/verbose 0
 
 ######################################################
@@ -34,12 +34,19 @@
 /DetSys/app/setTistarVacuumChamberExteriorThickness 1 mm
 /DetSys/app/addTistarVacuumChamber
 
-## first layer
-#
+## test layer
+#/DetSys/det/setTistarDetectorNumber 11
+#/DetSys/det/setTistarSiDimensions 0.02 40 50 mm  
+#/DetSys/det/setTistarPCBDimensions 1.67 80 75 mm
+#/DetSys/det/setTistarSiOffsetInPCB 0 5 0 mm         
+#/DetSys/det/addTistarLayer
+
+# first layer
+
 /DetSys/det/setTistarDetectorNumber 11
-/DetSys/det/setTistarSiDimensions 40 0.02 50 mm  
-/DetSys/det/setTistarPCBDimensions 80 1.67 75 mm
-/DetSys/det/setTistarSiOffsetInPCB 5 0 0 mm         
+/DetSys/det/setTistarSiDimensions 0.02 40 50 mm  
+/DetSys/det/setTistarPCBDimensions 1.67 80 75 mm
+/DetSys/det/setTistarSiOffsetInPCB 0 5 0 mm         
 /DetSys/det/setTistarDistFromBeam 10 mm
 /DetSys/det/setTistarGapZ 4 mm
 # for shifting the inner layer so that it lines up with the outer layers
@@ -51,9 +58,9 @@
 ## second layer
 #
 /DetSys/det/setTistarDetectorNumber 21
-/DetSys/det/setTistarSiDimensions 100 0.150 100 mm  
-/DetSys/det/setTistarPCBDimensions 140 1.67 140 mm
-/DetSys/det/setTistarSiOffsetInPCB 5 0 0 mm         
+/DetSys/det/setTistarSiDimensions 0.150 100 100 mm  
+/DetSys/det/setTistarPCBDimensions 1.67 140 140 mm
+/DetSys/det/setTistarSiOffsetInPCB 0 5 0 mm         
 /DetSys/det/setTistarSiCentered 0
 /DetSys/det/setTistarDistFromBeam 30 mm
 /DetSys/det/addTistar2StripLayer
@@ -61,9 +68,9 @@
 ## third layer
 #
 /DetSys/det/setTistarDetectorNumber 31
-/DetSys/det/setTistarSiDimensions 100 2 100 mm  
-/DetSys/det/setTistarPCBDimensions 140 1.67 140 mm
-/DetSys/det/setTistarSiOffsetInPCB 5 0 0 mm         
+/DetSys/det/setTistarSiDimensions 2 100 100 mm  
+/DetSys/det/setTistarPCBDimensions 1.67 140 140 mm
+/DetSys/det/setTistarSiOffsetInPCB 0 5 0 mm         
 /DetSys/det/setTistarSiCentered 0
 /DetSys/det/setTistarDistFromBeam 33 mm
 /DetSys/det/addTistar2StripLayer
@@ -101,7 +108,7 @@
 
 ## GRIFFIN structure
 #
-/DetSys/app/addGriffinStructure 0
+#/DetSys/app/addGriffinStructure 0
 
 #####################################################
 # TRex/Miniball generator commands
@@ -139,15 +146,16 @@
 /DetSys/miniball/IncludeEnergyResolution 1
 /DetSys/miniball/SimulateEjectiles false
 
-/DetSys/gun/useTRexGenerator true
+/DetSys/gun/useTRexGenerator false
 
 #####################################################
 # GPS commands
 #
 
+/gps/particle geantino
 #/gps/particle proton
-/gps/particle ion
-/gps/ion 50 132 0 0 
+#/gps/particle ion
+#/gps/ion 50 132 0 0 
 
 /gps/position 0 0 -100 mm
 /gps/pos/type Plane
@@ -157,11 +165,11 @@
 
 /gps/energy 792 MeV
 
-/DetSys/gun/useGPS false
+/DetSys/gun/useGPS true
 
 #####################################################
 # Start the run
 #
 
-/run/beamOn 10000
+/run/beamOn 1
 
