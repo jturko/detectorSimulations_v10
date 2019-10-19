@@ -135,6 +135,7 @@ void EventAction::EndOfEventAction(const G4Event*) {
             for(int hitNum = 0; hitNum < fNumberOfHits; hitNum++) {
                 if(fProperties[hitNum].dataOfDetectorsNumber >= 0) {
                     ParticleMC particle;
+                    particle.ID(fHitTrackerI[7][hitNum]);
                     particle.AddStrip(  -1,                             // strip number
                                         fHitTrackerD[0][hitNum]/keV,    // energy
                                         fHitTrackerD[5][hitNum],        // particle A
@@ -145,6 +146,15 @@ void EventAction::EndOfEventAction(const G4Event*) {
                                         fHitTrackerD[2][hitNum]/mm,     // global y pos
                                         fHitTrackerD[3][hitNum]/mm,     // global z pos
                                         -1);                            // stopped?
+                    particle.AddRing(  -1,                             // strip number
+                                        fHitTrackerD[0][hitNum]/keV,    // energy
+                                        fHitTrackerD[5][hitNum],        // particle A
+                                        fHitTrackerI[9][hitNum],        // particle Z
+                                        fHitTrackerI[1][hitNum],        // track ID
+                                        fHitTrackerD[4][hitNum]/second, // time
+                                        -1);                            // stopped?
+                    
+
                     fHistoManager->GetTistarDataOfDetectors()[fProperties[hitNum].dataOfDetectorsNumber] = new std::vector<ParticleMC>;
                     fHistoManager->GetTistarDataOfDetectors()[fProperties[hitNum].dataOfDetectorsNumber]->push_back(particle);
                 }

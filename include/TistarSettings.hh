@@ -24,6 +24,8 @@ public:
     static TistarSettings* Get();
     virtual ~TistarSettings();
     
+    static void Set(TistarSettings*);
+
     std::string GetPrimaryGenerator() { return fPrimaryGenerator; }
     void SetPrimaryGenerator(std::string pgen) { fPrimaryGenerator = pgen; }
     

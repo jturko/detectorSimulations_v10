@@ -26,6 +26,10 @@ TistarSettings* TistarSettings::Get() {
 	return fSettings;
 }
 
+void TistarSettings::Set(TistarSettings * sett) {
+    fSettings = sett;
+}
+
 TistarSettings::TistarSettings() 
 {
     fSaveMe = false;

@@ -405,7 +405,8 @@ G4int DetectionSystemTistar::AddVacuumChamber(G4LogicalVolume* expHallLog, G4Log
     // Make the target materials
     G4Material * vacuum_material = G4Material::GetMaterial(fVacuumChamberMaterialName);
     G4Material * exterior_material = G4Material::GetMaterial(fVacuumChamberExteriorMaterialName);
-    TistarSettings::Get()->SetVacuumChamberGasPressure(vacuum_material->GetPressure());
+    //TistarSettings::Get()->SetVacuumChamberGasPressure(vacuum_material->GetPressure());
+    TistarSettings::Get()->SetVacuumChamberGasPressure(0.1*CLHEP::bar);
 
     // Set up colours and other vis. attributes
     G4VisAttributes * vacuum_vis_att = new G4VisAttributes(G4Colour::Red());

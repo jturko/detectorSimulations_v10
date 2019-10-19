@@ -606,6 +606,6 @@ void TRexBeam::FillNtuple() {
 void TRexBeam::SaveExtras(TFile * file) {
     file->cd();
     if(fReactionZDistributionGraph) fReactionZDistributionGraph->Write("fReactionZDistributionGraph");
-    if(fReactionZDistributionHisto) fReactionZDistributionHisto->Write("fReactionZDistributionHisto");
-    if(fReactionZDistributionSpline) fReactionZDistributionSpline->Write("fReactionZDistributionSpline");   
+    //if(fReactionZDistributionHisto) fReactionZDistributionHisto->Write("fReactionZDistributionHisto");
+    //if(fReactionZDistributionSpline) fReactionZDistributionSpline->Write("fReactionZDistributionSpline");   
 }
