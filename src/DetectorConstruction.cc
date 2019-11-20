@@ -1038,9 +1038,11 @@ void DetectorConstruction::AddTistarVacuumChamber() {
     if(fTistarVacuumChamberBoxDimensions.mag()>0.)  pTistar->SetVacuumChamberBoxDimensions(fTistarVacuumChamberBoxDimensions);
     if(fTistarVacuumChamberCylinderRadius>0.)       pTistar->SetVacuumChamberCylinderRadius(fTistarVacuumChamberCylinderRadius);
     if(fTistarVacuumChamberCylinderZ>0.)            pTistar->SetVacuumChamberCylinderZ(fTistarVacuumChamberCylinderZ);
+    if(fTistarVacuumChamberSphereRadius>0.)         pTistar->SetVacuumChamberSphereRadius(fTistarVacuumChamberSphereRadius);
     
     if(fTistarVacuumChamberExteriorMaterialName != "") pTistar->SetVacuumChamberExteriorMaterialName(fTistarVacuumChamberExteriorMaterialName);
     if(fTistarVacuumChamberExteriorThickness>0.)       pTistar->SetVacuumChamberExteriorThickness(fTistarVacuumChamberExteriorThickness);
+    if(fTistarVacuumChamberBeamHoleRadius>0.)          pTistar->SetVacuumChamberBeamHoleRadius(fTistarVacuumChamberBeamHoleRadius);
 
     pTistar->AddVacuumChamber(fLogicWorld,fLogicVC);   
 }

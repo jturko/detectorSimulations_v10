@@ -76,9 +76,11 @@ public:
     void SetVacuumChamberBoxDimensions(G4ThreeVector dims) { fVacuumChamberBoxDimensions = dims; }
     void SetVacuumChamberCylinderRadius(G4double radius) { fVacuumChamberCylinderRadius = radius; }
     void SetVacuumChamberCylinderZ(G4double zz) { fVacuumChamberCylinderZ = zz; }
-    
+    void SetVacuumChamberSphereRadius(G4double radius) { fVacuumChamberSphereRadius = radius; } 
+   
     void SetVacuumChamberExteriorMaterialName(G4String material) { fVacuumChamberExteriorMaterialName = material; }
     void SetVacuumChamberExteriorThickness(G4double thickness) { fVacuumChamberExteriorThickness = thickness; }    
+    void SetVacuumChamberBeamHoleRadius(G4double radius) { fVacuumChamberBeamHoleRadius = radius; }
 
     G4int AddVacuumChamber(G4LogicalVolume* expHallLog, G4LogicalVolume *& vaccumChamberLog);
 
@@ -128,10 +130,12 @@ private:
     G4ThreeVector fVacuumChamberBoxDimensions;
     G4double fVacuumChamberCylinderRadius;
     G4double fVacuumChamberCylinderZ;
+    G4double fVacuumChamberSphereRadius;
 
     G4String fVacuumChamberExteriorMaterialName;
     G4double fVacuumChamberExteriorThickness; 
-           
+    G4double fVacuumChamberBeamHoleRadius;     
+      
 };
 
 #endif

@@ -422,6 +422,10 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction* Det)
     fSetTistarVacuumChamberCylinderZCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/app/setTistarVacuumChamberCylinderZ",this);
     fSetTistarVacuumChamberCylinderZCmd->SetGuidance("Set the TI-STAR vacuum chamber z-dimensions (if shape = \"cylinder\")");
     fSetTistarVacuumChamberCylinderZCmd->AvailableForStates(G4State_PreInit,G4State_Idle);   
+    
+    fSetTistarVacuumChamberSphereRadiusCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/app/setTistarVacuumChamberSphereRadius",this);
+    fSetTistarVacuumChamberSphereRadiusCmd->SetGuidance("Set the TI-STAR vacuum chamber radius (if shape = \"sphere\")"); 
+    fSetTistarVacuumChamberSphereRadiusCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
     fSetTistarVacuumChamberExteriorMaterialNameCmd = new G4UIcmdWithAString("/DetSys/app/setTistarVacuumChamberExteriorMaterial",this);
     fSetTistarVacuumChamberExteriorMaterialNameCmd->SetGuidance("Set the TI-STAR vacuum chamber exterior material");
@@ -430,6 +434,10 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction* Det)
     fSetTistarVacuumChamberExteriorThicknessCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/app/setTistarVacuumChamberExteriorThickness",this);
     fSetTistarVacuumChamberExteriorThicknessCmd->SetGuidance("Set the TI-STAR vacuum chamber exterior layer thickness");
     fSetTistarVacuumChamberExteriorThicknessCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    
+    fSetTistarVacuumChamberBeamHoleRadiusCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/app/setTistarVacuumChamberBeamHoleRadius",this);
+    fSetTistarVacuumChamberBeamHoleRadiusCmd->SetGuidance("Set the TI-STAR vacuum chamber beam hole radius");
+    fSetTistarVacuumChamberBeamHoleRadiusCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -536,8 +544,10 @@ DetectorMessenger::~DetectorMessenger()
     delete fSetTistarVacuumChamberBoxDimensionsCmd;
     delete fSetTistarVacuumChamberCylinderRadiusCmd;
     delete fSetTistarVacuumChamberCylinderZCmd;
+    delete fSetTistarVacuumChamberSphereRadiusCmd;
     delete fSetTistarVacuumChamberExteriorMaterialNameCmd;
     delete fSetTistarVacuumChamberExteriorThicknessCmd;
+    delete fSetTistarVacuumChamberBeamHoleRadiusCmd;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -810,11 +820,17 @@ void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
     if(command == fSetTistarVacuumChamberCylinderZCmd) {
         fDetector->SetTistarVacuumChamberCylinderZ(fSetTistarVacuumChamberCylinderZCmd->GetNewDoubleValue(newValue));
     }
+    if(command == fSetTistarVacuumChamberSphereRadiusCmd) {
+        fDetector->SetTistarVacuumChamberSphereRadius(fSetTistarVacuumChamberSphereRadiusCmd->GetNewDoubleValue(newValue));
+    }
     if(command == fSetTistarVacuumChamberExteriorMaterialNameCmd) {
         fDetector->SetTistarVacuumChamberExteriorMaterialName(newValue);
     }
     if(command == fSetTistarVacuumChamberExteriorThicknessCmd) {
         fDetector->SetTistarVacuumChamberExteriorThickness(fSetTistarVacuumChamberExteriorThicknessCmd->GetNewDoubleValue(newValue));
+    }
+    if(command == fSetTistarVacuumChamberBeamHoleRadiusCmd) {
+        fDetector->SetTistarVacuumChamberBeamHoleRadius(fSetTistarVacuumChamberBeamHoleRadiusCmd->GetNewDoubleValue(newValue));
     }
 }
 

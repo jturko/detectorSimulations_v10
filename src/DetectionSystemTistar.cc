@@ -5,6 +5,7 @@
 
 #include "G4Box.hh"
 #include "G4Tubs.hh"
+#include "G4Sphere.hh"
 #include "G4LogicalVolume.hh"
 #include "G4PVPlacement.hh"
 
@@ -381,7 +382,7 @@ G4int DetectionSystemTistar::AddGasTarget(G4LogicalVolume* expHallLog)
 
 void DetectionSystemTistar::SetVacuumChamberShape(G4String shape) 
 {
-    if(shape=="box" || shape=="cylinder") {
+    if(shape=="box" || shape=="cylinder" || shape=="sphere") {
         fVacuumChamberShape = shape;
         TistarSettings::Get()->SetVacuumChamberType(shape);
     } else {
@@ -397,6 +398,7 @@ void DetectionSystemTistar::SetVacuumChamberMaterialName(G4String material) {
 
 G4int DetectionSystemTistar::AddVacuumChamber(G4LogicalVolume* expHallLog, G4LogicalVolume *& vacuumChamberLog) 
 {
+    std::cout << "tistar beam hole radius = " << fVacuumChamberBeamHoleRadius/mm << " mm" << std::endl;
     TistarSettings::Get()->IncludeVacuumChamber(1);
 
     G4ThreeVector move;
@@ -447,6 +449,30 @@ G4int DetectionSystemTistar::AddVacuumChamber(G4LogicalVolume* expHallLog, G4Log
                                         2.*M_PI); // phi end
         vacuum_chamber_exterior_SV = new G4SubtractionSolid("vacuum_chamber_exterior_solid", vacuum_chamber_exterior_cut_SV, vacuum_chamber_SV); // cutting the hollow box
     } 
+    else if(fVacuumChamberShape == "sphere") {
+        std::cout << "vacuum chamber sphere, radius = " << fVacuumChamberSphereRadius/cm << " cm" << std::endl;
+        vacuum_chamber_SV = new G4Sphere("vacuum_chamber_solid",
+                                         0., // inner radius
+                                         fVacuumChamberSphereRadius, // outer radius
+                                         0., // phi start
+                                         2.*M_PI, // phi end
+                                         0., // theta start
+                                         M_PI); // theta end
+        vacuum_chamber_exterior_SV = new G4Sphere("vacuum_chamber_solid",
+                                         fVacuumChamberSphereRadius, // inner radius
+                                         fVacuumChamberSphereRadius+fVacuumChamberExteriorThickness, // outer radius
+                                         0., // phi start
+                                         2.*M_PI, // phi end
+                                         0., // theta start
+                                         M_PI); // theta end
+        vacuum_chamber_exterior_cut_SV = new G4Tubs("vacuum_chamber_exterior_solid", 
+                                        0., // inner radius
+                                        fVacuumChamberBeamHoleRadius, // outer radius 
+                                        1.*m, // z distance
+                                        0, // phi start
+                                        2.*M_PI); // phi end
+        vacuum_chamber_exterior_SV = new G4SubtractionSolid("vacuum_chamber_exterior_solid", vacuum_chamber_exterior_SV, vacuum_chamber_exterior_cut_SV); // cutting the hollow sphere
+    }
     else {
         G4cout << " ---> Unknown vacuum chamber shape \"" << fVacuumChamberShape << "\", cannot build!" << G4endl;
         return 2;

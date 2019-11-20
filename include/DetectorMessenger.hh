@@ -177,9 +177,11 @@ private:
     G4UIcmdWith3VectorAndUnit*  fSetTistarVacuumChamberBoxDimensionsCmd;
     G4UIcmdWithADoubleAndUnit*  fSetTistarVacuumChamberCylinderRadiusCmd;
     G4UIcmdWithADoubleAndUnit*  fSetTistarVacuumChamberCylinderZCmd;
+    G4UIcmdWithADoubleAndUnit*  fSetTistarVacuumChamberSphereRadiusCmd;
 
     G4UIcmdWithAString*         fSetTistarVacuumChamberExteriorMaterialNameCmd;
     G4UIcmdWithADoubleAndUnit*  fSetTistarVacuumChamberExteriorThicknessCmd;
+    G4UIcmdWithADoubleAndUnit*  fSetTistarVacuumChamberBeamHoleRadiusCmd;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
