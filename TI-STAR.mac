@@ -12,8 +12,8 @@
 #
 
 /run/initialize
-/control/execute vis.mac
 /tracking/verbose 0
+/control/execute vis.mac
 
 ######################################################
 # Geometry
@@ -25,24 +25,20 @@
 
 ## vacuum chamber
 #
-/DetSys/app/setTistarVacuumChamberShape box
-/DetSys/app/setTistarVacuumChamberMaterial Vacuum
+/DetSys/app/setTistarVacuumChamberShape sphere
+/DetSys/app/setTistarVacuumChamberMaterial helium
+#/DetSys/app/setTistarVacuumChamberMaterial Vacuum
 /DetSys/app/setTistarVacuumChamberBoxDimensions 15 15 20 cm
 /DetSys/app/setTistarVacuumChamberCylinderRadius 8 cm
 /DetSys/app/setTistarVacuumChamberCylinderZ 20 cm
+/DetSys/app/setTistarVacuumChamberSphereRadius 12 cm
 /DetSys/app/setTistarVacuumChamberExteriorMaterial G4_Al
 /DetSys/app/setTistarVacuumChamberExteriorThickness 1 mm
+/DetSys/app/setTistarVacuumChamberBeamHoleRadius 5 mm
 /DetSys/app/addTistarVacuumChamber
 
-## test layer
-#/DetSys/det/setTistarDetectorNumber 11
-#/DetSys/det/setTistarSiDimensions 0.02 40 50 mm  
-#/DetSys/det/setTistarPCBDimensions 1.67 80 75 mm
-#/DetSys/det/setTistarSiOffsetInPCB 0 5 0 mm         
-#/DetSys/det/addTistarLayer
-
 # first layer
-
+#
 /DetSys/det/setTistarDetectorNumber 11
 /DetSys/det/setTistarSiDimensions 0.02 40 50 mm  
 /DetSys/det/setTistarPCBDimensions 1.67 80 75 mm
@@ -79,7 +75,8 @@
 #
 /DetSys/miniball/SetTargetMaterialName 2H
 /DetSys/miniball/SetTargetDiameter 10.0 mm
-/DetSys/miniball/SetTargetThickness 2.582e-1        # in mg/cm2 (50: 1.292e-1 , 100:2.582e-1)
+/DetSys/miniball/SetTargetThickness 2.8339e-1        # the value that was used in TRexGeant4 simulation
+#/DetSys/miniball/SetTargetThickness 2.582e-1        # in mg/cm2 (50: 1.292e-1 , 100:2.582e-1)
 /DetSys/miniball/SetTargetMaterialDensity 1.614e-5  # in g/cm3 (50: 8.072e-6 , 100:1.614e-5)
 /DetSys/miniball/SetGasTargetLength 16.0 cm
 /DetSys/miniball/SetTargetPressure 0.100 bar
@@ -115,11 +112,11 @@
 #
 
 /DetSys/miniball/SetPrimaryGenerator                AngularDistribution
-/DetSys/miniball/SetLevelFile                       ../Data/LevelFiles/132Sn_dp.dat
-/DetSys/miniball/SetAngularDistributionFile         ../Data/AngularDistributionFiles/132Sn_dp.dat
-/DetSys/miniball/SetMassFile                        ../Data/MassFile.dat
-/DetSys/miniball/SetReactionZvsRadiusFile           ../Data/ReactionZvsRadiusFile.dat
-/DetSys/miniball/SetReactionZDistributionFile       ../Data/ReactionZDistributionFile.dat
+/DetSys/miniball/SetLevelFile                       /Users/JTurko/geant4_sims/detectorSimulations_v10_TI-STAR/Data/LevelFiles/132Sn_dp.dat
+/DetSys/miniball/SetAngularDistributionFile         /Users/JTurko/geant4_sims/detectorSimulations_v10_TI-STAR/Data/AngularDistributionFiles/132Sn_dp.dat
+/DetSys/miniball/SetMassFile                        /Users/JTurko/geant4_sims/detectorSimulations_v10_TI-STAR/Data/MassFile.dat
+/DetSys/miniball/SetReactionZvsRadiusFile           /Users/JTurko/geant4_sims/detectorSimulations_v10_TI-STAR/Data/ReactionZvsRadiusFile.dat
+/DetSys/miniball/SetReactionZDistributionFile       /Users/JTurko/geant4_sims/detectorSimulations_v10_TI-STAR/Data/ReactionZDistributionFile.dat
 
 /DetSys/miniball/SetBeamEnergy 792.0 MeV
 /DetSys/miniball/SetBeamWidth 1.0 mm
@@ -146,16 +143,16 @@
 /DetSys/miniball/IncludeEnergyResolution 1
 /DetSys/miniball/SimulateEjectiles false
 
-/DetSys/gun/useTRexGenerator false
+/DetSys/gun/useTRexGenerator true
 
 #####################################################
 # GPS commands
 #
 
-/gps/particle geantino
+#/gps/particle geantino
 #/gps/particle proton
-#/gps/particle ion
-#/gps/ion 50 132 0 0 
+/gps/particle ion
+/gps/ion 50 132 0 0 
 
 /gps/position 0 0 -100 mm
 /gps/pos/type Plane
@@ -165,11 +162,11 @@
 
 /gps/energy 792 MeV
 
-/DetSys/gun/useGPS true
+/DetSys/gun/useGPS false
 
 #####################################################
 # Start the run
 #
 
-/run/beamOn 1
+/run/beamOn 5
 
