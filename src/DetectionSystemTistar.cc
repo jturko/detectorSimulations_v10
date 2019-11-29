@@ -396,9 +396,8 @@ void DetectionSystemTistar::SetVacuumChamberMaterialName(G4String material) {
 }
 
 
-G4int DetectionSystemTistar::AddVacuumChamber(G4LogicalVolume* expHallLog, G4LogicalVolume *& vacuumChamberLog) 
+G4int DetectionSystemTistar::AddVacuumChamber(G4LogicalVolume* expHallLog, G4LogicalVolume *& vacuumChamberGasLog) 
 {
-    std::cout << "tistar beam hole radius = " << fVacuumChamberBeamHoleRadius/mm << " mm" << std::endl;
     TistarSettings::Get()->IncludeVacuumChamber(1);
 
     G4ThreeVector move;
@@ -419,59 +418,86 @@ G4int DetectionSystemTistar::AddVacuumChamber(G4LogicalVolume* expHallLog, G4Log
     exterior_vis_att->SetVisibility(true);
     
     // Build the object solid volume
-    G4VSolid * vacuum_chamber_SV = NULL;
-    G4VSolid * vacuum_chamber_exterior_cut_SV = NULL;
+    G4VSolid * vacuum_chamber_gas_SV = NULL;
+    G4VSolid * vacuum_chamber_exterior_cutting_SV = NULL;
     G4VSolid * vacuum_chamber_exterior_SV = NULL;
 
     if(fVacuumChamberShape == "box") {
-        vacuum_chamber_SV = new G4Box("vacuum_chamber_solid", 
+        // the gas inside the vacuum chamber
+        vacuum_chamber_gas_SV = new G4Box("vacuum_chamber_gas_solid", 
                                       fVacuumChamberBoxDimensions.x()/2.,  // x
                                       fVacuumChamberBoxDimensions.y()/2.,  // y
                                       fVacuumChamberBoxDimensions.z()/2.); // z
-        vacuum_chamber_exterior_cut_SV = new G4Box("vacuum_chamber_exterior_cut_solid", 
+        // the exterior of the vacuum chamber
+        vacuum_chamber_exterior_SV = new G4Box("vacuum_chamber_exterior_precut_solid", 
                                       fVacuumChamberBoxDimensions.x()/2.+fVacuumChamberExteriorThickness,  // x
                                       fVacuumChamberBoxDimensions.y()/2.+fVacuumChamberExteriorThickness,  // y
                                       fVacuumChamberBoxDimensions.z()/2.+fVacuumChamberExteriorThickness); // z
-        vacuum_chamber_exterior_SV = new G4SubtractionSolid("vacuum_chamber_exterior_solid", vacuum_chamber_exterior_cut_SV, vacuum_chamber_SV); // cutting the hollow box
+        // hollowing out the vacuum chamber exterior
+        vacuum_chamber_exterior_SV = new G4SubtractionSolid("vacuum_chamber_exterior_postcut_solid", vacuum_chamber_exterior_SV, vacuum_chamber_gas_SV); // cutting the hollow box
+        // cylinder used to cut the beam exit hole in the chamber exterior
+        vacuum_chamber_exterior_cutting_SV = new G4Tubs("vacuum_chamber_exterior_cutting_solid", 
+                                        0., // inner radius
+                                        fVacuumChamberBeamHoleRadius, // outer radius 
+                                        1.*m, // z distance
+                                        0, // phi start
+                                        2.*M_PI); // phi end
+        // cutting the beam hole in the vacuum chamber exterior
+        vacuum_chamber_exterior_SV = new G4SubtractionSolid("vacuum_chamber_exterior_solid", vacuum_chamber_exterior_SV, vacuum_chamber_exterior_cutting_SV); 
     } 
     else if(fVacuumChamberShape == "cylinder") {
-        vacuum_chamber_SV = new G4Tubs("vacuum_chamber_solid", 
+        // the gas inside the vacuum chamber
+        vacuum_chamber_gas_SV = new G4Tubs("vacuum_chamber_gas_solid", 
                                         0., // inner radius  
                                         fVacuumChamberCylinderRadius, // outer radius 
                                         fVacuumChamberCylinderZ/2., // z distance  
                                         0, // phi start
                                         2.*M_PI); // phi end
-        vacuum_chamber_exterior_cut_SV = new G4Tubs("vacuum_chamber_exterior_solid", 
+        // the exterior of the vacuum chamber
+        vacuum_chamber_exterior_SV = new G4Tubs("vacuum_chamber_exterior_precut_solid", 
                                         0., // inner radius
                                         fVacuumChamberCylinderRadius+fVacuumChamberExteriorThickness, // outer radius 
                                         fVacuumChamberCylinderZ/2.+fVacuumChamberExteriorThickness, // z distance
                                         0, // phi start
                                         2.*M_PI); // phi end
-        vacuum_chamber_exterior_SV = new G4SubtractionSolid("vacuum_chamber_exterior_solid", vacuum_chamber_exterior_cut_SV, vacuum_chamber_SV); // cutting the hollow box
+        // hollowing out the vacuum chamber exterior
+        vacuum_chamber_exterior_SV = new G4SubtractionSolid("vacuum_chamber_postcut_exterior_solid", vacuum_chamber_exterior_SV, vacuum_chamber_gas_SV); // cutting the hollow box
+        // cylinder used to cut the beam exit hole in the chamber exterior
+        vacuum_chamber_exterior_cutting_SV = new G4Tubs("vacuum_chamber_exterior_cutting_solid", 
+                                        0., // inner radius
+                                        fVacuumChamberBeamHoleRadius, // outer radius 
+                                        1.*m, // z distance
+                                        0, // phi start
+                                        2.*M_PI); // phi end
+        // cutting the beam hole in the vacuum chamber exterior
+        vacuum_chamber_exterior_SV = new G4SubtractionSolid("vacuum_chamber_exterior_solid", vacuum_chamber_exterior_SV, vacuum_chamber_exterior_cutting_SV); 
     } 
     else if(fVacuumChamberShape == "sphere") {
-        std::cout << "vacuum chamber sphere, radius = " << fVacuumChamberSphereRadius/cm << " cm" << std::endl;
-        vacuum_chamber_SV = new G4Sphere("vacuum_chamber_solid",
+        // the gas inside the vacuum chamber
+        vacuum_chamber_gas_SV = new G4Sphere("vacuum_chamber_gas_solid",
                                          0., // inner radius
                                          fVacuumChamberSphereRadius, // outer radius
                                          0., // phi start
                                          2.*M_PI, // phi end
                                          0., // theta start
                                          M_PI); // theta end
-        vacuum_chamber_exterior_SV = new G4Sphere("vacuum_chamber_solid",
+        // the exterior of the vacuum chamber
+        vacuum_chamber_exterior_SV = new G4Sphere("vacuum_chamber_exterior_solid",
                                          fVacuumChamberSphereRadius, // inner radius
                                          fVacuumChamberSphereRadius+fVacuumChamberExteriorThickness, // outer radius
                                          0., // phi start
                                          2.*M_PI, // phi end
                                          0., // theta start
                                          M_PI); // theta end
-        vacuum_chamber_exterior_cut_SV = new G4Tubs("vacuum_chamber_exterior_solid", 
+        // cylinder used to cut the beam exit hole in the chamber exterior
+        vacuum_chamber_exterior_cutting_SV = new G4Tubs("vacuum_chamber_exterior_cutting_solid", 
                                         0., // inner radius
                                         fVacuumChamberBeamHoleRadius, // outer radius 
                                         1.*m, // z distance
                                         0, // phi start
                                         2.*M_PI); // phi end
-        vacuum_chamber_exterior_SV = new G4SubtractionSolid("vacuum_chamber_exterior_solid", vacuum_chamber_exterior_SV, vacuum_chamber_exterior_cut_SV); // cutting the hollow sphere
+        // cutting the beam hole in the vacuum chamber exterior
+        vacuum_chamber_exterior_SV = new G4SubtractionSolid("vacuum_chamber_exterior_solid", vacuum_chamber_exterior_SV, vacuum_chamber_exterior_cutting_SV); 
     }
     else {
         G4cout << " ---> Unknown vacuum chamber shape \"" << fVacuumChamberShape << "\", cannot build!" << G4endl;
@@ -479,8 +505,8 @@ G4int DetectionSystemTistar::AddVacuumChamber(G4LogicalVolume* expHallLog, G4Log
     }
     
     // Logical volumes
-    vacuumChamberLog = new G4LogicalVolume(vacuum_chamber_SV, vacuum_material, "vacuum_chamber_LV", 0, 0, 0);
-    vacuumChamberLog->SetVisAttributes(vacuum_vis_att);
+    vacuumChamberGasLog = new G4LogicalVolume(vacuum_chamber_gas_SV, vacuum_material, "vacuum_chamber_gas_LV", 0, 0, 0);
+    vacuumChamberGasLog->SetVisAttributes(vacuum_vis_att);
 
     G4LogicalVolume * vacuumChamberExteriorLog = new G4LogicalVolume(vacuum_chamber_exterior_SV, exterior_material, "vacuum_chamber_exterior_LV", 0, 0, 0);
     vacuumChamberExteriorLog->SetVisAttributes(exterior_vis_att);
@@ -488,7 +514,7 @@ G4int DetectionSystemTistar::AddVacuumChamber(G4LogicalVolume* expHallLog, G4Log
     // Placement
     move = G4ThreeVector(0.,0.,0.);
     rotate = new G4RotationMatrix;
-    G4VPhysicalVolume * vacuum_chamber_PV = new G4PVPlacement(rotate, move, vacuumChamberLog, "vacuum_chamber_PV", expHallLog, 0, 0, 0);    
+    G4VPhysicalVolume * vacuum_chamber_PV = new G4PVPlacement(rotate, move, vacuumChamberGasLog, "vacuum_chamber_PV", expHallLog, 0, 0, 0);    
     G4VPhysicalVolume * exterior_chamber_PV = new G4PVPlacement(rotate, move, vacuumChamberExteriorLog, "vacuum_chamber_exterior_PV", expHallLog, 0, 0, 0);
 
     return 1;
