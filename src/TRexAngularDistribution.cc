@@ -56,8 +56,8 @@ void TRexAngularDistribution::GeneratePrimaries(G4Event *anEvent) {
 		
 		fKinematics = new Kinematic(&fProjectile, fTargetMaterial, TistarSettings::Get()->GetTargetThickness()/(mg/cm2));
 		
-		fEnergyVsTargetDepth = *(fKinematics->EnergyVsThickness(fBeamEnergy / MeV, TistarSettings::Get()->GetTargetThickness() / 1000 / (mg/cm2)));
-		fRangeVsBeamEnergyLeila = *(fKinematics->RangeVsEnergy(fBeamEnergy / MeV, TistarSettings::Get()->GetTargetThickness() / 1000 / (mg/cm2)));
+		fEnergyVsTargetDepth = *(fKinematics->EnergyVsThickness(fBeamEnergy / CLHEP::MeV, TistarSettings::Get()->GetTargetThickness() / 1000 / (CLHEP::mg/CLHEP::cm2)));
+		fRangeVsBeamEnergyLeila = *(fKinematics->RangeVsEnergy(fBeamEnergy / CLHEP::MeV, TistarSettings::Get()->GetTargetThickness() / 1000 / (CLHEP::mg/CLHEP::cm2)));
 				
 		isDefined = true;
 		
@@ -65,6 +65,10 @@ void TRexAngularDistribution::GeneratePrimaries(G4Event *anEvent) {
 		CalculateArealDensity();
 		CalculateCrossSectionIntegral();
 		CalculateScatteringProbability();
+
+        fEnergyVsTargetDepth.Write("fEnergyVsTargetDepth");
+
+        std::cout << "---> in generate primaries; beam energy = " << fBeamEnergy << ", TargetThickness = " << TistarSettings::Get()->GetTargetThickness() << std::endl;
 	}
 	
 	// clear old event

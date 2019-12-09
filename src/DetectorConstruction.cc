@@ -1018,6 +1018,7 @@ void DetectorConstruction::AddTistarGasTarget() {
     if(fLogicWorld == NULL) {
         Construct();
     }
+    DefineTistarTargetMaterials();
     DetectionSystemTistar * pTistar = new DetectionSystemTistar();
     if(fLogicVC != NULL) {
         G4cout << " ---> There is a vacuum chamber, building inside..." << G4endl;

@@ -250,6 +250,8 @@ public:
 
     G4LogicalVolume * GetLogicWorld() { return fLogicWorld; }
 
+    void DefineTistarTargetMaterials();
+
 private:
     bool CheckVolumeName(G4String volumeName);
     DetectorProperties ParseVolumeName(G4String volumeName);

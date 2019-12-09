@@ -126,7 +126,7 @@ public:
     double GetTargetPressure() { return fTargetPressure; }
     
     void SetTargetDiameter(double val) { fTargetDiameter =  val; }
-    void SetTargetThickness(double val) { fTargetThickness = val*(mg/cm2); }
+    void SetTargetThickness(double val) { fTargetThickness = val * (CLHEP::mg/CLHEP::cm2); }
     void SetGasTargetLength(double val) { fGasTargetLength = val; }
     void SetTargetPressure(double val) { fTargetPressure = val; }
     
@@ -135,7 +135,7 @@ public:
     
     //std::string GetTargetMaterial() { return fTargetMaterial; }
     double GetTargetMaterialDensity() { return fTargetMaterialDensity; }
-    void SetTargetMaterialDensity(double density) { fTargetMaterialDensity = density*(g/cm3); }
+    void SetTargetMaterialDensity(double density) { fTargetMaterialDensity = density * (CLHEP::g/CLHEP::cm3); }
     //void SetTargetThickness(double thickness) { fTargetThickness = thickness; }
     
     // target foils

@@ -73,7 +73,7 @@ void TRexBeam::ShootReactionPosition() {
     } 
 	// otherwise, choose z according to a flat distribution in the target
     else {
-        fReactionZ = G4RandFlat::shoot(-TistarSettings::Get()->GetTargetPhysicalLength()/(2*um), TistarSettings::Get()->GetTargetPhysicalLength()/(2*um))*um;
+        fReactionZ = CLHEP::RandFlat::shoot(-TistarSettings::Get()->GetTargetPhysicalLength()/(2.*CLHEP::um), TistarSettings::Get()->GetTargetPhysicalLength()/(2.*CLHEP::um))*CLHEP::um;
     }
     
     // if the beam spread file has been set, use the spline to get the x-y reaction coords
@@ -95,8 +95,8 @@ void TRexBeam::ShootReactionPosition() {
 	      fReactionY = G4RandFlat::shoot(-fBeamWidth / 2., fBeamWidth / 2.) * mm;
 	      } while(sqrt(pow(fReactionX,2)+pow(fReactionY,2)) > fBeamWidth / 2.); original commented out by Leila because X/Y was not a flat distribution (gauss)*/
 
-	    fReactionX = G4RandFlat::shoot(-fBeamWidth / 2., fBeamWidth / 2.) * mm;
-	    fReactionY = G4RandFlat::shoot(-fBeamWidth / 2., fBeamWidth / 2.) * mm;
+	    fReactionX = CLHEP::RandFlat::shoot(-fBeamWidth / 2., fBeamWidth / 2.) * mm;
+	    fReactionY = CLHEP::RandFlat::shoot(-fBeamWidth / 2., fBeamWidth / 2.) * mm;
 
 	    // choose z according to a flat distribution in the target
 	    //fReactionZ = G4RandFlat::shoot(-TistarSettings::Get()->GetTargetThickness() / (2. * TistarSettings::Get()->GetTargetMaterialDensity()) / um,
@@ -360,6 +360,8 @@ void TRexBeam::CalculateReactionEnergyInTheTarget() {
 
 	G4double reactionPosInTarget = fReactionZ * TistarSettings::Get()->GetTargetMaterialDensity() + TistarSettings::Get()->GetTargetThickness() / 2.;
     fReactionEnergy = fEnergyVsTargetDepth.Eval(reactionPosInTarget /(mg/cm2))*MeV;
+    
+    std::cout << "reactionZ = " << fReactionZ << "\t target mat density = " << TistarSettings::Get()->GetTargetMaterialDensity() << "\t target thick = " << TistarSettings::Get()->GetTargetThickness() << "\t reactionPosInTarget = " << reactionPosInTarget << std::endl;
 
 	//std::cout << "fReactionZ = " << fReactionZ << " ,x = " << reactionPosInTarget /(mg/cm2) << " , E(x) = " << fReactionEnergy / MeV << " TargetMaterialDensity: "<<TistarSettings::Get()->GetTargetMaterialDensity()/(mg/cm3)<<std::endl; 
 

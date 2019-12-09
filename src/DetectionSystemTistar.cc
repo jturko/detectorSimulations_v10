@@ -27,6 +27,10 @@
 
 #include <string>
 
+#include "G4NistManager.hh"
+#include "G4Isotope.hh"
+#include "G4Element.hh"
+
 DetectionSystemTistar::DetectionSystemTistar() :
     fAssemblyLayer(NULL),
     fLogicalSiLayer(NULL),
@@ -316,11 +320,9 @@ G4int DetectionSystemTistar::AddGasTarget(G4LogicalVolume* expHallLog)
     G4ThreeVector move;
     G4RotationMatrix * rotate = NULL;
 
-    // Make the target materials
-    G4Material * deuterium_gas_material = new G4Material("Deuterium_Gas", 1, 2.014*g/mole, fGasTargetDensity, kStateGas, 293.15*kelvin, fGasTargetPressure);
+    G4Material * target_material = G4Material::GetMaterial("tistar_target");
     G4Material * mylar_material = G4Material::GetMaterial(fGasTargetMylarMaterialName);    
     G4Material * be_material = G4Material::GetMaterial(fGasTargetBeWindowMaterialName);    
-    std::cout<<"TI-STAR gas target built w/ density = "<<G4BestUnit(fGasTargetDensity,"Volumic Mass")<<" and pressure = "<<G4BestUnit(fGasTargetPressure,"Pressure")<<std::endl;
 
     // Set up colours and other vis. attributes
     G4VisAttributes * gas_vis_att = new G4VisAttributes(G4Colour::Yellow());
@@ -337,13 +339,22 @@ G4int DetectionSystemTistar::AddGasTarget(G4LogicalVolume* expHallLog)
     G4Tubs * gas_target = new G4Tubs("Gas_target", 0.*cm, fGasTargetRadius, fGasTargetLength/2., 0., 2.*M_PI);
     // Logical volumes
     if(fLogicalGasTarget == NULL) {
-        fLogicalGasTarget = new G4LogicalVolume(gas_target,deuterium_gas_material,"Gas_target_LV",0,0,0);
+        fLogicalGasTarget = new G4LogicalVolume(gas_target,target_material,"Gas_target_LV",0,0,0);
         fLogicalGasTarget->SetVisAttributes(gas_vis_att);
     }
-    // Placement
+    // Placement$a
     move = G4ThreeVector(0.,0.,0.);
     rotate = new G4RotationMatrix;
     G4VPhysicalVolume * gas_target_PV = new G4PVPlacement(rotate, move, fLogicalGasTarget, "Gas_target_PV", expHallLog, 0, 0, 0);
+    
+    // calculate the area density/target thickness and material density based on the simulated target parameters
+    G4double outerRadius = TistarSettings::Get()->GetTargetDiameter()/2.;
+    G4double halfThickness = TistarSettings::Get()->GetTargetPhysicalLength()/2;
+    G4double targetThickness = fLogicalGasTarget->GetMass()/(TMath::Pi()*TMath::Power(outerRadius,2));
+    G4double targetMatDensity = fLogicalGasTarget->GetMass()/(TMath::Pi()*TMath::Power(outerRadius,2)*2.*halfThickness);
+    
+    TistarSettings::Get()->SetTargetThickness(targetThickness/(CLHEP::mg/CLHEP::cm2));
+    TistarSettings::Get()->SetTargetMaterialDensity(targetMatDensity/(CLHEP::g/CLHEP::cm3));
 
     // Mylar foil
     // Build the object volume
@@ -375,6 +386,8 @@ G4int DetectionSystemTistar::AddGasTarget(G4LogicalVolume* expHallLog)
     rotate = new G4RotationMatrix;
     G4VPhysicalVolume * gas_target_mylar_PV2 = new G4PVPlacement(rotate, move, fLogicalGasTargetBeWindow, "Gas_target_mylar_PV2", expHallLog, 0, 0, 0);
 
+    std::cout<<"Built gas target with pressure "<<target_material->GetPressure()/CLHEP::bar*1000.<<" mbar, and "<<2.*halfThickness/CLHEP::cm<<" cm length => area density = "<< targetThickness/(CLHEP::mg/CLHEP::cm2)<<" mg/cm2"<<" target mass from file: "<<fLogicalGasTarget->GetMass()<<std::endl;
+    
     return 1;
 }
 
