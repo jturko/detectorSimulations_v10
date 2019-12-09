@@ -320,7 +320,8 @@ G4int DetectionSystemTistar::AddGasTarget(G4LogicalVolume* expHallLog)
     G4ThreeVector move;
     G4RotationMatrix * rotate = NULL;
 
-    G4Material * target_material = G4Material::GetMaterial("tistar_target");
+    G4String target_material_name = "TistarTarget_" + TistarSettings::Get()->GetTargetMaterialName();
+    G4Material * target_material = G4Material::GetMaterial(target_material_name);
     G4Material * mylar_material = G4Material::GetMaterial(fGasTargetMylarMaterialName);    
     G4Material * be_material = G4Material::GetMaterial(fGasTargetBeWindowMaterialName);    
 
@@ -386,8 +387,15 @@ G4int DetectionSystemTistar::AddGasTarget(G4LogicalVolume* expHallLog)
     rotate = new G4RotationMatrix;
     G4VPhysicalVolume * gas_target_mylar_PV2 = new G4PVPlacement(rotate, move, fLogicalGasTargetBeWindow, "Gas_target_mylar_PV2", expHallLog, 0, 0, 0);
 
-    std::cout<<"Built gas target with pressure "<<target_material->GetPressure()/CLHEP::bar*1000.<<" mbar, and "<<2.*halfThickness/CLHEP::cm<<" cm length => area density = "<< targetThickness/(CLHEP::mg/CLHEP::cm2)<<" mg/cm2"<<" target mass from file: "<<fLogicalGasTarget->GetMass()<<std::endl;
+    std::cout<<"Built gas target with material \""<<target_material->GetName()<<"\", pressure "<<target_material->GetPressure()/bar*1000.<<" mbar, length "<<2.*halfThickness/cm<<" cm, "<<std::endl<<"material density "<<targetMatDensity/(g/cm3)<<" g/cm3, and area density "<<targetThickness/(mg/cm2)<<" mg/cm2"<<" calculated via target mass "<<fLogicalGasTarget->GetMass()<<std::endl;
     
+    std::cout<<"Pressure = "<<target_material->GetPressure()/bar<<" bar"<<std::endl;
+    std::cout<<"Temperature = "<<target_material->GetTemperature()/kelvin<<" K"<<std::endl;
+    std::cout<<"Mass of molecule = "<<target_material->GetMassOfMolecule()/g<<" g"<<std::endl;
+    std::cout<<"Mass of 1 mole of molecules = "<<target_material->GetMassOfMolecule()*CLHEP::Avogadro/g<<" g/mole"<<std::endl;
+    std::cout<<"Density calculated via ideal gas law = "
+             << ( (target_material->GetPressure()) * (target_material->GetMassOfMolecule()*CLHEP::Avogadro) / (8.314*(joule/kelvin/mole)) / (target_material->GetTemperature()) ) / (g/cm3) << " g/cm3" << std::endl;
+
     return 1;
 }
 

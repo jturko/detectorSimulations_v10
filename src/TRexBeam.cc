@@ -361,8 +361,6 @@ void TRexBeam::CalculateReactionEnergyInTheTarget() {
 	G4double reactionPosInTarget = fReactionZ * TistarSettings::Get()->GetTargetMaterialDensity() + TistarSettings::Get()->GetTargetThickness() / 2.;
     fReactionEnergy = fEnergyVsTargetDepth.Eval(reactionPosInTarget /(mg/cm2))*MeV;
     
-    std::cout << "reactionZ = " << fReactionZ << "\t target mat density = " << TistarSettings::Get()->GetTargetMaterialDensity() << "\t target thick = " << TistarSettings::Get()->GetTargetThickness() << "\t reactionPosInTarget = " << reactionPosInTarget << std::endl;
-
 	//std::cout << "fReactionZ = " << fReactionZ << " ,x = " << reactionPosInTarget /(mg/cm2) << " , E(x) = " << fReactionEnergy / MeV << " TargetMaterialDensity: "<<TistarSettings::Get()->GetTargetMaterialDensity()/(mg/cm3)<<std::endl; 
 
 	// *********************************** Vinzenz first reactionEnergy then reactionZ*******************************
