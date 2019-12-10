@@ -67,9 +67,7 @@ void TRexAngularDistribution::GeneratePrimaries(G4Event *anEvent) {
 		CalculateScatteringProbability();
 
         fEnergyVsTargetDepth.Write("fEnergyVsTargetDepth");
-
-        std::cout << "---> in generate primaries; beam energy = " << fBeamEnergy << ", TargetThickness = " << TistarSettings::Get()->GetTargetThickness() << std::endl;
-	}
+    }
 	
 	// clear old event
 	fGammaTheta->resize(0);

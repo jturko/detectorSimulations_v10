@@ -204,15 +204,10 @@ TistarMessenger::TistarMessenger(PrimaryGeneratorAction * pgen) :
     fSetAlphaSourceThicknessCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
     fSetAlphaSourceThicknessCmd->SetUnitCategory("Length");
     
-
     fSetTargetDiameterCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/miniball/SetTargetDiameter",this);
     fSetTargetDiameterCmd->SetGuidance("set the target diameter");
     fSetTargetDiameterCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
     fSetTargetDiameterCmd->SetUnitCategory("Length");
-    
-    fSetTargetThicknessCmd = new G4UIcmdWithADouble("/DetSys/miniball/SetTargetThickness",this);
-    fSetTargetThicknessCmd->SetGuidance("set the target Thickness");
-    fSetTargetThicknessCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
     
     fSetGasTargetLengthCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/miniball/SetGasTargetLength",this);
     fSetGasTargetLengthCmd->SetGuidance("set the gas target length");
@@ -224,12 +219,11 @@ TistarMessenger::TistarMessenger(PrimaryGeneratorAction * pgen) :
     fSetTargetPressureCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
     fSetTargetPressureCmd->SetUnitCategory("Pressure");
     
+    fSetTargetTemperatureCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/miniball/SetTargetTemperature",this);
+    fSetTargetTemperatureCmd->SetGuidance("set the target temperature");
+    fSetTargetTemperatureCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    fSetTargetTemperatureCmd->SetUnitCategory("Temperature");
     
-    fSetTargetMaterialDensityCmd = new G4UIcmdWithADouble("/DetSys/miniball/SetTargetMaterialDensity",this);
-    fSetTargetMaterialDensityCmd->SetGuidance("set the target material density");
-    fSetTargetMaterialDensityCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
-    //fSetTargetMaterialDensityCmd->SetUnitCategory("Volumic Mass"); // this might not be the right unit
-
     fSetTargetMylarThicknessCmd = new  G4UIcmdWithADoubleAndUnit("/DetSys/miniball/SetTargetMylarThickness",this);   
     fSetTargetMylarThicknessCmd->SetGuidance("set the thickness of the mylar foil surrounding the gas target");
     fSetTargetMylarThicknessCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
@@ -289,11 +283,9 @@ TistarMessenger::~TistarMessenger() {
     delete fSetAlphaSourceThicknessCmd;
 
     delete fSetTargetDiameterCmd;
-    delete fSetTargetThicknessCmd;
     delete fSetGasTargetLengthCmd;
     delete fSetTargetPressureCmd;
-
-    delete fSetTargetMaterialDensityCmd;
+    delete fSetTargetTemperatureCmd;
 
     delete fSetTargetMylarThicknessCmd;
     delete fSetTargetBeWindowThicknessCmd;
@@ -347,11 +339,9 @@ void TistarMessenger::SetNewValue(G4UIcommand* command, G4String value) {
     if(command == fSetAlphaSourceThicknessCmd)      TistarSettings::Get()->SetAlphaSourceThickness(fSetAlphaSourceThicknessCmd->GetNewDoubleValue(value));
 
     if(command == fSetTargetDiameterCmd)            TistarSettings::Get()->SetTargetDiameter(fSetTargetDiameterCmd->GetNewDoubleValue(value));
-    if(command == fSetTargetThicknessCmd)           TistarSettings::Get()->SetTargetThickness(fSetTargetThicknessCmd->GetNewDoubleValue(value));
     if(command == fSetGasTargetLengthCmd)           TistarSettings::Get()->SetGasTargetLength(fSetGasTargetLengthCmd->GetNewDoubleValue(value));
     if(command == fSetTargetPressureCmd)            TistarSettings::Get()->SetTargetPressure(fSetTargetPressureCmd->GetNewDoubleValue(value));
-
-    if(command == fSetTargetMaterialDensityCmd)     TistarSettings::Get()->SetTargetMaterialDensity(fSetTargetMaterialDensityCmd->GetNewDoubleValue(value));
+    if(command == fSetTargetTemperatureCmd)         TistarSettings::Get()->SetTargetTemperature(fSetTargetTemperatureCmd->GetNewDoubleValue(value));
 
     if(command == fSetTargetMylarThicknessCmd)      TistarSettings::Get()->SetTargetMylarThickness(fSetTargetMylarThicknessCmd->GetNewDoubleValue(value));
     if(command == fSetTargetBeWindowThicknessCmd)   TistarSettings::Get()->SetTargetBeWindowThickness(fSetTargetBeWindowThicknessCmd->GetNewDoubleValue(value));

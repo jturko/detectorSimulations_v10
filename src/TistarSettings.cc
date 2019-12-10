@@ -12,6 +12,8 @@
 #include "globals.hh"
 //#include "Randomize.hh"
 
+#include "G4PhysicalConstants.hh"
+
 #include <algorithm>
 
 ClassImp(TistarSettings)
@@ -79,6 +81,7 @@ TistarSettings::TistarSettings()
 	fGasTargetLength = 0.0 * cm;
 	fTargetPressure = 0./1000.0 * bar;
 	fTargetMaterialDensity = 4.507 * g/cm3;
+    fTargetTemperature = CLHEP::STP_Temperature;
 
 	fTargetMaterialName = "dummy";
 	fTargetAtomicRatio = 1.5;
@@ -143,6 +146,7 @@ void TistarSettings::Print(Option_t* opt) const {
 		<<"fTargetThickness = "<<fTargetThickness/(mg/cm2)<<" mg/cm2"<<std::endl
 		<<"fGasTargetLength = "<<fGasTargetLength/mm<<" mm"<<std::endl
 		<<"fTargetPressure = "<<fTargetPressure*1000./bar<<" mbar"<<std::endl
+        <<"fTargetTemperature = "<<fTargetTemperature/kelvin<<" K"<<std::endl
 		<<"fTargetMaterialDensity = "<<fTargetMaterialDensity/(g/cm3)<<" g/cm3"<<std::endl
 		<<"fTargetMaterialName = "<<fTargetMaterialName<<std::endl
 		<<"fTargetAtomicRatio = "<<fTargetAtomicRatio<<std::endl

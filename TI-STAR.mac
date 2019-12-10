@@ -13,7 +13,7 @@
 
 /run/initialize
 /tracking/verbose 0
-/control/execute vis.mac
+#/control/execute vis.mac
 
 ######################################################
 # Geometry
@@ -75,11 +75,9 @@
 #
 /DetSys/miniball/SetTargetMaterialName 2H
 /DetSys/miniball/SetTargetDiameter 10.0 mm
-/DetSys/miniball/SetTargetThickness 2.8339e-1        # the value that was used in TRexGeant4 simulation
-#/DetSys/miniball/SetTargetThickness 2.582e-1        # in mg/cm2 (50: 1.292e-1 , 100:2.582e-1)
-/DetSys/miniball/SetTargetMaterialDensity 1.614e-5  # in g/cm3 (50: 8.072e-6 , 100:1.614e-5)
 /DetSys/miniball/SetGasTargetLength 16.0 cm
 /DetSys/miniball/SetTargetPressure 0.100 bar
+/DetSys/miniball/SetTargetTemperature 273.15 kelvin
 /DetSys/miniball/SetTargetMylarThickness 2 um
 /DetSys/miniball/SetTargetBeWindowThickness 8 um
 /DetSys/app/addTistarGasTarget
@@ -115,8 +113,8 @@
 /DetSys/miniball/SetLevelFile                       /Users/JTurko/geant4_sims/detectorSimulations_v10_TI-STAR/Data/LevelFiles/132Sn_dp.dat
 /DetSys/miniball/SetAngularDistributionFile         /Users/JTurko/geant4_sims/detectorSimulations_v10_TI-STAR/Data/AngularDistributionFiles/132Sn_dp.dat
 /DetSys/miniball/SetMassFile                        /Users/JTurko/geant4_sims/detectorSimulations_v10_TI-STAR/Data/MassFile.dat
-/DetSys/miniball/SetReactionZvsRadiusFile           /Users/JTurko/geant4_sims/detectorSimulations_v10_TI-STAR/Data/ReactionZvsRadiusFile.dat
-/DetSys/miniball/SetReactionZDistributionFile       /Users/JTurko/geant4_sims/detectorSimulations_v10_TI-STAR/Data/ReactionZDistributionFile.dat
+#/DetSys/miniball/SetReactionZvsRadiusFile           /Users/JTurko/geant4_sims/detectorSimulations_v10_TI-STAR/Data/ReactionZvsRadiusFile.dat
+#/DetSys/miniball/SetReactionZDistributionFile       /Users/JTurko/geant4_sims/detectorSimulations_v10_TI-STAR/Data/ReactionZDistributionFile.dat
 
 /DetSys/miniball/SetBeamEnergy 792.0 MeV
 /DetSys/miniball/SetBeamWidth 1.0 mm
@@ -168,5 +166,5 @@
 # Start the run
 #
 
-/run/beamOn 5
+/run/beamOn 100000
 

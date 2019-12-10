@@ -124,12 +124,14 @@ public:
     double GetTargetThicknessMgPerCm2();
     double GetGasTargetLength() { return fGasTargetLength; }
     double GetTargetPressure() { return fTargetPressure; }
+    double GetTargetTemperature() { return fTargetTemperature; }
     
     void SetTargetDiameter(double val) { fTargetDiameter =  val; }
     void SetTargetThickness(double val) { fTargetThickness = val * (CLHEP::mg/CLHEP::cm2); }
     void SetGasTargetLength(double val) { fGasTargetLength = val; }
     void SetTargetPressure(double val) { fTargetPressure = val; }
-    
+    void SetTargetTemperature(double val) { fTargetTemperature = val; }    
+
     // returns the target length in um
     double GetTargetPhysicalLength();
     
@@ -231,9 +233,9 @@ private:
     double fTargetThickness;
     double fGasTargetLength;
     double fTargetPressure;
-    //std::string fTargetMaterial;
     double fTargetMaterialDensity;
-    
+    double fTargetTemperature;    
+
     double fTargetMylarThickness;
     double fTargetBeWindowThickness;
 

@@ -112,12 +112,10 @@ private:
     G4UIcmdWithADoubleAndUnit*  fSetAlphaSourceThicknessCmd;
 
     G4UIcmdWithADoubleAndUnit*  fSetTargetDiameterCmd;
-    G4UIcmdWithADouble*         fSetTargetThicknessCmd;
     G4UIcmdWithADoubleAndUnit*  fSetGasTargetLengthCmd;
     G4UIcmdWithADoubleAndUnit*  fSetTargetPressureCmd;
+    G4UIcmdWithADoubleAndUnit*  fSetTargetTemperatureCmd;
 
-    G4UIcmdWithADouble*         fSetTargetMaterialDensityCmd;
- 
     G4UIcmdWithADoubleAndUnit*  fSetTargetMylarThicknessCmd;
     G4UIcmdWithADoubleAndUnit*  fSetTargetBeWindowThicknessCmd;
 
