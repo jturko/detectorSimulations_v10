@@ -8,6 +8,8 @@
  * To correspond with changes in 4.10
  */
 
+#include <exception>
+
 #include "TRexAngularDistribution.hh"
 #include "TistarSettings.hh"
 
@@ -312,6 +314,14 @@ void TRexAngularDistribution::FillAngularDistributionGraphs() {
 	for(size_t i = 0; i < fNbOfLevels; i++) {
 		file >> nbOfThetaAngles;
 	}
+
+    if(nbOfThetaAngles == 0) {
+        G4cerr<<" -> Error in TRexAngularDistribution::FillAngularDistributioGraphs(): ";
+        G4cerr<<"nbOfThetaAngles = 0, likely an error loading the angular distrib. file...";
+        G4cerr<<"Quitting..."<<G4endl<<G4endl;
+        throw std::exception();
+    }
+
 	std::cout << "nfOfThetaAngles = " << nbOfThetaAngles << std::endl;
 
 	std::vector<TVectorF> theta    = std::vector<TVectorF>(fNbOfLevels, TVectorF(nbOfThetaAngles));
@@ -582,6 +592,13 @@ void TRexAngularDistribution::ReadLevelFile() {
 
 	// read the total number of levels
 	file >> fNbOfLevels;
+
+    if(fNbOfLevels == 0) {
+        G4cerr<<" -> Error in TRexAngularDistribution::ReadLevelFile(): ";
+        G4cerr<<"nbOfLevels = 0, likely an error loading the level file... ";
+        G4cerr<<"Quitting..."<<G4endl<<G4endl;
+        throw std::exception();
+    }
 
 	std::cout << "NbOfLevels = " << fNbOfLevels << std::endl;
 
