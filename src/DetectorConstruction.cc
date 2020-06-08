@@ -1057,19 +1057,21 @@ void DetectorConstruction::SetProperties() {
 	if(G4Threading::G4GetThreadId() < 0) {
 		G4cout<<fLogicWorld->GetNoDaughters()<<" daughter volumes in the world volume"<<std::endl;
 	}
-	if(G4Threading::G4GetThreadId() < 0 && fLogicVC != NULL) {
-		G4cout<<fLogicVC->GetNoDaughters()<<" daughter volumes in the vacuum chamber"<<std::endl;
-	}
-	for(int i = 0; i < fLogicWorld->GetNoDaughters(); ++i) {
+	for(unsigned int i = 0; i < fLogicWorld->GetNoDaughters(); ++i) {
 		if(!HasProperties(fLogicWorld->GetDaughter(i)) && CheckVolumeName(fLogicWorld->GetDaughter(i)->GetName())) {
 			fPropertiesMap[fLogicWorld->GetDaughter(i)] = ParseVolumeName(fLogicWorld->GetDaughter(i)->GetName());
 		}
+        G4cout<<" ("<<i<<") "<<fLogicWorld->GetDaughter(i)->GetName()<<G4endl;
 	}
     // for TI-STAR vacuum chamber
-	for(int i = 0; i < fLogicVC->GetNoDaughters(); ++i) {
+	if(G4Threading::G4GetThreadId() < 0 && fLogicVC != NULL) {
+		G4cout<<fLogicVC->GetNoDaughters()<<" daughter volumes in the vacuum chamber"<<std::endl;
+	}
+	for(unsigned int i = 0; i < fLogicVC->GetNoDaughters(); ++i) {
 		if(!HasProperties(fLogicVC->GetDaughter(i)) && CheckVolumeName(fLogicVC->GetDaughter(i)->GetName())) {
 			fPropertiesMap[fLogicVC->GetDaughter(i)] = ParseVolumeName(fLogicVC->GetDaughter(i)->GetName());
 		}
+        G4cout<<" ("<<i<<") "<<fLogicVC->GetDaughter(i)->GetName()<<G4endl;
 	}
 }
 
@@ -1082,7 +1084,7 @@ void DetectorConstruction::Print() {
 	SetProperties();
 
     std::cout<<" ---> in fLogicWorld:"<<std::endl;
-	for(int i = 0; i < fLogicWorld->GetNoDaughters(); ++i) {
+	for(unsigned int i = 0; i < fLogicWorld->GetNoDaughters(); ++i) {
 		std::cout<<i<<": "<<fLogicWorld->GetDaughter(i)<<" - "<<fLogicWorld->GetDaughter(i)->GetName();
 		if(HasProperties(fLogicWorld->GetDaughter(i))) {
 			auto prop = GetProperties(fLogicWorld->GetDaughter(i));
@@ -1092,7 +1094,7 @@ void DetectorConstruction::Print() {
 	}
     
     std::cout<<" ---> in fLogicVC (vaccum chamber):"<<std::endl;
-	for(int i = 0; i < fLogicVC->GetNoDaughters(); ++i) {
+	for(unsigned int i = 0; i < fLogicVC->GetNoDaughters(); ++i) {
 		std::cout<<i<<": "<<fLogicVC->GetDaughter(i)<<" - "<<fLogicVC->GetDaughter(i)->GetName();
 		if(HasProperties(fLogicVC->GetDaughter(i))) {
 			auto prop = GetProperties(fLogicVC->GetDaughter(i));

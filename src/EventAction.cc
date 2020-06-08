@@ -154,7 +154,7 @@ void EventAction::EndOfEventAction(const G4Event*) {
                                             fHitTrackerD[2][hitNum]/mm,     // global y pos
                                             fHitTrackerD[3][hitNum]/mm,     // global z pos
                                             -1);                            // stopped?
-                        particle.AddRing(  -1,                             // strip number
+                        particle.AddRing(   -1,                             // strip number
                                             fHitTrackerD[0][hitNum]/keV,    // energy
                                             fHitTrackerD[5][hitNum],        // particle A
                                             fHitTrackerI[9][hitNum],        // particle Z
