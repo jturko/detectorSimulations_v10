@@ -97,6 +97,12 @@ void HistoManager::Book() {
         fNtuple->Branch("posz",        &fPosZ,        "posz/D"        );
         fNtuple->Branch("time",        &fTime,        "time/D"        );
         fNtuple->Branch("targetZ",     &fTargetZ,     "targetZ/I"     );
+        fNtuple->Branch("depEnergyVector",  &fTistarEdepVector);
+        fNtuple->Branch("trackIDVector",    &fTistarTrackIDVector);
+        fNtuple->Branch("timeVector",       &fTistarTimeVector);
+        fNtuple->Branch("posxVector",       &fTistarPosXVector);
+        fNtuple->Branch("posyVector",       &fTistarPosYVector);
+        fNtuple->Branch("poszVector",       &fTistarPosZVector);
     }
     else {
         G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
@@ -657,3 +663,22 @@ void HistoManager::ClearTistarDataOfDetectors() {
         fTistarDataOfDetectors[i] = 0;
     }
 }
+
+void HistoManager::PushBackTistarVectors(G4double edep, G4int trackID, G4double time, G4ThreeVector pos) {
+    fTistarEdepVector.push_back(edep);
+    fTistarTrackIDVector.push_back(trackID);
+    fTistarTimeVector.push_back(time);
+    fTistarPosXVector.push_back(pos.x());
+    fTistarPosYVector.push_back(pos.y());
+    fTistarPosZVector.push_back(pos.z());
+}
+
+void HistoManager::ClearTistarVectors() {
+    fTistarEdepVector.clear(); 
+    fTistarTrackIDVector.clear(); 
+    fTistarTimeVector.clear();
+    fTistarPosXVector.clear();
+    fTistarPosYVector.clear();
+    fTistarPosZVector.clear();
+}
+

@@ -48,7 +48,7 @@ class PrimaryGeneratorAction;
 #include "TTree.h"
 #include "TFile.h"
 
-const G4int MAXNTCOL            = 15;
+const G4int MAXNTCOL            = 21;
 
 const G4bool WRITEEKINHISTOS    = true;//bools needed to write histos
 const G4bool WRITEEDEPHISTOS    = true;
@@ -136,6 +136,9 @@ public:
     std::vector< std::vector<ParticleMC>* > & GetTistarDataOfDetectors() { return fTistarDataOfDetectors; }
     void ClearTistarDataOfDetectors();
  
+    void PushBackTistarVectors(G4double edep, G4int trackID, G4double time, G4ThreeVector pos);
+    void ClearTistarVectors();
+
 private:
 	void BookSpiceHistograms();
 	void MakeHistogram(G4AnalysisManager* analysisManager, G4String filename,  G4String title, G4double xmin, G4double xmax, G4int nbins);
@@ -191,6 +194,15 @@ private:
     G4double fTime;
     G4int fTargetZ;
     
+    // for ti-star vectors
+    std::vector<G4double> fTistarEdepVector;
+    std::vector<G4int>    fTistarTrackIDVector;
+    std::vector<G4double> fTistarTimeVector;
+    std::vector<G4double> fTistarPosXVector;
+    std::vector<G4double> fTistarPosYVector;
+    std::vector<G4double> fTistarPosZVector;
+
+
 public:
 	short PacesHistNumbers(int i) { return fPacesHistNumbers[i]; }
 	short SpiceHistNumbers(int i) { return fSpiceHistNumbers[i]; }

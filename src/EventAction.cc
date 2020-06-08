@@ -218,6 +218,8 @@ void EventAction::AddHitTracker(const DetectorProperties& properties, const G4in
 		G4cout<<"ERROR! Too many hits!"<<G4endl;
 		throw;
 	}
+
+    fHistoManager->PushBackTistarVectors(depEnergy,trackID,time,pos);
 }
 
 void EventAction::AddStepTracker(const DetectorProperties& properties, const G4int& eventNumber, const G4int& trackID, const G4int& parentID, const G4int& stepNumber, const G4int& particleType, const G4int& processType, const G4double& depEnergy, const G4ThreeVector& pos, const G4double& time, const G4int& targetZ, const G4double& targetA) {
@@ -280,7 +282,8 @@ void EventAction::ClearVariables() {
 	}
     
     if(TistarSettings::Get()->SaveMe()) fHistoManager->ClearTistarDataOfDetectors();
-    
+    fHistoManager->ClearTistarVectors();
+
 }
 
 
