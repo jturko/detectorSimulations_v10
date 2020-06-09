@@ -131,45 +131,45 @@ void EventAction::EndOfEventAction(const G4Event*) {
 			FillSpice();
 		}
         
-        if(TistarSettings::Get()->SaveMe()) {
-            for(int hitNum = 0; hitNum < fNumberOfHits; hitNum++) {
-                if(fProperties[hitNum].dataOfDetectorsNumber >= 0) {
-                    ParticleMC particle;
-                    particle.ID(fHitTrackerI[7][hitNum]);
-                    if(fProperties[hitNum].detectorNumber == 3) {
-                        particle.SetEdet(fHitTrackerD[0][hitNum]/keV);
-                        particle.SetA(fHitTrackerD[5][hitNum]);
-                        particle.SetZ(fHitTrackerI[9][hitNum]);
-                        particle.SetTrackID(fHitTrackerI[1][hitNum]);
-                        particle.SetTime(fHitTrackerD[4][hitNum]/second);
-                    } 
-                    else {
-                        particle.AddStrip(  -1,                             // strip number
-                                            fHitTrackerD[0][hitNum]/keV,    // energy
-                                            fHitTrackerD[5][hitNum],        // particle A
-                                            fHitTrackerI[9][hitNum],        // particle Z
-                                            fHitTrackerI[1][hitNum],        // track ID
-                                            fHitTrackerD[4][hitNum]/second, // time
-                                            fHitTrackerD[1][hitNum]/mm,     // global x pos
-                                            fHitTrackerD[2][hitNum]/mm,     // global y pos
-                                            fHitTrackerD[3][hitNum]/mm,     // global z pos
-                                            -1);                            // stopped?
-                        particle.AddRing(   -1,                             // strip number
-                                            fHitTrackerD[0][hitNum]/keV,    // energy
-                                            fHitTrackerD[5][hitNum],        // particle A
-                                            fHitTrackerI[9][hitNum],        // particle Z
-                                            fHitTrackerI[1][hitNum],        // track ID
-                                            fHitTrackerD[4][hitNum]/second, // time
-                                            -1);                            // stopped?
-                    }
+        //if(TistarSettings::Get()->SaveMe()) {
+        //    for(int hitNum = 0; hitNum < fNumberOfHits; hitNum++) {
+        //        if(fProperties[hitNum].dataOfDetectorsNumber >= 0) {
+        //            ParticleMC particle;
+        //            particle.ID(fHitTrackerI[7][hitNum]);
+        //            if(fProperties[hitNum].detectorNumber == 3) {
+        //                particle.SetEdet(fHitTrackerD[0][hitNum]/keV);
+        //                particle.SetA(fHitTrackerD[5][hitNum]);
+        //                particle.SetZ(fHitTrackerI[9][hitNum]);
+        //                particle.SetTrackID(fHitTrackerI[1][hitNum]);
+        //                particle.SetTime(fHitTrackerD[4][hitNum]/second);
+        //            } 
+        //            else {
+        //                particle.AddStrip(  -1,                             // strip number
+        //                                    fHitTrackerD[0][hitNum]/keV,    // energy
+        //                                    fHitTrackerD[5][hitNum],        // particle A
+        //                                    fHitTrackerI[9][hitNum],        // particle Z
+        //                                    fHitTrackerI[1][hitNum],        // track ID
+        //                                    fHitTrackerD[4][hitNum]/second, // time
+        //                                    fHitTrackerD[1][hitNum]/mm,     // global x pos
+        //                                    fHitTrackerD[2][hitNum]/mm,     // global y pos
+        //                                    fHitTrackerD[3][hitNum]/mm,     // global z pos
+        //                                    -1);                            // stopped?
+        //                particle.AddRing(   -1,                             // strip number
+        //                                    fHitTrackerD[0][hitNum]/keV,    // energy
+        //                                    fHitTrackerD[5][hitNum],        // particle A
+        //                                    fHitTrackerI[9][hitNum],        // particle Z
+        //                                    fHitTrackerI[1][hitNum],        // track ID
+        //                                    fHitTrackerD[4][hitNum]/second, // time
+        //                                    -1);                            // stopped?
+        //            }
 
-                    fHistoManager->GetTistarDataOfDetectors()[fProperties[hitNum].dataOfDetectorsNumber] = new std::vector<ParticleMC>;
-                    fHistoManager->GetTistarDataOfDetectors()[fProperties[hitNum].dataOfDetectorsNumber]->push_back(particle);
-                }
-            }
-            fHistoManager->GetOutputFile()->cd();
-            fHistoManager->GetTistarDetTree()->Fill();
-        }
+        //            fHistoManager->GetTistarDataOfDetectors()[fProperties[hitNum].dataOfDetectorsNumber] = new std::vector<ParticleMC>;
+        //            fHistoManager->GetTistarDataOfDetectors()[fProperties[hitNum].dataOfDetectorsNumber]->push_back(particle);
+        //        }
+        //    }
+        //    fHistoManager->GetOutputFile()->cd();
+        //    fHistoManager->GetTistarDetTree()->Fill();
+        //}
 		
         for(G4int i = 0; i < fNumberOfHits; i++) {
 			fHistoManager->FillHitNtuple(fHitTrackerI[0][i], fHitTrackerI[1][i], fHitTrackerI[2][i], fHitTrackerI[3][i],  fHitTrackerI[4][i], fHitTrackerI[5][i], fHitTrackerI[6][i], fHitTrackerI[7][i], fHitTrackerI[8][i], fHitTrackerD[0][i]/keV, fHitTrackerD[1][i]/mm, fHitTrackerD[2][i]/mm, fHitTrackerD[3][i]/mm, fHitTrackerD[4][i]/second, fHitTrackerI[9][i]);
@@ -188,6 +188,7 @@ void EventAction::EndOfEventAction(const G4Event*) {
 void EventAction::AddHitTracker(const DetectorProperties& properties, const G4int& eventNumber, const G4int& trackID, const G4int& parentID, const G4int& stepNumber, const G4int& particleType, const G4int& processType, const G4double& depEnergy, const G4ThreeVector& pos, const G4double& time, const G4int& targetZ, const G4double& targetA) {
 	for(G4int i = 0; i < fNumberOfHits; i++) {
 		if(fProperties[i] == properties) {
+            if(fProperties[i].systemID == 9500 && fProperties[i].detectorNumber != 3) break; // if we are seeing a hit in the first/second layer of tistar, create a new hit
 			// sum the new enery
 			fHitTrackerD[0][i] = fHitTrackerD[0][i] + depEnergy;
 			return;
@@ -214,12 +215,14 @@ void EventAction::AddHitTracker(const DetectorProperties& properties, const G4in
 
 	++fNumberOfHits;
 
+    //std::cout<<" new hit, event#: "<<eventNumber<<", trackID: "<<trackID<<", systemID: "<<properties.systemID<<", crystal#: "<<properties.crystalNumber<<", det#: "<<properties.detectorNumber<<std::endl;
+
 	if(fNumberOfHits >= MAXHITS) {
 		G4cout<<"ERROR! Too many hits!"<<G4endl;
 		throw;
 	}
 
-    fHistoManager->PushBackTistarVectors(depEnergy,trackID,time,pos);
+    //fHistoManager->PushBackTistarVectors(depEnergy,targetA,targetZ,trackID,time,pos);
 }
 
 void EventAction::AddStepTracker(const DetectorProperties& properties, const G4int& eventNumber, const G4int& trackID, const G4int& parentID, const G4int& stepNumber, const G4int& particleType, const G4int& processType, const G4double& depEnergy, const G4ThreeVector& pos, const G4double& time, const G4int& targetZ, const G4double& targetA) {
@@ -281,8 +284,8 @@ void EventAction::ClearVariables() {
 		}
 	}
     
-    if(TistarSettings::Get()->SaveMe()) fHistoManager->ClearTistarDataOfDetectors();
-    fHistoManager->ClearTistarVectors();
+    //if(TistarSettings::Get()->SaveMe()) fHistoManager->ClearTistarDataOfDetectors();
+    //fHistoManager->ClearTistarVectors();
 
 }
 

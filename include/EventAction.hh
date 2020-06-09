@@ -52,7 +52,7 @@ class RunAction;
 class HistoManager;
 
 static const int MAXSTEPS       = 1000;
-static const int MAXHITS        = 100;
+static const int MAXHITS        = 1000;
 static const int NUMSTEPVARS    = 15;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

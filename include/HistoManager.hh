@@ -48,7 +48,7 @@ class PrimaryGeneratorAction;
 #include "TTree.h"
 #include "TFile.h"
 
-const G4int MAXNTCOL            = 21;
+const G4int MAXNTCOL            = 23;
 
 const G4bool WRITEEKINHISTOS    = true;//bools needed to write histos
 const G4bool WRITEEDEPHISTOS    = true;
@@ -136,7 +136,7 @@ public:
     std::vector< std::vector<ParticleMC>* > & GetTistarDataOfDetectors() { return fTistarDataOfDetectors; }
     void ClearTistarDataOfDetectors();
  
-    void PushBackTistarVectors(G4double edep, G4int trackID, G4double time, G4ThreeVector pos);
+    void PushBackTistarVectors(G4double edep, G4double a, G4int z, G4int trackID, G4double time, G4ThreeVector pos);
     void ClearTistarVectors();
 
 private:
@@ -197,6 +197,8 @@ private:
     // for ti-star vectors
     std::vector<G4double> fTistarEdepVector;
     std::vector<G4int>    fTistarTrackIDVector;
+    std::vector<G4double> fTistarParticleAVector;
+    std::vector<G4int>    fTistarParticleZVector;
     std::vector<G4double> fTistarTimeVector;
     std::vector<G4double> fTistarPosXVector;
     std::vector<G4double> fTistarPosYVector;

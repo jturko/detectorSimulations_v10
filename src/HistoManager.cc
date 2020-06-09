@@ -97,12 +97,14 @@ void HistoManager::Book() {
         fNtuple->Branch("posz",        &fPosZ,        "posz/D"        );
         fNtuple->Branch("time",        &fTime,        "time/D"        );
         fNtuple->Branch("targetZ",     &fTargetZ,     "targetZ/I"     );
-        fNtuple->Branch("depEnergyVector",  &fTistarEdepVector);
-        fNtuple->Branch("trackIDVector",    &fTistarTrackIDVector);
-        fNtuple->Branch("timeVector",       &fTistarTimeVector);
-        fNtuple->Branch("posxVector",       &fTistarPosXVector);
-        fNtuple->Branch("posyVector",       &fTistarPosYVector);
-        fNtuple->Branch("poszVector",       &fTistarPosZVector);
+        //fNtuple->Branch("depEnergyVector",  &fTistarEdepVector);
+        //fNtuple->Branch("particleAVector",  &fTistarParticleAVector);
+        //fNtuple->Branch("particleZVector",  &fTistarParticleZVector);
+        //fNtuple->Branch("trackIDVector",    &fTistarTrackIDVector);
+        //fNtuple->Branch("timeVector",       &fTistarTimeVector);
+        //fNtuple->Branch("posxVector",       &fTistarPosXVector);
+        //fNtuple->Branch("posyVector",       &fTistarPosYVector);
+        //fNtuple->Branch("poszVector",       &fTistarPosZVector);
     }
     else {
         G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
@@ -180,7 +182,7 @@ void HistoManager::Save() {
         TistarSettings::Get()->Write("settings",TObject::kOverwrite);
         fPrimaryGenAction->GetCurrentGenerator()->SaveExtras(fOutputFile);
         fTistarGenTree->Write("treeGen");
-        fTistarDetTree->Write("treeDet");
+        //fTistarDetTree->Write("treeDet");
         fNtuple->Write("ntuple");
         fOutputFile->Close();
     }
@@ -648,37 +650,41 @@ void HistoManager::Fill2DHistogram(G4int ih, G4double xbin, G4double ybin, G4dou
 void HistoManager::BookTistar() {
     fOutputFile->cd();
     fTistarGenTree = new TTree("treeGen", "Generator tree");
-    fTistarDetTree = new TTree("treeDet", "Detector tree");
-    fTistarDataOfDetectors = std::vector<std::vector<ParticleMC>*>(fDetectorConstruction->GetPropertiesMap().size());
-    for(auto prop : fDetectorConstruction->GetPropertiesMap()) {
-        std::cout << "creating branch : " << prop.second.detectorName << std::endl;
-        fTistarDetTree->Branch((prop.second.detectorName + "_MC").c_str(), &(fTistarDataOfDetectors[prop.second.dataOfDetectorsNumber]));
-    }
+    //fTistarDetTree = new TTree("treeDet", "Detector tree");
+    //fTistarDataOfDetectors = std::vector<std::vector<ParticleMC>*>(fDetectorConstruction->GetPropertiesMap().size());
+    //for(auto prop : fDetectorConstruction->GetPropertiesMap()) {
+    //    std::cout << "creating branch : " << prop.second.detectorName << std::endl;
+    //    fTistarDetTree->Branch((prop.second.detectorName + "_MC").c_str(), &(fTistarDataOfDetectors[prop.second.dataOfDetectorsNumber]));
+    //}
 }
-
-void HistoManager::ClearTistarDataOfDetectors() {
-    //std::cout << "fTistarDataOfDetectors.size() = " << fTistarDataOfDetectors.size() << std::endl;
-    for(size_t i=0; i<fTistarDataOfDetectors.size(); i++) {
-        delete fTistarDataOfDetectors[i];
-        fTistarDataOfDetectors[i] = 0;
-    }
-}
-
-void HistoManager::PushBackTistarVectors(G4double edep, G4int trackID, G4double time, G4ThreeVector pos) {
-    fTistarEdepVector.push_back(edep);
-    fTistarTrackIDVector.push_back(trackID);
-    fTistarTimeVector.push_back(time);
-    fTistarPosXVector.push_back(pos.x());
-    fTistarPosYVector.push_back(pos.y());
-    fTistarPosZVector.push_back(pos.z());
-}
-
-void HistoManager::ClearTistarVectors() {
-    fTistarEdepVector.clear(); 
-    fTistarTrackIDVector.clear(); 
-    fTistarTimeVector.clear();
-    fTistarPosXVector.clear();
-    fTistarPosYVector.clear();
-    fTistarPosZVector.clear();
-}
+//
+//void HistoManager::ClearTistarDataOfDetectors() {
+//    //std::cout << "fTistarDataOfDetectors.size() = " << fTistarDataOfDetectors.size() << std::endl;
+//    for(size_t i=0; i<fTistarDataOfDetectors.size(); i++) {
+//        delete fTistarDataOfDetectors[i];
+//        fTistarDataOfDetectors[i] = 0;
+//    }
+//}
+//
+//void HistoManager::PushBackTistarVectors(G4double edep, G4double a, G4int z, G4int trackID, G4double time, G4ThreeVector pos) {
+//    fTistarEdepVector.push_back(edep);
+//    fTistarParticleAVector.push_back(a);
+//    fTistarParticleZVector.push_back(z);
+//    fTistarTrackIDVector.push_back(trackID);
+//    fTistarTimeVector.push_back(time);
+//    fTistarPosXVector.push_back(pos.x());
+//    fTistarPosYVector.push_back(pos.y());
+//    fTistarPosZVector.push_back(pos.z());
+//}
+//
+//void HistoManager::ClearTistarVectors() {
+//    fTistarEdepVector.clear(); 
+//    fTistarParticleAVector.clear(); 
+//    fTistarParticleZVector.clear();
+//    fTistarTrackIDVector.clear(); 
+//    fTistarTimeVector.clear();
+//    fTistarPosXVector.clear();
+//    fTistarPosYVector.clear();
+//    fTistarPosZVector.clear();
+//}
 
