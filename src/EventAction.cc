@@ -188,7 +188,8 @@ void EventAction::EndOfEventAction(const G4Event*) {
 void EventAction::AddHitTracker(const DetectorProperties& properties, const G4int& eventNumber, const G4int& trackID, const G4int& parentID, const G4int& stepNumber, const G4int& particleType, const G4int& processType, const G4double& depEnergy, const G4ThreeVector& pos, const G4double& time, const G4int& targetZ, const G4double& targetA) {
 	for(G4int i = 0; i < fNumberOfHits; i++) {
 		if(fProperties[i] == properties) {
-            if(fProperties[i].systemID == 9500 && fProperties[i].detectorNumber != 3) break; // if we are seeing a hit in the first/second layer of tistar, create a new hit
+            // if we are seeing a hit in the first/second layer of tistar (that has a unique trackID for that det), create a new hit
+            if(fProperties[i].systemID == 9500 && fProperties[i].detectorNumber != 3 && trackID != fHitTrackerI[1][i]) continue; 
 			// sum the new enery
 			fHitTrackerD[0][i] = fHitTrackerD[0][i] + depEnergy;
 			return;
