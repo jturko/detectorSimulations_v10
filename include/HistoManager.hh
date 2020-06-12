@@ -48,7 +48,7 @@ class PrimaryGeneratorAction;
 #include "TTree.h"
 #include "TFile.h"
 
-const G4int MAXNTCOL            = 23;
+const G4int MAXNTCOL            = 25;
 
 const G4bool WRITEEKINHISTOS    = true;//bools needed to write histos
 const G4bool WRITEEDEPHISTOS    = true;
@@ -103,8 +103,8 @@ public:
     void BookTistar();
 	void Save();
 
-	void FillHitNtuple(G4int eventNumber, G4int trackID, G4int parentID, G4int stepNumber, G4int particleType, G4int processType, G4int systemID, G4int cryNumber, G4int detNumber, G4double depEnergy, G4double posx, G4double posy, G4double posz, G4double time, G4int targetZ);
-	void FillStepNtuple(G4int eventNumber, G4int trackID, G4int parentID, G4int stepNumber, G4int particleType, G4int processType, G4int systemID, G4int cryNumber, G4int detNumber, G4double depEnergy, G4double posx, G4double posy, G4double posz, G4double time, G4int targetZ);
+	void FillHitNtuple(G4int eventNumber, G4int trackID, G4int parentID, G4int stepNumber, G4int particleType, G4int processType, G4int systemID, G4int cryNumber, G4int detNumber, G4double depEnergy, G4double posx, G4double posy, G4double posz, G4double time, G4int targetZ, G4double targetA = -1);
+	void FillStepNtuple(G4int eventNumber, G4int trackID, G4int parentID, G4int stepNumber, G4int particleType, G4int processType, G4int systemID, G4int cryNumber, G4int detNumber, G4double depEnergy, G4double posx, G4double posy, G4double posz, G4double time, G4int targetZ, G4double targetA = -1);
 
 	void FillHistogram(G4int ih, G4double e, G4double weight = 1.0);
 	void Fill2DHistogram(G4int ih, G4double xbin, G4double ybin, G4double weight = 1.0);
@@ -193,7 +193,8 @@ private:
     G4double fPosZ;
     G4double fTime;
     G4int fTargetZ;
-    
+    G4double fTargetA;    
+
     // for ti-star vectors
     std::vector<G4double> fTistarEdepVector;
     std::vector<G4int>    fTistarTrackIDVector;
