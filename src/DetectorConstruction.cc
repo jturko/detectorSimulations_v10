@@ -194,7 +194,7 @@ DetectorConstruction::DetectorConstruction() :
     fTistarVacuumChamberExteriorMaterialName = "";
     fTistarVacuumChamberExteriorThickness = -1;
 
-    fLogicVC = nullptr;
+    fLogicVC = NULL;
 
     fGridCell = false;
     fGriffin  = false;
@@ -1056,22 +1056,22 @@ void DetectorConstruction::SetProperties() {
 	// so this only outputs the number of volumes once
 	if(G4Threading::G4GetThreadId() < 0) {
 		G4cout<<fLogicWorld->GetNoDaughters()<<" daughter volumes in the world volume"<<std::endl;
-	}
-	for(unsigned int i = 0; i < fLogicWorld->GetNoDaughters(); ++i) {
-		if(!HasProperties(fLogicWorld->GetDaughter(i)) && CheckVolumeName(fLogicWorld->GetDaughter(i)->GetName())) {
-			fPropertiesMap[fLogicWorld->GetDaughter(i)] = ParseVolumeName(fLogicWorld->GetDaughter(i)->GetName());
-		}
-        G4cout<<" ("<<i<<") "<<fLogicWorld->GetDaughter(i)->GetName()<<G4endl;
+	    for(unsigned int i = 0; i < fLogicWorld->GetNoDaughters(); ++i) {
+	    	if(!HasProperties(fLogicWorld->GetDaughter(i)) && CheckVolumeName(fLogicWorld->GetDaughter(i)->GetName())) {
+	    		fPropertiesMap[fLogicWorld->GetDaughter(i)] = ParseVolumeName(fLogicWorld->GetDaughter(i)->GetName());
+	    	}
+            G4cout<<" ("<<i<<") "<<fLogicWorld->GetDaughter(i)->GetName()<<G4endl;
+	    }
 	}
     // for TI-STAR vacuum chamber
 	if(G4Threading::G4GetThreadId() < 0 && fLogicVC != NULL) {
 		G4cout<<fLogicVC->GetNoDaughters()<<" daughter volumes in the vacuum chamber"<<std::endl;
-	}
-	for(unsigned int i = 0; i < fLogicVC->GetNoDaughters(); ++i) {
-		if(!HasProperties(fLogicVC->GetDaughter(i)) && CheckVolumeName(fLogicVC->GetDaughter(i)->GetName())) {
-			fPropertiesMap[fLogicVC->GetDaughter(i)] = ParseVolumeName(fLogicVC->GetDaughter(i)->GetName());
-		}
-        G4cout<<" ("<<i<<") "<<fLogicVC->GetDaughter(i)->GetName()<<G4endl;
+	    for(unsigned int i = 0; i < fLogicVC->GetNoDaughters(); ++i) {
+	    	if(!HasProperties(fLogicVC->GetDaughter(i)) && CheckVolumeName(fLogicVC->GetDaughter(i)->GetName())) {
+	    		fPropertiesMap[fLogicVC->GetDaughter(i)] = ParseVolumeName(fLogicVC->GetDaughter(i)->GetName());
+	    	}
+            G4cout<<" ("<<i<<") "<<fLogicVC->GetDaughter(i)->GetName()<<G4endl;
+	    }
 	}
 }
 
