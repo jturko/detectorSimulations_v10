@@ -35,6 +35,7 @@
 /DetSys/app/setTistarVacuumChamberExteriorMaterial G4_Al
 /DetSys/app/setTistarVacuumChamberExteriorThickness 1 mm
 /DetSys/app/setTistarVacuumChamberBeamHoleRadius 5 mm
+/DetSys/app/setTistarVacuumChamberGasPressure 0.100 bar
 /DetSys/app/addTistarVacuumChamber
 
 # first layer
@@ -166,5 +167,5 @@
 # Start the run
 #
 
-/run/beamOn 100000
+/run/beamOn 1000000
 

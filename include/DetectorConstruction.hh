@@ -222,6 +222,7 @@ public:
     void SetTistarVacuumChamberExteriorMaterialName(G4String name) { fTistarVacuumChamberExteriorMaterialName = name; }
     void SetTistarVacuumChamberExteriorThickness(G4double thickness) { fTistarVacuumChamberExteriorThickness = thickness; }
     void SetTistarVacuumChamberBeamHoleRadius(G4double radius) { fTistarVacuumChamberBeamHoleRadius = radius; }
+    void SetTistarVacuumChamberGasPressure(G4double pressure) { fTistarVacuumChamberGasPressure = pressure; }
 
     G4bool   GridCell()   { return fGridCell;   }
     G4bool   Griffin()    { return fGriffin;    }
@@ -251,6 +252,7 @@ public:
     G4LogicalVolume * GetLogicWorld() { return fLogicWorld; }
 
     void DefineTistarTargetMaterials();
+    void DefineTistarVacuumChamberMaterials();
 
 private:
     bool CheckVolumeName(G4String volumeName);
@@ -347,6 +349,7 @@ private:
     G4String fTistarVacuumChamberExteriorMaterialName;
     G4double fTistarVacuumChamberExteriorThickness;
     G4double fTistarVacuumChamberBeamHoleRadius;
+    G4double fTistarVacuumChamberGasPressure;
 
     //booleans which control which histograms are created (these are set by the detector construction)
     G4bool fGridCell;

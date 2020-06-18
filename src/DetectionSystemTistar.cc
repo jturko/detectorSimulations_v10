@@ -343,7 +343,7 @@ G4int DetectionSystemTistar::AddGasTarget(G4LogicalVolume* expHallLog)
         fLogicalGasTarget = new G4LogicalVolume(gas_target,target_material,"Gas_target_LV",0,0,0);
         fLogicalGasTarget->SetVisAttributes(gas_vis_att);
     }
-    // Placement$a
+    // Placement
     move = G4ThreeVector(0.,0.,0.);
     rotate = new G4RotationMatrix;
     G4VPhysicalVolume * gas_target_PV = new G4PVPlacement(rotate, move, fLogicalGasTarget, "Gas_target_PV", expHallLog, 0, 0, 0);
@@ -430,8 +430,7 @@ G4int DetectionSystemTistar::AddVacuumChamber(G4LogicalVolume* expHallLog, G4Log
     // Make the target materials
     G4Material * vacuum_material = G4Material::GetMaterial(fVacuumChamberMaterialName);
     G4Material * exterior_material = G4Material::GetMaterial(fVacuumChamberExteriorMaterialName);
-    //TistarSettings::Get()->SetVacuumChamberGasPressure(vacuum_material->GetPressure());
-    TistarSettings::Get()->SetVacuumChamberGasPressure(0.1*CLHEP::bar);
+    TistarSettings::Get()->SetVacuumChamberGasPressure(vacuum_material->GetPressure());
 
     // Set up colours and other vis. attributes
     G4VisAttributes * vacuum_vis_att = new G4VisAttributes(G4Colour::Red());

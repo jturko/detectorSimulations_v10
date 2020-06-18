@@ -1033,6 +1033,7 @@ void DetectorConstruction::AddTistarVacuumChamber() {
     if(fLogicWorld == NULL) {
         Construct();
     }
+    DefineTistarVacuumChamberMaterials();
     DetectionSystemTistar * pTistar = new DetectionSystemTistar();
     if(fTistarVacuumChamberShape!="")               pTistar->SetVacuumChamberShape(fTistarVacuumChamberShape);
     if(fTistarVacuumChamberMaterialName!="")        pTistar->SetVacuumChamberMaterialName(fTistarVacuumChamberMaterialName);
@@ -1046,6 +1047,10 @@ void DetectorConstruction::AddTistarVacuumChamber() {
     if(fTistarVacuumChamberBeamHoleRadius>0.)          pTistar->SetVacuumChamberBeamHoleRadius(fTistarVacuumChamberBeamHoleRadius);
 
     pTistar->AddVacuumChamber(fLogicWorld,fLogicVC);   
+    if(fLogicVC) {
+        G4cout<<"Vacuum chamber built w/ material: "<<fLogicVC->GetMaterial()->GetName()<<" w/ density: "
+              <<fLogicVC->GetMaterial()->GetDensity()/(g/cm3)<<" g/cm3 and pressure: "<<fLogicVC->GetMaterial()->GetPressure()/bar<<" bar"<<G4endl;
+    }
 }
 
 void DetectorConstruction::SetProperties() {

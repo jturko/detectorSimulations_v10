@@ -178,6 +178,7 @@ private:
     G4UIcmdWithADoubleAndUnit*  fSetTistarVacuumChamberCylinderRadiusCmd;
     G4UIcmdWithADoubleAndUnit*  fSetTistarVacuumChamberCylinderZCmd;
     G4UIcmdWithADoubleAndUnit*  fSetTistarVacuumChamberSphereRadiusCmd;
+    G4UIcmdWithADoubleAndUnit*  fSetTistarVacuumChamberGasPressureCmd;
 
     G4UIcmdWithAString*         fSetTistarVacuumChamberExteriorMaterialNameCmd;
     G4UIcmdWithADoubleAndUnit*  fSetTistarVacuumChamberExteriorThicknessCmd;
