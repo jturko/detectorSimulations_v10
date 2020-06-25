@@ -98,14 +98,6 @@ void HistoManager::Book() {
         fNtuple->Branch("time",        &fTime,        "time/D"        );
         fNtuple->Branch("targetZ",     &fTargetZ,     "targetZ/I"     );
         fNtuple->Branch("targetA",     &fTargetA,     "targetA/D"     );
-        //fNtuple->Branch("depEnergyVector",  &fTistarEdepVector);
-        //fNtuple->Branch("particleAVector",  &fTistarParticleAVector);
-        //fNtuple->Branch("particleZVector",  &fTistarParticleZVector);
-        //fNtuple->Branch("trackIDVector",    &fTistarTrackIDVector);
-        //fNtuple->Branch("timeVector",       &fTistarTimeVector);
-        //fNtuple->Branch("posxVector",       &fTistarPosXVector);
-        //fNtuple->Branch("posyVector",       &fTistarPosYVector);
-        //fNtuple->Branch("poszVector",       &fTistarPosZVector);
     }
     else {
         G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
@@ -185,7 +177,6 @@ void HistoManager::Save() {
         TistarSettings::Get()->Write("settings",TObject::kOverwrite);
         fPrimaryGenAction->GetCurrentGenerator()->SaveExtras(fOutputFile);
         fTistarGenTree->Write("treeGen");
-        //fTistarDetTree->Write("treeDet");
         fNtuple->Write("ntuple");
         fOutputFile->Close();
     }

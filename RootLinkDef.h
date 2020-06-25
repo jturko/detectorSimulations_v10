@@ -3,6 +3,4 @@
 #pragma link off all classes;
 #pragma link off all functions;
 #pragma link C++ class TistarSettings+;
-#pragma link C++ class ParticleMC+;
-#pragma link C++ class vector<ParticleMC>+;
 #endif

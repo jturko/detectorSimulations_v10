@@ -43,7 +43,6 @@
 
 #include "DetectorConstruction.hh" // for DetectorProperties
 
-#include "ParticleMC.hh"
 #include "TTree.h"
 
 #include <time.h>

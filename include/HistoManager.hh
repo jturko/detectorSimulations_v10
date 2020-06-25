@@ -44,7 +44,6 @@
 //#include "PrimaryGeneratorAction.hh"
 class PrimaryGeneratorAction;
 
-#include "ParticleMC.hh"
 #include "TTree.h"
 #include "TFile.h"
 

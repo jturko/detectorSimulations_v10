@@ -47,7 +47,6 @@
 #include "G4RunManager.hh"
 
 #include "TistarSettings.hh"
-#include "ParticleMC.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
