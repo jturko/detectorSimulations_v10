@@ -131,11 +131,7 @@ public:
 
     // for TI-STAR
     TFile * GetOutputFile() { return fOutputFile; }
-    TTree * GetTistarDetTree() { return fTistarDetTree; }
     TTree * GetTistarGenTree() { return fTistarGenTree; }
-    std::vector< std::vector<ParticleMC>* > & GetTistarDataOfDetectors() { return fTistarDataOfDetectors; }
-    void ClearTistarDataOfDetectors();
- 
     void PushBackTistarVectors(G4double edep, G4double a, G4int z, G4int trackID, G4double time, G4ThreeVector pos);
     void ClearTistarVectors();
 
@@ -170,14 +166,14 @@ private:
 	G4double fBeamTheta;
 	G4double fBeamPhi;
     
-    // for TI-STAR
+    // TI-STAR
+    //
+    // since we use ROOT directly here (instead of w/ the G4AnalysisManager)
+    // we need to manually create the output TFile/TTrees.
     TFile * fOutputFile;
-    TTree * fTistarDetTree;
-    TTree * fTistarGenTree;
-    std::vector< std::vector<ParticleMC>* > fTistarDataOfDetectors;
-
-    // for direct ntuple
     TTree * fNtuple;
+    TTree * fTistarGenTree;
+    // branches for ntuple w/o the G4AnalysisManager
     G4int fEventNumber;
     G4int fTrackID;
     G4int fParentID;
@@ -194,7 +190,6 @@ private:
     G4double fTime;
     G4int fTargetZ;
     G4double fTargetA;    
-
     // for ti-star vectors
     std::vector<G4double> fTistarEdepVector;
     std::vector<G4int>    fTistarTrackIDVector;

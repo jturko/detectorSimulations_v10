@@ -74,7 +74,6 @@ class DetectionSystemTistar;
 
 struct DetectorProperties {
     G4String detectorName;
-    G4int dataOfDetectorsNumber = -1; 
 	G4int systemID;
 	G4int detectorNumber;
 	G4int crystalNumber;
@@ -88,7 +87,6 @@ struct DetectorProperties {
     {
         std::cout<<"======= DetectorProperties::Print() ======="<<std::endl
                  <<"    detectorName = "<<detectorName<<std::endl
-                 <<"    dataOfDetectorsNumber = "<<dataOfDetectorsNumber<<std::endl
                  <<"    systemID = "<<systemID<<std::endl
                  <<"    detectorNumber = "<<detectorNumber<<std::endl
                  <<"    crystalNumber = "<<crystalNumber<<std::endl
@@ -367,7 +365,6 @@ private:
     
     //unordered maps which hold properties of the physical volumes created
     std::unordered_map<G4VPhysicalVolume*, DetectorProperties> fPropertiesMap;
-    int fDataOfDetectorsNumber;
 };
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 

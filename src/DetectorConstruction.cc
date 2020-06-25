@@ -208,8 +208,6 @@ DetectorConstruction::DetectorConstruction() :
     fDescant  = false;
     fTestcan  = false;
     fTistar   = false;
-
-    fDataOfDetectorsNumber = 0;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -1416,8 +1414,6 @@ DetectorProperties DetectorConstruction::ParseVolumeName(G4String volumeName) {
         result.systemID = 9500;
         result.detectorNumber = std::atoi(detNumberString);
         result.crystalNumber = std::atoi(cryNumberString);
-        result.dataOfDetectorsNumber = fDataOfDetectorsNumber++;
-        //G4cout<<"volumeName: "<<volumeName<<", systemID: "<<result.systemID<<", detectorID: "<<result.detectorNumber<<", crystalID: "<<result.crystalNumber<<G4endl;        
     	return result;
     }
     
