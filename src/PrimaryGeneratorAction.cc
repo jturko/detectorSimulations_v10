@@ -47,8 +47,9 @@
 #include "G4SystemOfUnits.hh"
 #include "G4Geantino.hh"
 #include "Randomize.hh"
-
+#include "G4RunManager.hh"
 #include "G4GeneralParticleSource.hh"
+#include "G4Run.hh"
 
 #include "DetectorConstruction.hh" //for detector based information
 #include "BeamDistribution.hh"
@@ -130,11 +131,27 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
         fGPS->GeneratePrimaryVertex(anEvent);
     } 
     else if(fGenTypeNum == 2) {
-        if(evtID==0) { 
-            std::cout<<"---> Using the TRex primary generator!"<<std::endl; 
-            SetGenerator();
-        }
-        fCurrentGenerator->GeneratePrimaries(anEvent);
+	// we have two different generators here: "TRexAngularDistribution" and "TRexBeamIn". Firstly, number of "GeneratorRatio*nEvents" events are run with first generator, "TRexAngularDistribution" and remaining events "(1-GeneratorRatio)*nEvents" are run with second generator, "TRexBeamIn" 
+        const G4int nEvents = G4RunManager::GetRunManager()->GetCurrentRun()->GetNumberOfEventToBeProcessed();
+	std::string Generator_Name = "Beam";
+        G4double GeneratorRatio = TistarSettings::Get()->GetGeneratorRatio();
+        if (evtID < (G4int)(GeneratorRatio*nEvents)){
+	     Generator_Name = TistarSettings::Get()->GetPrimaryGenerator();
+	     if(evtID==0 ) { 
+		 std::cout<<"---> Using the TRex primary generator!, Name is: "<<Generator_Name<<std::endl;
+		 SetGenerator(Generator_Name);
+	     }
+	     fCurrentGenerator->GeneratePrimaries(anEvent);
+	}
+        else{
+            //  delete fCurrentGenerator;
+            Generator_Name = TistarSettings::Get()->GetSecondPrimaryGenerator();
+	    if(evtID== (G4int)(GeneratorRatio*nEvents) ) {
+		std::cout<<"---> Using the TRex secondary generator!, Name is: "<<Generator_Name<<std::endl;
+		SetSecondGenerator(Generator_Name);
+	    }       
+	    fCurrentGenerator->GeneratePrimaries(anEvent);
+	}
     } 
     else {
         if(evtID==0) { std::cout<<"---> Using the default generator (G4ParticleGun)"<<std::endl; }
@@ -391,9 +408,9 @@ void PrimaryGeneratorAction::LaBrinit() {
 }
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void PrimaryGeneratorAction::SetGenerator() {
+void PrimaryGeneratorAction::SetGenerator(G4String generatorName) {
         TistarSettings::Get()->SaveMe(true); // with this set, the TistarSettings file will be saved to the output ROOT file
-        std::string generatorName = TistarSettings::Get()->GetPrimaryGenerator();
+
         if(generatorName == "TestSource") {
             std::cout<<std::endl<<"Using test source ....\n"<<std::endl;
             fCurrentGenerator = new TRexTestSource;
@@ -414,4 +431,33 @@ void PrimaryGeneratorAction::SetGenerator() {
             fCurrentGenerator = NULL;
         }
         if(fCurrentGenerator) fCurrentGenerator->CreateNtupleBranches(fHistoManager->GetTistarGenTree());
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+
+void PrimaryGeneratorAction::SetSecondGenerator(G4String generatorName) {
+
+        TistarSettings::Get()->SaveMe(true); // with this set, the TistarSettings file will be saved to the output ROOT file
+
+        if(generatorName == "TestSource") {
+	    std::cout<<std::endl<<"Using test source ....\n"<<std::endl;
+            fCurrentGenerator = new TRexTestSource;
+	} else if(generatorName == "Rutherford") {
+	    std::cout<<std::endl<<"Using Rutherford scattering ....\n"<<std::endl;
+	    fCurrentGenerator = new TRexRutherford;
+	} else if(generatorName == "AngularDistribution") {
+	    std::cout<<std::endl<<"Using given angular distribution ....\n"<<std::endl;
+	    fCurrentGenerator = new TRexAngularDistribution;
+        } else if(generatorName == "AlphaSource") {
+	    std::cout<<std::endl<<"Using alpha source ....\n"<<std::endl;
+	    fCurrentGenerator = new TRexAlphaSource;
+        } else if(generatorName == "BeamIn") {
+	    std::cout<<std::endl<<"Using beamIn source ....\n"<<std::endl;
+            fCurrentGenerator = new TRexBeamIn;
+	} else {
+	    std::cout<<std::endl<<"Unknown generator !!!\n"<<std::endl;	
+	    fCurrentGenerator = NULL;
+	}
+        if(fCurrentGenerator) fCurrentGenerator->CreateNtupleBranches(fHistoManager->GetTistarSecondGenTree());
 }
