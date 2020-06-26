@@ -27,8 +27,14 @@ public:
     static void Set(TistarSettings*);
 
     std::string GetPrimaryGenerator() { return fPrimaryGenerator; }
+    std::string GetSecondPrimaryGenerator() { return fSecondPrimaryGenerator; }
+
+    double GetGeneratorRatio() { return fGeneratorRatio; }
+    void SetGeneratorRatio(double val) { fGeneratorRatio = val; }
+
     void SetPrimaryGenerator(std::string pgen) { fPrimaryGenerator = pgen; }
-    
+    void SetSecondPrimaryGenerator(std::string spgen) { fSecondPrimaryGenerator = spgen; }
+
     bool SimulateEjectiles() { return fSimulateEjectiles; }
     void SimulateEjectiles(bool val) { fSimulateEjectiles = val; }
     
@@ -46,10 +52,16 @@ public:
     
     std::string GetVacuumChamberGas() { return fVacuumChamberGas; }
     void SetVacuumChamberGas(std::string gas) { fVacuumChamberGas = gas; }
-    
+   
+    std::string GetVacuumChamberMaterialName() { return fVacuumChamberMaterialName; }
+    void SetVacuumChamberMaterialName(std::string name) { fVacuumChamberMaterialName = name; }
+
     double GetVacuumChamberGasPressure() { return fVacuumChamberGasPressure; }
     void SetVacuumChamberGasPressure(double pressure) { fVacuumChamberGasPressure = pressure; }
-    
+
+    double GetVacuumChamberGasTemperature() { return fVacuumChamberGasTemperature; }
+    void SetVacuumChamberGasTemperature(double temperature) { fVacuumChamberGasTemperature = temperature; }
+
     void Print(Option_t* opt = "") const;
     
     // test source parameters
@@ -196,14 +208,18 @@ private:
     
     std::string fSettingsFile;
     std::string fPrimaryGenerator;
+    std::string fSecondPrimaryGenerator;
+    double fGeneratorRatio;
     bool fSimulateEjectiles;
     bool fSimulateGammas;
     int fIncludeEnergyResolution;
     int fIncludeVacuumChamber;
     std::string fVacuumChamberType;
     std::string fVacuumChamberGas;
+    std::string fVacuumChamberMaterialName;
     double fVacuumChamberGasPressure;
-    
+    double fVacuumChamberGasTemperature;
+
     double fTestSourceEnergy;
     double fBeamEnergy;
     double fBeamWidth;
