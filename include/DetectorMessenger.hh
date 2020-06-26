@@ -182,9 +182,10 @@ private:
     G4UIcmdWithAString*         fSetTistarVacuumChamberExteriorMaterialNameCmd;
     G4UIcmdWithADoubleAndUnit*  fSetTistarVacuumChamberExteriorThicknessCmd;
     G4UIcmdWithADoubleAndUnit*  fSetTistarVacuumChamberBeamHoleRadiusCmd;
+    G4UIcmdWithADoubleAndUnit*  fSetTistarVacuumChamberCylinderLengthCmd;
+    G4UIcmdWithADoubleAndUnit*  fSetTistarGasTargetCylinderLengthCmd;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 #endif
-
