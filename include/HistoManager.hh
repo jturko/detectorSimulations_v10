@@ -133,6 +133,7 @@ public:
     TFile * GetOutputFile() { return fOutputFile; }
     TTree * GetTistarDetTree() { return fTistarDetTree; }
     TTree * GetTistarGenTree() { return fTistarGenTree; }
+    TTree * GetTistarSecondGenTree() { return fTistarSecondGenTree; }
     std::vector< std::vector<ParticleMC>* > & GetTistarDataOfDetectors() { return fTistarDataOfDetectors; }
     void ClearTistarDataOfDetectors();
  
@@ -171,6 +172,9 @@ private:
     TFile * fOutputFile;
     TTree * fTistarDetTree;
     TTree * fTistarGenTree;
+	 TTree * fTistarSecondGenTree;
+    TList *list = new TList;
+    TTree *newtree = new TTree;
     std::vector< std::vector<ParticleMC>* > fTistarDataOfDetectors;
 
     // for direct ntuple
@@ -609,4 +613,3 @@ enum HISTONAME
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 #endif
-
