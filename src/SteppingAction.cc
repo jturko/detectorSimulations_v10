@@ -92,13 +92,16 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 
 	// this can be modified to add more processes
 	if(theTrack->GetCreatorProcess() != nullptr) {
-		G4String processName = theTrack->GetCreatorProcess()->GetProcessName();
-		if(processName == "RadioactiveDecay")      processType = 1;
-		else if(processName == "eIoni")            processType = 2;
-		else if(processName == "msc")              processType = 3;
-		else if(processName == "Scintillation")    processType = 4;
-		else if(processName == "Cerenkov")         processType = 5;
-		else                                       processType = 0;
+	    G4String processName = theTrack->GetCreatorProcess()->GetProcessName();
+	    if(processName == "RadioactiveDecay")      processType = 1;
+	    else if(processName == "eIoni")            processType = 2;
+            else if(processName == "ScreenedElastic")  processType = 3;
+	    else if(processName == "compt")            processType = 4;
+	    else if(processName == "hIoni")            processType = 5;
+            else if(processName == "msc")              processType = 6;
+	    else if(processName == "Scintillation")    processType = 7;
+	    else if(processName == "Cerenkov")         processType = 8;
+	    else                                       processType = 0;
     
         //if(theTrack->GetCreatorProcess()->GetProcessName() == "ScreenedElastic") {
         //    G4cout << " ScreenedElastic, " 
@@ -169,4 +172,3 @@ void SteppingAction::UserSteppingAction(const G4Step* aStep) {
 		}
 	}// if(fDetector->HasProperties(volume))
 }
-
