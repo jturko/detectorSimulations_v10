@@ -173,7 +173,11 @@ void HistoManager::Save() {
         fOutputFile->cd();
         TistarSettings::Get()->Write("settings",TObject::kOverwrite);
         fPrimaryGenAction->GetCurrentGenerator()->SaveExtras(fOutputFile);
-        fTistarGenTree->Write("treeGen");
+        list->Add(fTistarGenTree);
+		list->Add(fTistarSecondGenTree);
+        newtree = TTree::MergeTrees(list);
+        newtree->SetName("treeGen");
+		newtree->Write();
         fTistarDetTree->Write("treeDet");
         fNtuple->Write("ntuple");
         fOutputFile->Close();
@@ -642,6 +646,7 @@ void HistoManager::Fill2DHistogram(G4int ih, G4double xbin, G4double ybin, G4dou
 void HistoManager::BookTistar() {
     fOutputFile->cd();
     fTistarGenTree = new TTree("treeGen", "Generator tree");
+    fTistarSecondGenTree = new TTree("treeSecondGen", "Second Generator tree");
     fTistarDetTree = new TTree("treeDet", "Detector tree");
     fTistarDataOfDetectors = std::vector<std::vector<ParticleMC>*>(fDetectorConstruction->GetPropertiesMap().size());
     for(auto prop : fDetectorConstruction->GetPropertiesMap()) {
