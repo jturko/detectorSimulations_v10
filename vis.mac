@@ -24,8 +24,8 @@
 
 # Set viewer rendering style
 # "wireframe" means  "half-transparent" in VRML2FILE driver 
-/vis/viewer/set/style surface
-#/vis/viewer/set/style wireframe
+#/vis/viewer/set/style surface
+/vis/viewer/set/style wireframe
 
 # Compund command: creates scene, adds volume, attaches scene handler
 # and refreshes viewer
@@ -78,11 +78,17 @@
 #/vis/modeling/trajectories/drawByCharge-0/set 1 blue
 #/vis/modeling/trajectories/drawByCharge-0/set 0 green
 
-#/vis/modeling/trajectories/create/drawByParticleID
-#/vis/modeling/trajectories/drawByParticleID-0/set e- magenta
-#/vis/modeling/trajectories/drawByParticleID-0/set proton magenta
-#/vis/modeling/trajectories/drawByParticleID-0/set gamma green
-#/vis/modeling/trajectories/drawByParticleID-0/set neutron yellow
+/vis/modeling/trajectories/create/drawByParticleID
+/vis/modeling/trajectories/drawByParticleID-0/set e- blue
+/vis/modeling/trajectories/drawByParticleID-0/set proton magenta
+/vis/modeling/trajectories/drawByParticleID-0/set gamma green
+/vis/modeling/trajectories/drawByParticleID-0/set neutron yellow
+/vis/modeling/trajectories/drawByParticleID-0/set alpha red
+/vis/modeling/trajectories/drawByParticleID-0/set deuteron black
+#/vis/filtering/trajectories/create/particleFilter
+#/vis/filtering/trajectories/particleFilter-0/add alpha
+#/vis/filtering/trajectories/particleFilter-0/add proton
+#/vis/filtering/trajectories/particleFilter-0/invert true
 
 # Disable visualization
 #/vis/disable
@@ -115,14 +121,3 @@
 
 # Set number of particles and start
 #/run/beamOn 1
-
-
-
-
-
-
-
-
-
-
-
