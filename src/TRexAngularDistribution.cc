@@ -470,9 +470,9 @@ void TRexAngularDistribution::CalculateArealDensity() {
 		}
 	}
 
-	for(size_t i = 0; i < fTargetMaterial->NumberOfElements(); ++i) {
-		std::cout << "Areal density[" << i << "] = " << fArealDensity[i] *cm2 << " / cm2" << std::endl;
-	}
+	//for(size_t i = 0; i < fTargetMaterial->NumberOfElements(); ++i) {
+	//	std::cout << "Areal density[" << i << "] = " << fArealDensity[i] *cm2 << " / cm2" << std::endl;
+	//}
 }
 
 void TRexAngularDistribution::CalculateCrossSectionIntegral() {
@@ -485,10 +485,10 @@ void TRexAngularDistribution::CalculateCrossSectionIntegral() {
 			firstPoint ++;
 		}
 
-		std::cout << "first Point = " << fGraphsSin[i].GetX()[firstPoint] << " , fThetaCM_min = " << fThetaCM_min / rad << std::endl;
+		//std::cout << "first Point = " << fGraphsSin[i].GetX()[firstPoint] << " , fThetaCM_min = " << fThetaCM_min / rad << std::endl;
 
 		fCrossSectionIntegral.push_back(fGraphsSin[i].Integral(firstPoint, -1) * millibarn);
-		std::cout << "fCrossSectionIntegral[" << i << "] = " << fCrossSectionIntegral[i] / millibarn << std::endl;
+		//std::cout << "fCrossSectionIntegral[" << i << "] = " << fCrossSectionIntegral[i] / millibarn << std::endl;
 	}
 
 	// elastic scattering (using Rutherford scattering)
@@ -508,7 +508,7 @@ void TRexAngularDistribution::CalculateCrossSectionIntegral() {
 
 		fCrossSectionIntegral.push_back(-4. * M_PI * RF / (E_CM * E_CM) * (1. - 1./ (sin(fThetaCM_min / radian *0.5) * sin(fThetaCM_min / radian * 0.5))));
 
-		std::cout << "elastic: fCrossSectionIntegral[" << i << "] = " << fCrossSectionIntegral[i + fGraphsSin.size()] / millibarn << std::endl;
+		//std::cout << "elastic: fCrossSectionIntegral[" << i << "] = " << fCrossSectionIntegral[i + fGraphsSin.size()] / millibarn << std::endl;
 	}
 }
 
@@ -554,14 +554,14 @@ void TRexAngularDistribution::CalculateScatteringProbability() {
 			fScatteringProbabilitySingle.push_back(fScatteringProbabilitySingle[index-1] +
 					fArealDensity[fTargetMaterial->NumberOfElements()-1] * fCrossSectionIntegral[index]);
 
-			std::cout << "index for transfer(leila) = " << index << "fTargetMaterial->NumberOfElements(leila):"<<fTargetMaterial->NumberOfElements()<<" , fArealDensity = " << fArealDensity[fTargetMaterial->NumberOfElements()-1] * cm2
-				<< " , fCrossSectionIntegral = " << fCrossSectionIntegral[index] / millibarn << std::endl;
+			//std::cout << "index for transfer(leila) = " << index << "fTargetMaterial->NumberOfElements(leila):"<<fTargetMaterial->NumberOfElements()<<" , fArealDensity = " << fArealDensity[fTargetMaterial->NumberOfElements()-1] * cm2
+			//	<< " , fCrossSectionIntegral = " << fCrossSectionIntegral[index] / millibarn << std::endl;
 		} else { // elastic Rutherford cross sections
 			fScatteringProbabilitySingle.push_back(fScatteringProbabilitySingle[index-1] +  fArealDensity[index - fNbOfLevels] * fCrossSectionIntegral[index]);
 
-			std::cout << "index for elastic(leila)= " << index << " , fArealDensity = " << fArealDensity[index - fNbOfLevels] * cm2 << " , fCrossSectionIntegral = " << fCrossSectionIntegral[index] / millibarn << std::endl;
+			//std::cout << "index for elastic(leila)= " << index << " , fArealDensity = " << fArealDensity[index - fNbOfLevels] * cm2 << " , fCrossSectionIntegral = " << fCrossSectionIntegral[index] / millibarn << std::endl;
 		}
-		std::cout << "ScatteringProbability(transfer)[" << index << "] = " << fScatteringProbabilitySingle[index] << std::endl;
+		//std::cout << "ScatteringProbability(transfer)[" << index << "] = " << fScatteringProbabilitySingle[index] << std::endl;
 	}
 
 	// set total scattering probability
@@ -571,7 +571,7 @@ void TRexAngularDistribution::CalculateScatteringProbability() {
 	if(fThetaCM < 0.00001 * degree) {
 		fScatteringProbability = fScatteringProbabilitySingle[fNbOfLevels - 1] * TistarSettings::Get()->GetTransferOrCoulexProbability();
 	}
-	std::cout << "leila: "<<0.00001 * degree<<" ScatteringProbabilityTree total(leila) = " << fScatteringProbability << " = ? "<< fScatteringProbabilitySingle[fNbOfLevels - 1] * TistarSettings::Get()->GetTransferOrCoulexProbability() << std::endl;// commented in by Leila 28.07.2017
+	//std::cout << "leila: "<<0.00001 * degree<<" ScatteringProbabilityTree total(leila) = " << fScatteringProbability << " = ? "<< fScatteringProbabilitySingle[fNbOfLevels - 1] * TistarSettings::Get()->GetTransferOrCoulexProbability() << std::endl;// commented in by Leila 28.07.2017
 }
 
 

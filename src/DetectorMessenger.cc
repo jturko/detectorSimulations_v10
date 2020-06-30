@@ -445,6 +445,10 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction* Det)
     fSetTistarVacuumChamberGasPressureCmd->SetGuidance("Set the TI-STAR vacuum chamber gas pressure");
     fSetTistarVacuumChamberGasPressureCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
     
+    fSetTistarVacuumChamberGasTemperatureCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/app/setTistarVacuumChamberGasTemperature",this);
+    fSetTistarVacuumChamberGasTemperatureCmd->SetGuidance("Set the TI-STAR vacuum chamber gas temperature");
+    fSetTistarVacuumChamberGasTemperatureCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    
     fSetTistarVacuumChamberCylinderLengthCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/app/setTistarVacuumChamberCylinderLength",this);
 	fSetTistarVacuumChamberCylinderLengthCmd->SetGuidance("Set the TI-STAR vacuum chamber cylinder length next to Gas target");
 	fSetTistarVacuumChamberCylinderLengthCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
@@ -564,6 +568,7 @@ DetectorMessenger::~DetectorMessenger()
     delete fSetTistarVacuumChamberBeamHoleRadiusCmd;
 
     delete fSetTistarVacuumChamberGasPressureCmd;
+    delete fSetTistarVacuumChamberGasTemperatureCmd;
     delete fSetTistarVacuumChamberCylinderLengthCmd;
     delete fSetTistarGasTargetCylinderLengthCmd;
 }
@@ -828,6 +833,7 @@ void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
     }
     if(command == fSetTistarVacuumChamberMaterialNameCmd) {
         fDetector->SetTistarVacuumChamberMaterialName(newValue);
+        TistarSettings::Get()->SetVacuumChamberMaterialName(newValue);
     }
     if(command == fSetTistarVacuumChamberBoxDimensionsCmd) {
         fDetector->SetTistarVacuumChamberBoxDimensions(fSetTistarVacuumChamberBoxDimensionsCmd->GetNew3VectorValue(newValue));
@@ -853,6 +859,10 @@ void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
     if(command == fSetTistarVacuumChamberGasPressureCmd) {
         fDetector->SetTistarVacuumChamberGasPressure(fSetTistarVacuumChamberGasPressureCmd->GetNewDoubleValue(newValue));
         TistarSettings::Get()->SetVacuumChamberGasPressure(fSetTistarVacuumChamberGasPressureCmd->GetNewDoubleValue(newValue));
+    }
+    if(command == fSetTistarVacuumChamberGasTemperatureCmd) {
+        fDetector->SetTistarVacuumChamberGasTemperature(fSetTistarVacuumChamberGasTemperatureCmd->GetNewDoubleValue(newValue));
+        TistarSettings::Get()->SetVacuumChamberGasTemperature(fSetTistarVacuumChamberGasTemperatureCmd->GetNewDoubleValue(newValue));
     }
     if(command == fSetTistarVacuumChamberCylinderLengthCmd) {
 	    fDetector->SetTistarVacuumChamberCylinderLength(fSetTistarVacuumChamberCylinderLengthCmd->GetNewDoubleValue(newValue));

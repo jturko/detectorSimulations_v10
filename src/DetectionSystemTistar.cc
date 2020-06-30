@@ -428,7 +428,8 @@ G4int DetectionSystemTistar::AddVacuumChamber(G4LogicalVolume* expHallLog, G4Log
     G4RotationMatrix * rotate = NULL;
     
     // Make materials
-    G4Material * vacuum_material = G4Material::GetMaterial(fVacuumChamberMaterialName);
+    G4String custom_vacuum_material_name = "TistarVacuumChamber_" + fVacuumChamberMaterialName;
+    G4Material * vacuum_material = G4Material::GetMaterial(custom_vacuum_material_name);
     G4Material * exterior_material = G4Material::GetMaterial(fVacuumChamberExteriorMaterialName);
     TistarSettings::Get()->SetVacuumChamberGasPressure(vacuum_material->GetPressure());
 
@@ -571,8 +572,8 @@ G4int DetectionSystemTistar::AddVacuumChamber(G4LogicalVolume* expHallLog, G4Log
     G4VPhysicalVolume * vacuum_chamber_PV = new G4PVPlacement(rotate, move, vacuumChamberGasLog, "vacuum_chamber_PV", expHallLog, 0, 0, 0);    
     G4VPhysicalVolume * exterior_chamber_PV = new G4PVPlacement(rotate, move, vacuumChamberExteriorLog, "vacuum_chamber_exterior_PV", expHallLog, 0, 0, 0);
     
-	G4double vacuumMatDensity = vacuumChamberGasLog->GetMass()/((4/3)*TMath::Pi()*TMath::Power(fVacuumChamberSphereRadius,3));
-	G4double vacuumMatAreaDensity = vacuumChamberGasLog->GetMass()/(TMath::Pi()*TMath::Power(fVacuumChamberSphereRadius,2));
+	G4double vacuumMatDensity = vacuumChamberGasLog->GetMass()/((4./3.)*TMath::Pi()*TMath::Power(fVacuumChamberSphereRadius,3.));
+	G4double vacuumMatAreaDensity = vacuumChamberGasLog->GetMass()/(TMath::Pi()*TMath::Power(fVacuumChamberSphereRadius,2.));
 
     std::cout<<"Built Vacuum chamber with material \""<<vacuum_material->GetName()<<"\", pressure "<<vacuum_material->GetPressure()/bar*1000.<<" mbar, radius "<<fVacuumChamberSphereRadius/cm
 	              <<" cm, material"<<std::endl<<" density "<<vacuumMatDensity/(g/cm3)<<" g/cm3, and area density "<<vacuumMatAreaDensity/(mg/cm2)<<" mg/cm2"<<" calculated via vacuum chamber mass "<<vacuumChamberGasLog->GetMass()<<std::endl;

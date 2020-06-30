@@ -221,6 +221,7 @@ public:
     void SetTistarVacuumChamberExteriorThickness(G4double thickness) { fTistarVacuumChamberExteriorThickness = thickness; }
     void SetTistarVacuumChamberBeamHoleRadius(G4double radius) { fTistarVacuumChamberBeamHoleRadius = radius; }
     void SetTistarVacuumChamberGasPressure(G4double pressure) { fTistarVacuumChamberGasPressure = pressure; }
+    void SetTistarVacuumChamberGasTemperature(G4double temp) { fTistarVacuumChamberGasTemperature = temp; }
     void SetTistarVacuumChamberCylinderLength(G4double length) { fTistarVacuumChamberCylinderLength = length; }
     void SetTistarGasTargetCylinderLength(G4double TargetLength) { fTistarGasTargetCylinderLength = TargetLength; }
 
@@ -350,6 +351,7 @@ private:
     G4double fTistarVacuumChamberExteriorThickness;
     G4double fTistarVacuumChamberBeamHoleRadius;
     G4double fTistarVacuumChamberGasPressure;
+    G4double fTistarVacuumChamberGasTemperature;
     G4double fTistarVacuumChamberCylinderLength;
     G4double fTistarGasTargetCylinderLength;
 
