@@ -131,6 +131,7 @@ public:
     // for TI-STAR
     TFile * GetOutputFile() { return fOutputFile; }
     TTree * GetTistarGenTree() { return fTistarGenTree; }
+    TTree * GetTistarSecondGenTree() { return fTistarSecondGenTree; }
     void PushBackTistarVectors(G4double edep, G4double a, G4int z, G4int trackID, G4double time, G4ThreeVector pos);
     void ClearTistarVectors();
 
@@ -170,9 +171,11 @@ private:
     // since we use ROOT directly here (instead of w/ the G4AnalysisManager)
     // we need to manually create the output TFile/TTrees.
     TFile * fOutputFile;
-    TTree * fNtuple;
     TTree * fTistarGenTree;
-    // branches for ntuple w/o the G4AnalysisManager
+	TTree * fTistarSecondGenTree;
+
+    // for detector ntuple w/o the G4AnalysisManager
+    TTree * fNtuple;
     G4int fEventNumber;
     G4int fTrackID;
     G4int fParentID;
@@ -618,4 +621,3 @@ enum HISTONAME
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 #endif
-

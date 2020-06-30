@@ -221,6 +221,8 @@ public:
     void SetTistarVacuumChamberExteriorThickness(G4double thickness) { fTistarVacuumChamberExteriorThickness = thickness; }
     void SetTistarVacuumChamberBeamHoleRadius(G4double radius) { fTistarVacuumChamberBeamHoleRadius = radius; }
     void SetTistarVacuumChamberGasPressure(G4double pressure) { fTistarVacuumChamberGasPressure = pressure; }
+    void SetTistarVacuumChamberCylinderLength(G4double length) { fTistarVacuumChamberCylinderLength = length; }
+    void SetTistarGasTargetCylinderLength(G4double TargetLength) { fTistarGasTargetCylinderLength = TargetLength; }
 
     G4bool   GridCell()   { return fGridCell;   }
     G4bool   Griffin()    { return fGriffin;    }
@@ -348,6 +350,8 @@ private:
     G4double fTistarVacuumChamberExteriorThickness;
     G4double fTistarVacuumChamberBeamHoleRadius;
     G4double fTistarVacuumChamberGasPressure;
+    G4double fTistarVacuumChamberCylinderLength;
+    G4double fTistarGasTargetCylinderLength;
 
     //booleans which control which histograms are created (these are set by the detector construction)
     G4bool fGridCell;
@@ -369,5 +373,3 @@ private:
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 #endif
-
-

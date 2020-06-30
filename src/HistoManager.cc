@@ -176,7 +176,14 @@ void HistoManager::Save() {
         fOutputFile->cd();
         TistarSettings::Get()->Write("settings",TObject::kOverwrite);
         fPrimaryGenAction->GetCurrentGenerator()->SaveExtras(fOutputFile);
-        fTistarGenTree->Write("treeGen");
+        fTistarGenTree->Write("treeGenFirst");
+        fTistarSecondGenTree->Write("treeGenSecond");
+        TList * list = new TList();
+        list->Add(fTistarGenTree);
+		list->Add(fTistarSecondGenTree);
+        TTree * newtree = TTree::MergeTrees(list);
+        newtree->SetTitle("merged generator tree");
+		newtree->Write("treeGen");
         fNtuple->Write("ntuple");
         fOutputFile->Close();
     }
@@ -647,6 +654,7 @@ void HistoManager::Fill2DHistogram(G4int ih, G4double xbin, G4double ybin, G4dou
 
 void HistoManager::BookTistar() {
     fOutputFile->cd();
-    fTistarGenTree = new TTree("treeGen", "Generator tree");
+    fTistarGenTree = new TTree("treeGenFirst", "First Generator tree");
+    fTistarSecondGenTree = new TTree("treeGenSecond", "Second Generator tree");
 }
 

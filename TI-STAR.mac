@@ -13,7 +13,7 @@
 
 /run/initialize
 /tracking/verbose 0
-#/control/execute vis.mac
+/control/execute vis.mac
 
 ######################################################
 # Geometry
@@ -22,6 +22,8 @@
 ## the world
 #
 #/DetSys/world/material Vacuum
+/DetSys/world/material G4_Galactic
+/DetSys/world/dimensions 24 24 24 cm
 
 ## vacuum chamber
 #
@@ -31,11 +33,16 @@
 /DetSys/app/setTistarVacuumChamberBoxDimensions 15 15 20 cm
 /DetSys/app/setTistarVacuumChamberCylinderRadius 8 cm
 /DetSys/app/setTistarVacuumChamberCylinderZ 20 cm
-/DetSys/app/setTistarVacuumChamberSphereRadius 12 cm
+/DetSys/app/setTistarVacuumChamberSphereRadius 10 cm
 /DetSys/app/setTistarVacuumChamberExteriorMaterial G4_Al
 /DetSys/app/setTistarVacuumChamberExteriorThickness 1 mm
 /DetSys/app/setTistarVacuumChamberBeamHoleRadius 5 mm
 /DetSys/app/setTistarVacuumChamberGasPressure 1.000 bar
+/DetSys/app/setTistarVacuumChamberCylinderLength 2 cm
+/DetSys/app/setTistarGasTargetCylinderLength 11 cm
+/DetSys/miniball/setVacuumChamberGasMaterial G4_He
+/DetSys/miniball/setVacuumChamberGasPressure 1.0 bar
+/DetSys/miniball/setVacuumChamberGasTemperature 273.15 kelvin
 /DetSys/app/addTistarVacuumChamber
 
 # first layer
@@ -76,8 +83,8 @@
 #
 /DetSys/miniball/SetTargetMaterialName 2H
 /DetSys/miniball/SetTargetDiameter 10.0 mm
-/DetSys/miniball/SetGasTargetLength 16.0 cm
-/DetSys/miniball/SetTargetPressure 1.000 bar
+/DetSys/miniball/SetGasTargetLength 11.0 cm
+/DetSys/miniball/SetTargetPressure 1.0 bar
 /DetSys/miniball/SetTargetTemperature 273.15 kelvin
 /DetSys/miniball/SetTargetMylarThickness 2 um
 /DetSys/miniball/SetTargetBeWindowThickness 8 um
@@ -111,11 +118,16 @@
 #
 
 /DetSys/miniball/SetPrimaryGenerator                AngularDistribution
-/DetSys/miniball/SetLevelFile                       /Users/JTurko/geant4_sims/detectorSimulations_v10_TI-STAR/Data/LevelFiles/132Sn_dp.dat
-/DetSys/miniball/SetAngularDistributionFile         /Users/JTurko/geant4_sims/detectorSimulations_v10_TI-STAR/Data/AngularDistributionFiles/132Sn_dp.dat
-/DetSys/miniball/SetMassFile                        /Users/JTurko/geant4_sims/detectorSimulations_v10_TI-STAR/Data/MassFile.dat
-#/DetSys/miniball/SetReactionZvsRadiusFile           /Users/JTurko/geant4_sims/detectorSimulations_v10_TI-STAR/Data/ReactionZvsRadiusFile.dat
-#/DetSys/miniball/SetReactionZDistributionFile       /Users/JTurko/geant4_sims/detectorSimulations_v10_TI-STAR/Data/ReactionZDistributionFile.dat
+/DetSys/miniball/SetSecondPrimaryGenerator                BeamIn
+# GeneratorRatio*NrTotalEvents are run by PrimaryGenerator and others run by SecondPrimaryGenerator"
+#/DetSys/miniball/SetGeneratorRatio 3.e-4
+/DetSys/miniball/SetGeneratorRatio 1
+
+/DetSys/miniball/SetLevelFile                       ../Data/LevelFiles/132Sn_dp.dat
+/DetSys/miniball/SetAngularDistributionFile         ../Data/AngularDistributionFiles/132Sn_dp.dat
+/DetSys/miniball/SetMassFile                        ../Data/MassFile.dat
+#/DetSys/miniball/SetReactionZvsRadiusFile          ../Data/ReactionZvsRadiusFile.dat
+#/DetSys/miniball/SetReactionZDistributionFile      ../Data/ReactionZDistributionFile.dat
 
 /DetSys/miniball/SetBeamEnergy 792.0 MeV
 /DetSys/miniball/SetBeamWidth 1.0 mm
@@ -137,7 +149,6 @@
 /DetSys/miniball/SetRecoilA 1
 
 /DetSys/miniball/SetTransferOrCoulexProbability 1.0
-
 /DetSys/miniball/SimulateGammas true
 /DetSys/miniball/IncludeEnergyResolution 1
 /DetSys/miniball/SimulateEjectiles false
@@ -153,7 +164,7 @@
 /gps/particle ion
 /gps/ion 50 132 0 0 
 
-/gps/position 0 0 -100 mm
+/gps/position 0 0 -120 mm
 /gps/pos/type Plane
 /gps/pos/shape Circle
 /gps/pos/radius 1 mm
@@ -167,5 +178,4 @@
 # Start the run
 #
 
-/run/beamOn 1000000
-
+/run/beamOn 1

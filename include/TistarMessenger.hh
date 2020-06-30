@@ -68,15 +68,21 @@ public:
 private:
 
     PrimaryGeneratorAction*     fPrimaryGeneratorAction;
+    PrimaryGeneratorAction*     fSecondPrimaryGeneratorAction;
+    G4UIcmdWithADouble*         fSetGeneratorRatioCmd;
 
     G4UIcmdWithAString*         fSetPrimaryGeneratorCmd;
+    G4UIcmdWithAString*         fSetSecondPrimaryGeneratorCmd;
+
     G4UIcmdWithABool*           fSimulateEjectilesCmd;
     G4UIcmdWithABool*           fSimulateGammasCmd;
     G4UIcmdWithAnInteger*       fIncludeEnergyResolutionCmd;
     G4UIcmdWithAnInteger*       fIncludeVacuumChamberCmd;
     G4UIcmdWithAString*         fSetVacuumChamberTypeCmd;
     G4UIcmdWithAString*         fSetVacuumChamberGasCmd;
+    G4UIcmdWithAString*         fSetVacuumChamberMaterialNameCmd;
     G4UIcmdWithADoubleAndUnit*  fSetVacuumChamberGasPressureCmd;
+    G4UIcmdWithADoubleAndUnit*  fSetVacuumChamberGasTemperatureCmd;
 
     G4UIcmdWithADoubleAndUnit*  fSetTestSourceEnergyCmd;
     G4UIcmdWithADoubleAndUnit*  fSetBeamEnergyCmd;
@@ -126,4 +132,3 @@ private:
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 #endif
-

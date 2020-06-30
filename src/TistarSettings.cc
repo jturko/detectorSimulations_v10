@@ -37,7 +37,8 @@ TistarSettings::TistarSettings()
     fSaveMe = false;
 
     fPrimaryGenerator = "beam";
-    
+    fSecondPrimaryGenerator = "beam";
+
     fSimulateEjectiles = false;
     fSimulateGammas = false;
     fIncludeEnergyResolution = 0;
@@ -45,7 +46,9 @@ TistarSettings::TistarSettings()
     fIncludeVacuumChamber = 0;
     fVacuumChamberType = "";
     fVacuumChamberGas = "";
+    fVacuumChamberMaterialName = "dummy";
     fVacuumChamberGasPressure = -9999.0;
+    fVacuumChamberGasTemperature = CLHEP::STP_Temperature;
 
     fTestSourceEnergy = 5000.*keV;
     
@@ -54,17 +57,17 @@ TistarSettings::TistarSettings()
     fThetaCmMin = 2.*degree;
 	
     fProjectileZ = 30;
-	fProjectileA = 72;
-	fTargetZ = 1;
-	fTargetA = 3;
-	fEjectileZ = 30;
-	fEjectileA = 74;
-	fRecoilZ = 1;
-	fRecoilA = 1;
-	fProjectileName = "72Zn";
-	fTargetName = "3H";
-	fEjectileName = "74Zn";
-	fRecoilName = "1H";
+    fProjectileA = 72;
+    fTargetZ = 1;
+    fTargetA = 3;
+    fEjectileZ = 30;
+    fEjectileA = 74;
+    fRecoilZ = 1;
+    fRecoilA = 1;
+    fProjectileName = "72Zn";
+    fTargetName = "3H";
+    fEjectileName = "74Zn";
+    fRecoilName = "1H";
 
     fLevelFile = "";
     fAngularDistributionFile = "";
@@ -101,16 +104,19 @@ TistarSettings::~TistarSettings() {
 }
 
 void TistarSettings::Print(Option_t* opt) const {
-	std::cout<<"TistarSettings: "<<opt<<std::endl
+        std::cout<<"TistarSettings: "<<opt<<std::endl
 		<<"fPrimaryGenerator = "<<fPrimaryGenerator<<std::endl
-		<<"fSimulateEjectiles = "<<fSimulateEjectiles<<std::endl
-		<<"fSimulateGammas = "<<fSimulateGammas<<std::endl
-		<<"fIncludeEnergyResolution = "<<fIncludeEnergyResolution<<std::endl
-		<<"fIncludeVacuumChamber = "<<fIncludeVacuumChamber<<std::endl
-		<<"fVacuumChamberType = "<<fVacuumChamberType<<std::endl
-		<<"fVacuumChamberGas = "<<fVacuumChamberGas<<std::endl
+	        <<"fSecondPrimaryGenerator = "<<fSecondPrimaryGenerator<<std::endl
+	        <<"fSimulateEjectiles = "<<fSimulateEjectiles<<std::endl
+	        <<"fSimulateGammas = "<<fSimulateGammas<<std::endl
+	        <<"fIncludeEnergyResolution = "<<fIncludeEnergyResolution<<std::endl
+	        <<"fIncludeVacuumChamber = "<<fIncludeVacuumChamber<<std::endl
+	        <<"fVacuumChamberType = "<<fVacuumChamberType<<std::endl
+	        <<"fVacuumChamberGas = "<<fVacuumChamberGas<<std::endl
+	        <<"fVacuumChamberMaterialName = "<<fVacuumChamberMaterialName<<std::endl
 		<<"fVacuumChamberGasPressure = "<<fVacuumChamberGasPressure*1000./bar<<" mbar"<<std::endl
-		<<"fTestSourceEnergy = "<<fTestSourceEnergy/MeV<<" MeV"<<std::endl
+                <<"fVacuumChamberGasTemperature = "<<fVacuumChamberGasTemperature/kelvin<<" K"<<std::endl
+                <<"fTestSourceEnergy = "<<fTestSourceEnergy/MeV<<" MeV"<<std::endl
 		<<"---------- beam properties"<<std::endl
 		<<"fBeamEnergy = "<<fBeamEnergy/MeV<<" MeV"<<std::endl
 		<<"fBeamWidth = "<<fBeamWidth/mm<<" mm"<<std::endl
@@ -146,15 +152,15 @@ void TistarSettings::Print(Option_t* opt) const {
 		<<"fTargetThickness = "<<fTargetThickness/(mg/cm2)<<" mg/cm2"<<std::endl
 		<<"fGasTargetLength = "<<fGasTargetLength/mm<<" mm"<<std::endl
 		<<"fTargetPressure = "<<fTargetPressure*1000./bar<<" mbar"<<std::endl
-        <<"fTargetTemperature = "<<fTargetTemperature/kelvin<<" K"<<std::endl
+                <<"fTargetTemperature = "<<fTargetTemperature/kelvin<<" K"<<std::endl
 		<<"fTargetMaterialDensity = "<<fTargetMaterialDensity/(g/cm3)<<" g/cm3"<<std::endl
 		<<"fTargetMaterialName = "<<fTargetMaterialName<<std::endl
 		<<"fTargetAtomicRatio = "<<fTargetAtomicRatio<<std::endl
-        <<"fTargetMylarThickness = "<<fTargetMylarThickness/um<<" um"<<std::endl
-        <<"fTargetBeWindowThickness = "<<fTargetBeWindowThickness/um<<" um"<<std::endl
+                <<"fTargetMylarThickness = "<<fTargetMylarThickness/um<<" um"<<std::endl
+                <<"fTargetBeWindowThickness = "<<fTargetBeWindowThickness/um<<" um"<<std::endl
 		<<"fTransferOrCoulexProbability = "<<fTransferOrCoulexProbability<<std::endl
-        <<"------------- extra"<<std::endl
-        <<"fNevents = "<<fNevents<<std::endl
+                <<"------------- extra"<<std::endl
+                <<"fNevents = "<<fNevents<<std::endl
 		<<std::endl;
 }
 

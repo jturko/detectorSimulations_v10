@@ -54,7 +54,7 @@ EventAction::EventAction(HistoManager* hist, DetectorConstruction* detcon)
 :G4UserEventAction(),
 	fHistoManager(hist),
     fDetCon(detcon),
-	fPrintModulo(5000)
+	fPrintModulo(10)
 {
 	fNumberOfHits = 0;
 	fNumberOfSteps = 0;

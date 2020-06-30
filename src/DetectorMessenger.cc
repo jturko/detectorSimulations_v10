@@ -444,6 +444,14 @@ DetectorMessenger::DetectorMessenger(DetectorConstruction* Det)
     fSetTistarVacuumChamberGasPressureCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/app/setTistarVacuumChamberGasPressure",this);
     fSetTistarVacuumChamberGasPressureCmd->SetGuidance("Set the TI-STAR vacuum chamber gas pressure");
     fSetTistarVacuumChamberGasPressureCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    
+    fSetTistarVacuumChamberCylinderLengthCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/app/setTistarVacuumChamberCylinderLength",this);
+	fSetTistarVacuumChamberCylinderLengthCmd->SetGuidance("Set the TI-STAR vacuum chamber cylinder length next to Gas target");
+	fSetTistarVacuumChamberCylinderLengthCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+    fSetTistarGasTargetCylinderLengthCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/app/setTistarGasTargetCylinderLength",this);
+	fSetTistarGasTargetCylinderLengthCmd->SetGuidance("set the gas target length");
+	fSetTistarGasTargetCylinderLengthCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -556,6 +564,8 @@ DetectorMessenger::~DetectorMessenger()
     delete fSetTistarVacuumChamberBeamHoleRadiusCmd;
 
     delete fSetTistarVacuumChamberGasPressureCmd;
+    delete fSetTistarVacuumChamberCylinderLengthCmd;
+    delete fSetTistarGasTargetCylinderLengthCmd;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -844,6 +854,12 @@ void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
         fDetector->SetTistarVacuumChamberGasPressure(fSetTistarVacuumChamberGasPressureCmd->GetNewDoubleValue(newValue));
         TistarSettings::Get()->SetVacuumChamberGasPressure(fSetTistarVacuumChamberGasPressureCmd->GetNewDoubleValue(newValue));
     }
+    if(command == fSetTistarVacuumChamberCylinderLengthCmd) {
+	    fDetector->SetTistarVacuumChamberCylinderLength(fSetTistarVacuumChamberCylinderLengthCmd->GetNewDoubleValue(newValue));
+	 }
+    if(command == fSetTistarGasTargetCylinderLengthCmd) {
+		fDetector->SetTistarGasTargetCylinderLength(fSetTistarGasTargetCylinderLengthCmd->GetNewDoubleValue(newValue));
+	 }
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

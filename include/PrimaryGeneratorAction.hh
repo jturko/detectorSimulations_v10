@@ -97,7 +97,9 @@ public:
         else if(!val && fGenTypeNum == 2) fGenTypeNum = 0;  
     }    
 
-    void SetGenerator();
+    void SetGenerator(G4String val);
+	void SetSecondGenerator(G4String val);
+
     TRexBaseGenerator* GetCurrentGenerator() { return fCurrentGenerator; }    
 
 private:
@@ -140,5 +142,4 @@ private:
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 #endif
-
 

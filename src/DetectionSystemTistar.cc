@@ -426,8 +426,8 @@ G4int DetectionSystemTistar::AddVacuumChamber(G4LogicalVolume* expHallLog, G4Log
 
     G4ThreeVector move;
     G4RotationMatrix * rotate = NULL;
-
-    // Make the target materials
+    
+    // Make materials
     G4Material * vacuum_material = G4Material::GetMaterial(fVacuumChamberMaterialName);
     G4Material * exterior_material = G4Material::GetMaterial(fVacuumChamberExteriorMaterialName);
     TistarSettings::Get()->SetVacuumChamberGasPressure(vacuum_material->GetPressure());
@@ -444,6 +444,9 @@ G4int DetectionSystemTistar::AddVacuumChamber(G4LogicalVolume* expHallLog, G4Log
     G4VSolid * vacuum_chamber_gas_SV = NULL;
     G4VSolid * vacuum_chamber_exterior_cutting_SV = NULL;
     G4VSolid * vacuum_chamber_exterior_SV = NULL;
+
+    G4VSolid * vacuum_chamber_cylinder1_SV = NULL;
+	G4VSolid * vacuum_chamber_cylinder2_SV = NULL;
 
     if(fVacuumChamberShape == "box") {
         // the gas inside the vacuum chamber
@@ -521,6 +524,34 @@ G4int DetectionSystemTistar::AddVacuumChamber(G4LogicalVolume* expHallLog, G4Log
                                         2.*M_PI); // phi end
         // cutting the beam hole in the vacuum chamber exterior
         vacuum_chamber_exterior_SV = new G4SubtractionSolid("vacuum_chamber_exterior_solid", vacuum_chamber_exterior_SV, vacuum_chamber_exterior_cutting_SV); 
+        // Create two empty cylinders at both front and back sides of vacuum chamber. Then subtract these cylinders from vacuum chamber 
+        vacuum_chamber_cylinder1_SV = new G4Tubs("vacuum_chamber_cylinder1_solid", // front part
+                                        0., // inner radius
+                                        fGasTargetRadius, // outer radius 
+                                        fVacuumChamberSphereRadius/2.-fGasTargetCylinderLength/4.-fVacuumChamberCylinderLength/2., // z distance
+                                        0., // phi start
+                                        2.*M_PI); // phi end
+        vacuum_chamber_cylinder2_SV = new G4Tubs("vacuum_chamber_cylinder2_solid", // back part
+                                        0., // inner radius
+                                        fGasTargetRadius, //outer radius
+                                        fVacuumChamberSphereRadius/2.-fGasTargetCylinderLength/4.-fVacuumChamberCylinderLength/2., // z distance
+                                        0., // phi start
+                                        2.*M_PI); // phi end
+
+        // Placement
+        // front
+        move = G4ThreeVector(0., 0., +fVacuumChamberSphereRadius/2.+fGasTargetCylinderLength/4.+fVacuumChamberCylinderLength/2.);
+        rotate = new G4RotationMatrix;
+
+        vacuum_chamber_gas_SV = new G4SubtractionSolid("vacuum_chamber_gas_solid", vacuum_chamber_gas_SV, vacuum_chamber_cylinder1_SV, rotate, move);
+
+       // Placement
+       // back
+        move = G4ThreeVector(0., 0., -fVacuumChamberSphereRadius/2.-fGasTargetCylinderLength/4.-fVacuumChamberCylinderLength/2.);
+        rotate = new G4RotationMatrix;
+
+        vacuum_chamber_gas_SV = new G4SubtractionSolid("vacuum_chamber_gas_solid", vacuum_chamber_gas_SV, vacuum_chamber_cylinder2_SV, rotate, move);
+
     }
     else {
         G4cout << " ---> Unknown vacuum chamber shape \"" << fVacuumChamberShape << "\", cannot build!" << G4endl;
@@ -539,6 +570,18 @@ G4int DetectionSystemTistar::AddVacuumChamber(G4LogicalVolume* expHallLog, G4Log
     rotate = new G4RotationMatrix;
     G4VPhysicalVolume * vacuum_chamber_PV = new G4PVPlacement(rotate, move, vacuumChamberGasLog, "vacuum_chamber_PV", expHallLog, 0, 0, 0);    
     G4VPhysicalVolume * exterior_chamber_PV = new G4PVPlacement(rotate, move, vacuumChamberExteriorLog, "vacuum_chamber_exterior_PV", expHallLog, 0, 0, 0);
+    
+	G4double vacuumMatDensity = vacuumChamberGasLog->GetMass()/((4/3)*TMath::Pi()*TMath::Power(fVacuumChamberSphereRadius,3));
+	G4double vacuumMatAreaDensity = vacuumChamberGasLog->GetMass()/(TMath::Pi()*TMath::Power(fVacuumChamberSphereRadius,2));
+
+    std::cout<<"Built Vacuum chamber with material \""<<vacuum_material->GetName()<<"\", pressure "<<vacuum_material->GetPressure()/bar*1000.<<" mbar, radius "<<fVacuumChamberSphereRadius/cm
+	              <<" cm, material"<<std::endl<<" density "<<vacuumMatDensity/(g/cm3)<<" g/cm3, and area density "<<vacuumMatAreaDensity/(mg/cm2)<<" mg/cm2"<<" calculated via vacuum chamber mass "<<vacuumChamberGasLog->GetMass()<<std::endl;
+
+    std::cout<<"Pressure = "<<vacuum_material->GetPressure()/bar<<" bar"<<std::endl;
+	std::cout<<"Temperature = "<<vacuum_material->GetTemperature()/kelvin<<" K"<<std::endl;
+	std::cout<<"Mass of molecule = "<<vacuum_material->GetMassOfMolecule()/g<<" g"<<std::endl;
+	std::cout<<"Mass of 1 mole of molecules = "<<vacuum_material->GetMassOfMolecule()*CLHEP::Avogadro/g<<" g/mole"<<std::endl;
+	std::cout<<"Density calculated via ideal gas law = "<< ((vacuum_material->GetPressure())*(vacuum_material->GetMassOfMolecule()*CLHEP::Avogadro)/(8.314*(joule/kelvin/mole))/(vacuum_material->GetTemperature()))/(g/cm3)<< " g/cm3" << std::endl;
 
     return 1;
 }

@@ -1043,6 +1043,8 @@ void DetectorConstruction::AddTistarVacuumChamber() {
     if(fTistarVacuumChamberExteriorMaterialName != "") pTistar->SetVacuumChamberExteriorMaterialName(fTistarVacuumChamberExteriorMaterialName);
     if(fTistarVacuumChamberExteriorThickness>0.)       pTistar->SetVacuumChamberExteriorThickness(fTistarVacuumChamberExteriorThickness);
     if(fTistarVacuumChamberBeamHoleRadius>0.)          pTistar->SetVacuumChamberBeamHoleRadius(fTistarVacuumChamberBeamHoleRadius);
+    if(fTistarVacuumChamberCylinderLength>0.)          pTistar->SetVacuumChamberCylinderLength(fTistarVacuumChamberCylinderLength);
+    if(fTistarGasTargetCylinderLength>0.)              pTistar->SetGasTargetCylinderLength(fTistarGasTargetCylinderLength);
 
     pTistar->AddVacuumChamber(fLogicWorld,fLogicVC);   
     if(fLogicVC) {
@@ -1419,4 +1421,3 @@ DetectorProperties DetectorConstruction::ParseVolumeName(G4String volumeName) {
     
 	return result;
 }
-
