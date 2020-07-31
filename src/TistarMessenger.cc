@@ -72,36 +72,6 @@ TistarMessenger::TistarMessenger(PrimaryGeneratorAction * pgen) :
     fSimulateGammasCmd->SetGuidance("set bool for simulating gammas");
     fSimulateGammasCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
-    fIncludeEnergyResolutionCmd = new G4UIcmdWithAnInteger("/DetSys/miniball/IncludeEnergyResolution",this);
-    fIncludeEnergyResolutionCmd->SetGuidance("set for including an energy resolution (?)");
-    fIncludeEnergyResolutionCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
-    
-    fIncludeVacuumChamberCmd = new G4UIcmdWithAnInteger("/DetSys/miniball/IncludeVacuumChamber",this);
-    fIncludeVacuumChamberCmd->SetGuidance("set for including the vacuum chamber (?)");
-    fIncludeVacuumChamberCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
-
-    fSetVacuumChamberTypeCmd = new G4UIcmdWithAString("/DetSys/miniball/SetVacuumChamberType",this);
-    fSetVacuumChamberTypeCmd->SetGuidance("set the vacuum chamber type (?)");
-    fSetVacuumChamberTypeCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
-    
-    fSetVacuumChamberGasCmd = new G4UIcmdWithAString("/DetSys/miniball/SetVacuumChamberGas",this);
-    fSetVacuumChamberGasCmd->SetGuidance("set the vacuum chamber gas (?)");
-    fSetVacuumChamberGasCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
-
-    fSetVacuumChamberMaterialNameCmd = new G4UIcmdWithAString("/DetSys/miniball/setVacuumChamberGasMaterial",this);
-	fSetVacuumChamberMaterialNameCmd->SetGuidance("set the vacuum chamber material name");
-	fSetVacuumChamberMaterialNameCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
-
-    fSetVacuumChamberGasPressureCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/miniball/setVacuumChamberGasPressure",this);   
-    fSetVacuumChamberGasPressureCmd->SetGuidance("set the vacuum chamber gas pressure");
-    fSetVacuumChamberGasPressureCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
-    fSetVacuumChamberGasPressureCmd->SetUnitCategory("Pressure");
-
-    fSetVacuumChamberGasTemperatureCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/miniball/setVacuumChamberGasTemperature",this);
-	fSetVacuumChamberGasTemperatureCmd->SetGuidance("set the vacuum chamber gas temperature");
-	fSetVacuumChamberGasTemperatureCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
-	fSetVacuumChamberGasTemperatureCmd->SetUnitCategory("Temperature");
-
     fSetTestSourceEnergyCmd = new G4UIcmdWithADoubleAndUnit("/DetSys/miniball/SetTestSourceEnergy",this);
     fSetTestSourceEnergyCmd->SetGuidance("set the test source energy");
     fSetTestSourceEnergyCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
@@ -261,13 +231,7 @@ TistarMessenger::~TistarMessenger() {
     delete fSetGeneratorRatioCmd;
     delete fSimulateEjectilesCmd;
     delete fSimulateGammasCmd;
-    delete fIncludeEnergyResolutionCmd;
     delete fIncludeVacuumChamberCmd;
-    delete fSetVacuumChamberTypeCmd;
-    delete fSetVacuumChamberGasCmd;
-	delete fSetVacuumChamberMaterialNameCmd;
-    delete fSetVacuumChamberGasPressureCmd;
-    delete fSetVacuumChamberGasTemperatureCmd;
 
     delete fSetTestSourceEnergyCmd;
     delete fSetBeamEnergyCmd;
@@ -321,13 +285,7 @@ void TistarMessenger::SetNewValue(G4UIcommand* command, G4String value) {
     if(command == fSetGeneratorRatioCmd)            TistarSettings::Get()->SetGeneratorRatio(fSetGeneratorRatioCmd->GetNewDoubleValue(value));
     if(command == fSimulateEjectilesCmd)               TistarSettings::Get()->SimulateEjectiles(fSimulateEjectilesCmd->GetNewBoolValue(value));
     if(command == fSimulateGammasCmd)                  TistarSettings::Get()->SimulateGammas(fSimulateGammasCmd->GetNewBoolValue(value));
-    if(command == fIncludeEnergyResolutionCmd)         TistarSettings::Get()->IncludeEnergyResolution(fIncludeEnergyResolutionCmd->GetNewIntValue(value));
     if(command == fIncludeVacuumChamberCmd)            TistarSettings::Get()->IncludeVacuumChamber(fIncludeVacuumChamberCmd->GetNewIntValue(value));
-    if(command == fSetVacuumChamberTypeCmd)            TistarSettings::Get()->SetVacuumChamberType(value);
-    if(command == fSetVacuumChamberGasCmd)             TistarSettings::Get()->SetVacuumChamberGas(value);
-    if(command == fSetVacuumChamberMaterialNameCmd)    TistarSettings::Get()->SetVacuumChamberMaterialName(value);
-    if(command == fSetVacuumChamberGasPressureCmd)     TistarSettings::Get()->SetVacuumChamberGasPressure(fSetVacuumChamberGasPressureCmd->GetNewDoubleValue(value));
-    if(command == fSetVacuumChamberGasTemperatureCmd)  TistarSettings::Get()->SetVacuumChamberGasTemperature(fSetVacuumChamberGasTemperatureCmd->GetNewDoubleValue(value));
 
     if(command == fSetTestSourceEnergyCmd)          TistarSettings::Get()->SetTestSourceEnergy(fSetTestSourceEnergyCmd->GetNewDoubleValue(value));
     if(command == fSetBeamEnergyCmd)                TistarSettings::Get()->SetBeamEnergy(fSetBeamEnergyCmd->GetNewDoubleValue(value));

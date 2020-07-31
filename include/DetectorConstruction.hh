@@ -74,7 +74,6 @@ class DetectionSystemTistar;
 
 struct DetectorProperties {
     G4String detectorName;
-    G4int dataOfDetectorsNumber = -1; 
 	G4int systemID;
 	G4int detectorNumber;
 	G4int crystalNumber;
@@ -88,7 +87,6 @@ struct DetectorProperties {
     {
         std::cout<<"======= DetectorProperties::Print() ======="<<std::endl
                  <<"    detectorName = "<<detectorName<<std::endl
-                 <<"    dataOfDetectorsNumber = "<<dataOfDetectorsNumber<<std::endl
                  <<"    systemID = "<<systemID<<std::endl
                  <<"    detectorNumber = "<<detectorNumber<<std::endl
                  <<"    crystalNumber = "<<crystalNumber<<std::endl
@@ -222,6 +220,8 @@ public:
     void SetTistarVacuumChamberExteriorMaterialName(G4String name) { fTistarVacuumChamberExteriorMaterialName = name; }
     void SetTistarVacuumChamberExteriorThickness(G4double thickness) { fTistarVacuumChamberExteriorThickness = thickness; }
     void SetTistarVacuumChamberBeamHoleRadius(G4double radius) { fTistarVacuumChamberBeamHoleRadius = radius; }
+    void SetTistarVacuumChamberGasPressure(G4double pressure) { fTistarVacuumChamberGasPressure = pressure; }
+    void SetTistarVacuumChamberGasTemperature(G4double temp) { fTistarVacuumChamberGasTemperature = temp; }
     void SetTistarVacuumChamberCylinderLength(G4double length) { fTistarVacuumChamberCylinderLength = length; }
     void SetTistarGasTargetCylinderLength(G4double TargetLength) { fTistarGasTargetCylinderLength = TargetLength; }
 
@@ -253,6 +253,7 @@ public:
     G4LogicalVolume * GetLogicWorld() { return fLogicWorld; }
 
     void DefineTistarTargetMaterials();
+    void DefineTistarVacuumChamberMaterials();
 
 private:
     bool CheckVolumeName(G4String volumeName);
@@ -349,6 +350,8 @@ private:
     G4String fTistarVacuumChamberExteriorMaterialName;
     G4double fTistarVacuumChamberExteriorThickness;
     G4double fTistarVacuumChamberBeamHoleRadius;
+    G4double fTistarVacuumChamberGasPressure;
+    G4double fTistarVacuumChamberGasTemperature;
     G4double fTistarVacuumChamberCylinderLength;
     G4double fTistarGasTargetCylinderLength;
 
@@ -368,7 +371,6 @@ private:
     
     //unordered maps which hold properties of the physical volumes created
     std::unordered_map<G4VPhysicalVolume*, DetectorProperties> fPropertiesMap;
-    int fDataOfDetectorsNumber;
 };
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 

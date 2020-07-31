@@ -28,20 +28,16 @@
 ## vacuum chamber
 #
 /DetSys/app/setTistarVacuumChamberShape sphere
-/DetSys/app/setTistarVacuumChamberMaterial helium
-#/DetSys/app/setTistarVacuumChamberMaterial Vacuum
+/DetSys/app/setTistarVacuumChamberMaterial G4_He
 /DetSys/app/setTistarVacuumChamberBoxDimensions 15 15 20 cm
-/DetSys/app/setTistarVacuumChamberCylinderRadius 8 cm
-/DetSys/app/setTistarVacuumChamberCylinderZ 20 cm
 /DetSys/app/setTistarVacuumChamberSphereRadius 10 cm
 /DetSys/app/setTistarVacuumChamberExteriorMaterial G4_Al
 /DetSys/app/setTistarVacuumChamberExteriorThickness 1 mm
 /DetSys/app/setTistarVacuumChamberBeamHoleRadius 5 mm
+/DetSys/app/setTistarVacuumChamberGasPressure 1.000 bar
+/DetSys/app/setTistarVacuumChamberGasTemperature 273.15 kelvin
 /DetSys/app/setTistarVacuumChamberCylinderLength 2 cm
 /DetSys/app/setTistarGasTargetCylinderLength 11 cm
-/DetSys/miniball/setVacuumChamberGasMaterial G4_He
-/DetSys/miniball/setVacuumChamberGasPressure 1.0 bar
-/DetSys/miniball/setVacuumChamberGasTemperature 273.15 kelvin
 /DetSys/app/addTistarVacuumChamber
 
 # first layer
@@ -83,7 +79,7 @@
 /DetSys/miniball/SetTargetMaterialName 2H
 /DetSys/miniball/SetTargetDiameter 10.0 mm
 /DetSys/miniball/SetGasTargetLength 11.0 cm
-/DetSys/miniball/SetTargetPressure 1.0 bar
+/DetSys/miniball/SetTargetPressure 1.000 bar
 /DetSys/miniball/SetTargetTemperature 273.15 kelvin
 /DetSys/miniball/SetTargetMylarThickness 2 um
 /DetSys/miniball/SetTargetBeWindowThickness 8 um
@@ -117,9 +113,10 @@
 #
 
 /DetSys/miniball/SetPrimaryGenerator                AngularDistribution
-/DetSys/miniball/SetSecondPrimaryGenerator                BeamIn
+/DetSys/miniball/SetSecondPrimaryGenerator          BeamIn
 # GeneratorRatio*NrTotalEvents are run by PrimaryGenerator and others run by SecondPrimaryGenerator"
-/DetSys/miniball/SetGeneratorRatio 3.e-4
+#/DetSys/miniball/SetGeneratorRatio 3.e-4
+/DetSys/miniball/SetGeneratorRatio 0.5
 
 /DetSys/miniball/SetLevelFile                       ../Data/LevelFiles/132Sn_dp.dat
 /DetSys/miniball/SetAngularDistributionFile         ../Data/AngularDistributionFiles/132Sn_dp.dat
@@ -148,32 +145,13 @@
 
 /DetSys/miniball/SetTransferOrCoulexProbability 1.0
 /DetSys/miniball/SimulateGammas true
-/DetSys/miniball/IncludeEnergyResolution 1
 /DetSys/miniball/SimulateEjectiles false
 
 /DetSys/gun/useTRexGenerator true
 
 #####################################################
-# GPS commands
-#
-
-#/gps/particle geantino
-#/gps/particle proton
-/gps/particle ion
-/gps/ion 50 132 0 0 
-
-/gps/position 0 0 -120 mm
-/gps/pos/type Plane
-/gps/pos/shape Circle
-/gps/pos/radius 1 mm
-/gps/direction 0 0 1 
-
-/gps/energy 792 MeV
-
-/DetSys/gun/useGPS false
-
-#####################################################
 # Start the run
 #
 
-/run/beamOn 1000000
+/run/beamOn 1000
+

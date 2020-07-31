@@ -44,11 +44,10 @@
 //#include "PrimaryGeneratorAction.hh"
 class PrimaryGeneratorAction;
 
-#include "ParticleMC.hh"
 #include "TTree.h"
 #include "TFile.h"
 
-const G4int MAXNTCOL            = 15;
+const G4int MAXNTCOL            = 25;
 
 const G4bool WRITEEKINHISTOS    = true;//bools needed to write histos
 const G4bool WRITEEDEPHISTOS    = true;
@@ -103,8 +102,8 @@ public:
     void BookTistar();
 	void Save();
 
-	void FillHitNtuple(G4int eventNumber, G4int trackID, G4int parentID, G4int stepNumber, G4int particleType, G4int processType, G4int systemID, G4int cryNumber, G4int detNumber, G4double depEnergy, G4double posx, G4double posy, G4double posz, G4double time, G4int targetZ);
-	void FillStepNtuple(G4int eventNumber, G4int trackID, G4int parentID, G4int stepNumber, G4int particleType, G4int processType, G4int systemID, G4int cryNumber, G4int detNumber, G4double depEnergy, G4double posx, G4double posy, G4double posz, G4double time, G4int targetZ);
+	void FillHitNtuple(G4int eventNumber, G4int trackID, G4int parentID, G4int stepNumber, G4int particleType, G4int processType, G4int systemID, G4int cryNumber, G4int detNumber, G4double depEnergy, G4double posx, G4double posy, G4double posz, G4double time, G4int targetZ, G4double targetA = -1);
+	void FillStepNtuple(G4int eventNumber, G4int trackID, G4int parentID, G4int stepNumber, G4int particleType, G4int processType, G4int systemID, G4int cryNumber, G4int detNumber, G4double depEnergy, G4double posx, G4double posy, G4double posz, G4double time, G4int targetZ, G4double targetA = -1);
 
 	void FillHistogram(G4int ih, G4double e, G4double weight = 1.0);
 	void Fill2DHistogram(G4int ih, G4double xbin, G4double ybin, G4double weight = 1.0);
@@ -131,12 +130,11 @@ public:
 
     // for TI-STAR
     TFile * GetOutputFile() { return fOutputFile; }
-    TTree * GetTistarDetTree() { return fTistarDetTree; }
     TTree * GetTistarGenTree() { return fTistarGenTree; }
     TTree * GetTistarSecondGenTree() { return fTistarSecondGenTree; }
-    std::vector< std::vector<ParticleMC>* > & GetTistarDataOfDetectors() { return fTistarDataOfDetectors; }
-    void ClearTistarDataOfDetectors();
- 
+    void PushBackTistarVectors(G4double edep, G4double a, G4int z, G4int trackID, G4double time, G4ThreeVector pos);
+    void ClearTistarVectors();
+
 private:
 	void BookSpiceHistograms();
 	void MakeHistogram(G4AnalysisManager* analysisManager, G4String filename,  G4String title, G4double xmin, G4double xmax, G4int nbins);
@@ -168,16 +166,15 @@ private:
 	G4double fBeamTheta;
 	G4double fBeamPhi;
     
-    // for TI-STAR
+    // TI-STAR
+    //
+    // since we use ROOT directly here (instead of w/ the G4AnalysisManager)
+    // we need to manually create the output TFile/TTrees.
     TFile * fOutputFile;
-    TTree * fTistarDetTree;
     TTree * fTistarGenTree;
-	 TTree * fTistarSecondGenTree;
-    TList *list = new TList;
-    TTree *newtree = new TTree;
-    std::vector< std::vector<ParticleMC>* > fTistarDataOfDetectors;
+	TTree * fTistarSecondGenTree;
 
-    // for direct ntuple
+    // for detector ntuple w/o the G4AnalysisManager
     TTree * fNtuple;
     G4int fEventNumber;
     G4int fTrackID;
@@ -194,7 +191,18 @@ private:
     G4double fPosZ;
     G4double fTime;
     G4int fTargetZ;
-    
+    G4double fTargetA;    
+    // for ti-star vectors
+    std::vector<G4double> fTistarEdepVector;
+    std::vector<G4int>    fTistarTrackIDVector;
+    std::vector<G4double> fTistarParticleAVector;
+    std::vector<G4int>    fTistarParticleZVector;
+    std::vector<G4double> fTistarTimeVector;
+    std::vector<G4double> fTistarPosXVector;
+    std::vector<G4double> fTistarPosYVector;
+    std::vector<G4double> fTistarPosZVector;
+
+
 public:
 	short PacesHistNumbers(int i) { return fPacesHistNumbers[i]; }
 	short SpiceHistNumbers(int i) { return fSpiceHistNumbers[i]; }

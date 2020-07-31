@@ -97,6 +97,7 @@ void HistoManager::Book() {
         fNtuple->Branch("posz",        &fPosZ,        "posz/D"        );
         fNtuple->Branch("time",        &fTime,        "time/D"        );
         fNtuple->Branch("targetZ",     &fTargetZ,     "targetZ/I"     );
+        fNtuple->Branch("targetA",     &fTargetA,     "targetA/D"     );
     }
     else {
         G4AnalysisManager* analysisManager = G4AnalysisManager::Instance();
@@ -125,6 +126,7 @@ void HistoManager::Book() {
             fNtColIdHit[12] = analysisManager->CreateNtupleDColumn("posz");
             fNtColIdHit[13] = analysisManager->CreateNtupleDColumn("time");
             fNtColIdHit[14] = analysisManager->CreateNtupleIColumn("targetZ");
+            fNtColIdHit[15] = analysisManager->CreateNtupleDColumn("targetA");
             analysisManager->FinishNtuple();
         }
         if(fStepTrackerBool) {
@@ -144,6 +146,7 @@ void HistoManager::Book() {
             fNtColIdStep[12] = analysisManager->CreateNtupleDColumn("posz");
             fNtColIdStep[13] = analysisManager->CreateNtupleDColumn("time");
             fNtColIdStep[14] = analysisManager->CreateNtupleIColumn("targetZ");
+            fNtColIdStep[15] = analysisManager->CreateNtupleDColumn("targetA");
             analysisManager->FinishNtuple();
         }
     }
@@ -173,18 +176,20 @@ void HistoManager::Save() {
         fOutputFile->cd();
         TistarSettings::Get()->Write("settings",TObject::kOverwrite);
         fPrimaryGenAction->GetCurrentGenerator()->SaveExtras(fOutputFile);
+        fTistarGenTree->Write("treeGenFirst");
+        fTistarSecondGenTree->Write("treeGenSecond");
+        TList * list = new TList();
         list->Add(fTistarGenTree);
 		list->Add(fTistarSecondGenTree);
-        newtree = TTree::MergeTrees(list);
-        newtree->SetName("treeGen");
-		newtree->Write();
-        fTistarDetTree->Write("treeDet");
+        TTree * newtree = TTree::MergeTrees(list);
+        newtree->SetTitle("merged generator tree");
+		newtree->Write("treeGen");
         fNtuple->Write("ntuple");
         fOutputFile->Close();
     }
 }
 
-void HistoManager::FillHitNtuple(G4int eventNumber, G4int trackID, G4int parentID, G4int stepNumber, G4int particleType, G4int processType, G4int systemID, G4int cryNumber, G4int detNumber, G4double depEnergy, G4double posx, G4double posy, G4double posz, G4double time, G4int targetZ) {
+void HistoManager::FillHitNtuple(G4int eventNumber, G4int trackID, G4int parentID, G4int stepNumber, G4int particleType, G4int processType, G4int systemID, G4int cryNumber, G4int detNumber, G4double depEnergy, G4double posx, G4double posy, G4double posz, G4double time, G4int targetZ, G4double targetA) {
     if(fHitTrackerBool) {
         if(TistarSettings::Get()->SaveMe()) {
             fEventNumber = eventNumber;
@@ -202,6 +207,7 @@ void HistoManager::FillHitNtuple(G4int eventNumber, G4int trackID, G4int parentI
             fPosZ = posz;
             fTime = time;
             fTargetZ = targetZ;
+            fTargetA = targetA;
             fNtuple->Fill();
         }
         else {
@@ -221,12 +227,13 @@ void HistoManager::FillHitNtuple(G4int eventNumber, G4int trackID, G4int parentI
             analysisManager->FillNtupleDColumn(fNtColIdHit[12], posz);
             analysisManager->FillNtupleDColumn(fNtColIdHit[13], time);
             analysisManager->FillNtupleIColumn(fNtColIdHit[14], targetZ);
+            analysisManager->FillNtupleDColumn(fNtColIdHit[15], targetA);
             analysisManager->AddNtupleRow();
         }
     }
 }
 
-void HistoManager::FillStepNtuple(G4int eventNumber, G4int trackID, G4int parentID, G4int stepNumber, G4int particleType, G4int processType, G4int systemID, G4int cryNumber, G4int detNumber, G4double depEnergy, G4double posx, G4double posy, G4double posz, G4double time, G4int targetZ) {
+void HistoManager::FillStepNtuple(G4int eventNumber, G4int trackID, G4int parentID, G4int stepNumber, G4int particleType, G4int processType, G4int systemID, G4int cryNumber, G4int detNumber, G4double depEnergy, G4double posx, G4double posy, G4double posz, G4double time, G4int targetZ, G4double targetA) {
     if(fStepTrackerBool) {
         if(TistarSettings::Get()->SaveMe()) {
             fEventNumber = eventNumber;
@@ -244,6 +251,7 @@ void HistoManager::FillStepNtuple(G4int eventNumber, G4int trackID, G4int parent
             fPosZ = posz;
             fTime = time;
             fTargetZ = targetZ;
+            fTargetA = targetA;
             fNtuple->Fill();
         }
         else {
@@ -263,6 +271,7 @@ void HistoManager::FillStepNtuple(G4int eventNumber, G4int trackID, G4int parent
             analysisManager->FillNtupleDColumn(fNtColIdStep[12], posz);
             analysisManager->FillNtupleDColumn(fNtColIdStep[13], time);
             analysisManager->FillNtupleIColumn(fNtColIdStep[14], targetZ);
+            analysisManager->FillNtupleDColumn(fNtColIdStep[15], targetA);
             analysisManager->AddNtupleRow();
         }
     }
@@ -645,20 +654,7 @@ void HistoManager::Fill2DHistogram(G4int ih, G4double xbin, G4double ybin, G4dou
 
 void HistoManager::BookTistar() {
     fOutputFile->cd();
-    fTistarGenTree = new TTree("treeGen", "Generator tree");
-    fTistarSecondGenTree = new TTree("treeSecondGen", "Second Generator tree");
-    fTistarDetTree = new TTree("treeDet", "Detector tree");
-    fTistarDataOfDetectors = std::vector<std::vector<ParticleMC>*>(fDetectorConstruction->GetPropertiesMap().size());
-    for(auto prop : fDetectorConstruction->GetPropertiesMap()) {
-        std::cout << "creating branch : " << prop.second.detectorName << std::endl;
-        fTistarDetTree->Branch((prop.second.detectorName + "_MC").c_str(), &(fTistarDataOfDetectors[prop.second.dataOfDetectorsNumber]));
-    }
+    fTistarGenTree = new TTree("treeGenFirst", "First Generator tree");
+    fTistarSecondGenTree = new TTree("treeGenSecond", "Second Generator tree");
 }
 
-void HistoManager::ClearTistarDataOfDetectors() {
-    //std::cout << "fTistarDataOfDetectors.size() = " << fTistarDataOfDetectors.size() << std::endl;
-    for(size_t i=0; i<fTistarDataOfDetectors.size(); i++) {
-        delete fTistarDataOfDetectors[i];
-        fTistarDataOfDetectors[i] = 0;
-    }
-}

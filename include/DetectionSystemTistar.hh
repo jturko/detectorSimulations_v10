@@ -40,12 +40,10 @@
 #include "globals.hh"
 
 #include "TistarSettings.hh"
-#include "TRexBaseDetector.hh"
 
 class G4AssemblyVolume;
 
-class DetectionSystemTistar: public TRexBaseDetector
-{
+class DetectionSystemTistar {
 public:
     DetectionSystemTistar();
     ~DetectionSystemTistar();
@@ -53,8 +51,6 @@ public:
     G4int Build();
     G4int PlaceDetector(G4LogicalVolume* expHallLog);
     G4int PlaceDetector(G4ThreeVector move, G4ThreeVector rotate, G4LogicalVolume* expHallLog);
-
-    std::vector<ParticleMC>* GetParticleMCvector();
 
     void SetSiDimensions(G4ThreeVector dim) { fSiDimensions = dim; fSiDimensionsSet = true; }
     void SetPCBDimensions(G4ThreeVector dim) { fPCBDimensions = dim; fPCBDimensionsSet = true; }

@@ -123,9 +123,6 @@ DetectorConstruction::DetectorConstruction() :
     // materials
     DefineMaterials();
     
-    //  builtDetectors = false;
-    
-    
     fMatWorldName = "G4_AIR";
     
     // Generic Target Apparatus
@@ -140,9 +137,7 @@ DetectorConstruction::DetectorConstruction() :
     fSetFieldBoxMagneticField= false;
     
     // parameters to suppress:
-    
     DefineSuppressedParameters();
-    
     // Shield Selection Default
     
     fUseTigressPositions = false;
@@ -155,7 +150,6 @@ DetectorConstruction::DetectorConstruction() :
     fCustomDetectorPosition  = 1 ; // posNum
     
     // create commands for interactive definition
-    
     fDetectorMessenger = new DetectorMessenger(this);
     
     // ensure the global field is initialized
@@ -194,7 +188,7 @@ DetectorConstruction::DetectorConstruction() :
     fTistarVacuumChamberExteriorMaterialName = "";
     fTistarVacuumChamberExteriorThickness = -1;
 
-    fLogicVC = nullptr;
+    fLogicVC = NULL;
 
     fGridCell = false;
     fGriffin  = false;
@@ -208,8 +202,6 @@ DetectorConstruction::DetectorConstruction() :
     fDescant  = false;
     fTestcan  = false;
     fTistar   = false;
-
-    fDataOfDetectorsNumber = 0;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -1047,8 +1039,13 @@ void DetectorConstruction::AddTistarVacuumChamber() {
     if(fTistarVacuumChamberBeamHoleRadius>0.)          pTistar->SetVacuumChamberBeamHoleRadius(fTistarVacuumChamberBeamHoleRadius);
     if(fTistarVacuumChamberCylinderLength>0.)          pTistar->SetVacuumChamberCylinderLength(fTistarVacuumChamberCylinderLength);
     if(fTistarGasTargetCylinderLength>0.)              pTistar->SetGasTargetCylinderLength(fTistarGasTargetCylinderLength);
-
+    
+    DefineTistarVacuumChamberMaterials();
     pTistar->AddVacuumChamber(fLogicWorld,fLogicVC);   
+    if(fLogicVC) {
+        G4cout<<"Vacuum chamber built w/ material: "<<fLogicVC->GetMaterial()->GetName()<<" w/ density: "
+              <<fLogicVC->GetMaterial()->GetDensity()/(g/cm3)<<" g/cm3 and pressure: "<<fLogicVC->GetMaterial()->GetPressure()/bar<<" bar"<<G4endl;
+    }
 }
 
 void DetectorConstruction::SetProperties() {
@@ -1059,20 +1056,22 @@ void DetectorConstruction::SetProperties() {
 	// so this only outputs the number of volumes once
 	if(G4Threading::G4GetThreadId() < 0) {
 		G4cout<<fLogicWorld->GetNoDaughters()<<" daughter volumes in the world volume"<<std::endl;
-	}
-	if(G4Threading::G4GetThreadId() < 0 && fLogicVC != NULL) {
-		G4cout<<fLogicVC->GetNoDaughters()<<" daughter volumes in the vacuum chamber"<<std::endl;
-	}
-	for(int i = 0; i < fLogicWorld->GetNoDaughters(); ++i) {
-		if(!HasProperties(fLogicWorld->GetDaughter(i)) && CheckVolumeName(fLogicWorld->GetDaughter(i)->GetName())) {
-			fPropertiesMap[fLogicWorld->GetDaughter(i)] = ParseVolumeName(fLogicWorld->GetDaughter(i)->GetName());
-		}
+	    for(unsigned int i = 0; i < fLogicWorld->GetNoDaughters(); ++i) {
+	    	if(!HasProperties(fLogicWorld->GetDaughter(i)) && CheckVolumeName(fLogicWorld->GetDaughter(i)->GetName())) {
+	    		fPropertiesMap[fLogicWorld->GetDaughter(i)] = ParseVolumeName(fLogicWorld->GetDaughter(i)->GetName());
+	    	}
+            G4cout<<" ("<<i<<") "<<fLogicWorld->GetDaughter(i)->GetName()<<G4endl;
+	    }
 	}
     // for TI-STAR vacuum chamber
-	for(int i = 0; i < fLogicVC->GetNoDaughters(); ++i) {
-		if(!HasProperties(fLogicVC->GetDaughter(i)) && CheckVolumeName(fLogicVC->GetDaughter(i)->GetName())) {
-			fPropertiesMap[fLogicVC->GetDaughter(i)] = ParseVolumeName(fLogicVC->GetDaughter(i)->GetName());
-		}
+	if(G4Threading::G4GetThreadId() < 0 && fLogicVC != NULL) {
+		G4cout<<fLogicVC->GetNoDaughters()<<" daughter volumes in the vacuum chamber"<<std::endl;
+	    for(unsigned int i = 0; i < fLogicVC->GetNoDaughters(); ++i) {
+	    	if(!HasProperties(fLogicVC->GetDaughter(i)) && CheckVolumeName(fLogicVC->GetDaughter(i)->GetName())) {
+	    		fPropertiesMap[fLogicVC->GetDaughter(i)] = ParseVolumeName(fLogicVC->GetDaughter(i)->GetName());
+	    	}
+            G4cout<<" ("<<i<<") "<<fLogicVC->GetDaughter(i)->GetName()<<G4endl;
+	    }
 	}
 }
 
@@ -1085,7 +1084,7 @@ void DetectorConstruction::Print() {
 	SetProperties();
 
     std::cout<<" ---> in fLogicWorld:"<<std::endl;
-	for(int i = 0; i < fLogicWorld->GetNoDaughters(); ++i) {
+	for(unsigned int i = 0; i < fLogicWorld->GetNoDaughters(); ++i) {
 		std::cout<<i<<": "<<fLogicWorld->GetDaughter(i)<<" - "<<fLogicWorld->GetDaughter(i)->GetName();
 		if(HasProperties(fLogicWorld->GetDaughter(i))) {
 			auto prop = GetProperties(fLogicWorld->GetDaughter(i));
@@ -1095,7 +1094,7 @@ void DetectorConstruction::Print() {
 	}
     
     std::cout<<" ---> in fLogicVC (vaccum chamber):"<<std::endl;
-	for(int i = 0; i < fLogicVC->GetNoDaughters(); ++i) {
+	for(unsigned int i = 0; i < fLogicVC->GetNoDaughters(); ++i) {
 		std::cout<<i<<": "<<fLogicVC->GetDaughter(i)<<" - "<<fLogicVC->GetDaughter(i)->GetName();
 		if(HasProperties(fLogicVC->GetDaughter(i))) {
 			auto prop = GetProperties(fLogicVC->GetDaughter(i));
@@ -1412,8 +1411,6 @@ DetectorProperties DetectorConstruction::ParseVolumeName(G4String volumeName) {
         result.systemID = 9500;
         result.detectorNumber = std::atoi(detNumberString);
         result.crystalNumber = std::atoi(cryNumberString);
-        result.dataOfDetectorsNumber = fDataOfDetectorsNumber++;
-        //G4cout<<"volumeName: "<<volumeName<<", systemID: "<<result.systemID<<", detectorID: "<<result.detectorNumber<<", crystalID: "<<result.crystalNumber<<G4endl;        
     	return result;
     }
     

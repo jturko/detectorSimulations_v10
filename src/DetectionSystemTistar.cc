@@ -343,7 +343,7 @@ G4int DetectionSystemTistar::AddGasTarget(G4LogicalVolume* expHallLog)
         fLogicalGasTarget = new G4LogicalVolume(gas_target,target_material,"Gas_target_LV",0,0,0);
         fLogicalGasTarget->SetVisAttributes(gas_vis_att);
     }
-    // Placement$a
+    // Placement
     move = G4ThreeVector(0.,0.,0.);
     rotate = new G4RotationMatrix;
     G4VPhysicalVolume * gas_target_PV = new G4PVPlacement(rotate, move, fLogicalGasTarget, "Gas_target_PV", expHallLog, 0, 0, 0);
@@ -427,11 +427,11 @@ G4int DetectionSystemTistar::AddVacuumChamber(G4LogicalVolume* expHallLog, G4Log
     G4ThreeVector move;
     G4RotationMatrix * rotate = NULL;
     
-    // Make the target materials
-    G4Material * vacuum_material = G4Material::GetMaterial(fVacuumChamberMaterialName);
-	//G4Material * vacuum_material = G4Material::GetMaterial("helium");
-
+    // Make materials
+    G4String custom_vacuum_material_name = "TistarVacuumChamber_" + fVacuumChamberMaterialName;
+    G4Material * vacuum_material = G4Material::GetMaterial(custom_vacuum_material_name);
     G4Material * exterior_material = G4Material::GetMaterial(fVacuumChamberExteriorMaterialName);
+    TistarSettings::Get()->SetVacuumChamberGasPressure(vacuum_material->GetPressure());
 
     // Set up colours and other vis. attributes
     G4VisAttributes * vacuum_vis_att = new G4VisAttributes(G4Colour::Red());
@@ -572,8 +572,8 @@ G4int DetectionSystemTistar::AddVacuumChamber(G4LogicalVolume* expHallLog, G4Log
     G4VPhysicalVolume * vacuum_chamber_PV = new G4PVPlacement(rotate, move, vacuumChamberGasLog, "vacuum_chamber_PV", expHallLog, 0, 0, 0);    
     G4VPhysicalVolume * exterior_chamber_PV = new G4PVPlacement(rotate, move, vacuumChamberExteriorLog, "vacuum_chamber_exterior_PV", expHallLog, 0, 0, 0);
     
-	G4double vacuumMatDensity = vacuumChamberGasLog->GetMass()/((4/3)*TMath::Pi()*TMath::Power(fVacuumChamberSphereRadius,3));
-	G4double vacuumMatAreaDensity = vacuumChamberGasLog->GetMass()/(TMath::Pi()*TMath::Power(fVacuumChamberSphereRadius,2));
+	G4double vacuumMatDensity = vacuumChamberGasLog->GetMass()/((4./3.)*TMath::Pi()*TMath::Power(fVacuumChamberSphereRadius,3.));
+	G4double vacuumMatAreaDensity = vacuumChamberGasLog->GetMass()/(TMath::Pi()*TMath::Power(fVacuumChamberSphereRadius,2.));
 
     std::cout<<"Built Vacuum chamber with material \""<<vacuum_material->GetName()<<"\", pressure "<<vacuum_material->GetPressure()/bar*1000.<<" mbar, radius "<<fVacuumChamberSphereRadius/cm
 	              <<" cm, material"<<std::endl<<" density "<<vacuumMatDensity/(g/cm3)<<" g/cm3, and area density "<<vacuumMatAreaDensity/(mg/cm2)<<" mg/cm2"<<" calculated via vacuum chamber mass "<<vacuumChamberGasLog->GetMass()<<std::endl;
@@ -587,8 +587,3 @@ G4int DetectionSystemTistar::AddVacuumChamber(G4LogicalVolume* expHallLog, G4Log
     return 1;
 }
 
-std::vector<ParticleMC>* DetectionSystemTistar::GetParticleMCvector() {
-    std::vector<ParticleMC>* particleMCvector = new std::vector<ParticleMC>;
-    //particleMCvector->push_back(*fBarrelErestSingleSensitiveDetector->GetParticleMC()); // THIS IS WHERE A LOT OF WORK NEEDS TO BE DONE...
-    return particleMCvector;
-}
