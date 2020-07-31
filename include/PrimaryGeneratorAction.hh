@@ -136,7 +136,7 @@ private:
     TistarMessenger*  fTistarMessenger;
     
     G4int fGenTypeNum;
-
+    G4int EventCut;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
