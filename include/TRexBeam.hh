@@ -51,7 +51,8 @@ public:
     void CreateNtupleBranches(TTree * tree);
 	
     void SaveExtras(TFile * file);
-
+    virtual double GetReactionRatio() {}
+    
 protected:
     // shoot fReactionX, fReactionY, fReactionZ of the source
     void ShootReactionPosition();
