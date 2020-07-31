@@ -29,9 +29,6 @@ public:
     std::string GetPrimaryGenerator() { return fPrimaryGenerator; }
     std::string GetSecondPrimaryGenerator() { return fSecondPrimaryGenerator; }
 
-    double GetGeneratorRatio() { return fGeneratorRatio; }
-    void SetGeneratorRatio(double val) { fGeneratorRatio = val; }
-
     void SetPrimaryGenerator(std::string pgen) { fPrimaryGenerator = pgen; }
     void SetSecondPrimaryGenerator(std::string spgen) { fSecondPrimaryGenerator = spgen; }
 
@@ -209,7 +206,6 @@ private:
     std::string fSettingsFile;
     std::string fPrimaryGenerator;
     std::string fSecondPrimaryGenerator;
-    double fGeneratorRatio;
     bool fSimulateEjectiles;
     bool fSimulateGammas;
     int fIncludeEnergyResolution;
