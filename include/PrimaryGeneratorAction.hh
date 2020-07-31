@@ -101,6 +101,7 @@ public:
 	void SetSecondGenerator(G4String val);
 
     TRexBaseGenerator* GetCurrentGenerator() { return fCurrentGenerator; }    
+    G4double fScatteringProbability;
 
 private:
     //variables
