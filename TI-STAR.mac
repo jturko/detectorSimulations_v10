@@ -114,9 +114,6 @@
 
 /DetSys/miniball/SetPrimaryGenerator                AngularDistribution
 /DetSys/miniball/SetSecondPrimaryGenerator          BeamIn
-# GeneratorRatio*NrTotalEvents are run by PrimaryGenerator and others run by SecondPrimaryGenerator"
-#/DetSys/miniball/SetGeneratorRatio 3.e-4
-/DetSys/miniball/SetGeneratorRatio 0.5
 
 /DetSys/miniball/SetLevelFile                       ../Data/LevelFiles/132Sn_dp.dat
 /DetSys/miniball/SetAngularDistributionFile         ../Data/AngularDistributionFiles/132Sn_dp.dat
