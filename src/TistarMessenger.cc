@@ -60,10 +60,6 @@ TistarMessenger::TistarMessenger(PrimaryGeneratorAction * pgen) :
     fSetSecondPrimaryGeneratorCmd->SetGuidance("set second primary generator type (AngularDistribution, Rutherford, AlphaSource, etc...)");
 	fSetSecondPrimaryGeneratorCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
-    fSetGeneratorRatioCmd = new G4UIcmdWithADouble("/DetSys/miniball/SetGeneratorRatio",this);
-	fSetGeneratorRatioCmd->SetGuidance("set the generator ratio");
-	fSetGeneratorRatioCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
-
     fSimulateEjectilesCmd = new G4UIcmdWithABool("/DetSys/miniball/SimulateEjectiles",this);
     fSimulateEjectilesCmd->SetGuidance("set bool for simulating ejectiles");
     fSimulateEjectilesCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
@@ -228,7 +224,6 @@ TistarMessenger::TistarMessenger(PrimaryGeneratorAction * pgen) :
 TistarMessenger::~TistarMessenger() {
     delete fSetPrimaryGeneratorCmd;
     delete fSetSecondPrimaryGeneratorCmd;
-    delete fSetGeneratorRatioCmd;
     delete fSimulateEjectilesCmd;
     delete fSimulateGammasCmd;
     delete fIncludeVacuumChamberCmd;
@@ -282,7 +277,6 @@ TistarMessenger::~TistarMessenger() {
 void TistarMessenger::SetNewValue(G4UIcommand* command, G4String value) {
     if(command == fSetPrimaryGeneratorCmd)             TistarSettings::Get()->SetPrimaryGenerator(value);
     if(command == fSetSecondPrimaryGeneratorCmd)       TistarSettings::Get()->SetSecondPrimaryGenerator(value);
-    if(command == fSetGeneratorRatioCmd)            TistarSettings::Get()->SetGeneratorRatio(fSetGeneratorRatioCmd->GetNewDoubleValue(value));
     if(command == fSimulateEjectilesCmd)               TistarSettings::Get()->SimulateEjectiles(fSimulateEjectilesCmd->GetNewBoolValue(value));
     if(command == fSimulateGammasCmd)                  TistarSettings::Get()->SimulateGammas(fSimulateGammasCmd->GetNewBoolValue(value));
     if(command == fIncludeVacuumChamberCmd)            TistarSettings::Get()->IncludeVacuumChamber(fIncludeVacuumChamberCmd->GetNewIntValue(value));
