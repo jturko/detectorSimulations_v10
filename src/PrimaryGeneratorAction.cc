@@ -136,7 +136,6 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 	// The first number of "EventCut = (G4int)((fCurrentGenerator->GetReactionRatio())*nEvents)"
 	// events are run with the first generator, "TRexAngularDistribution" and remaining are run
 	// with the second generator, "TRexBeamIn" 
-        // Regardless of the "EventCut" value, the first event is always run with the first generator, "TRexAngularDistribution"
 
         const G4int nEvents = G4RunManager::GetRunManager()->GetCurrentRun()->GetNumberOfEventToBeProcessed();
         std::string PrimaryGeneratorName = TistarSettings::Get()->GetPrimaryGenerator();
