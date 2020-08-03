@@ -1025,7 +1025,6 @@ void DetectorConstruction::AddTistarVacuumChamber() {
     if(fLogicWorld == NULL) {
         Construct();
     }
-	 DefineMaterials();
     DetectionSystemTistar * pTistar = new DetectionSystemTistar();
     if(fTistarVacuumChamberShape!="")               pTistar->SetVacuumChamberShape(fTistarVacuumChamberShape);
     if(fTistarVacuumChamberMaterialName!="")        pTistar->SetVacuumChamberMaterialName(fTistarVacuumChamberMaterialName);
