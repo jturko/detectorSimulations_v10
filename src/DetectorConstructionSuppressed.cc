@@ -406,7 +406,7 @@ void DetectorConstruction::DefineMaterials()
 	d->AddIsotope(de,fractionMass=100.*perCent);
 
 	//DeuScin
-	G4Material* deuScin = new G4Material("Deuterated Scintillator", density = 0.954*g/cm3, 3);
+	G4Material* deuScin = new G4Material("BC537", density = 0.954*g/cm3, 3);
 	deuScin->AddElement(elH,fractionMass=0.0625*perCent);
 	deuScin->AddElement(elC,fractionMass=85.7326*perCent);
 	deuScin->AddElement(d,fractionMass=14.2049*perCent);
@@ -466,11 +466,10 @@ void DetectorConstruction::DefineMaterials()
 	epoxy->AddElement(elO, nAtoms=3);
     myMaterials.push_back(epoxy);
 
-//    G4Material* helium = man->FindOrBuildMaterial("G4_He");
-//    helium->SetName("helium");
-	 G4Material * vacuum_material = G4NistManager::Instance()->ConstructNewGasMaterial(name="helium", TistarSettings::Get()->GetVacuumChamberMaterialName(), TistarSettings::Get()->GetVacuumChamberGasTemperature(), TistarSettings::Get()->GetVacuumChamberGasPressure());
-    myMaterials.push_back(vacuum_material);
-
+    // make the helium gas material for TI-STAR vacuum chamber
+    G4Material* helium = man->FindOrBuildMaterial("G4_He");
+    myMaterials.push_back(helium);
+    
     // Make the deuterium gas material for TI-STAR target
     G4Material* deuteriumGas = new G4Material("2H", 0.1645*kg/m3, 1, kStateGas, 298*kelvin, 1.*atmosphere);//10.0e-3. * CLHEP::atmosphere, 298 * CLHEP::kelvin
     G4Isotope * iso_H2 = new G4Isotope("H2", 1, 2, 2.014*CLHEP::g/CLHEP::mole);
@@ -478,7 +477,7 @@ void DetectorConstruction::DefineMaterials()
     elD->AddIsotope(iso_H2, 100.*CLHEP::perCent);
     deuteriumGas->AddElement(elD,2);
     myMaterials.push_back(deuteriumGas);
-	
+    
     G4Material* xenonGas = new G4Material("Xe", 54, 131.29*g/mole, 5.458*mg/cm3, kStateGas, 293.15*kelvin, 1.*atmosphere);
     myMaterials.push_back(xenonGas);
     
@@ -487,10 +486,22 @@ void DetectorConstruction::DefineMaterials()
 
 void DetectorConstruction::DefineTistarTargetMaterials() 
 {
-	std::vector<G4Material*> myMaterials;   // warnings of unused variables  
+	std::vector<G4Material*> myMaterials;   // warnings of unused variables
+    
     G4String name = "TistarGasTarget_" + TistarSettings::Get()->GetTargetMaterialName();
-    G4Material * target_material = G4NistManager::Instance()->ConstructNewGasMaterial(name, TistarSettings::Get()->GetTargetMaterialName(), TistarSettings::Get()->GetTargetTemperature(), TistarSettings::Get()->GetTargetPressure()); // from TRexMaterials for the TISTAR target
+    // from TRexMaterials for the TISTAR target
+    G4Material * target_material = G4NistManager::Instance()->ConstructNewGasMaterial(name, // material name 
+                                                                                      TistarSettings::Get()->GetTargetMaterialName(), // G4Material that this is a gas of - this is why we need to create the 2H G4Material above
+                                                                                      TistarSettings::Get()->GetTargetTemperature(),  // temperature
+                                                                                      TistarSettings::Get()->GetTargetPressure());    // pressure
     myMaterials.push_back(target_material);
-
 }
 
+void DetectorConstruction::DefineTistarVacuumChamberMaterials()
+{
+	std::vector<G4Material*> myMaterials;   // warnings of unused variables
+
+    G4String name = "TistarVacuumChamber_" + TistarSettings::Get()->GetVacuumChamberMaterialName();
+    G4Material * helium_gas_material = G4NistManager::Instance()->ConstructNewGasMaterial(name, TistarSettings::Get()->GetVacuumChamberMaterialName(), TistarSettings::Get()->GetVacuumChamberGasTemperature(), TistarSettings::Get()->GetVacuumChamberGasPressure());
+    myMaterials.push_back(helium_gas_material);
+}
