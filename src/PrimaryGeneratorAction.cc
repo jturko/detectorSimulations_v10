@@ -151,7 +151,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
             std::cout<<"---> Using the TRex secondary generator!, Name is: "<<SecondPrimaryGeneratorName<<std::endl;
             SetGenerator(SecondPrimaryGeneratorName);
         }
-        std::cout<<"EventID: "<<evtID<<std::endl;
+        //std::cout<<"EventID: "<<evtID<<std::endl;
 
         if (evtID !=0 ) fCurrentGenerator->GeneratePrimaries(anEvent);
     }
