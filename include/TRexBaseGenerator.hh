@@ -28,6 +28,7 @@ class TRexBaseGenerator {
 		virtual void FillNtuple() {}
 
         virtual void SaveExtras(TFile*) {}
+        virtual double GetReactionRatio() {}
 
 	protected:
         G4int fNtupleID;

@@ -101,6 +101,7 @@ public:
 	void SetSecondGenerator(G4String val);
 
     TRexBaseGenerator* GetCurrentGenerator() { return fCurrentGenerator; }    
+    G4double fScatteringProbability;
 
 private:
     //variables
@@ -136,7 +137,7 @@ private:
     TistarMessenger*  fTistarMessenger;
     
     G4int fGenTypeNum;
-
+    G4int EventCut;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

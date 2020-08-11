@@ -69,7 +69,6 @@ private:
 
     PrimaryGeneratorAction*     fPrimaryGeneratorAction;
     PrimaryGeneratorAction*     fSecondPrimaryGeneratorAction;
-    G4UIcmdWithADouble*         fSetGeneratorRatioCmd;
 
     G4UIcmdWithAString*         fSetPrimaryGeneratorCmd;
     G4UIcmdWithAString*         fSetSecondPrimaryGeneratorCmd;
