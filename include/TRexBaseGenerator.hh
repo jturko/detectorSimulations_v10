@@ -29,6 +29,7 @@ class TRexBaseGenerator {
 
         virtual void SaveExtras(TFile*) {}
         virtual double GetReactionRatio() {}
+        virtual void CalculateReactionRatio() {}
 
 	protected:
         G4int fNtupleID;

@@ -464,7 +464,7 @@ void TRexBeam::CreateNtupleBranches(TTree * tree) {
         fNtupleColID[26] = analysisManager->CreateNtupleDColumn(fNtupleID, "gammaEnergy", *fGammaEnergy);
         analysisManager->FinishNtuple(fNtupleID);
     }
-    G4cout << "created ntuple treeGen" << G4endl;
+    G4cout << "created TRexBeam ntuple: "<<fTree->GetName() <<"; "<<fTree<< G4endl;
 
 }
 

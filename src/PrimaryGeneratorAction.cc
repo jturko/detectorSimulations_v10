@@ -104,8 +104,9 @@
 
     fTistarMessenger = new TistarMessenger(this);
     fUseTRexGenerator = false;
-
     fGenTypeNum = 0;
+    fOverrideReactionRatio = -1.;
+    fEventCut = 0;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -133,27 +134,46 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
     } 
     else if(fGenTypeNum == 2) {
         // We have two different generators here: "TRexAngularDistribution" and "TRexBeamIn".
-	// The first number of "EventCut = (G4int)((fCurrentGenerator->GetReactionRatio())*nEvents)"
-	// events are run with the first generator, "TRexAngularDistribution" and remaining are run
-	// with the second generator, "TRexBeamIn" 
+	    // The first number of "fEventCut = (G4int)((fCurrentGenerator->GetReactionRatio())*nEvents)"
+	    // events are run with the first generator, "TRexAngularDistribution" and remaining are run
+	    // with the second generator, "TRexBeamIn" 
 
         const G4int nEvents = G4RunManager::GetRunManager()->GetCurrentRun()->GetNumberOfEventToBeProcessed();
-        std::string PrimaryGeneratorName = TistarSettings::Get()->GetPrimaryGenerator();
-        std::string SecondPrimaryGeneratorName = TistarSettings::Get()->GetSecondPrimaryGenerator();
+        std::string primaryGeneratorName = TistarSettings::Get()->GetPrimaryGenerator();
+        std::string secondPrimaryGeneratorName = TistarSettings::Get()->GetSecondPrimaryGenerator();
 
-        if(evtID==0 ) {
-            std::cout<<"---> Using the TRex primary generator!, Name is: "<<PrimaryGeneratorName<<std::endl;
-            SetGenerator(PrimaryGeneratorName);
-            fCurrentGenerator->GeneratePrimaries(anEvent);
-            EventCut = (G4int)((fCurrentGenerator->GetReactionRatio())*nEvents);
+        if(evtID==0) {
+            SetGenerator(primaryGeneratorName);
+            std::cout<<std::endl;
+            if(primaryGeneratorName == "" && secondPrimaryGeneratorName == "") {
+                std::cout<<"---> neither TRex-derived generator is set! returning..."<<std::endl;
+                return;
+            } 
+            else if(primaryGeneratorName != "" && secondPrimaryGeneratorName == "") {
+                std::cout<<"---> using only one primary generator! all events will be processed with: "<<primaryGeneratorName<<std::endl;
+                fEventCut = nEvents;
+            } 
+            else {
+                std::cout<<"---> two primary generators set: "<<primaryGeneratorName<<" & "<<secondPrimaryGeneratorName<<std::endl;
+                if(fOverrideReactionRatio > 0.) {
+                    fEventCut = (G4int)(fOverrideReactionRatio*nEvents);
+                    std::cout<<" using overridden reaction ratio: "<<fOverrideReactionRatio;
+                    std::cout<<", corresponding to fEventCut = "<<fEventCut<<std::endl;
+                } 
+                else { // set the first generator and calculate the reaction ratio
+                    fCurrentGenerator->CalculateReactionRatio();
+                    fEventCut = (G4int)((fCurrentGenerator->GetReactionRatio())*nEvents);
+                    std::cout<<" using calculated reaction ratio: "<<fCurrentGenerator->GetReactionRatio();
+                    std::cout<<", corresponding to fEventCut = "<<fEventCut<<std::endl;
+                }
+            }
+            std::cout<<"---> Using the TRex primary generator!, Name is: "<<primaryGeneratorName<<std::endl;
+        } 
+        if (evtID == fEventCut) { // switch to the second generator 
+            std::cout<<std::endl<<"---> Using the TRex second primary generator!, Name is: "<<secondPrimaryGeneratorName<<std::endl;
+            SetSecondGenerator(secondPrimaryGeneratorName);
         }
-        if (evtID-1 == EventCut) {
-            std::cout<<"---> Using the TRex secondary generator!, Name is: "<<SecondPrimaryGeneratorName<<std::endl;
-            SetGenerator(SecondPrimaryGeneratorName);
-        }
-        //std::cout<<"EventID: "<<evtID<<std::endl;
-
-        if (evtID !=0 ) fCurrentGenerator->GeneratePrimaries(anEvent);
+        fCurrentGenerator->GeneratePrimaries(anEvent);
     }
     else {
         if(evtID==0) { G4cout<<"---> Using the default generator (G4ParticleGun)"<<G4endl; }
@@ -432,6 +452,7 @@ void PrimaryGeneratorAction::SetGenerator(G4String generatorName) {
             std::cout<<std::endl<<"Unknown generator !!!\n"<<std::endl;
             fCurrentGenerator = NULL;
         }
+        std::cout<<"PrimaryGeneratorAction::SetGenerator -> fHistoManager->GetTistarGenTree() = "<<fHistoManager->GetTistarGenTree()<<std::endl;
         if(fCurrentGenerator) fCurrentGenerator->CreateNtupleBranches(fHistoManager->GetTistarGenTree());
 }
 
@@ -443,23 +464,24 @@ void PrimaryGeneratorAction::SetSecondGenerator(G4String generatorName) {
         TistarSettings::Get()->SaveMe(true); // with this set, the TistarSettings file will be saved to the output ROOT file
 
         if(generatorName == "TestSource") {
-	    std::cout<<std::endl<<"Using test source ....\n"<<std::endl;
+	        std::cout<<std::endl<<"Using test source ....\n"<<std::endl;
             fCurrentGenerator = new TRexTestSource;
-	} else if(generatorName == "Rutherford") {
-	    std::cout<<std::endl<<"Using Rutherford scattering ....\n"<<std::endl;
-	    fCurrentGenerator = new TRexRutherford;
-	} else if(generatorName == "AngularDistribution") {
-	    std::cout<<std::endl<<"Using given angular distribution ....\n"<<std::endl;
-	    fCurrentGenerator = new TRexAngularDistribution;
+	    } else if(generatorName == "Rutherford") {
+	        std::cout<<std::endl<<"Using Rutherford scattering ....\n"<<std::endl;
+	        fCurrentGenerator = new TRexRutherford;
+	    } else if(generatorName == "AngularDistribution") {
+	        std::cout<<std::endl<<"Using given angular distribution ....\n"<<std::endl;
+	        fCurrentGenerator = new TRexAngularDistribution;
         } else if(generatorName == "AlphaSource") {
-	    std::cout<<std::endl<<"Using alpha source ....\n"<<std::endl;
-	    fCurrentGenerator = new TRexAlphaSource;
+	        std::cout<<std::endl<<"Using alpha source ....\n"<<std::endl;
+	        fCurrentGenerator = new TRexAlphaSource;
         } else if(generatorName == "BeamIn") {
-	    std::cout<<std::endl<<"Using beamIn source ....\n"<<std::endl;
+	        std::cout<<std::endl<<"Using beamIn source ....\n"<<std::endl;
             fCurrentGenerator = new TRexBeamIn;
-	} else {
-	    std::cout<<std::endl<<"Unknown generator !!!\n"<<std::endl;	
-	    fCurrentGenerator = NULL;
-	}
+	    } else {
+	        std::cout<<std::endl<<"Unknown generator !!!\n"<<std::endl;	
+	        fCurrentGenerator = NULL;
+	    }
+        std::cout<<"PrimaryGeneratorAction::SetSecondGenerator -> fHistoManager->GetTistarSecondGenTree() = "<<fHistoManager->GetTistarSecondGenTree()<<std::endl;
         if(fCurrentGenerator) fCurrentGenerator->CreateNtupleBranches(fHistoManager->GetTistarSecondGenTree());
 }

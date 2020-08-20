@@ -1,0 +1,156 @@
+#####################################################
+# Select the physics
+# Must be before /run/initialize
+#
+
+/DetSys/phys/SelectPhysics QGSP_BIC
+/DetSys/phys/SelectPhysics standardNR # from TestEm7, w/ G4ScreenedNuclearRecoil
+#/DetSys/phys/SelectPhysics standardSS # from TestEm7, single scattering
+
+#####################################################
+# Initialize the run
+#
+
+/run/initialize
+/tracking/verbose 0
+#/control/execute vis.mac
+
+######################################################
+# Geometry
+#
+
+## the world
+#
+#/DetSys/world/material Vacuum
+/DetSys/world/material G4_Galactic
+/DetSys/world/dimensions 5 5 5 m
+#/DetSys/world/dimensions 24 24 24 cm
+
+## vacuum chamber
+#
+/DetSys/app/setTistarVacuumChamberShape sphere
+/DetSys/app/setTistarVacuumChamberMaterial G4_He
+/DetSys/app/setTistarVacuumChamberBoxDimensions 15 15 20 cm
+/DetSys/app/setTistarVacuumChamberSphereRadius 10 cm
+/DetSys/app/setTistarVacuumChamberExteriorMaterial G4_Al
+/DetSys/app/setTistarVacuumChamberExteriorThickness 1 mm
+/DetSys/app/setTistarVacuumChamberBeamHoleRadius 5 mm
+/DetSys/app/setTistarVacuumChamberGasPressure 1.000 bar
+/DetSys/app/setTistarVacuumChamberGasTemperature 273.15 kelvin
+/DetSys/app/setTistarVacuumChamberCylinderLength 2 cm
+/DetSys/app/setTistarGasTargetCylinderLength 11 cm
+/DetSys/app/addTistarVacuumChamber
+
+# first layer
+#
+/DetSys/det/setTistarDetectorNumber 11
+/DetSys/det/setTistarSiDimensions 0.02 40 50 mm  
+/DetSys/det/setTistarPCBDimensions 1.67 80 75 mm
+/DetSys/det/setTistarSiOffsetInPCB 0 5 0 mm         
+/DetSys/det/setTistarDistFromBeam 10 mm
+/DetSys/det/setTistarGapZ 4 mm
+# for shifting the inner layer so that it lines up with the outer layers
+# y shift = (inner layer dist from beam) * (y-shift of the outer layer) / (outer [second] layer dist from beam)
+# fPositionOffset = G4ThreeVector(0., 10.0*mm*(-5.0*mm -100.0/2.*mm +140.0/2.*mm)/(30.0*mm), 0.); 
+/DetSys/det/setTistarPositionOffset 0 5 0 mm
+/DetSys/det/addTistar4StripLayer
+
+## second layer
+#
+/DetSys/det/setTistarDetectorNumber 21
+/DetSys/det/setTistarSiDimensions 0.150 100 100 mm  
+/DetSys/det/setTistarPCBDimensions 1.67 140 140 mm
+/DetSys/det/setTistarSiOffsetInPCB 0 5 0 mm         
+/DetSys/det/setTistarSiCentered 0
+/DetSys/det/setTistarDistFromBeam 30 mm
+/DetSys/det/addTistar2StripLayer
+
+## third layer
+#
+/DetSys/det/setTistarDetectorNumber 31
+/DetSys/det/setTistarSiDimensions 2 100 100 mm  
+/DetSys/det/setTistarPCBDimensions 1.67 140 140 mm
+/DetSys/det/setTistarSiOffsetInPCB 0 5 0 mm         
+/DetSys/det/setTistarSiCentered 0
+/DetSys/det/setTistarDistFromBeam 33 mm
+/DetSys/det/addTistar2StripLayer
+
+## target
+#
+/DetSys/miniball/SetTargetMaterialName 2H
+/DetSys/miniball/SetTargetDiameter 10.0 mm
+/DetSys/miniball/SetGasTargetLength 11.0 cm
+/DetSys/miniball/SetTargetPressure 1.000 bar
+/DetSys/miniball/SetTargetTemperature 273.15 kelvin
+/DetSys/miniball/SetTargetMylarThickness 2 um
+/DetSys/miniball/SetTargetBeWindowThickness 8 um
+/DetSys/app/addTistarGasTarget
+
+## GRIFFIN
+#
+/DetSys/det/addGriffinBackDetector 1
+/DetSys/det/addGriffinBackDetector 2
+/DetSys/det/addGriffinBackDetector 3
+/DetSys/det/addGriffinBackDetector 4
+/DetSys/det/addGriffinBackDetector 5
+/DetSys/det/addGriffinBackDetector 6
+/DetSys/det/addGriffinBackDetector 7
+/DetSys/det/addGriffinBackDetector 8
+/DetSys/det/addGriffinBackDetector 9
+/DetSys/det/addGriffinBackDetector 10
+/DetSys/det/addGriffinBackDetector 11
+/DetSys/det/addGriffinBackDetector 12
+/DetSys/det/addGriffinBackDetector 13
+/DetSys/det/addGriffinBackDetector 14
+/DetSys/det/addGriffinBackDetector 15
+/DetSys/det/addGriffinBackDetector 16
+
+## GRIFFIN structure
+#
+#/DetSys/app/addGriffinStructure 0
+
+#####################################################
+# TRex/Miniball generator commands
+#
+
+/DetSys/miniball/SetPrimaryGenerator                AngularDistribution
+/DetSys/miniball/SetSecondPrimaryGenerator          BeamIn
+#/DetSys/gun/overrideReactionRatio 0.5
+
+/DetSys/miniball/SetLevelFile                       ../Data/LevelFiles/132Sn_dp.dat
+/DetSys/miniball/SetAngularDistributionFile         ../Data/AngularDistributionFiles/132Sn_dp.dat
+/DetSys/miniball/SetMassFile                        ../Data/MassFile.dat
+#/DetSys/miniball/SetReactionZvsRadiusFile          ../Data/ReactionZvsRadiusFile.dat
+#/DetSys/miniball/SetReactionZDistributionFile      ../Data/ReactionZDistributionFile.dat
+
+/DetSys/miniball/SetBeamEnergy 792.0 MeV
+/DetSys/miniball/SetBeamWidth 1.0 mm
+
+/DetSys/miniball/SetProjectileName 132Sn
+/DetSys/miniball/SetProjectileZ 50
+/DetSys/miniball/SetProjectileA 132
+
+/DetSys/miniball/SetTargetName 2H
+/DetSys/miniball/SetTargetZ 1
+/DetSys/miniball/SetTargetA 2
+
+/DetSys/miniball/SetEjectileName 133Sn
+/DetSys/miniball/SetEjectileZ 50
+/DetSys/miniball/SetEjectileA 133
+
+/DetSys/miniball/SetRecoilName 1H
+/DetSys/miniball/SetRecoilZ 1
+/DetSys/miniball/SetRecoilA 1
+
+/DetSys/miniball/SetTransferOrCoulexProbability 1.0
+/DetSys/miniball/SimulateGammas true
+/DetSys/miniball/SimulateEjectiles false
+
+/DetSys/gun/useTRexGenerator true
+
+#####################################################
+# Start the run
+#
+
+/run/beamOn 100
+

@@ -110,7 +110,7 @@ void TRexBeamIn::CreateNtupleBranches(TTree * tree) {
         fNtupleColID[5] = analysisManager->CreateNtupleDColumn(fNtupleID, "phi");
         analysisManager->FinishNtuple(fNtupleID);
     }
-    G4cout << "created ntuple treeGen" << G4endl;
+    G4cout << "created TRexBeamIn ntuple: "<<fTree->GetName()<<", "<<fTree<<G4endl;
 }
 
 void TRexBeamIn::FillNtuple() {

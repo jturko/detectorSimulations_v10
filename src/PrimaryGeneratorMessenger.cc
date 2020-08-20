@@ -112,6 +112,10 @@ PrimaryGeneratorMessenger::PrimaryGeneratorMessenger(PrimaryGeneratorAction* Gun
     fUseTRexGeneratorCmd = new G4UIcmdWithABool("/DetSys/gun/useTRexGenerator",this);
     fUseTRexGeneratorCmd->SetGuidance("Set to use the miniball/TRex generators");
     fUseTRexGeneratorCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+
+    fOverrideReactionRatioCmd = new G4UIcmdWithADouble("/DetSys/gun/overrideReactionRatio",this);
+    fOverrideReactionRatioCmd->SetGuidance("set a custom reaction ratio for the two generators");
+    fOverrideReactionRatioCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -128,6 +132,7 @@ PrimaryGeneratorMessenger::~PrimaryGeneratorMessenger() {
 	delete fBeamFileCmd;
     delete fUseGPSCmd;
     delete fUseTRexGeneratorCmd;
+    delete fOverrideReactionRatioCmd;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -188,6 +193,9 @@ void PrimaryGeneratorMessenger::SetNewValue(G4UIcommand* command, G4String newVa
     if(command == fUseTRexGeneratorCmd) {
         fAction->SetUseTRexGenerator(fUseTRexGeneratorCmd->GetNewBoolValue(newValue));
         TistarSettings::Get()->SaveMe(true);
+    }
+    if(command == fOverrideReactionRatioCmd) {
+        fAction->SetOverrideReactionRatio(fOverrideReactionRatioCmd->GetNewDoubleValue(newValue));
     }
 
 }

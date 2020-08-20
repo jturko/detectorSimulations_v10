@@ -71,7 +71,6 @@ public:
     virtual ~PrimaryGeneratorAction();
     virtual void GeneratePrimaries(G4Event*);
     
-
     void SetNumberOfDecayingLaBrDetectors(G4int num) { fNumberOfDecayingLaBrDetectors = num; }
     void SetEfficiencyEnergy(G4double num) { fEffEnergy = num; fHistoManager->BeamEnergy(num); }
     void SetEfficiencyDirection(G4ThreeVector num) { fEffDirection = num; fEffDirectionBool = true; }
@@ -102,6 +101,8 @@ public:
 
     TRexBaseGenerator* GetCurrentGenerator() { return fCurrentGenerator; }    
     G4double fScatteringProbability;
+
+    void SetOverrideReactionRatio(G4double ratio) { fOverrideReactionRatio = ratio; }
 
 private:
     //variables
@@ -137,7 +138,8 @@ private:
     TistarMessenger*  fTistarMessenger;
     
     G4int fGenTypeNum;
-    G4int EventCut;
+    G4int fEventCut;
+    G4double fOverrideReactionRatio;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

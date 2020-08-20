@@ -32,7 +32,8 @@ class TRexAngularDistribution : public TRexBeam, public MiniBallSource {
 		virtual ~TRexAngularDistribution();
 
 		void GeneratePrimaries(G4Event *anEvent);
-                double GetReactionRatio() {return fScatteringProbability;}
+        double GetReactionRatio() {return fScatteringProbability;}
+        void CalculateReactionRatio();
 
 	private:
 		void ShootEjectileAndRecoilDirections();

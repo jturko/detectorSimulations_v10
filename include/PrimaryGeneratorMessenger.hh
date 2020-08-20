@@ -80,7 +80,8 @@ private:
     G4UIcmdWithAString* 	   fBeamFileCmd;
     
     G4UIcmdWithABool*               fUseGPSCmd;
-    G4UIcmdWithABool*               fUseTRexGeneratorCmd;    
+    G4UIcmdWithABool*               fUseTRexGeneratorCmd;
+    G4UIcmdWithADouble*             fOverrideReactionRatioCmd;
 
 };
 

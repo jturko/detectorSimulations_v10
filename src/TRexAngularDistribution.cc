@@ -48,29 +48,37 @@ TRexAngularDistribution::~TRexAngularDistribution() {
 	// TODO Auto-generated destructor stub
 }
 
-void TRexAngularDistribution::GeneratePrimaries(G4Event *anEvent) {
-	if (isDefined == false){
-		//define nuclei after physics list is instantiated
-		DefineNuclei();
-		
-		fTargetMaterial = GetTargetMaterial();
-		std::cout << "TargetMaterialName for energy loss calculation in the target = " << fTargetMaterial->Name() << std::endl;
-		
-		fKinematics = new Kinematic(&fProjectile, fTargetMaterial, TistarSettings::Get()->GetTargetThickness()/(mg/cm2));
-		
-		fEnergyVsTargetDepth = *(fKinematics->EnergyVsThickness(fBeamEnergy / CLHEP::MeV, TistarSettings::Get()->GetTargetThickness() / 1000 / (CLHEP::mg/CLHEP::cm2)));
-		fRangeVsBeamEnergyLeila = *(fKinematics->RangeVsEnergy(fBeamEnergy / CLHEP::MeV, TistarSettings::Get()->GetTargetThickness() / 1000 / (CLHEP::mg/CLHEP::cm2)));
-				
-		isDefined = true;
-		
-		// calculate scattering probability
-		CalculateArealDensity();
-		CalculateCrossSectionIntegral();
-		CalculateScatteringProbability();
+void TRexAngularDistribution::CalculateReactionRatio() {
+    if (isDefined == false){
+        std::cout<<"---> TRexAngularDistribution: calculating reaction ratio..."<<std::endl;
+
+        //define nuclei after physics list is instantiated
+        DefineNuclei();
+
+        fTargetMaterial = GetTargetMaterial();
+        std::cout << "TargetMaterialName for energy loss calculation in the target = " << fTargetMaterial->Name() << std::endl;
+
+        fKinematics = new Kinematic(&fProjectile, fTargetMaterial, TistarSettings::Get()->GetTargetThickness()/(mg/cm2));
+
+        fEnergyVsTargetDepth = *(fKinematics->EnergyVsThickness(fBeamEnergy/CLHEP::MeV, TistarSettings::Get()->GetTargetThickness()/1000./(CLHEP::mg/CLHEP::cm2)));
+        fRangeVsBeamEnergyLeila = *(fKinematics->RangeVsEnergy(fBeamEnergy/CLHEP::MeV, TistarSettings::Get()->GetTargetThickness()/1000./(CLHEP::mg/CLHEP::cm2)));
+
+        isDefined = true;
+
+        // calculate scattering probability
+        CalculateArealDensity();
+        CalculateCrossSectionIntegral();
+        CalculateScatteringProbability();
 
         fEnergyVsTargetDepth.Write("fEnergyVsTargetDepth");
+        std::cout<<"---> TRexAngularDistribution: completed calculating reaction ratio! "<<std::endl;
     }
+}
+
+void TRexAngularDistribution::GeneratePrimaries(G4Event *anEvent) {
 	
+    CalculateReactionRatio();
+    
 	// clear old event
 	fGammaTheta->resize(0);
 	fGammaPhi->resize(0);
